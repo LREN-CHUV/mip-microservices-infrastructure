@@ -6,12 +6,12 @@ maven_version: "3.3.3"
 captain_version: "0.7.0"
 docker_compose_version: "1.4.2"
 
-mesos_version: "0.24.1"
-mesos_package_version: "0.2.35"
-marathon_version: "0.11.0"
-marathon_package_version: "1.0.425"
+mesos_version: "0.25.0"
+mesos_package_version: "0.2.70"
+marathon_version: "0.11.1"
+marathon_package_version: "1.0.432"
 chronos_version: "2.4.0"
-chronos_package_version: 0.1.20150828104228
+chronos_package_version: "0.1.20151007110204"
 
 gitlab_postgres_version: "9.4-2"
 gitlab_version: "7.13.3"
