@@ -1,0 +1,16 @@
+---
+
+- hosts: database
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/roles/versions.yml"
+
+  roles:
+    - role: base-system
+      tags: ['runtimes']
+
+    - role: postgres
+      tags: ['database', 'analytics']
+    - role: audit-deployment
+      installed_component: analytics-database-server

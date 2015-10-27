@@ -2,7 +2,6 @@
 
 git submodule sync
 git submodule update --init
-
-cd roles
-git pull origin master
-IN_SUBMODULE=true ./after-update.sh
+if [ "$IN_SUBMODULE" = "true" ]; then
+  git clean -f -d
+fi

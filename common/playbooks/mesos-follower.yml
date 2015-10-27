@@ -1,0 +1,28 @@
+---
+
+- hosts: mesos-follower
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/roles/versions.yml"
+
+  pre_tasks:
+    - name: Install curl
+      apt: name=curl state=present
+
+  roles:
+    - role: base-system
+      tags: ['runtimes']
+
+    - role: docker-registry-slave
+      tags: ['os-tools', 'container-platforms']
+      when: "'docker' not in skipped_roles"
+
+    - role: mesos
+      zookeeper_hostnames: "{{ groups.zookeeper | join(',') }}"
+      mesos_mode: "follower"
+      mesos_leaders_group: "mesos-follower"
+      tags: ['mesos', 'container-platforms']
+
+    - role: audit-deployment
+      installed_component: mesos-follower

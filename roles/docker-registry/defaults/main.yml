@@ -1,0 +1,8 @@
+---
+
+docker_registry_dir: /srv/docker/docker-registry
+
+docker_registry_config_orig_dir: federation
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

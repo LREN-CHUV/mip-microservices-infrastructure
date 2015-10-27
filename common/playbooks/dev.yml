@@ -1,0 +1,40 @@
+---
+
+- hosts: dev
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/roles/versions.yml"
+
+  pre_tasks:
+
+    - name: Install common packages
+      apt: name={{item}} state=present
+      with_items:
+        - tig
+        - curl
+        - python-setuptools
+        - python-pip
+        - fish
+        - vim
+      tags: ['dev']
+
+    - name: Install some useful Python tools
+      pip: name={{item}} state=present
+      with_items:
+        - httpie
+      tags: ['dev']
+
+  roles:
+    - role: docker-compose
+      tags: ['dev']
+
+    - role: docker-registry-slave
+      tags: ['dev']
+
+    - role: captain
+      tags: ['dev']
+
+    - role: audit-deployment
+      installed_component: dev
+      tags: ['dev']

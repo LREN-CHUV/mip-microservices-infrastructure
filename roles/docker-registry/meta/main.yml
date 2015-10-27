@@ -1,0 +1,53 @@
+---
+
+# TODO: run the registry with the Docker container executor.
+# See https://github.com/bergerx/marathon-cheatsheet/blob/master/docker-registry-aws-marathon.json
+
+dependencies:
+  - role: docker
+  - role: docker-registry-pre
+  - role: docker-registry-slave
+    is_docker_registry_host: true
+  - role: marathon-app
+    tags:
+      - docker-registry
+    marathon_url: "{{internal_marathon_url}}"
+    marathon_app:
+      id: /infra/docker-registry
+      container:
+        type: DOCKER
+        docker:
+          image: "registry:2"
+          forcePullImage: true
+          network: BRIDGE
+          portMappings:
+            - containerPort: 5000
+              servicePort: 443
+        volumes:
+          - containerPath: "/certs"
+            hostPath: "/etc/docker/certs.d/{{registry_hostname}}"
+            mode: RO
+          - containerPath: "/var/lib/registry"
+            hostPath: "{{ docker_registry_dir }}"
+            mode: RW
+      env:
+        REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/registry.cert"
+        REGISTRY_HTTP_TLS_KEY: "/certs/registry.key"
+        REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: "/var/lib/registry"
+      instances: 1
+      cpus: 0.2
+      mem: 128
+      ports: []
+      requirePorts: false
+      constraints: [] # TODO: add contraints to assign a specific machine to the Docker Registry
+      dependencies: []
+      env: {}
+      executor: ""
+      healthChecks:
+        - protocol: COMMAND
+          command: 
+            value: "curl -f -k -X GET https://$HOST:443/v2/ | grep '{}'"
+          gracePeriodSeconds: 15
+          maxConsecutiveFailures: 3
+          intervalSeconds: 10
+          timeoutSeconds: 5

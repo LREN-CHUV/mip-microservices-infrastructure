@@ -1,0 +1,16 @@
+---
+
+db_password: "password"
+
+gitlab_postgres_version: "9.4-2"
+gitlab_version: "7.13.3"
+
+gitlab_host: "localhost"
+gitlab_port: 10080
+gitlab_ssh_port: 10022
+
+timezone: "Asia/Kolkata"
+gitlab_timezone: "Kolkata"
+
+gitlab_email: "admin@example.com"
+gitlab_email_reply_to: "noreply@example.com"

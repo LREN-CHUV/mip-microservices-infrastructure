@@ -1,0 +1,38 @@
+---
+
+- hosts: mesos-leader
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/roles/versions.yml"
+
+  pre_tasks:
+    - name: Install curl
+      apt: name=curl state=present
+
+  roles:
+    - role: base-system
+      tags: ['runtimes']
+
+    - role: java
+      tags: ['runtimes']
+
+    - role: zookeeper
+      tags: ['mesos']
+
+    - role: mesos
+      mesos_zk_dns: "{{ groups.zookeeper | join(',') }}"
+      mesos_mode: "leader"
+      mesos_leaders_group: "mesos-leader"
+      tags: ['mesos', 'container-platforms']
+
+    - role: marathon
+      tags: ['mesos-frameworks', 'marathon']
+      when: "'marathon' not in skipped_roles"
+
+    - role: chronos
+      tags: ['mesos-frameworks', 'chronos']
+      when: "'chronos' not in skipped_roles"
+
+    - role: audit-deployment
+      installed_component: mesos-leader

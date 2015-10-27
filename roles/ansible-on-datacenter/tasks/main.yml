@@ -1,0 +1,43 @@
+---
+
+# Install Ansible
+
+- name: Install required packages using APT
+  apt: "name={{ item }} state=present"
+  when: ansible_os_family == 'Debian'
+  with_items:
+    - python-setuptools
+    - python-yaml
+    - python-jinja2
+    - python-paramiko
+    - python-keyczar
+  tags:
+    - auto_install
+
+- name: Install pip
+  command: easy_install pip
+  tags:
+    - auto_install
+
+- name: Install ansible
+  command: pip install ansible
+  tags:
+    - auto_install
+
+- name: Synchronize current project
+  synchronize: >
+    src={{ src_dir }}
+    dest={{ project_dir }}
+    recursive=yes
+    delete=yes
+  become: no
+  tags:
+    - sync
+
+- name: Fix ansible connection method
+  replace: >
+    dest={{ project_dir }}/envs/{{ datacenter }}/etc/ansible/hosts
+    regexp='{{ inventory_hostname }}(\s+.*)ansible_connection=ssh$' replace='{{ inventory_hostname }}\1ansible_connection=local'
+  become: no
+  tags:
+    - sync

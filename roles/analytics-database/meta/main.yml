@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - role: java
+    tags: ['runtimes']
+
+  - role: flyway

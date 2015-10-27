@@ -1,0 +1,69 @@
+[submodule "roles/java"]
+	path = roles/java
+	url = https://github.com/ludovicc/ansible-java.git
+[submodule "roles/marathon"]
+	path = roles/marathon
+	url = https://github.com/ludovicc/ansible-marathon.git
+[submodule "roles/marathon-app"]
+	path = roles/marathon-app
+	url = https://github.com/ludovicc/ansible-marathon_app.git
+[submodule "roles/maven"]
+	path = roles/maven
+	url = https://github.com/silpion/ansible-maven.git
+[submodule "roles/mesos"]
+	path = roles/mesos
+	url = https://github.com/ludovicc/ansible-mesos.git
+[submodule "roles/silpion.util"]
+	path = roles/silpion.util
+	url = https://github.com/ludovicc/ansible-util.git
+[submodule "roles/zookeeper"]
+	path = roles/zookeeper
+	url = https://github.com/ludovicc/ansible-zookeeper.git 
+[submodule "roles/flyway"]
+	path = roles/flyway
+	url = https://github.com/amarao/ansible-flyway
+[submodule "roles/docker"]
+	path = roles/docker
+	url = https://github.com/ludovicc/ansible-docker.git
+[submodule "roles/chronos"]
+	path = roles/chronos
+	url = https://github.com/ludovicc/ansible-chronos.git
+[submodule "roles/sublimetext"]
+	path = roles/sublimetext
+	url = https://github.com/jdauphant/ansible-role-sublimetext.git
+[submodule "roles/sublimetext3-packagecontrol"]
+	path = roles/sublimetext3-packagecontrol
+	url = https://github.com/ansible-roles/ansible-role-sublimetext3_packagecontrol.git
+[submodule "roles/intellij"]
+	path = roles/intellij
+	url = https://github.com/jdauphant/ansible-role-intellij.git
+[submodule "roles/virtualbox"]
+	path = roles/denkhaus.virtualbox
+	url = https://github.com/Oefenweb/ansible-virtualbox.git
+[submodule "roles/vagrant"]
+	path = roles/vagrant
+	url = https://github.com/denkhaus/ansible-vagrant.git
+[submodule "roles/fish"]
+	path = roles/fish
+	url = https://github.com/SobanVuex/ansible-fish.git
+[submodule "roles/sbt-extras"]
+	path = roles/sbt-extras
+	url = https://github.com/Lykathia/ansible-sbt-extras.git
+[submodule "roles/nodejs"]
+	path = roles/nodejs
+	url = https://github.com/AnsibleShipyard/ansible-nodejs.git
+[submodule "roles/nginx"]
+	path = roles/nginx
+	url = https://github.com/jdauphant/ansible-role-nginx
+[submodule "roles/php"]
+	path = roles/php
+	url = https://github.com/kosssi/ansible-role-php.git
+[submodule "roles/activator"]
+	path = roles/activator
+	url = https://github.com/ludovicc/ansible-role-activator.git
+[submodule "roles/chrome"]
+	path = roles/chrome
+	url = https://github.com/cmprescott/ansible-role-chrome.git
+[submodule "roles/analytics-database/files/containers"]
+	path = roles/analytics-database/files/containers
+	url = git@gitlab.intranet.chuv:/mip-functions/functions-repository

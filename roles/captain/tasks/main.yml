@@ -1,0 +1,23 @@
+---
+
+- name: Download Captain
+  local_action: command
+    curl
+      --location
+      --output captain-{{ captain_version }}
+      https://github.com/harbur/captain/releases/download/v{{ captain_version }}/captain
+    chdir={{ util_persistent_data_path_local }}
+    creates={{ util_persistent_data_path_local }}/captain-{{ captain_version }}
+  become: no
+
+- name: Copy Captain
+  become: yes
+  with_items:
+    - src: captain-{{ captain_version }}
+      dest: captain
+  copy:
+    src={{ util_persistent_data_path_local }}/{{ item.src }}
+    dest=/usr/local/bin/{{ item.dest }}
+    owner=0
+    group=0
+    mode=0755

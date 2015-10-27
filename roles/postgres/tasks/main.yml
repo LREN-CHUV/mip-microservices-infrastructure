@@ -1,0 +1,50 @@
+---
+
+# Postgres user in Docker appears as user 999 outside
+- name: Create Postgres storage directory
+  file: state=directory path={{ postgres_data_dir }} mode=0700 owner=999 group=999
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Launch Postgres using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ postgres_marathon_id }}"
+    state: "present"
+    docker_image: "postgres:{{ postgres_version }}"
+    docker_forcePullImage: true
+    docker_network: BRIDGE
+    docker_portMappings:
+      - hostPort: 31432
+        containerPort: 5432
+    container_volumes:
+      - containerPath: "/var/lib/postgresql/data"
+        hostPath: "{{ postgres_data_dir }}"
+        mode: RW
+    env:
+      POSTGRES_USER: "{{ postgres_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_password }}"
+    instances: 1
+    cpus: 0.2
+    mem: 128
+    ports: []
+    requirePorts: false
+    constraints: [] # TODO: add contraints to assign a specific machine to Postgres
+    dependencies: []
+    executor: ""
+    waitTimeout: 600
+  async: 600
+  poll: 1
+
+#      healthChecks:
+#        - protocol: COMMAND
+#          command:
+#            value: "docker exec $(for i in $(docker ps -q --no-trunc); do docker inspect $i | grep -sq 'MESOS_TASK_ID=${MESOS_TASK_ID:?}' && echo $i; done) pg_isready"
+#            # TODO: Let's hope that there will be support for in-docker commands soon. See this thread: https://groups.google.com/forum/#!topic/marathon-framework/S_k6k3ydQ-o
+#          gracePeriodSeconds: 60
+#          maxConsecutiveFailures: 5
+#          intervalSeconds: 20
+#          timeoutSeconds: 10

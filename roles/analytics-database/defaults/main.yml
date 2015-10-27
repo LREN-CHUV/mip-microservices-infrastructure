@@ -1,0 +1,11 @@
+---
+
+# Role of the cluster. Values are mip_federation or mip_node
+cluster_role: mip_node
+
+analytics_db_port: 31432
+analytics_db_host: localhost
+analytics_db_admin_user: postgres
+# TO FILL - analytics_db_admin_password:
+
+analytics_db_setup_dir: /opt/analytics-database/migration

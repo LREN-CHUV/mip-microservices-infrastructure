@@ -1,0 +1,20 @@
+- name: Get current version of the repository
+  local_action: command git rev-parse HEAD
+  register: this_repo_version
+  become: no
+  changed_when: False
+
+- name: Get current version of the repository
+  local_action: command git status --porcelain
+  register: this_repo_status
+  become: no
+  changed_when: False
+
+- name: Create a folder for MIP
+  file: path=/etc/mip state=directory mode=0755 owner=root group=root
+
+- name: Keep track of the version used to deploy the applications on this server
+  copy: >
+    content="{{ this_repo_version.stdout}}\n{{ this_repo_status.stdout }}"
+    dest="/etc/mip/{{ installed_component }}-version"
+  become: yes

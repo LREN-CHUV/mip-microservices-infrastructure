@@ -1,0 +1,27 @@
+
+- name: Download yEd
+  local_action: command
+    curl
+      --location
+      --output yEd-{{ yed_version }}.sh
+      https://www.yworks.com/products/yed/demo/yEd-{{ yed_version }}_64-bit_setup.sh
+    chdir={{ util_persistent_data_path_local }}
+    creates={{ util_persistent_data_path_local }}/yEd-{{ yed_version }}.sh
+  become: no
+
+- name: Copy yEd
+  become: yes
+  with_items:
+    - src: yEd-{{ yed_version }}.sh
+      dest: yEd.sh
+  copy:
+    src={{ util_persistent_data_path_local }}/{{ item.src }}
+    dest=/tmp/{{ item.dest }}
+    owner=0
+    group=0
+    mode=0755
+
+- name: Install yEd
+  shell:
+    /tmp/yEd.sh
+    creates=/usr/local/bin/yEd

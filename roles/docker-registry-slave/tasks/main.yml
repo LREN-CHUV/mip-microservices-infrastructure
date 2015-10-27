@@ -1,0 +1,36 @@
+---
+
+- name: Create a directory for the certificates known by Docker
+  file: state=directory path=/etc/docker/certs.d/registry.federation.mip.hbp mode=0755
+
+- name: Copy ca.crt
+  copy:
+    src: "{{docker_registry_config_orig_dir}}/etc/certs/registry.crt"
+    dest: /etc/docker/certs.d/registry.federation.mip.hbp/ca.crt
+    owner: root
+    group: root
+    mode: 0644
+    directory_mode: 0755
+  notify: Restart Docker
+
+- name: Copy registry.cert
+  copy:
+    src: "{{docker_registry_config_orig_dir}}/etc/certs/registry.crt"
+    dest: /etc/docker/certs.d/registry.federation.mip.hbp/registry.cert
+    owner: root
+    group: root
+    mode: 0644
+    directory_mode: 0755
+  when: is_docker_registry_host
+  notify: Restart Docker
+
+- name: Copy registry.key
+  copy:
+    src: "{{docker_registry_config_orig_dir}}/etc/certs/registry.key"
+    dest: /etc/docker/certs.d/registry.federation.mip.hbp/registry.key
+    owner: root
+    group: root
+    mode: 0644
+    directory_mode: 0755
+  when: is_docker_registry_host
+  notify: Restart Docker

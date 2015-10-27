@@ -1,0 +1,4 @@
+ansible>=1.9.1,<2.0
+pytest==2.7.1
+PyYAML==3.11
+

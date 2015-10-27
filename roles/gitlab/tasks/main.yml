@@ -1,0 +1,23 @@
+---
+
+- name: Create directory for Gitlab
+  file: state=directory path=/opt/gitlab
+    owner="root" group="root" mode=0664
+
+- name: Create Docker compose conf file for Gitlab
+  template: src=docker-compose.yml.j2 dest=/opt/gitlab/docker-compose.yml
+    owner="root" group="root" mode=0664
+
+# sudo docker run --detach \
+#    --publish 155.105.202.126:10443:443 --publish 155.105.202.126:10080:80 --publish 155.105.202.126:10222:22 \
+#    --name gitlab \
+#    --restart always \
+#    --volume /srv/docker/gitlab/config:/etc/gitlab \
+#    --volume /srv/docker/gitlab/logs:/var/log/gitlab \
+#    --volume /srv/docker/gitlab/data:/var/opt/gitlab \
+#    gitlab/gitlab-ce:latest
+#
+# docker exec -i -t gitlab /bin/bash
+# gitlab-ctl reconfigure
+
+# docker run -d -p 1025:1025 -p 8025:8025 mailhog/mailhog

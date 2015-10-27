@@ -1,0 +1,5 @@
+---
+
+docker_registry_dir: /var/lib/docker-registry
+
+docker_registry_config_orig_dir: federation

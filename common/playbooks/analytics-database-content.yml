@@ -1,0 +1,29 @@
+---
+
+- hosts: install
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/roles/versions.yml"
+
+  pre_tasks:
+    - name: Install curl
+      apt: name=curl state=present
+
+  roles:
+
+    - role: analytics-database
+      tags: ['database', 'analytics']
+    # Audit-deployment delegated to the database host
+
+- hosts: database
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/roles/versions.yml"
+
+  roles:
+
+    - role: audit-deployment
+      installed_component: analytics-database-content
+      tags: ['database', 'analytics']

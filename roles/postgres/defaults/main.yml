@@ -1,0 +1,13 @@
+---
+
+postgres_marathon_id: /postgres
+
+postgres_data_dir: /srv/docker/postgres/data
+
+postgres_port: 31432
+
+postgres_user: postgres
+#postgres_password: TO FILL
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

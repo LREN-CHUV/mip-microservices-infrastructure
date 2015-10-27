@@ -1,0 +1,49 @@
+akka {
+  loglevel = DEBUG
+
+  actor {
+    debug {
+      receive = on
+      autoreceive = on
+      lifecycle = on
+    }
+  }
+}
+
+spray.can.server {
+  idle-timeout = 300s
+  request-timeout = 180s
+}
+
+app {
+  systemName = "workflow-manager"
+  jobServiceName = "job-service"
+  interface = "0.0.0.0"
+  port = 8087
+}
+
+jobs {
+  node = "federation"
+  owner = "admin@mip.chuv.ch"
+  chronosServerUrl = "{{ internal_chronos_url }}"
+  resultDb = "analytics"
+}
+
+db {
+  analytics {
+    jdbc_driver="{{ analytics_db_jdbc_driver }}"
+    jdbc_jar_path="{{ analytics_db_jdbc_jar }}"
+    jdbc_url="{{ analytics_db_jdbc_url }}"
+    jdbc_user="{{ analytics_db_user }}"
+    jdbc_password="{{ analytics_db_password }}"
+  }
+
+  ldsm {
+    jdbc_driver="{{ ldsm_db_jdbc_driver }}"
+    jdbc_jar_path="{{ ldsm_db_jdbc_jar }}"
+    jdbc_url="{{ ldsm_db_jdbc_url }}"
+    jdbc_user="{{ ldsm_db_user }}"
+    jdbc_password="{{ ldsm_db_password }}"
+  }
+
+}

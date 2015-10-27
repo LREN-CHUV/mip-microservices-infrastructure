@@ -1,0 +1,30 @@
+---
+# default is etc/utc in build 20141129 [http://cloud.centos.org/centos/7/images/]
+- name: set timezone to etc/utc
+  sudo: yes
+  file:
+    src: /usr/share/zoneinfo/Etc/UTC
+    dest: /etc/localtime
+    state: link
+    force: yes
+
+# add hosts to /etc/hosts
+- name: configure hosts file
+  sudo: yes
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^{{ hostvars[item].private_ipv4 }} {{ item }}{% if use_host_domain %} {{ item }}.{{ host_domain }}{% endif %}$"
+    line: "{{ hostvars[item].private_ipv4 }} {{ item }}{% if use_host_domain %} {{ item }}.{{ host_domain}}{% endif %}"
+    state: present
+  when: hostvars[item].private_ipv4 is defined
+  with_items: groups['all']
+
+- name: clean hosts file
+  sudo: yes
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "{{ item }}"
+    state: absent
+  with_items:
+    - '^127\.0\.\d+\.\d+(\s+)(?i){{ inventory_hostname }}.*'
+    - '^::1(\s+)(?i){{ inventory_hostname }}.*'
