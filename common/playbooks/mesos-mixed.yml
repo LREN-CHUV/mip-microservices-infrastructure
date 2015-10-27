@@ -40,3 +40,4 @@
 
     - role: audit-deployment
       installed_component: mesos-mixed
+      tags: ['mesos', 'container-platforms']

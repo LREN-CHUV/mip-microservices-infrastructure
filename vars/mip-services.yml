@@ -15,7 +15,7 @@ nginx_http_params:
   - access_log /var/log/nginx/access.log
 
 nginx_sites:
-  default:
+  mip-services:
     - |
       listen 80;
       server_name _;

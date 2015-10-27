@@ -36,3 +36,4 @@
 
     - role: audit-deployment
       installed_component: mesos-leader
+      tags: ['mesos', 'container-platforms']

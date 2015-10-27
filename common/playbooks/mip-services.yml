@@ -1,0 +1,17 @@
+---
+
+- hosts: mip-services
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - ["{{ play_dir }}/vars/{{ datacenter }}-mip-services.yml", "{{ play_dir }}/vars/mip-services.yml"]
+    - "{{ play_dir }}/roles/versions.yml"
+
+  roles:
+
+    - role: nginx
+      tags: ['mip-services']
+
+    - role: audit-deployment
+      installed_component: mip-services
+      tags: ['mip-services']

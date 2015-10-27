@@ -8,10 +8,12 @@
 
 - include: docker-registry.yml
 
-- include: front.yml
+- include: mip-services.yml
 
 - include: analytics-database.yml
 
 - include: workflow.yml
+
+- include: mip-frontend.yml
 
 - include: dev.yml

@@ -18,3 +18,4 @@
 
     - role: audit-deployment
       installed_component: docker-registry
+      tags: ['os-tools', 'container-platforms', 'docker-registry']
