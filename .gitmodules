@@ -18,7 +18,7 @@
 	url = https://github.com/ludovicc/ansible-util.git
 [submodule "roles/zookeeper"]
 	path = roles/zookeeper
-	url = https://github.com/ludovicc/ansible-zookeeper.git 
+	url = https://github.com/ludovicc/ansible-zookeeper.git
 [submodule "roles/flyway"]
 	path = roles/flyway
 	url = https://github.com/amarao/ansible-flyway
@@ -37,7 +37,7 @@
 [submodule "roles/intellij"]
 	path = roles/intellij
 	url = https://github.com/jdauphant/ansible-role-intellij.git
-[submodule "roles/virtualbox"]
+[submodule "roles/denkhaus.virtualbox"]
 	path = roles/denkhaus.virtualbox
 	url = https://github.com/Oefenweb/ansible-virtualbox.git
 [submodule "roles/vagrant"]
