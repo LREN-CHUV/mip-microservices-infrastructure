@@ -1,0 +1,8 @@
+---
+#
+# Master Install
+#
+# Installs _the_ world
+#
+
+- include: common/playbooks/all.yml

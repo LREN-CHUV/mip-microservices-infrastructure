@@ -1,0 +1,4 @@
+---
+
+private_ipv4: "{{ ip_address }}"
+skipped_roles: []
