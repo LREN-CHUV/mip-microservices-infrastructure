@@ -5,5 +5,5 @@ TODO
 * docker-registry: launch with Marathon, use port in range 31000-32000, add nginx reverse proxy to redirect to port 443
 * denodo: setup, upgrade, licenses
 * jenkins, dockerized, launch with Marathon
-* update Docker to 1.8+, replace Docker role by https://github.com/debops/ansible-docker ?
 * http://blog.romkevandermeulen.nl/2015/02/19/docker-gen-automatic-nginx-config-with-a-human-touch/
+* keep track of version for Docker
