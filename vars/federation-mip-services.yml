@@ -112,4 +112,4 @@ services_index:
     src: images/matlab.jpeg
   - name: Docker registry
     url: "https://{{ docker_registry_dns }}/v2/"
-    src: docker-registry.png
+    src: images/docker-registry.png

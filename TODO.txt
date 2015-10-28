@@ -2,31 +2,6 @@ TODO
 
 * launch Gitlab with Marathon
 * watchtower role, to launch with Marathon
-* docker-registry: launch with Marathon, use port in range 31000-32000, add nginx reverse proxy to redirect to port 443
-
-{
-    "id": "private-registry",
-    "cpus": 0.5,
-    "mem": 1024,
-    "instances": 1,
-    "container": {
-        "docker": {
-            "image": "registry"
-        },
-        "type": "DOCKER"
-    },
-    "env": {
-        "SETTINGS_FLAVOR": "local",
-        "STORAGE_PATH": "/docker_storage"
-    },
-    "constraints": [
-        [
-            "hostname",
-            "UNIQUE"
-        ]
-    ]
-}
-
 * denodo: setup, upgrade, licenses
 * jenkins, dockerized, launch with Marathon
 * http://blog.romkevandermeulen.nl/2015/02/19/docker-gen-automatic-nginx-config-with-a-human-touch/
