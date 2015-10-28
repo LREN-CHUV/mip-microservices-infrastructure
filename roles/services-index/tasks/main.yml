@@ -4,7 +4,7 @@
   file: path=/tmp/base-site state=directory owner=www-data group=www-data mode=0777
 
 - name: Copy site files into remote tmp directory
-  synchronize: src=base-site/ dest=/tmp/base-site/ archive=no recursive=yes
+  synchronize: src="{{ play_dir }}/roles/services-index/files/base-site/" dest=/tmp/base-site/ archive=no recursive=yes
   become: False
 
 - name: Synchronize site files from tmp directory to serving directory
