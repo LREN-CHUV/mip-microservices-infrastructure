@@ -22,7 +22,7 @@ nginx_sites:
       root "/var/www/html";
       index index.html;
       location /mesos/ {
-      	  rewrite             ^/mesos(/.*) $1 break;
+          rewrite             ^/mesos(/.*) $1 break;
           proxy_set_header    Host $host;
           proxy_set_header    X-Real-IP $remote_addr;
           proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -33,7 +33,7 @@ nginx_sites:
           proxy_redirect      {{ internal_mesos_url }} /mesos/;
       }
       location /marathon/ {
-      	  rewrite             ^/marathon(/.*) $1 break;
+          rewrite             ^/marathon(/.*) $1 break;
           proxy_set_header    Host $host;
           proxy_set_header    X-Real-IP $remote_addr;
           proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -44,7 +44,7 @@ nginx_sites:
           proxy_redirect      {{ internal_marathon_url }} /marathon/;
       }
       location /chronos/ {
-      	  rewrite             ^/chronos(/.*) $1 break;
+          rewrite             ^/chronos(/.*) $1 break;
           proxy_set_header    Host $host;
           proxy_set_header    X-Real-IP $remote_addr;
           proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;

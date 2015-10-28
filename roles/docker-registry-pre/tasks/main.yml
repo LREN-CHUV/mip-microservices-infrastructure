@@ -1,4 +1,0 @@
----
-
-- name: Create Docker registry storage directory
-  file: state=directory path={{ docker_registry_dir }} mode=0700

@@ -31,3 +31,4 @@ TODO
 * jenkins, dockerized, launch with Marathon
 * http://blog.romkevandermeulen.nl/2015/02/19/docker-gen-automatic-nginx-config-with-a-human-touch/
 * keep track of version for Docker
+* ensure that Docker-registry is up and running before deploying workflow app with Marathon

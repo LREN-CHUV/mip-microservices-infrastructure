@@ -7,8 +7,6 @@
     - "{{ play_dir }}/roles/versions.yml"
 
   roles:
-    - role: base-system
-      tags: ['runtimes']
 
     - role: postgres
       tags: ['database', 'analytics']

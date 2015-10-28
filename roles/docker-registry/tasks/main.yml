@@ -2,3 +2,59 @@
 
 - name: Create Docker registry storage directory
   file: state=directory path={{ docker_registry_dir }} mode=0700 owner=root group=root
+  become: True
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Launch docker-registry using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ docker_registry_marathon_id }}"
+    state: "present"
+    docker_image: "registry:2"
+    docker_forcePullImage: true
+    docker_network: BRIDGE
+    docker_portMappings:
+      - hostPort: "{{ docker_registry_port }}"
+        containerPort: 5000
+    container_volumes:
+      - containerPath: "/certs"
+        hostPath: "{{ docker_registry_certificate_path }}"
+        mode: RO
+      - containerPath: "/var/lib/registry"
+        hostPath: "{{ docker_registry_dir }}"
+        mode: RW
+    env:
+      REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/registry.cert"
+      REGISTRY_HTTP_TLS_KEY: "/certs/registry.key"
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: "/var/lib/registry"
+    instances: 1
+    cpus: 0.2
+    mem: 128
+    ports: []
+    requirePorts: false
+    constraints: [] # TODO: add contraints to assign a specific machine to the Docker registry
+    dependencies: []
+    executor: ""
+    waitTimeout: 600
+    healthChecks:
+      - protocol: TCP
+        portIndex: 0
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 3
+  async: 600
+  poll: 1
+
+#    healthChecks:
+#      - protocol: HTTP
+#        portIndex: 0
+#        path: /v2/
+
+#      - protocol: COMMAND
+#        command: 
+#          value: "curl -f -k -X GET https://$HOST:$PORT0/v2/ | grep '{}'"

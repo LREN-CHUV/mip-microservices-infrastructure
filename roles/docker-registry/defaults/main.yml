@@ -1,8 +1,11 @@
 ---
 
 docker_registry_dir: /srv/docker/docker-registry
+# Port of the Docker registry exposed by its Docker container
+docker_registry_port: 31443
 
-docker_registry_config_orig_dir: federation
+docker_registry_marathon_id: /infra/registry
+docker_registry_certificate_path: /etc/docker/certs.d/registry.federation.mip.hbp
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

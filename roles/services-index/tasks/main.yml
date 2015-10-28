@@ -1,0 +1,15 @@
+---
+
+- name: Prepare copy directory
+  file: path=/tmp/base-site state=directory owner=www-data group=www-data mode=0777
+
+- name: Copy site files into remote tmp directory
+  synchronize: src=base-site/ dest=/tmp/base-site/ archive=no recursive=yes
+  become: False
+
+- name: Synchronize site files from tmp directory to serving directory
+  command: rsync -av --chown=www-data:www-data /tmp/base-site/ /var/www/html/
+  become: True
+
+- name: Define the sites and services
+  template: src=home.js.j2 dest=/var/www/html/scripts/controllers/home.js

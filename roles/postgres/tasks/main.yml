@@ -39,12 +39,12 @@
   async: 600
   poll: 1
 
+# Not working with Mesos 0.25.0
 #      healthChecks:
 #        - protocol: COMMAND
 #          command:
-#            value: "docker exec $(for i in $(docker ps -q --no-trunc); do docker inspect $i | grep -sq 'MESOS_TASK_ID=${MESOS_TASK_ID:?}' && echo $i; done) pg_isready"
-#            # TODO: Let's hope that there will be support for in-docker commands soon. See this thread: https://groups.google.com/forum/#!topic/marathon-framework/S_k6k3ydQ-o
-#          gracePeriodSeconds: 60
-#          maxConsecutiveFailures: 5
+#          value: "/usr/lib/postgresql/9.4/bin/pg_isready"
+#        gracePeriodSeconds: 300
 #          intervalSeconds: 20
 #          timeoutSeconds: 10
+#        maxConsecutiveFailures: 5

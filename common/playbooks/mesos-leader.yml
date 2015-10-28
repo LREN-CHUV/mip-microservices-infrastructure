@@ -11,8 +11,6 @@
       apt: name=curl state=present
 
   roles:
-    - role: base-system
-      tags: ['runtimes']
 
     - role: java
       tags: ['runtimes']

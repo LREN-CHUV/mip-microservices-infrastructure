@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/roles/versions.yml"
+
+  roles:
+    - role: base-system
+      tags: ['runtimes']
+
+    - role: audit-deployment
+      installed_component: base-system
+      tags: ['runtimes']
