@@ -110,3 +110,6 @@ services_index:
   - name: Workflow
     url: /workflow/
     src: images/matlab.jpeg
+  - name: Docker registry
+    url: "https://{{ docker_registry_dns }}/v2/"
+    src: docker-registry.png
