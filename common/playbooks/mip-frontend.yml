@@ -15,6 +15,9 @@
     - role: nginx
       tags: ['mip-frontend']
 
+    - role: services-index
+      tags: ['mip-frontend']
+
     - role: audit-deployment
       installed_component: mip-frontend
       tags: ['mip-frontend']
