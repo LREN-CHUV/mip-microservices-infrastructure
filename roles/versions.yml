@@ -31,5 +31,5 @@ vagrant_version: "1.7.4"
 
 # IDEs
 sublimetext_build: "3083"
-intellij_version: "14.1.5"
+intellij_version: "15.0"
 yed_version: "3.14.4"
