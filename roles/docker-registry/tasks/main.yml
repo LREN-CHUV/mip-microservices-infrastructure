@@ -14,7 +14,7 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ docker_registry_marathon_id }}"
     state: "present"
-    docker_image: "registry:2"
+    docker_image: "registry:{{ docker_registry_version }}"
     docker_forcePullImage: true
     docker_network: BRIDGE
     docker_portMappings:
