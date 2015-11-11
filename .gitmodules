@@ -86,7 +86,6 @@
 	path = roles/chrome
 	url = https://github.com/cmprescott/ansible-role-chrome.git
 	branch = master
-[submodule "roles/analytics-database/files/containers"]
-	path = roles/analytics-database/files/containers
-	url = git@gitlab.intranet.chuv:/mip-functions/functions-repository
-	branch = master
+[submodule "roles/analytics-database/files/db"]
+	path = roles/analytics-database/files/analyticsdb
+	url = git@gitlab.intranet.chuv:/mip-infra/analytics-db

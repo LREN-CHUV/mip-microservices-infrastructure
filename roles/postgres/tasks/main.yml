@@ -39,7 +39,7 @@
   async: 600
   poll: 1
 
-# Not working with Mesos 0.25.0
+# TODO: Not working with Mesos 0.25.0
 #      healthChecks:
 #        - protocol: COMMAND
 #          command:

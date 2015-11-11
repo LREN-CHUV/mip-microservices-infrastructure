@@ -10,6 +10,8 @@
 
 - include: docker-registry.yml
 
+- include: cleanup.yml
+
 - include: mip-services.yml
 
 - include: analytics-database.yml

@@ -1,0 +1,29 @@
+---
+
+# Cleanup old configurations and software
+
+- name: Remove old apps on Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ item }}"
+    state: "absent"
+  with_items:
+    - /ldsm
+    - /federationdb
+
+- name: Remove old files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /srv/docker/postgres
+    - /opt/analytics-database/migration/V1.01__r-linear-regression-create-result-table.sql
+    - /opt/analytics-database/migration/V1.02__r-box-stats-create-result-table.sql
+
+- name: Remove old Docker images
+  docker_image:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - postgres:9.3.9
+    - postgres:9.4.4

@@ -42,11 +42,8 @@
     src: "{{ item.src }}"
     dest: "{{analytics_db_setup_dir}}/{{ item.dest }}"
   with_items:
-   - src: "containers/{{ cluster_role }}/r-linear-regression/sql/V1__create-result-table.sql"
-     dest: "V1.01__r-linear-regression-create-result-table.sql"
-   - src: "containers/mip_node/r-box-stats/sql/V1__create-result-table.sql"
-     dest: "V1.02__r-box-stats-create-result-table.sql"
-# TODO: use containers/{{ cluster_role }} for src of r-box-stats result table
+   - src: "analyticsdb/create.sql"
+     dest: "V1-create-result-table.sql"
 
 - name: Run Flyway migration
   command: "flyway -url={{analytics_db_jdbc_url}} -user={{ analytics_db_user }} -password={{ analytics_db_password }} -locations=filesystem:{{analytics_db_setup_dir}} migrate"
