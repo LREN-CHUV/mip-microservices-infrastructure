@@ -31,6 +31,9 @@
         - /opt/analytics-database/migration/V1.01__r-linear-regression-create-result-table.sql
         - /opt/analytics-database/migration/V1.02__r-box-stats-create-result-table.sql
 
+    - name: Install docker-py to control Docker from Ansible
+      apt: pkg=python-docker state=present
+
     - name: Remove old Docker images
       docker_image:
         name: "{{ item }}"
