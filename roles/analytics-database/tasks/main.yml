@@ -43,7 +43,7 @@
     dest: "{{analytics_db_setup_dir}}/{{ item.dest }}"
   with_items:
    - src: "analyticsdb/create.sql"
-     dest: "V1-create-result-table.sql"
+     dest: "V1_0__Create-result-table.sql"
 
 - name: Run Flyway migration
   command: "flyway -url={{analytics_db_jdbc_url}} -user={{ analytics_db_user }} -password={{ analytics_db_password }} -locations=filesystem:{{analytics_db_setup_dir}} migrate"
