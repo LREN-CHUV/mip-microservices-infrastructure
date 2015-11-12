@@ -30,6 +30,7 @@
         - /srv/docker/postgres
         - /opt/analytics-database/migration/V1.01__r-linear-regression-create-result-table.sql
         - /opt/analytics-database/migration/V1.02__r-box-stats-create-result-table.sql
+        - /etc/apt/sources.list.d/docker.list
 
     - name: Install docker-py to control Docker from Ansible
       apt: pkg=python-docker state=present
