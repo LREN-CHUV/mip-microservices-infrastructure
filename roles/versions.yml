@@ -22,6 +22,9 @@ gitlab_version: "7.13.3"
 postgres_version: "9.4.5"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar
 
+# Use latest NGinx from official repo
+nginx_official_repo: True
+
 flyway_version: "3.2.1"
 
 nodejs_version: "0.10.37"
