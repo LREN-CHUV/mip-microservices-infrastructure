@@ -56,7 +56,7 @@
 	branch = master
 [submodule "roles/vagrant"]
 	path = roles/vagrant
-	url = https://github.com/denkhaus/ansible-vagrant.git
+	url = https://github.com/ludovicc/ansible-vagrant.git
 	branch = master
 [submodule "roles/fish"]
 	path = roles/fish
