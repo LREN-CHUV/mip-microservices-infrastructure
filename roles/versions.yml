@@ -35,7 +35,10 @@ scala_activator_version: 1.3.6
 virtualbox_version: "5.0"
 vagrant_version: "1.7.4"
 
+# Versions of our Docker containers
+workflow_version: "f077bca"
+
 # IDEs
 sublimetext_build: "3083"
-intellij_version: "15.0"
+intellij_version: "15.0.1"
 yed_version: "3.14.4"
