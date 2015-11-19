@@ -6,13 +6,21 @@ nginx_user: "www-data"
 # A list of directives for the events section.
 nginx_events_params:
   - worker_connections 512
+  - use epoll
+  - multi_accept on
 
 # A list of hashs that define the servers for nginx,
 # as with http parameters. Any valid server parameters
 # can be defined here.
 nginx_http_params:
   - sendfile on
-  - access_log /var/log/nginx/access.log
+  - tcp_nopush on
+  - tcp_nodelay on
+  - keepalive_timeout 65
+  - 'access_log {{nginx_log_dir}}/access.log'
+  - 'error_log {{nginx_log_dir}}/error.log'
+  - server_tokens off
+  - types_hash_max_size 2048
 
 # Reference documents:
 # https://docs.docker.com/registry/nginx/
@@ -20,22 +28,32 @@ nginx_http_params:
 # https://juliansimioni.com/blog/https-on-nginx-from-zero-to-a-plus-part-1/
 # https://juliansimioni.com/blog/https-on-nginx-from-zero-to-a-plus-part-2-configuration-ciphersuites-and-performance/
 # https://github.com/h5bp/server-configs-nginx
+# [security] Check that the server name (= inventory_hostname) is an internal DNS address
 
 nginx_sites:
   mip-services:
     - |
       listen 80;
-      server_name _;
-      root "/var/www/html";
+      server_name {{ inventory_hostname }};
+      root /var/www/html;
       index index.html;
+      sub_filter_types text/html;
       location /mesos/ {
+          limit_except GET HEAD {
+            deny all;
+          }
           rewrite             ^/mesos(/.*) $1 break;
           proxy_pass          {{ internal_mesos_url }};
           proxy_redirect      {{ internal_mesos_url }} /mesos/;
           proxy_read_timeout  90;
           proxy_buffering     on;
+          sub_filter '/static/' '/mesos/static/';
+          sub_filter_once off;
       }
       location /marathon/ {
+          limit_except GET HEAD {
+            deny all;
+          }
           rewrite             ^/marathon(/.*) $1 break;
           proxy_pass          {{ internal_marathon_url }};
           proxy_redirect      {{ internal_marathon_url }} /marathon/;
@@ -43,6 +61,9 @@ nginx_sites:
           proxy_buffering     on;
       }
       location /chronos/ {
+          limit_except GET HEAD {
+            deny all;
+          }
           rewrite             ^/chronos(/.*) $1 break;
           proxy_pass          {{ internal_chronos_url }};
           proxy_redirect      {{ internal_chronos_url }} /chronos/;
@@ -53,6 +74,16 @@ nginx_sites:
           rewrite             ^/workflow(/.*) $1 break;
           proxy_pass          {{ internal_workflow_url }};
           proxy_redirect      {{ internal_workflow_url }} /workflow/;
+          proxy_read_timeout  90;
+          proxy_buffering     on;
+          sub_filter '/webjars/' '/workflow/webjars/';
+          # TODO: Nginx >= 1.9.4 sub_filter '/api-docs' '/workflow/api-docs';
+          sub_filter_once off;
+      }
+      # TODO: remove after Nginx 1.9.4
+      location /api-docs {
+          proxy_pass          http://hbps3.chuv.ch:31087;
+          proxy_redirect      http://hbps3.chuv.ch:31087 /;
           proxy_read_timeout  90;
           proxy_buffering     on;
       }
@@ -99,6 +130,11 @@ nginx_configs:
   gzip:
       - gzip on
       - gzip_disable msie6
+
+# Cleanup
+nginx_remove_sites: []
+nginx_remove_configs: []
+nginx_remove_auth_basic_files: []
 
 sites_index:
   - name: Mesos
