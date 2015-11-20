@@ -1,6 +1,6 @@
 ---
 
-- name: Remove old apps on Marathon
+- name: Remove old apps from Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ item }}"
