@@ -6,6 +6,7 @@ akka {
       receive = on
       autoreceive = on
       lifecycle = on
+      fsm = on
     }
   }
 }
@@ -23,9 +24,21 @@ app {
 }
 
 jobs {
-  node = "federation"
+  node = "{{ inventory_hostname }}"
   owner = "admin@mip.chuv.ch"
   chronosServerUrl = "{{ internal_chronos_url }}"
+{% if cluster_role == 'mip_federation' %}  
+  federationDb = "federation"
+  nodes = {
+{% for node in workflow_nodes %}
+    {{ node.name }} {
+      jobsUrl = "{{ node.url}}"
+    }
+{% endfor %}
+  }
+{% else %}
+  ldsmDb = "ldsm"
+{% endif %}
   resultDb = "analytics"
 }
 
@@ -38,6 +51,15 @@ db {
     jdbc_password="{{ analytics_db_password }}"
   }
 
+{% if cluster_role == 'mip_federation' %}
+  federation {
+    jdbc_driver="{{ federation_db_jdbc_driver }}"
+    jdbc_jar_path="{{ federation_db_jdbc_jar }}"
+    jdbc_url="{{ federation_db_jdbc_url }}"
+    jdbc_user="{{ federation_db_user }}"
+    jdbc_password="{{ federation_db_password }}"
+  }
+{% else %}
   ldsm {
     jdbc_driver="{{ ldsm_db_jdbc_driver }}"
     jdbc_jar_path="{{ ldsm_db_jdbc_jar }}"
@@ -45,5 +67,5 @@ db {
     jdbc_user="{{ ldsm_db_user }}"
     jdbc_password="{{ ldsm_db_password }}"
   }
-
+{% endif %}
 }

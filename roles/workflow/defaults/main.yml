@@ -29,3 +29,8 @@ internal_chronos_url: http://default:4400
 
 # URL to Marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
+
+cluster_role: mip_node
+
+# list of name, url values
+workflow_nodes: []
