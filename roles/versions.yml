@@ -5,7 +5,7 @@ maven_version: "3.3.3"
 
 captain_version: "0.7.0"
 docker_compose_version: "1.5.0"
-docker_version: "1.9.0"
+docker_version: "1.9.1"
 docker_package_version: "0"
 docker_registry_version: "2.2.0"
 
