@@ -42,7 +42,7 @@
     src: "{{ item.src }}"
     dest: "{{analytics_db_setup_dir}}/{{ item.dest }}"
   with_items:
-   - src: "analyticsdb/create.sql"
+   - src: "analyticsdb/sql/create.sql"
      dest: "V1_0__Create-result-table.sql"
 
 - name: Run Flyway migration
