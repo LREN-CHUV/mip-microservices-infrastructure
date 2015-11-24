@@ -1,0 +1,7 @@
+---
+
+function_images:
+  - name: registry.federation.mip.hbp/mip_node/r-summary-stats
+    tag: 5f4a57b
+  - name: registry.federation.mip.hbp/mip_federation/r-summary-stats
+    tag: 5f4a57b
