@@ -2,7 +2,7 @@
 
 gitlab_version: "7.13.3"
 
-gitlab_host: "{{ inventory_host }}"
+gitlab_host: "{{ inventory_hostname }}"
 gitlab_port: 10080
 gitlab_https_port: 10443
 gitlab_ssh_port: 10022

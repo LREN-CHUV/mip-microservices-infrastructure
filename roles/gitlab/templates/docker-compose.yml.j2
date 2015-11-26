@@ -2,7 +2,7 @@
 gitlab:
   image: gitlab/gitlab-ce:{{ gitlab_version }}
   container_name: gitlab
-  hostname: {{ inventory_host }}
+  hostname: {{ gitlab_host }}
   ports:
     - "{{ gitlab_port }}:80"
     - "{{ gitlab_https_port }}:443"
