@@ -1,0 +1,28 @@
+---
+
+# Install Gitlab and launch it with Docker / docker-compose
+
+- hosts: gitlab
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/roles/versions.yml"
+
+  pre_tasks:
+    - name: Install curl
+      apt: name=curl state=present
+
+  roles:
+
+    - role: docker
+      tags: ['gitlab']
+
+    - role: docker-compose
+      tags: ['gitlab']
+
+    - role: workflow
+      tags: ['gitlab']
+
+    - role: audit-deployment
+      installed_component: gitlab
+      tags: ['gitlab']

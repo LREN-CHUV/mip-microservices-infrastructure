@@ -1,16 +1,51 @@
 ---
 
-db_password: "password"
-
-gitlab_postgres_version: "9.4-2"
 gitlab_version: "7.13.3"
 
-gitlab_host: "localhost"
+gitlab_host: "{{ inventory_host }}"
 gitlab_port: 10080
+gitlab_https_port: 10443
 gitlab_ssh_port: 10022
 
-timezone: "Asia/Kolkata"
-gitlab_timezone: "Kolkata"
+timezone: "Europe/Zurich"
+gitlab_timezone: "Zurich"
 
-gitlab_email: "admin@example.com"
-gitlab_email_reply_to: "noreply@example.com"
+gitlab_external_url: 'http://hbps1.intranet.chuv/git/'
+
+gitlab_default_can_create_group: true
+gitlab_username_changing_enabled: true
+gitlab_default_theme: 2
+gitlab_default_projects_features_issues: true
+gitlab_default_projects_features_merge_requests: true
+gitlab_default_projects_features_wiki: true
+gitlab_default_projects_features_snippets: true
+gitlab_default_projects_features_visibility_level: 'private'
+
+gitlab_email: "mip.hbp@gmail.com"
+gitlab_email_reply_to: "noreply@chuv.ch"
+gitlab_email_display_name: "Gitlab of MIP HBP"
+
+gitlab_smtp_enable: true
+gitlab_smtp_address: "smtp.gmail.com"
+gitlab_smtp_port: 587
+gitlab_smtp_user_name:
+gitlab_smtp_password:
+gitlab_smtp_domain: "smtp.gmail.com"
+gitlab_smtp_authentication: "login"
+gitlab_smtp_enable_starttls_auto: true
+gitlab_smtp_tls: false
+gitlab_smtp_openssl_verify_mode: 'peer'
+gitlab_tls: true
+
+gitlab_extra_sign_in_text: |
+  |
+  ![Company Logo](https://www.humanbrainproject.eu/image/company_logo?img_id=10795&t=1441492532899)
+  [Learn more about Human Brain Project](http://www.humanbrainproject.eu/)
+
+#gitlab_extra_sign_in_text: |
+#  |
+#  ![Company Logo](http://www.unil.ch/webdav/site/lren/shared/lren_logo_small.jpg)
+#  [Learn more about LREN](http://www.unil.ch/lren/en/home.html)
+
+# Set the port if gitlab is placed behind a reverse proxy
+#gitlab_ngix_port: 80 
