@@ -10,7 +10,7 @@ gitlab_ssh_port: 10022
 timezone: "Europe/Zurich"
 gitlab_timezone: "Zurich"
 
-gitlab_external_url: 'http://hbps1.intranet.chuv/git/'
+#gitlab_external_url: 'http://hbps1.intranet.chuv/git/'
 
 gitlab_default_can_create_group: true
 gitlab_username_changing_enabled: true

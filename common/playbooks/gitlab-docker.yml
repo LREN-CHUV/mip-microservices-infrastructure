@@ -20,7 +20,7 @@
     - role: docker-compose
       tags: ['gitlab']
 
-    - role: workflow
+    - role: gitlab
       tags: ['gitlab']
 
     - role: audit-deployment
