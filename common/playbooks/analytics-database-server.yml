@@ -1,6 +1,6 @@
 ---
 
-- hosts: database
+- hosts: analytics-db
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"

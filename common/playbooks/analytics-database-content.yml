@@ -16,7 +16,7 @@
       tags: ['database', 'analytics']
     # Audit-deployment delegated to the database host
 
-- hosts: database
+- hosts: analytics-db
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
