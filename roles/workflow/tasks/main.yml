@@ -14,6 +14,28 @@
   vars:
     uri: "{{ internal_marathon_url }}"
 
+# Host networking is required on Federation to be able to use Denodo JDBC over RMI driver
+- name: Launch workflow using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ workflow_marathon_id }}"
+    state: "present"
+    docker_image: "registry.federation.mip.hbp/mip_federation/workflow:{{ workflow_version }}"
+    docker_forcePullImage: true
+    docker_network: HOST
+    instances: 1
+    cpus: 0.2
+    mem: 256
+    ports: []
+    requirePorts: false
+    constraints: [] # TODO: add contraints to assign a specific machine to workflow
+    dependencies: []
+    executor: ""
+    waitTimeout: 600
+  async: 600
+  poll: 1
+  when: workflow_docker_network == 'HOST'
+
 - name: Launch workflow using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
