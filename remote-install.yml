@@ -3,6 +3,6 @@
 - hosts: install
   vars_files:
     - vars/common.yml
-    - roles/versions.yml
+    - vars/versions.yml
   roles:
     - ansible-on-datacenter

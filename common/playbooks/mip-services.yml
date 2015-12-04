@@ -5,7 +5,7 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - ["{{ play_dir }}/vars/{{ datacenter }}-mip-services.yml", "{{ play_dir }}/vars/mip-services.yml"]
-    - "{{ play_dir }}/roles/versions.yml"
+    - "{{ play_dir }}/vars/versions.yml"
 
   roles:
 

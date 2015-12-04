@@ -2,7 +2,7 @@
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/roles/versions.yml"
+    - "{{ play_dir }}/vars/versions.yml"
 
   pre_tasks:
     - name: Install curl
@@ -18,7 +18,7 @@
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/roles/versions.yml"
+    - "{{ play_dir }}/vars/versions.yml"
 
   roles:
 

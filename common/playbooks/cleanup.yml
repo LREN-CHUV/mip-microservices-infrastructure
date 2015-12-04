@@ -6,7 +6,7 @@
   become: no
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/roles/versions.yml"
+    - "{{ play_dir }}/vars/versions.yml"
 
   roles:
 
@@ -19,7 +19,7 @@
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/roles/versions.yml"
+    - "{{ play_dir }}/vars/versions.yml"
 
   tasks:
     - name: Remove old files
