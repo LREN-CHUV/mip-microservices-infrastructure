@@ -89,3 +89,6 @@
 [submodule "roles/analytics-database/files/db"]
 	path = roles/analytics-database/files/analyticsdb
 	url = git@gitlab.intranet.chuv:/mip-infra/analytics-db
+[submodule "roles/ssl-certs"]
+	path = roles/ssl-certs
+	url = https://github.com/jdauphant/ansible-role-ssl-certs.git

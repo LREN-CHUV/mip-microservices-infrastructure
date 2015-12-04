@@ -12,6 +12,9 @@
       tags: ['mip-frontend']
       when: datacenter == 'federation'
 
+    - role: ssl-certs
+      tags: ['mip-frontend']
+
     - role: nginx
       tags: ['mip-frontend']
 
