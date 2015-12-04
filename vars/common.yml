@@ -2,3 +2,16 @@
 
 private_ipv4: "{{ ip_address }}"
 skipped_roles: []
+
+# Blacklist the packages that cannot be automalically upgraded, either because we keep a close track of their version, or because of another reason.
+unattended_package_blacklist:
+  - mesos
+  - marathon
+  - chronos
+  - zookeeper
+
+unattended_mail: mip.hbp@gmail.com
+ffm_logwatch_email: mip.hbp@gmail.com
+
+# Don't configure unattended upgrades from first-five-minutes role, it's done better by unattended-upgrades role
+ffm_upgrade: no
