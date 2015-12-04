@@ -91,7 +91,7 @@
 	url = git@gitlab.intranet.chuv:/mip-infra/analytics-db
 [submodule "roles/ssl-certs"]
 	path = roles/ssl-certs
-	url = https://github.com/jdauphant/ansible-role-ssl-certs.git
+	url = https://github.com/ludovicc/ansible-role-ssl-certs.git
 [submodule "roles/unattended-upgrades"]
 	path = roles/unattended-upgrades
 	url = https://github.com/jnv/ansible-role-unattended-upgrades.git
