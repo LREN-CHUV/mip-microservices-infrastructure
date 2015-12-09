@@ -3,7 +3,7 @@
 java_oracle_version: "8u60"
 maven_version: "3.3.9"
 
-captain_version: "0.7.0"
+captain_version: "0.8.0"
 docker_compose_version: "1.5.2"
 docker_version: "1.9.1"
 docker_package_version: "0"
