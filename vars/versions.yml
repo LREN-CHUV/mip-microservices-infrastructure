@@ -39,5 +39,5 @@ workflow_version: "4a15756"
 
 # IDEs
 sublimetext_build: "3083"
-intellij_version: "15.0.1"
+intellij_version: "15.0.2"
 yed_version: "3.14.4"
