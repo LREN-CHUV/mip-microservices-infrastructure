@@ -11,4 +11,5 @@ gitlab:
     - /srv/docker/gitlab/config:/etc/gitlab
     - /srv/docker/gitlab/logs:/var/log/gitlab
     - /srv/docker/gitlab/data:/var/opt/gitlab
+    - /srv/docker/gitlab/lfs:/mnt/storage/lfs-objects
   restart: always

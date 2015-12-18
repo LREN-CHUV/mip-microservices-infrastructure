@@ -16,7 +16,7 @@ marathon_package_version: "1.0.440"
 chronos_version: "2.4.0"
 chronos_package_version: "0.1.20151007110204"
 
-gitlab_version: "8.2.1-ce.0"
+gitlab_version: "8.2.3-ce.0"
 
 postgres_version: "9.4.5"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar

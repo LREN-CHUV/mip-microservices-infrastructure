@@ -37,6 +37,8 @@ gitlab_smtp_tls: false
 gitlab_smtp_openssl_verify_mode: 'peer'
 gitlab_tls: true
 
+gitlab_enable_lfs: true
+
 gitlab_extra_sign_in_text: |
   |
   ![Company Logo](https://www.humanbrainproject.eu/image/company_logo?img_id=10795&t=1441492532899)

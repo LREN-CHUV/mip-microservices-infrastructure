@@ -8,6 +8,22 @@
   template: src=docker-compose.yml.j2 dest=/opt/gitlab/docker-compose.yml
     owner="root" group="root" mode=0664
 
+- name: Create configuration directory
+  file:
+    path: /srv/docker/gitlab/config
+    state: directory
+    mode: 0744
+    owner: root
+    group: root
+
+- name: Create configuration file for Gitlab
+  template: src=gitlab.rb.j2 dest=/srv/docker/gitlab/config/gitlab.rb
+    owner="root" group="root" mode=0664
+
+- name: Create Docker compose conf file for Gitlab
+  template: src=docker-compose.yml.j2 dest=/opt/gitlab/docker-compose.yml
+    owner="root" group="root" mode=0664
+
 - name: Start Gitlab
   shell: docker ps -a | grep gitlab || ( cd /opt/gitlab/ && docker-compose up -d)
   become: true

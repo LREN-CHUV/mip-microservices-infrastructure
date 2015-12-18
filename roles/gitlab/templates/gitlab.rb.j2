@@ -1,7 +1,7 @@
 ## Url on which GitLab will be reachable.
 ## For more details on configuring external_url see:
 ## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#configuring-the-external-url-for-gitlab
-{% if defined gitlab_external_url %}
+{% if gitlab_external_url is defined %}
 external_url '{{ gitlab_external_url }}'
 {% endif %}
 
@@ -18,14 +18,14 @@ gitlab_rails['gitlab_email_enabled'] = true
 gitlab_rails['gitlab_email_from'] = '{{ gitlab_email }}'
 gitlab_rails['gitlab_email_display_name'] = '{{ gitlab_email_display_name }}'
 gitlab_rails['gitlab_email_reply_to'] = '{{ gitlab_email_reply_to }}'
-gitlab_rails['gitlab_default_can_create_group'] = {{ gitlab_default_can_create_group }}
-gitlab_rails['gitlab_username_changing_enabled'] = {{ gitlab_username_changing_enabled }}
+gitlab_rails['gitlab_default_can_create_group'] = {{ gitlab_default_can_create_group | lower }}
+gitlab_rails['gitlab_username_changing_enabled'] = {{ gitlab_username_changing_enabled | lower }}
 gitlab_rails['gitlab_default_theme'] = {{ gitlab_default_theme }}
 # gitlab_rails['gitlab_restricted_visibility_levels'] = nil # to restrict public and internal: ['public', 'internal']
-gitlab_rails['gitlab_default_projects_features_issues'] = {{ gitlab_default_projects_features_issues }}
-gitlab_rails['gitlab_default_projects_features_merge_requests'] = {{ gitlab_default_projects_features_merge_requests }}
-gitlab_rails['gitlab_default_projects_features_wiki'] = {{ gitlab_default_projects_features_wiki }}
-gitlab_rails['gitlab_default_projects_features_snippets'] = {{ gitlab_default_projects_features_snippets }}
+gitlab_rails['gitlab_default_projects_features_issues'] = {{ gitlab_default_projects_features_issues | lower }}
+gitlab_rails['gitlab_default_projects_features_merge_requests'] = {{ gitlab_default_projects_features_merge_requests | lower }}
+gitlab_rails['gitlab_default_projects_features_wiki'] = {{ gitlab_default_projects_features_wiki | lower }}
+gitlab_rails['gitlab_default_projects_features_snippets'] = {{ gitlab_default_projects_features_snippets | lower }}
 gitlab_rails['gitlab_default_projects_features_visibility_level'] = '{{ gitlab_default_projects_features_visibility_level }}'
 # gitlab_rails['gitlab_repository_downloads_path'] = 'tmp/repositories'
 # gitlab_rails['gravatar_plain_url'] = 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
@@ -66,53 +66,39 @@ gitlab_rails['gravatar_ssl_url'] = 'https://secure.gravatar.com/avatar/%{hash}?s
 # gitlab_rails['artifacts_enabled'] = true
 # gitlab_rails['artifacts_path'] = "/mnt/storage/artifacts"
 
+{% if gitlab_enable_lfs %}
 ## Git LFS
-# gitlab_rails['lfs_enabled'] = true
-# gitlab_rails['lfs_storage_path'] = "/mnt/storage/lfs-objects"
+gitlab_rails['lfs_enabled'] = true
+gitlab_rails['lfs_storage_path'] = "/mnt/storage/lfs-objects"
+{% endif %}
 
+{% if gitlab_enable_ldap %}
 ## For setting up LDAP
 ## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#setting-up-ldap-sign-in
 ## Be careful not to break the identation in the ldap_servers block. It is in
 ## yaml format and the spaces must be retained. Using tabs will not work.
 
-# gitlab_rails['ldap_enabled'] = false
-# gitlab_rails['ldap_servers'] = YAML.load <<-'EOS' # remember to close this block with 'EOS' below
-#   main: # 'main' is the GitLab 'provider ID' of this LDAP server
-#     label: 'LDAP'
-#     host: '_your_ldap_server'
-#     port: 389
-#     uid: 'sAMAccountName'
-#     method: 'plain' # "tls" or "ssl" or "plain"
-#     bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'
-#     password: '_the_password_of_the_bind_user'
-#     active_directory: true
-#     allow_username_or_email_login: false
-#     block_auto_created_users: false
-#     base: ''
-#     user_filter: ''
-#     ## EE only
-#     group_base: ''
-#     admin_group: ''
-#     sync_ssh_keys: false
-#
-#   secondary: # 'secondary' is the GitLab 'provider ID' of second LDAP server
-#     label: 'LDAP'
-#     host: '_your_ldap_server'
-#     port: 389
-#     uid: 'sAMAccountName'
-#     method: 'plain' # "tls" or "ssl" or "plain"
-#     bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'
-#     password: '_the_password_of_the_bind_user'
-#     active_directory: true
-#     allow_username_or_email_login: false
-#     block_auto_created_users: false
-#     base: ''
-#     user_filter: ''
-#     ## EE only
-#     group_base: ''
-#     admin_group: ''
-#     sync_ssh_keys: false
-# EOS
+gitlab_rails['ldap_enabled'] = true
+gitlab_rails['ldap_servers'] = YAML.load <<-'EOS' # remember to close this block with 'EOS' below
+  main: # 'main' is the GitLab 'provider ID' of this LDAP server
+    label: 'LDAP'
+    host: '{{ gitlab_ldap_server_host }}'
+    port: {{ gitlab_ldap_server_port }}
+    uid: '{{ gitlab_ldap_uid }}'
+    method: 'plain' # "tls" or "ssl" or "plain"
+    bind_dn: '{{ gitlab_ldap_bind_dn }}'
+    password: '{{ gitlab_ldap_bind_password }}'
+    active_directory: true
+    allow_username_or_email_login: false
+    block_auto_created_users: false
+    base: '{{ gitlab_ldap_root_dn }}'
+    user_filter: '{{ gitlab_ldap_filter }}'
+    ## EE only
+    group_base: ''
+    admin_group: ''
+    sync_ssh_keys: false
+EOS
+{% endif %}
 
 ## Setting up Kerberos (EE only)
 ## See http://doc.gitlab.com/ee/integration/kerberos.html#http-git-access
@@ -259,17 +245,17 @@ gitlab_rails['rate_limit_period'] = 60
 # see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/settings/smtp.md#smtp-settings
 # Use smtp instead of sendmail/postfix.
 
-gitlab_rails['smtp_enable'] = {{ gitlab_smtp_enable }}
+gitlab_rails['smtp_enable'] = {{ gitlab_smtp_enable | lower }}
 gitlab_rails['smtp_address'] = "{{ gitlab_smtp_address }}"
 gitlab_rails['smtp_port'] = {{ gitlab_smtp_port }}
 gitlab_rails['smtp_user_name'] = "{{ gitlab_smtp_user_name }}"
 gitlab_rails['smtp_password'] = "{{ gitlab_smtp_password }}"
 gitlab_rails['smtp_domain'] = "{{ gitlab_smtp_domain }}"
 gitlab_rails['smtp_authentication'] = "{{ gitlab_smtp_authentication }}"
-gitlab_rails['smtp_enable_starttls_auto'] = {{ gitlab_smtp_enable_starttls_auto }}
-gitlab_rails['smtp_tls'] = {{ gitlab_smtp_tls }}
+gitlab_rails['smtp_enable_starttls_auto'] = {{ gitlab_smtp_enable_starttls_auto | lower }}
+gitlab_rails['smtp_tls'] = {{ gitlab_smtp_tls | lower }}
 gitlab_rails['smtp_openssl_verify_mode'] = '{{ gitlab_smtp_openssl_verify_mode }}'
-gitlab_rails['tls'] = {{ gitlab_tls }}
+gitlab_rails['tls'] = {{ gitlab_tls | lower }}
 
 # gitlab_rails['smtp_ca_path'] = "/etc/ssl/certs"
 # gitlab_rails['smtp_ca_file'] = "/etc/ssl/certs/ca-certificates.crt"
@@ -437,7 +423,7 @@ gitlab_rails['tls'] = {{ gitlab_tls }}
 # nginx['ssl_session_timeout'] = "5m" # default according to http://nginx.org/en/docs/http/ngx_http_ssl_module.html
 # nginx['ssl_dhparam'] = nil # Path to dhparams.pem, eg. /etc/gitlab/ssl/dhparams.pem
 # nginx['listen_addresses'] = ['*']
-{% if defined gitlab_ngix_port %}
+{% if gitlab_ngix_port is defined %}
 nginx['listen_port'] = {{ gitlab_ngix_port }} # override only if you use a reverse proxy: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md#setting-the-nginx-listen-port
 {% endif %}
 # nginx['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md#supporting-proxied-ssl
