@@ -96,4 +96,4 @@
 	url = https://github.com/fretscha-ansible/ansible-role-first-five-minutes.git
 [submodule "roles/nodejs"]
 	path = roles/nodejs
-	url = https://github.com/laggyluke/ansible-role-nodejs.git
+	url = https://github.com/vevmesteren/ansible-role-nodejs.git
