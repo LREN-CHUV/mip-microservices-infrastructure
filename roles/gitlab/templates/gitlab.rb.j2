@@ -88,7 +88,7 @@ gitlab_rails['ldap_servers'] = YAML.load <<-'EOS' # remember to close this block
     method: 'plain' # "tls" or "ssl" or "plain"
     bind_dn: '{{ gitlab_ldap_bind_dn }}'
     password: '{{ gitlab_ldap_bind_password }}'
-    active_directory: true
+    active_directory: {{ gitlab_active_directory | lower }}
     allow_username_or_email_login: false
     block_auto_created_users: false
     base: '{{ gitlab_ldap_root_dn }}'
@@ -248,10 +248,14 @@ gitlab_rails['rate_limit_period'] = 60
 gitlab_rails['smtp_enable'] = {{ gitlab_smtp_enable | lower }}
 gitlab_rails['smtp_address'] = "{{ gitlab_smtp_address }}"
 gitlab_rails['smtp_port'] = {{ gitlab_smtp_port }}
+gitlab_rails['smtp_domain'] = "{{ gitlab_smtp_domain }}"
+{% if gitlab_smtp_authentication == 'none' %}
+gitlab_rails['smtp_authentication'] = false
+{% else %}
 gitlab_rails['smtp_user_name'] = "{{ gitlab_smtp_user_name }}"
 gitlab_rails['smtp_password'] = "{{ gitlab_smtp_password }}"
-gitlab_rails['smtp_domain'] = "{{ gitlab_smtp_domain }}"
 gitlab_rails['smtp_authentication'] = "{{ gitlab_smtp_authentication }}"
+{% endif %}
 gitlab_rails['smtp_enable_starttls_auto'] = {{ gitlab_smtp_enable_starttls_auto | lower }}
 gitlab_rails['smtp_tls'] = {{ gitlab_smtp_tls | lower }}
 gitlab_rails['smtp_openssl_verify_mode'] = '{{ gitlab_smtp_openssl_verify_mode }}'
@@ -304,7 +308,7 @@ gitlab_rails['tls'] = {{ gitlab_tls | lower }}
 
 ## Advanced settings
 # unicorn['listen'] = '127.0.0.1'
-# unicorn['port'] = 8080
+unicorn['port'] = 8080
 # unicorn['socket'] = '/var/opt/gitlab/gitlab-rails/sockets/gitlab.socket'
 # unicorn['pidfile'] = '/opt/gitlab/var/unicorn/unicorn.pid'
 # unicorn['tcp_nopush'] = true

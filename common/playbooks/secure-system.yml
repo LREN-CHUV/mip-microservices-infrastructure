@@ -6,8 +6,13 @@
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
 
+  roles:
+
     - role: first-five-minutes
       tags: ['security']
 
     - role: unattended-upgrades
+      tags: ['security']
+
+    - role: firewall
       tags: ['security']

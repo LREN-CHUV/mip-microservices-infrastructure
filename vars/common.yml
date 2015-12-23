@@ -10,8 +10,11 @@ unattended_package_blacklist:
   - chronos
   - zookeeper
 
-unattended_mail: mip.hbp@gmail.com
-ffm_logwatch_email: mip.hbp@gmail.com
+unattended_mail: "mip.hbp@gmail.com"
+ffm_logwatch_email: "mip.hbp@gmail.com"
+# notify login
+ffm_notify_login: no
+ffm_notify_login_email: ""
 
 # Don't configure unattended upgrades from first-five-minutes role, it's done better by unattended-upgrades role
-ffm_upgrade: no
+ffm_upgrade: 'no'

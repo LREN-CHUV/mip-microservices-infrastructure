@@ -1,5 +1,8 @@
 ---
 
+# A few good tips for configuring Gitlab in this blog post:
+# http://www.mikeobrien.net/blog/setting-up-gitlab-with-active-directory-and-self-signed-cert/
+
 gitlab_version: "7.13.3"
 
 gitlab_host: "{{ inventory_hostname }}"
@@ -25,12 +28,17 @@ gitlab_email: "mip.hbp@gmail.com"
 gitlab_email_reply_to: "noreply@chuv.ch"
 gitlab_email_display_name: "Gitlab of MIP HBP"
 
+# How to test smtp configuration:
+# https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/common_installation_problems/README.md#emails-are-not-being-delivered
+
 gitlab_smtp_enable: true
 gitlab_smtp_address: "smtp.gmail.com"
 gitlab_smtp_port: 587
 gitlab_smtp_user_name:
 gitlab_smtp_password:
 gitlab_smtp_domain: "smtp.gmail.com"
+# One of 'login', 'plain', 'none'
+# Use 'none' to disable smtp authentication. gitlab_smtp_user_name and gitlab_smtp_password will not be used
 gitlab_smtp_authentication: "login"
 gitlab_smtp_enable_starttls_auto: true
 gitlab_smtp_tls: false
@@ -38,6 +46,20 @@ gitlab_smtp_openssl_verify_mode: 'peer'
 gitlab_tls: true
 
 gitlab_enable_lfs: true
+
+# How to check that LDAP configuration is correct:
+# sudo gitlab-ctl reconfigure
+# sudo gitlab-rake gitlab:ldap:check RAILS_ENV=production
+
+gitlab_enable_ldap: false
+gitlab_ldap_server_host:
+gitlab_ldap_server_port: 389
+gitlab_ldap_uid: "sAMAccountName"
+gitlab_ldap_root_dn:
+gitlab_ldap_filter:
+gitlab_ldap_bind_dn:
+gitlab_ldap_bind_password:
+gitlab_active_directory: false
 
 gitlab_extra_sign_in_text: |
   |
@@ -49,5 +71,5 @@ gitlab_extra_sign_in_text: |
 #  ![Company Logo](http://www.unil.ch/webdav/site/lren/shared/lren_logo_small.jpg)
 #  [Learn more about LREN](http://www.unil.ch/lren/en/home.html)
 
-# Set the port if gitlab is placed behind a reverse proxy
-#gitlab_ngix_port: 80 
+# Set the port if gitlab is placed behind a reverse proxy -- or in a Docker container as this is the case here
+gitlab_nginx_port: 80
