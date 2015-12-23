@@ -66,10 +66,6 @@
 	path = roles/sbt-extras
 	url = https://github.com/Lykathia/ansible-sbt-extras.git
 	branch = master
-[submodule "roles/nodejs"]
-	path = roles/nodejs
-	url = https://github.com/AnsibleShipyard/ansible-nodejs.git
-	branch = master
 [submodule "roles/nginx"]
 	path = roles/nginx
 	url = https://github.com/jdauphant/ansible-role-nginx
@@ -98,6 +94,9 @@
 [submodule "roles/first-five-minutes"]
 	path = roles/first-five-minutes
 	url = https://github.com/fretscha-ansible/ansible-role-first-five-minutes.git
+[submodule "roles/nodejs"]
+	path = roles/nodejs
+	url = https://github.com/vevmesteren/ansible-role-nodejs.git
 [submodule "roles/firewall"]
 	path = roles/firewall
 	url = https://github.com/HanXHX/ansible-firewall.git
