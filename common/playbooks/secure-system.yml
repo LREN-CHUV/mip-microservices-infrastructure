@@ -1,5 +1,24 @@
 ---
 
+# Secure a managed system
+#
+# Action performed:
+# * First 5 minutes:
+#   * Set the timezone to Europe/Zurich
+#   * Set a long password for root user
+#   * Define a deploy user with a long password for deploy user, add it to sudoers
+#   * Authorise the current local user to ssh to the machine as user 'deploy'
+#   * Setup postfix as relay mail
+#   * Install logwatch to monitor system logs
+#   * (optional) Send a notify email when a user logs in via ssh
+#   * Install fail2ban
+#   * Install ufw firewall
+#   * Disallow root SSH access
+# * Unattended upgrades:
+#   * Setup unattended upgrades
+# * Firewall:
+#   * Configure UFW firewall
+
 - hosts: managed
   become: yes
   vars_files:
