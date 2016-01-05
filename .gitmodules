@@ -99,4 +99,4 @@
 	url = https://github.com/vevmesteren/ansible-role-nodejs.git
 [submodule "roles/firewall"]
 	path = roles/firewall
-	url = https://github.com/HanXHX/ansible-firewall.git
+	url = https://github.com/ludovicc/ansible-firewall.git
