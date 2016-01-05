@@ -70,6 +70,3 @@ gitlab_extra_sign_in_text: |
 #  |
 #  ![Company Logo](http://www.unil.ch/webdav/site/lren/shared/lren_logo_small.jpg)
 #  [Learn more about LREN](http://www.unil.ch/lren/en/home.html)
-
-# Set the port if gitlab is placed behind a reverse proxy -- or in a Docker container as this is the case here
-gitlab_nginx_port: 80
