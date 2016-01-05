@@ -11,10 +11,16 @@ unattended_package_blacklist:
   - zookeeper
 
 unattended_mail: "mip.hbp@gmail.com"
-ffm_logwatch_email: "mip.hbp@gmail.com"
+ffm_logwatch_email: "{{ unattended_mail }}"
 # notify login
 ffm_notify_login: no
 ffm_notify_login_email: ""
 
 # Don't configure unattended upgrades from first-five-minutes role, it's done better by unattended-upgrades role
 ffm_upgrade: 'no'
+
+firewall_use_fail2ban: yes
+firewall_fail2ban_bantime: '36000'
+firewall_fail2ban_maxretry: '3'
+firewall_fail2ban_destemail: "{{ unattended_mail }}"
+firewall_fail2ban_jails: []
