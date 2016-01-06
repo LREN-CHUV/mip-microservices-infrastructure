@@ -39,6 +39,14 @@ nginx_sites:
       root /var/www/html;
       index index.html;
       sub_filter_types text/html;
+      # Let's encrypt challenge
+      location '/.well-known/acme-challenge' {
+          default_type "text/plain";
+          alias {{ acme_tiny_challenges_directory }};
+      }
+      #location / {
+      #    return      301 https://$server_name$request_uri;
+      #}
       location /mesos/ {
           limit_except GET HEAD {
             deny all;
