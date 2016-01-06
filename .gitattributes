@@ -1,0 +1,19 @@
+# Handle line endings automatically for files detected as text
+# and leave all files detected as binary untouched.
+* text=auto
+
+#
+# The above will handle all files NOT found below
+#
+# These files are text and should be normalized (Convert crlf => lf)
+*.gitattributes text
+.gitignore text
+*.txt text
+*.md text
+*.sh text
+*.yml text
+
+secretfile filter=git-crypt diff=git-crypt
+*.key filter=git-crypt diff=git-crypt
+private* filter=git-crypt diff=git-crypt
+*.pem filter=git-crypt diff=git-crypt

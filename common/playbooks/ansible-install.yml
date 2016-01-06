@@ -1,0 +1,17 @@
+---
+
+# Complete the installation of Ansible by installing required software on the local computer
+
+- hosts: localhost
+  become: yes
+
+  tasks:
+
+    # Install git-crypt
+    - name: Add PPA outsideopen/git-crypt for Ubuntu 14.04
+      apt_repository: repo='ppa:outsideopen/git-crypt'
+      when: >
+        (ansible_distribution == "Ubuntu" and ansible_distribution_version | version_compare('15.10', 'lt'))
+
+    - name: "Install git-crypt, required to read protected configuration files in this Ansible project"
+      apt: name=git-crypt state=present

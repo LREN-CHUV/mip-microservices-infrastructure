@@ -12,7 +12,8 @@ get_script_dir () {
      pwd
 }
 
-cd $(get_script_dir)
+ROOT=$(get_script_dir)
+cd $ROOT
 
 [ -x /usr/local/bin/ansible ] || (
 
@@ -24,3 +25,7 @@ cd $(get_script_dir)
 
 [ -x /usr/bin/git ] || sudo apt-get install -y git
 
+[ -x /usr/bin/git-crypt ] || (
+  echo "Please enter the sudo password for this local computer"
+  ansible-playbook --ask-become-pass -i ../../envs/install/etc/ansible ../playbooks/ansible-install.yml
+)

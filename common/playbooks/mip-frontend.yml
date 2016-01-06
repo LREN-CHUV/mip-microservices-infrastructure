@@ -20,6 +20,11 @@
 
     - role: services-index
       tags: ['mip-frontend']
+      when: datacenter != 'federation'
+
+# TODO
+#    - role: portal-frontend
+#      tags: ['mip-frontend']
 
     - role: audit-deployment
       installed_component: mip-frontend

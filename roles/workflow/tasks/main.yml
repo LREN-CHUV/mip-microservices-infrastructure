@@ -62,6 +62,7 @@
     waitTimeout: 600
   async: 600
   poll: 1
+  when: workflow_docker_network == 'BRIDGE'
 
 #      healthChecks:
 #        - protocol: COMMAND
