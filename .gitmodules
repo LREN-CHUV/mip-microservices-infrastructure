@@ -85,9 +85,6 @@
 [submodule "roles/analytics-database/files/db"]
 	path = roles/analytics-database/files/analyticsdb
 	url = https://github.com/LREN-CHUV/analytics-db.git
-[submodule "roles/ssl-certs"]
-	path = roles/ssl-certs
-	url = https://github.com/jdauphant/ansible-role-ssl-certs.git
 [submodule "roles/unattended-upgrades"]
 	path = roles/unattended-upgrades
 	url = https://github.com/jnv/ansible-role-unattended-upgrades.git
@@ -100,3 +97,9 @@
 [submodule "roles/firewall"]
 	path = roles/firewall
 	url = https://github.com/HanXHX/ansible-firewall.git
+[submodule "roles/letsencrypt"]
+	path = roles/letsencrypt
+	url = https://github.com/andreaswolf/ansible-role-letsencrypt.git
+[submodule "roles/docker-compose"]
+	path = roles/docker-compose
+	url = https://github.com/weareinteractive/ansible-docker-compose.git
