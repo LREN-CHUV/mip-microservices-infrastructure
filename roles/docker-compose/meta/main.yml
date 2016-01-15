@@ -1,5 +1,0 @@
----
-
-dependencies:
-  - role: silpion.util
-  - role: docker
