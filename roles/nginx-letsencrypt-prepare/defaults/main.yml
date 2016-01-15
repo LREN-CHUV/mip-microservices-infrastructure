@@ -1,0 +1,5 @@
+---
+
+nginx_setup_ssl_certificate: false
+
+letsencrypt_account_key_path: "$play_dir/keys/var/lib/letsencrypt/account.key"

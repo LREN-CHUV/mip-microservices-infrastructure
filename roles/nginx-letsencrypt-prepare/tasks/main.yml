@@ -1,0 +1,36 @@
+---
+
+- name: Delete secure configuration for nginx
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/nginx/conf.d/ssl.conf
+    - /etc/nginx/sites-enabled/secured.conf
+  when: nginx_setup_ssl_certificate
+
+- name: Check if Nginx service exists
+  stat: path=/etc/init.d/nginx
+  register: _nginx_service_status
+# Add underscore prefix as workaround to Ansible bug: registered variable erased if task not executed
+
+- name: Restart Nginx if it is already installed
+  service: name=nginx state=restarted
+  when: nginx_setup_ssl_certificate and _nginx_service_status.stat.exists
+  ignore_errors: yes
+
+- name: Create directory for certificates
+  file:
+    path: "{{ ssl_certs_path }}"
+    state: directory
+    owner: 'deploy'
+    group: 'deploy'
+    mode: 0770
+  when: nginx_setup_ssl_certificate
+
+# TODO: this should go to letsencrypt role
+#- name: Copy Letsencrypt account key
+#  copy:
+#    src: "{{ letsencrypt_account_key_path }}"
+#    dest: "/var/lib/letsencrypt/account.key"
+#  become: yes

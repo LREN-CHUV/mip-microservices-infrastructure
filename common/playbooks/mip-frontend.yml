@@ -2,18 +2,50 @@
 
 - hosts: mip-frontend
   become: yes
+  vars:
+    nginx_setup_ssl_certificate: false
+    acme_tiny_challenges_directory: '/var/www/letsencrypt'
+
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - ["{{ play_dir }}/vars/{{ datacenter }}-mip-frontend.yml", "{{ play_dir }}/vars/mip-frontend.yml"]
     - "{{ play_dir }}/vars/versions.yml"
+
+  pre_tasks:
+
+    - name: Check if Nginx service exists
+      stat: path=/etc/init.d/nginx
+      register: nginx_service_status
 
   roles:
     - role: php
       tags: ['mip-frontend']
       when: datacenter == 'federation'
 
-    - role: ssl-certs
+    # Quick installation of Nginx to bootstrap Letsencrypt certificate generation
+    - role: nginx
+      nginx_sites:
+        default:
+          - |
+            listen 80;
+            listen [::]:80;
+            server_name _;
+            root /var/www/html;
+            # Let's encrypt challenge
+            location '/.well-known/acme-challenge' {
+                default_type "text/plain";
+                alias {{ acme_tiny_challenges_directory }};
+            }
       tags: ['mip-frontend']
+      when: not nginx_service_status.stat.exists and nginx_setup_ssl_certificate
+
+    - role: nginx-letsencrypt-prepare
+      tags: ['mip-frontend', 'https']
+      when: nginx_service_status.stat.exists and nginx_setup_ssl_certificate
+
+    - role: letsencrypt
+      tags: ['mip-frontend', 'https']
+      when: nginx_service_status.stat.exists and nginx_setup_ssl_certificate
 
     - role: nginx
       tags: ['mip-frontend']
