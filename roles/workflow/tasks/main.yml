@@ -20,7 +20,7 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ workflow_marathon_id }}"
     state: "present"
-    docker_image: "registry.federation.mip.hbp/mip_federation/workflow:{{ workflow_version }}"
+    docker_image: "{{ workflow_docker_image }}"
     docker_forcePullImage: true
     docker_network: HOST
     instances: 1
@@ -41,7 +41,7 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ workflow_marathon_id }}"
     state: "present"
-    docker_image: "registry.federation.mip.hbp/mip_federation/workflow:{{ workflow_version }}"
+    docker_image: "{{ workflow_docker_image }}"
     docker_forcePullImage: true
     docker_network: BRIDGE
     docker_portMappings:
