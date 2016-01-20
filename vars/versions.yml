@@ -11,8 +11,8 @@ docker_registry_version: "2.2.0"
 
 mesos_version: "0.26.0"
 mesos_package_version: "0.2.145"
-marathon_version: "0.13.0"
-marathon_package_version: "1.0.440"
+marathon_version: "0.14.0"
+marathon_package_version: "1.0.450"
 chronos_version: "2.4.0"
 chronos_package_version: "0.1.20151007110204"
 
