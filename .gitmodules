@@ -100,3 +100,6 @@
 [submodule "roles/letsencrypt"]
 	path = roles/letsencrypt
 	url = https://github.com/andreaswolf/ansible-role-letsencrypt.git
+[submodule "roles/docker-compose"]
+	path = roles/docker-compose
+	url = https://github.com/tumf/ansible-role-docker-compose
