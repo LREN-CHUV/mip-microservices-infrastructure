@@ -35,7 +35,7 @@ virtualbox_version: "5.0"
 vagrant_version: "1.7.4"
 
 # Versions of our Docker containers
-workflow_version: "4a15756"
+workflow_version: "7e39f8f"
 
 # IDEs
 sublimetext_build: "3083"
