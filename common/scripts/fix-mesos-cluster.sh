@@ -16,6 +16,9 @@ rm -f /var/log/mesos/*
 # Brute force
 rm -rf /tmp/mesos/ /var/run/mesos/ /var/mesos
 
+# Extreme cases: reset zookeeper
+#rm -rf /var/lib/zookeeper
+
 service zookeeper start
 service mesos-master start
 sleep 5
