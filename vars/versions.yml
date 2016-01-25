@@ -35,9 +35,15 @@ virtualbox_version: "5.0"
 vagrant_version: "1.7.4"
 
 # Versions of our Docker containers
-workflow_version: "7e39f8f"
+workflow_version: "feature.linear-reg"
+workflow_functions:
+  - name: boxplot
+    docker_image: "registry.federation.mip.hbp/mip_node/r-summary-stats:f869d66"
+  - name: linearregression
+    docker_image: "registry.federation.mip.hbp/mip_node/r-linear-regression:f869d66"
 
 # IDEs
 sublimetext_build: "3083"
 intellij_version: "15.0.3"
 yed_version: "3.14.4"
+soapui_version: "5.2.1"

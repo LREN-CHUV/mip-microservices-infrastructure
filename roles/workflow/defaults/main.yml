@@ -34,6 +34,14 @@ internal_chronos_url: http://default:4400
 internal_marathon_url: http://localhost:5080
 
 cluster_role: mip_node
+workflow_role: "{{ cluster_role }}"
 
 # list of name, url values
 workflow_nodes: []
+
+workflow_main_table: adni_merge
+workflow_functions:
+  - name: boxplot
+    docker_image: "registry.federation.mip.hbp/mip_node/r-summary-stats:latest"
+  - name: linearregression
+    docker_image: "registry.federation.mip.hbp/mip_node/r-linear-regression:latest"

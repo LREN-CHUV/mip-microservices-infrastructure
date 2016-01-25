@@ -27,7 +27,7 @@ jobs {
   node = "{{ inventory_hostname }}"
   owner = "admin@mip.chuv.ch"
   chronosServerUrl = "{{ internal_chronos_url }}"
-{% if cluster_role == 'mip_federation' %}  
+{% if workflow_role == 'mip_federation' %}
   federationDb = "federation"
   nodes = {
 {% for node in workflow_nodes %}
@@ -51,7 +51,7 @@ db {
     jdbc_password="{{ analytics_db_password }}"
   }
 
-{% if cluster_role == 'mip_federation' %}
+{% if workflow_role == 'mip_federation' %}
   federation {
     jdbc_driver="{{ federation_db_jdbc_driver }}"
     jdbc_jar_path="{{ federation_db_jdbc_jar }}"
@@ -68,4 +68,24 @@ db {
     jdbc_password="{{ ldsm_db_password }}"
   }
 {% endif %}
+}
+
+defaultSettings {
+  # Default settings for the request service
+  request {
+    nodes = {}
+{% if workflow_role == 'mip_federation' %}
+    inDb = "federationDb"
+{% else %}
+    inDb = "ldsm"
+{% endif %}
+    outDb = "analytics"
+    mainTable = "{{ workflow_main_table }}"
+
+    functions {
+{% for fn in workflow_functions %}
+      {{ fn.name }} = "{{ fn.docker_image }}"
+{% endfor %}
+    }
+  }
 }
