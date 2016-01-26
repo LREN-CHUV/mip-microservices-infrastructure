@@ -1,3 +1,5 @@
 ---
 
 captain_version: 0.5.0
+
+util_persistent_data_path_local: "{{ lookup('env', 'HOME') + '/.ansible/assets' }}"
