@@ -28,6 +28,7 @@ nginx_http_params:
 # https://juliansimioni.com/blog/https-on-nginx-from-zero-to-a-plus-part-1/
 # https://juliansimioni.com/blog/https-on-nginx-from-zero-to-a-plus-part-2-configuration-ciphersuites-and-performance/
 # https://github.com/h5bp/server-configs-nginx
+# https://github.com/lebinh/nginx-conf
 
 # [security] Check that the server name (= inventory_hostname) is an internal DNS address
 
