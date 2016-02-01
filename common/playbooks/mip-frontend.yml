@@ -2,20 +2,44 @@
 
 - hosts: mip-frontend
   become: yes
-  vars:
-    nginx_setup_ssl_certificate: false
-    acme_tiny_challenges_directory: '/var/www/letsencrypt'
 
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - ["{{ play_dir }}/vars/{{ datacenter }}-mip-frontend.yml", "{{ play_dir }}/vars/mip-frontend.yml"]
     - "{{ play_dir }}/vars/versions.yml"
 
+  vars:
+    #nginx_setup_ssl_certificate: false
+    acme_tiny_challenges_directory: '/var/www/letsencrypt'
+
   pre_tasks:
 
     - name: Check if Nginx service exists
       stat: path=/etc/init.d/nginx
       register: nginx_service_status
+
+    - name: Delete secure configuration for nginx
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - /etc/nginx/conf.d/ssl.conf
+        - /etc/nginx/sites-enabled/secured.conf
+      when: nginx_service_status.stat.exists
+
+    - name: Restart Nginx if it is already installed
+      service: name=nginx state=restarted
+      when: nginx_service_status.stat.exists
+      ignore_errors: yes
+
+    - name: Create directory for certificates
+      file:
+        path: "{{ ssl_certs_path }}"
+        state: directory
+        owner: 'deploy'
+        group: 'deploy'
+        mode: 0770
+      when: nginx_setup_ssl_certificate
 
   roles:
     - role: php
@@ -41,20 +65,20 @@
 
     - role: nginx-letsencrypt-prepare
       tags: ['mip-frontend', 'https']
-      when: nginx_service_status.stat.exists and nginx_setup_ssl_certificate
+      when: nginx_setup_ssl_certificate
 
     - role: letsencrypt
       tags: ['mip-frontend', 'https']
-      when: nginx_service_status.stat.exists and nginx_setup_ssl_certificate
+      when: nginx_setup_ssl_certificate
 
     - role: nginx
       tags: ['mip-frontend']
 
     - role: services-index
       tags: ['mip-frontend']
-      when: datacenter != 'federation'
+      when: sites_index is defined or services_index is defined
 
-# TODO
+# TODO - add a role to oversee deployment of our software
 #    - role: portal-frontend
 #      tags: ['mip-frontend']
 

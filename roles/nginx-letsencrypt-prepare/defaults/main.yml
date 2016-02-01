@@ -3,3 +3,6 @@
 nginx_setup_ssl_certificate: false
 
 letsencrypt_account_key_path: "$play_dir/keys/var/lib/letsencrypt/account.key"
+letsencrypt_default_key_owner: 'root'
+letsencrypt_default_key_group: 'root'
+letsencrypt_default_key_permissions: 'u=rw,g=r,o='

@@ -23,14 +23,7 @@
   file:
     path: "{{ ssl_certs_path }}"
     state: directory
-    owner: 'deploy'
-    group: 'deploy'
-    mode: 0770
+    owner: '{{ letsencrypt_default_key_owner }}'
+    group: '{{ letsencrypt_default_key_group }}'
+    mode: '{{ letsencrypt_default_key_permissions }}'
   when: nginx_setup_ssl_certificate
-
-# TODO: this should go to letsencrypt role
-#- name: Copy Letsencrypt account key
-#  copy:
-#    src: "{{ letsencrypt_account_key_path }}"
-#    dest: "/var/lib/letsencrypt/account.key"
-#  become: yes
