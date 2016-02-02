@@ -38,7 +38,7 @@ vagrant_version: "1.7.4"
 workflow_version: "feature.linear-reg"
 workflow_functions:
   - name: boxplot
-    docker_image: "registry.federation.mip.hbp/mip_node/r-summary-stats:f869d66"
+    docker_image: "registry.federation.mip.hbp/mip_node/r-summary-stats:0b81e7d"
   - name: linearregression
     docker_image: "registry.federation.mip.hbp/mip_node/r-linear-regression:f869d66"
 
