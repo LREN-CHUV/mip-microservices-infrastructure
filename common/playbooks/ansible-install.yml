@@ -8,8 +8,8 @@
   tasks:
 
     # Install git-crypt
-    - name: Add PPA outsideopen/git-crypt for Ubuntu 14.04
-      apt_repository: repo='ppa:outsideopen/git-crypt'
+    - name: Add PPA ppa:avacariu/git-crypt for Ubuntu 14.04
+      apt_repository: repo='ppa:avacariu/git-crypt'
       when: >
         (ansible_distribution == "Ubuntu" and ansible_distribution_version | version_compare('15.10', 'lt'))
 
