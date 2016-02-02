@@ -9,6 +9,9 @@ unattended_package_blacklist:
   - marathon
   - chronos
   - zookeeper
+  - linux-generic
+  - linux-headers-generic
+  - linux-image-generic
 
 unattended_mail: "mip.hbp@gmail.com"
 ffm_logwatch_email: "{{ unattended_mail }}"
