@@ -47,8 +47,8 @@
         intervalSeconds: 60
         timeoutSeconds: 20
         maxConsecutiveFailures: 3
-  async: 600
-  poll: 1
+  #async: 600
+  #poll: 1
 
 #    healthChecks:
 #      - protocol: HTTP
