@@ -28,7 +28,7 @@
     mem: 256
     ports: []
     requirePorts: false
-    constraints: [] # TODO: add contraints to assign a specific machine to workflow
+    constraints: [["hostname", "CLUSTER", "{{ workflow_marathon_host }}"]]
     dependencies: []
     executor: ""
     waitTimeout: 600
@@ -56,7 +56,7 @@
     mem: 256
     ports: []
     requirePorts: false
-    constraints: [] # TODO: add contraints to assign a specific machine to workflow
+    constraints: [["hostname", "CLUSTER", "{{ workflow_marathon_host }}"]]
     dependencies: []
     executor: ""
     waitTimeout: 600

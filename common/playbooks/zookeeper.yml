@@ -1,0 +1,16 @@
+---
+
+- hosts: zookeeper
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  roles:
+
+    - role: zookeeper
+      tags: ['mesos']
+
+    - role: audit-deployment
+      installed_component: zookeeper
+      tags: ['mesos', 'container-platforms']

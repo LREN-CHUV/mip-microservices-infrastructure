@@ -11,3 +11,6 @@ postgres_user: postgres
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
+
+# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
+#postgres_marathon_host:

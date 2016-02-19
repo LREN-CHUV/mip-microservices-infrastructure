@@ -32,7 +32,7 @@
     mem: 128
     ports: []
     requirePorts: false
-    constraints: [] # TODO: add contraints to assign a specific machine to Postgres
+    constraints: [["hostname", "CLUSTER", "{{ postgres_marathon_host }}"]]
     dependencies: []
     executor: ""
     waitTimeout: 600

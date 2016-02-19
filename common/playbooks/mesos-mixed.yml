@@ -16,12 +16,6 @@
       tags: ['os-tools', 'container-platforms']
       when: "'docker' not in skipped_roles"
 
-    - role: java
-      tags: ['runtimes']
-
-    - role: zookeeper
-      tags: ['mesos']
-
     - role: mesos
       zookeeper_hostnames: "{{ groups.zookeeper | join(',') }}"
       mesos_mode: "mixed"

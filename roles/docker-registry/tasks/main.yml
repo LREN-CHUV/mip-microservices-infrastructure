@@ -9,6 +9,7 @@
   vars:
     uri: "{{ internal_marathon_url }}"
 
+# Pin Docker registry application to the docker-registry host
 - name: Launch docker-registry using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
@@ -36,7 +37,7 @@
     mem: 128
     ports: []
     requirePorts: false
-    constraints: [] # TODO: add contraints to assign a specific machine to the Docker registry
+    constraints: [["hostname", "CLUSTER", "{{ docker_registry_marathon_host }}"]]
     dependencies: []
     executor: ""
     waitTimeout: 600

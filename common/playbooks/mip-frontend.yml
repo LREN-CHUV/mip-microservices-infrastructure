@@ -66,10 +66,12 @@
     - role: nginx-letsencrypt-prepare
       tags: ['mip-frontend', 'https']
       when: nginx_setup_ssl_certificate
+      tags: letsencrypt
 
     - role: letsencrypt
       tags: ['mip-frontend', 'https']
       when: nginx_setup_ssl_certificate
+      tags: letsencrypt
 
     - role: nginx
       tags: ['mip-frontend']

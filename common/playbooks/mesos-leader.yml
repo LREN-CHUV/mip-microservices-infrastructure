@@ -12,12 +12,6 @@
 
   roles:
 
-    - role: java
-      tags: ['runtimes']
-
-    - role: zookeeper
-      tags: ['mesos']
-
     - role: mesos
       mesos_zk_dns: "{{ groups.zookeeper | join(',') }}"
       mesos_mode: "leader"

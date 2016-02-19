@@ -2,6 +2,8 @@
 
 - include: base-system.yml
 
+- include: zookeeper.yml
+
 - include: mesos-leader.yml
 
 - include: mesos-mixed.yml

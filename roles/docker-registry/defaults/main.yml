@@ -9,3 +9,6 @@ docker_registry_certificate_path: /etc/docker/certs.d/registry.federation.mip.hb
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
+
+# Attach the Docker registry application to a particular host. The hostname should be the name known by Marathon / Mesos
+#docker_registry_marathon_host:

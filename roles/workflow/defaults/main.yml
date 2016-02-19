@@ -39,6 +39,8 @@ workflow_role: "{{ cluster_role }}"
 # list of name, url values
 workflow_nodes: []
 
+# Attach the workflow application to a particular host. The hostname should be the name known by Marathon / Mesos
+#workflow_marathon_host:
 workflow_main_table: adni_merge
 workflow_functions:
   - name: boxplot
