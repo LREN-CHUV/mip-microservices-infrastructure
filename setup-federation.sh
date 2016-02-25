@@ -7,5 +7,5 @@ REMOTE_USER=$USER
 ansible-playbook --ask-become-pass -i envs/$DATACENTER/etc/ansible/ \
         -e play_dir=$(pwd) \
         -e docker_registry_config_orig_dir=$(pwd)/envs/federation \
-        -e datacenter=$DATACENTER \
+        -e datacenter=$DATACENTER $@ \
         install.yml

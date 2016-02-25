@@ -1,0 +1,8 @@
+---
+
+portal_db_port: 31433
+portal_db_host: localhost
+portal_db_admin_user: postgres
+# TO FILL - portal_db_admin_password:
+
+portal_db_setup_dir: /opt/portal-database/migration

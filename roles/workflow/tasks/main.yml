@@ -1,7 +1,7 @@
 ---
 
 # Default user in Docker appears as user 999 outside
-- name: Create  directory
+- name: Create directory
   file: state=directory path={{ workflow_config_dir }} mode=0700 owner=999 group=999
   become: True
 
@@ -23,15 +23,27 @@
     docker_image: "{{ workflow_docker_image }}"
     docker_forcePullImage: true
     docker_network: HOST
+    container_volumes:
+      - containerPath: "/opt/workflow/config"
+        hostPath: "{{ workflow_config_dir }}"
+        mode: RW
     instances: 1
-    cpus: 0.2
-    mem: 256
+    cpus: 0.5
+    mem: 512
     ports: []
     requirePorts: false
     constraints: [["hostname", "CLUSTER", "{{ workflow_marathon_host }}"]]
     dependencies: []
     executor: ""
     waitTimeout: 600
+    healthChecks:
+      - protocol: HTTP
+        port: "{{ workflow_port }}"
+        path: "/"
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
   async: 600
   poll: 1
   when: workflow_docker_network == 'HOST'
@@ -52,14 +64,22 @@
         hostPath: "{{ workflow_config_dir }}"
         mode: RW
     instances: 1
-    cpus: 0.2
-    mem: 256
+    cpus: 0.5
+    mem: 512
     ports: []
     requirePorts: false
     constraints: [["hostname", "CLUSTER", "{{ workflow_marathon_host }}"]]
     dependencies: []
     executor: ""
     waitTimeout: 600
+    healthChecks:
+      - protocol: HTTP
+        port: "{{ workflow_port }}"
+        path: "/"
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
   async: 600
   poll: 1
   when: workflow_docker_network == 'BRIDGE'

@@ -103,6 +103,6 @@
 [submodule "roles/docker-compose"]
 	path = roles/docker-compose
 	url = https://github.com/tumf/ansible-role-docker-compose
-[submodule "roles/supervisord"]
-	path = roles/supervisord
-	url = https://github.com/zenoamaro/ansible-supervisord.git
+[submodule "roles/portal-database/files/portaldb"]
+	path = roles/portal-database/files/portaldb
+	url = git@gitlab.intranet.chuv:mip-portal/portal-db.git

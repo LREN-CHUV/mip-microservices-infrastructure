@@ -1,0 +1,23 @@
+---
+
+- hosts: portal-db
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  roles:
+
+    # Pin portal database to the portal_db host
+    - role: postgres
+      postgres_marathon_id: /portaldb
+      postgres_marathon_host: "{{ portal_db_marathon_host }}"
+      postgres_data_dir: /srv/docker/portaldb/data
+      postgres_port: "{{ portal_db_port }}"
+      postgres_user: "{{ portal_db_admin_user }}"
+      postgres_password: "{{ portal_db_admin_password }}"
+      tags: ['database', 'portal', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: portal-database-server
+      tags: ['database', 'portal', 'marathon-app']

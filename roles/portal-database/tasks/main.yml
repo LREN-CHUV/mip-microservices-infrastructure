@@ -1,0 +1,50 @@
+---
+
+- name: Install Python psycopg2 module
+  apt: name=python-psycopg2 state=present
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ portal_db_host }}"
+
+- name: Wait for the database to be up and running
+  wait_for: >
+    port="{{ portal_db_port }}"
+    delay=5
+  delegate_to: "{{ portal_db_host }}"
+
+- name: Create a new database with name "portal"
+  postgresql_db:
+    name: portal
+    port: "{{ portal_db_port }}"
+    login_host: "{{ portal_db_host }}"
+    login_user: "{{ portal_db_admin_user }}"
+    login_password: "{{ portal_db_admin_password }}"
+    state: present
+  delegate_to: "{{ portal_db_host }}"
+
+- name: Create portal user
+  postgresql_user:
+    login_host: "{{ portal_db_host }}"
+    login_user: "{{ portal_db_admin_user }}"
+    login_password: "{{ portal_db_admin_password }}"
+    db: portal
+    port: "{{ portal_db_port }}"
+    name: "{{ portal_db_user }}"
+    password: "{{ portal_db_password }}"
+    role_attr_flags: "SUPERUSER"
+  delegate_to: "{{ portal_db_host }}"
+
+- name: Create setup dir
+  file: 
+    state: directory
+    path: "{{portal_db_setup_dir}}"
+
+- name: Copy sql creation scripts
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{portal_db_setup_dir}}/{{ item.dest }}"
+  with_items:
+   - src: "portaldb/sql/create.sql"
+     dest: "V1_0__initial_schema.sql"
+
+- name: Run Flyway migration
+  command: "flyway -url={{portal_db_jdbc_url}} -user={{ portal_db_user }} -password={{ portal_db_password }} -locations=filesystem:{{portal_db_setup_dir}} migrate"

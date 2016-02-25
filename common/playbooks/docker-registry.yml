@@ -9,8 +9,8 @@
   roles:
 
     - role: docker-registry
-      tags: ['os-tools', 'container-platforms', 'docker-registry']
+      tags: ['os-tools', 'container-platforms', 'docker-registry', 'marathon-app']
 
     - role: audit-deployment
       installed_component: docker-registry
-      tags: ['os-tools', 'container-platforms', 'docker-registry']
+      tags: ['os-tools', 'container-platforms', 'docker-registry', 'marathon-app']

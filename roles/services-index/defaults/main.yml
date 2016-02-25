@@ -2,3 +2,5 @@
 
 sites_index: []
 services_index: []
+
+services_index_dir: '/var/www/html/'

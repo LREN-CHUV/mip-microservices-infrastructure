@@ -1,0 +1,41 @@
+---
+
+denodo_marathon_id: /denodo
+
+denodo_dir: /home/mip/denodo-5.5
+denodo_user: mip
+denodo_group: mip
+denodo_user_id: 1003
+
+denodo_version: latest
+
+# Web container
+denodo_web_port: 9090
+# JDBC/RMI
+denodo_jdcb_port: 9999
+# Aux port
+denodo_aux_port: 9997
+# ODBC
+denodo_odbc_port: 9996
+
+denodo_vdb_configuration_file: "VDBConfiguration.properties"
+denodo_launcher_classpath: "{{ denodo_dir }}/lib/denodo-launcher-util.jar"
+denodo_ld_library_path: "{{ denodo_dir }}/bin:/home/mip/denodo-5.5/dll/db"
+
+denodo_cmd: >
+  $JAVA_BIN -mx6144m -XX:MaxPermSize=1024m -XX:NewRatio=4  $DENODO4E_DEBUG_CONF -DDENODO_APP="Denodo VDP Server 5.5" \
+             -classpath "$DENODO_LAUNCHER_CLASSPATH" \
+             -DconfFile=$VDB_CONFIGURATION_FILE \
+             -Ddenodo.rmi.server.hostname.default \
+             -Djavax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom=org.apache.xpath.jaxp.XPathFactoryImpl \
+             -Djavax.xml.transform.TransformerFactory=org.apache.xalan.processor.TransformerFactoryImpl \
+             -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl \
+             -D"com.microsoft.tfs.jni.native.base-directory={{ denodo_dir }}/dll/vdp/tfs-11.0.0" \
+             -DverboseMode=false \
+             -Ddenodo.launcher.excluded.jars="windows" \
+             -Ddenodo.launcher.config="{{ denodo_dir }}/conf/vdp/startup.ini" \
+             -classpath "{{ denodo_dir }}/lib/denodo-launcher-util.jar" \
+             com.denodo.util.launcher.JarLauncher
+
+# Attach the Denodo application to a particular host. The hostname should be the name known by Marathon / Mesos
+#denodo_marathon_host:

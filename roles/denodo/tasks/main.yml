@@ -1,3 +1,62 @@
 ---
 
-# sudo update-rc.d hugo-sp8-documentation defaults
+- name: Create user for Denodo
+  user: name={{ denodo_user }} group={{ denodo_group }} uid={{ denodo_user_id }}
+
+- name: Create directory
+  file: state=directory path={{ denodo_dir }} mode=0770 owner={{ denodo_user }} group={{ denodo_group }}
+  become: True
+
+# Read java_home from local Ansible facts
+- name: Re-read local facts
+  setup:
+    filter=ansible_local
+  when: java_home is not defined
+
+- name: Set JAVA_HOME ansible fact
+  set_fact:
+    java_home={{ ansible_local.java.general.java_home }}
+  when: java_home is not defined
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Launch Denodo using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ denodo_marathon_id }}"
+    state: "present"
+    cmd: "cd {{ denodo_dir }}/bin; {{ denodo_cmd }}"
+    env:
+      JAVA_HOME: "{{ java_home }}"
+      JAVA_BIN: "{{ java_home }}/jre/bin/java"
+      VDB_CONFIGURATION_FILE: "{{ denodo_vdb_configuration_file }}"
+      DENODO_LAUNCHER_CLASSPATH: "{{ denodo_launcher_classpath }}"
+      LD_LIBRARY_PATH: "{{ denodo_ld_library_path }}"
+    instances: 1
+    cpus: 1.0
+    mem: 2048
+    ports: []
+    requirePorts: false
+    constraints: [["hostname", "CLUSTER", "{{ denodo_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    user: "{{ denodo_user }}"
+    waitTimeout: 600
+    healthChecks:
+      - protocol: TCP
+        port: 9090
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
+      - protocol: TCP
+        port: 9999
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
+  async: 600
+  poll: 1

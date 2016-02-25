@@ -3,13 +3,16 @@
 - name: Prepare copy directory
   file: path=/tmp/base-site state=directory owner=www-data group=www-data mode=0777
 
+- name: Create directory for services index files
+  file: path={{ services_index_dir }} state=directory owner=www-data group=www-data mode=0775
+
 - name: Copy site files into remote tmp directory
   synchronize: src="{{ play_dir }}/roles/services-index/files/base-site/" dest=/tmp/base-site/ archive=no recursive=yes
   become: False
 
 - name: Synchronize site files from tmp directory to serving directory
-  command: rsync -av --chown=www-data:www-data /tmp/base-site/ /var/www/html/
+  command: rsync -av --chown=www-data:www-data /tmp/base-site/ {{ services_index_dir }}/
   become: True
 
 - name: Define the sites and services
-  template: src=home.js.j2 dest=/var/www/html/scripts/controllers/home.js
+  template: src=home.js.j2 dest={{ services_index_dir }}/scripts/controllers/home.js

@@ -6,7 +6,7 @@ workflow_config_dir: /srv/docker/workflow/config
 
 workflow_port: 31087
 workflow_docker_network: BRIDGE
-workflow_docker_image_basename: registry.federation.mip.hbp/mip_apps/workflow
+workflow_docker_image_basename: hbpmip/workflow
 workflow_docker_image: "{{ workflow_docker_image_basename }}:{{ workflow_version }}"
 
 workflow_version: latest
@@ -44,6 +44,6 @@ workflow_nodes: []
 workflow_main_table: adni_merge
 workflow_functions:
   - name: boxplot
-    docker_image: "registry.federation.mip.hbp/mip_node/r-summary-stats:latest"
+    docker_image: "hbpmip/r-summary-stats:latest"
   - name: linearregression
-    docker_image: "registry.federation.mip.hbp/mip_node/r-linear-regression:latest"
+    docker_image: "hbpmip/r-linear-regression:latest"

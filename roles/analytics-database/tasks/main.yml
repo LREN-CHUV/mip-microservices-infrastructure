@@ -3,6 +3,7 @@
 - name: Install Python psycopg2 module
   apt: name=python-psycopg2 state=present
   when: ansible_os_family == 'Debian'
+  delegate_to: "{{ analytics_db_host }}"
 
 - name: Wait for the database to be up and running
   wait_for: >

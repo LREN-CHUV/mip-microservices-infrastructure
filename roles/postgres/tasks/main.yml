@@ -2,7 +2,11 @@
 
 # Postgres user in Docker appears as user 999 outside
 - name: Create Postgres storage directory
-  file: state=directory path={{ postgres_data_dir }} mode=0700 owner=999 group=999
+  file: state=directory path={{ postgres_data_dir }} mode=0700 owner={{ postgres_docker_user }} group={{ postgres_docker_user }}
+
+#- name: Collect the uid of the user
+#  command: id -u {{ postgres_docker_user }}
+#  register: postgres_docker_user_uid
 
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
@@ -36,15 +40,17 @@
     dependencies: []
     executor: ""
     waitTimeout: 600
+    healthChecks:
+      - protocol: COMMAND
+        command:
+          value: "/usr/lib/postgresql/9.4/bin/pg_isready"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
   async: 600
   poll: 1
 
-# TODO: Not working with Mesos 0.25.0
-#      healthChecks:
-#        - protocol: COMMAND
-#          command:
-#          value: "/usr/lib/postgresql/9.4/bin/pg_isready"
-#        gracePeriodSeconds: 300
-#          intervalSeconds: 20
-#          timeoutSeconds: 10
-#        maxConsecutiveFailures: 5
+#    docker_parameters:
+#      - { key: "user", value: "{{ postgres_docker_user_uid.stdout }}" }
+

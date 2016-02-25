@@ -5,4 +5,4 @@ dependencies:
     tags: ['runtimes']
 
   - role: flyway
-    flyway_config: '{{ analyticsdb_flyway_config }}'
+    flyway_config: '{{ portaldb_flyway_config }}'

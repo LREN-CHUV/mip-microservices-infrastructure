@@ -18,7 +18,13 @@
 
 - include: analytics-database.yml
 
+- include: denodo.yml
+
 - include: workflow.yml
+
+- include: portal-database.yml
+
+- include: portal-middleware.yml
 
 - include: mip-frontend.yml
 

@@ -1,5 +1,4 @@
 ---
-
 - hosts: install
   become: yes
   vars_files:
@@ -9,15 +8,15 @@
   pre_tasks:
     - name: Install curl
       apt: name=curl state=present
-      tags: ['database', 'analytics', 'marathon-app']
+      tags: ['denodo', 'federation', 'marathon-app']
 
   roles:
 
-    - role: analytics-database
-      tags: ['database', 'analytics', 'marathon-app']
-    # Audit-deployment delegated to the database host
+    - role: denodo
+      tags: ['denodo', 'federation', 'marathon-app']
+    # Audit-deployment delegated to the denodo host
 
-- hosts: analytics-db
+- hosts: denodo
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
@@ -26,5 +25,5 @@
   roles:
 
     - role: audit-deployment
-      installed_component: analytics-database-content
-      tags: ['database', 'analytics', 'marathon-app']
+      installed_component: federation-denodo
+      tags: ['denodo', 'federation', 'marathon-app']

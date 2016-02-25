@@ -15,6 +15,7 @@ rm -f /var/log/mesos/*
 
 # Brute force
 rm -rf /tmp/mesos/ /var/run/mesos/ /var/mesos
+rm -rf /var/lib/mesos/replicated_log/*
 
 # Extreme cases: reset zookeeper
 #rm -rf /var/lib/zookeeper/*

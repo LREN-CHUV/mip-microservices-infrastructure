@@ -1,7 +1,9 @@
 ---
 
+# TODO: merge function_images with workflow_functions
+
 function_images:
-  - name: registry.federation.mip.hbp/mip_node/r-summary-stats
-    tag: 3524bac
-  - name: registry.federation.mip.hbp/mip_federation/r-summary-stats
-    tag: 3524bac
+  - name: hbpmip/r-linear-regression
+    tag: e8d25c1
+  - name: hbpmip/r-summary-stats
+    tag: 50bcd11

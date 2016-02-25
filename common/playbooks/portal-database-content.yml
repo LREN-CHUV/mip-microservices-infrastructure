@@ -9,15 +9,15 @@
   pre_tasks:
     - name: Install curl
       apt: name=curl state=present
-      tags: ['database', 'analytics', 'marathon-app']
+      tags: ['database', 'portal', 'marathon-app']
 
   roles:
 
-    - role: analytics-database
-      tags: ['database', 'analytics', 'marathon-app']
+    - role: portal-database
+      tags: ['database', 'portal', 'marathon-app']
     # Audit-deployment delegated to the database host
 
-- hosts: analytics-db
+- hosts: portal-db
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
@@ -26,5 +26,5 @@
   roles:
 
     - role: audit-deployment
-      installed_component: analytics-database-content
-      tags: ['database', 'analytics', 'marathon-app']
+      installed_component: portal-database-content
+      tags: ['database', 'portal', 'marathon-app']

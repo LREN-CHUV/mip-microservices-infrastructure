@@ -11,13 +11,13 @@
     # Pin analytics database to the analytics_db host
     - role: postgres
       postgres_marathon_id: /analyticsdb
+      postgres_marathon_host: "{{ analytics_db_marathon_host }}"
       postgres_data_dir: /srv/docker/analyticsdb/data
       postgres_port: "{{ analytics_db_port }}"
       postgres_user: "{{ analytics_db_admin_user }}"
       postgres_password: "{{ analytics_db_admin_password }}"
-      postgres_marathon_host: "{{ analytics_db_marathon_host }}"
-      tags: ['database', 'analytics']
+      tags: ['database', 'analytics', 'marathon-app']
 
     - role: audit-deployment
       installed_component: analytics-database-server
-      tags: ['database', 'analytics']
+      tags: ['database', 'analytics', 'marathon-app']
