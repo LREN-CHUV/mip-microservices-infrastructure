@@ -44,6 +44,6 @@ workflow_functions:
 
 # IDEs
 sublimetext_build: "3083"
-intellij_version: "15.0.3"
+intellij_version: "15.0.4"
 yed_version: "3.14.4"
 soapui_version: "5.2.1"
