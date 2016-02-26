@@ -43,8 +43,8 @@
 
   roles:
     - role: php
-      tags: ['mip-frontend']
       when: datacenter == 'federation'
+      tags: ['mip-frontend']
 
     # Quick installation of Nginx to bootstrap Letsencrypt certificate generation
     - role: nginx
@@ -60,25 +60,23 @@
                 default_type "text/plain";
                 alias {{ acme_tiny_challenges_directory }};
             }
-      tags: ['mip-frontend']
       when: not nginx_service_status.stat.exists and nginx_setup_ssl_certificate
+      tags: ['mip-frontend', 'https', 'letsencrypt']
 
     - role: nginx-letsencrypt-prepare
-      tags: ['mip-frontend', 'https']
       when: nginx_setup_ssl_certificate
-      tags: letsencrypt
+      tags: ['mip-frontend', 'https', 'letsencrypt']
 
     - role: letsencrypt
-      tags: ['mip-frontend', 'https']
       when: nginx_setup_ssl_certificate
-      tags: letsencrypt
+      tags: ['mip-frontend', 'https', 'letsencrypt']
 
     - role: nginx
       tags: ['mip-frontend']
 
     - role: services-index
-      tags: ['mip-frontend']
       when: sites_index is defined or services_index is defined
+      tags: ['mip-frontend']
 
 # TODO - add a role to oversee deployment of our software
 #    - role: portal-frontend
