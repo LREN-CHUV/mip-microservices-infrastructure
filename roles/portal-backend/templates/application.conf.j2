@@ -5,11 +5,7 @@ connection:
 
 security:
   enabled: {{ portal_backend_security_enabled }}
-  oauth2:
-    client:
-      pre-established-redirect-uri: "{{ portal_backend_security_pre_established_redirect_uri }}"
-      registered-redirect-uri: "{{ portal_backend_security_registered_redirect_uri }}"
-      use-current-uri: {{ portal_backend_security_use_current_uri }}
+
 hbp:
   client:
     clientId: "{{ portal_backend_hbp_clientId }}"
@@ -19,6 +15,8 @@ hbp:
     tokenName: oauth_token
     authenticationScheme: query
     clientAuthenticationScheme: form
+    use-current-uri: "{{ portal_backend_hbp_use_current_uri }}"
+    pre-established-redirect-uri: "{{ portal_backend_hbp_pre_established_redirect_uri }}"
   resource:
     userInfoUri: "{{ portal_backend_hbp_userInfoUri }}"
 
