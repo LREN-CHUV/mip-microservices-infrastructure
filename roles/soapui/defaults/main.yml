@@ -22,3 +22,5 @@ soapui_bin_directory: "{{ soapui_home_directory }}/bin"
 soapui_bin_archive: soapui-{{ soapui_version }}.jar
 soapui_icon_path: com/eviware/soapui/resources/images
 soapui_icon_file: favicon.png
+
+util_persistent_data_path_local: "{{ lookup('env', 'HOME') + '/.ansible/assets' }}"

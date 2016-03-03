@@ -1,6 +1,6 @@
 [submodule "roles/java"]
 	path = roles/java
-	url = https://github.com/ludovicc/ansible-java.git
+	url = https://github.com/silpion/ansible-java.git
 	branch = master
 [submodule "roles/marathon"]
 	path = roles/marathon
@@ -20,7 +20,7 @@
 	branch = master
 [submodule "roles/silpion.util"]
 	path = roles/silpion.util
-	url = https://github.com/ludovicc/ansible-util.git
+	url = https://github.com/silpion/ansible-util.git
 	branch = master
 [submodule "roles/zookeeper"]
 	path = roles/zookeeper
@@ -106,3 +106,6 @@
 [submodule "roles/portal-database/files/portaldb"]
 	path = roles/portal-database/files/portaldb
 	url = git@gitlab.intranet.chuv:mip-portal/portal-db.git
+[submodule "roles/silpion.lib"]
+	path = roles/silpion.lib
+	url = https://github.com/silpion/ansible-lib.git

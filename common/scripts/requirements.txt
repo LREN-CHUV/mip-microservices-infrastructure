@@ -1,4 +1,4 @@
-ansible>=1.9.4,<2.0
+ansible>=2.0.1
 pytest==2.7.1
 PyYAML==3.11
 

@@ -1,7 +1,7 @@
 ---
 
 dependencies:
-  - docker
+  #- docker
   - role: dummy-hosts
     dummy_dns_items:
       - ip: "{{ docker_registry_ip }}"

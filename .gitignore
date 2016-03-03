@@ -1,4 +1,5 @@
 *~
 .vagrant/
 tmp/
+RUNNING_PID
 *.retry

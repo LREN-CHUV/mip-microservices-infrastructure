@@ -9,14 +9,16 @@
 
 - name: download the latest version of SoapUI
   uri: url={{ soapui_url }}
-       dest=~/{{ soapui_file }}
-       creates=~/{{ soapui_file }}
+       timeout=30
+       dest={{ util_persistent_data_path_local }}/{{ soapui_file }}
+       creates={{ util_persistent_data_path_local }}/{{ soapui_file }}
+  become: false
   tags:
     - soapui
 
 - name: untar the SoapUI archive
   unarchive: copy=no
-             src=~/{{ soapui_file }}
+             src={{ util_persistent_data_path_local }}/{{ soapui_file }}
              dest={{ soapui_installation_directory }}
              creates={{ soapui_home_directory }}
   register: unarchive_result
