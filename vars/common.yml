@@ -5,6 +5,7 @@ skipped_roles: []
 
 # Blacklist the packages that cannot be automalically upgraded, either because we keep a close track of their version, or because of another reason.
 unattended_package_blacklist:
+  - docker
   - mesos
   - marathon
   - chronos
@@ -27,3 +28,6 @@ firewall_fail2ban_bantime: '36000'
 firewall_fail2ban_maxretry: '3'
 firewall_fail2ban_destemail: "{{ unattended_mail }}"
 firewall_fail2ban_jails: []
+
+analytics_db_marathon_id: "/analyticsdb"
+portal_db_marathon_id: "/portaldb"

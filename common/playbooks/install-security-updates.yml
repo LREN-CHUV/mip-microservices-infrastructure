@@ -1,0 +1,15 @@
+---
+
+#
+# This will update and install only the security updates
+#
+
+- hosts: managed
+  become: yes
+
+  tasks:
+  - name: Update cache
+    apt: update_cache=yes
+
+  - name: Install security updates
+    apt: upgrade=safe

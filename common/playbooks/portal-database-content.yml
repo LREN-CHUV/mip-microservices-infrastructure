@@ -9,12 +9,12 @@
   pre_tasks:
     - name: Install curl
       apt: name=curl state=present
-      tags: ['database', 'portal', 'marathon-app']
+      tags: ['portal-database', 'database', 'portal', 'marathon-app']
 
   roles:
 
     - role: portal-database
-      tags: ['database', 'portal', 'marathon-app']
+      tags: ['portal-database', 'database', 'portal', 'marathon-app']
     # Audit-deployment delegated to the database host
 
 - hosts: portal-db
@@ -27,4 +27,4 @@
 
     - role: audit-deployment
       installed_component: portal-database-content
-      tags: ['database', 'portal', 'marathon-app']
+      tags: ['portal-database', 'database', 'portal', 'marathon-app']

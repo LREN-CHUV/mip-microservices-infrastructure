@@ -9,12 +9,12 @@
   pre_tasks:
     - name: Install curl
       apt: name=curl state=present
-      tags: ['database', 'analytics', 'marathon-app']
+      tags: ['analytics-database', 'database', 'analytics', 'marathon-app']
 
   roles:
 
     - role: analytics-database
-      tags: ['database', 'analytics', 'marathon-app']
+      tags: ['analytics-database', 'database', 'analytics', 'marathon-app']
     # Audit-deployment delegated to the database host
 
 - hosts: analytics-db
@@ -27,4 +27,4 @@
 
     - role: audit-deployment
       installed_component: analytics-database-content
-      tags: ['database', 'analytics', 'marathon-app']
+      tags: ['analytics-database', 'database', 'analytics', 'marathon-app']

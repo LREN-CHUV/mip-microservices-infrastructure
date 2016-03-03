@@ -24,7 +24,7 @@
 
 - include: portal-database.yml
 
-- include: portal-middleware.yml
+- include: portal-backend.yml
 
 - include: mip-frontend.yml
 

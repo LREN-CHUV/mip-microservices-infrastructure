@@ -1,0 +1,60 @@
+---
+
+- name: Create user for Portal backend
+  user: name={{ portal_backend_user }} group={{ portal_backend_group }}
+
+- name: Create directory
+  file: state=directory path={{ portal_backend_config_dir }} mode=0700 owner={{ portal_backend_user }} group={{ portal_backend_group }}
+  become: True
+
+- name: Setup configuration for the portal_backend application
+  template: src=application.conf.j2 dest={{ portal_backend_config_dir }}/application.conf mode=0700 owner={{ portal_backend_user }} group={{ portal_backend_group }}
+  become: True
+
+# Read java_home from local Ansible facts
+- name: Re-read local facts
+  setup:
+    filter=ansible_local
+  when: java_home is not defined
+
+- name: Set JAVA_HOME ansible fact
+  set_fact:
+    java_home={{ ansible_local.java.general.java_home }}
+  when: java_home is not defined
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+# /home/mip/jdk1.8.0_40/bin/java -jar backend-services-0.0.1-SNAPSHOT.jar --spring.config.location=/home/mip/backend/config/application.yml
+
+- name: Launch Portal backend using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ portal_backend_marathon_id }}"
+    state: "present"
+    cmd: "cd {{ portal_backend_dir }}; {{ java_home }}/jre/bin/java -jar {{ portal_backend_jar }} --spring.config.location={{ portal_backend_config_dir }}/application.yml"
+    env:
+      JAVA_HOME: "{{ java_home }}"
+      JAVA_BIN: "{{ java_home }}/jre/bin/java"
+    instances: 1
+    cpus: 1.0
+    mem: 2048
+    ports: []
+    requirePorts: false
+    constraints: [["hostname", "CLUSTER", "{{ portal_backend_marathon_host }}"]]
+    dependencies: ["{{ portal_db_marathon_id }}"]
+    executor: ""
+    user: "{{ portal_backend_user }}"
+    waitTimeout: 600
+    healthChecks:
+      - protocol: HTTP
+        port: '{{ portal_backend_port }}'
+        path: '{{ portal_backend_contextPath }}/login/hbp'
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
+  async: 600
+  poll: 1
