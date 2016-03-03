@@ -18,7 +18,7 @@ cd $ROOT
 [ -x /usr/local/bin/ansible ] || (
 
   # Install Ansible
-  sudo apt-get install -y git python-setuptools python-yaml python-jinja2 python-paramiko python-keyczar
+  sudo apt-get install -y git libyaml-dev python-setuptools python-yaml python-jinja2 python-paramiko python-keyczar
   sudo -H easy_install pip
   sudo -H pip install -r requirements.txt
 )
