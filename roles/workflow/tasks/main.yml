@@ -14,8 +14,14 @@
   vars:
     uri: "{{ internal_marathon_url }}"
 
+- name: Delete old workflow app using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ workflow_marathon_id }}"
+    state: "absent"
+
 # Host networking is required on Federation to be able to use Denodo JDBC over RMI driver
-- name: Launch workflow using Marathon
+- name: Launch workflow app using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ workflow_marathon_id }}"

@@ -29,6 +29,12 @@
 
 # /home/mip/jdk1.8.0_40/bin/java -jar backend-services-0.0.1-SNAPSHOT.jar --spring.config.location=/home/mip/backend/config/application.yml
 
+- name: Remove old Portal backend using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ portal_backend_marathon_id }}"
+    state: "absent"
+
 - name: Launch Portal backend using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"

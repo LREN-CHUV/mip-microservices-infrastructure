@@ -23,6 +23,12 @@
   vars:
     uri: "{{ internal_marathon_url }}"
 
+- name: Remove old Denodo using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ denodo_marathon_id }}"
+    state: "absent"
+
 - name: Launch Denodo using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
