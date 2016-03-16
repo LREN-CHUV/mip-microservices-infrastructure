@@ -1,6 +1,6 @@
 [submodule "roles/java"]
 	path = roles/java
-	url = https://github.com/silpion/ansible-java.git
+	url = https://github.com/ludovicc/ansible-java.git
 	branch = master
 [submodule "roles/marathon"]
 	path = roles/marathon
