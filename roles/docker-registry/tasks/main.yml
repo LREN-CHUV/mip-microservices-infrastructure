@@ -9,6 +9,15 @@
   vars:
     uri: "{{ internal_marathon_url }}"
 
+- name: Remove old docker-registry using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ docker_registry_marathon_id }}"
+    state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
+
 # Pin Docker registry application to the docker-registry host
 - name: Launch docker-registry using Marathon
   marathon_app:

@@ -19,6 +19,9 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ workflow_marathon_id }}"
     state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
 
 # Host networking is required on Federation to be able to use Denodo JDBC over RMI driver
 - name: Launch workflow app using Marathon

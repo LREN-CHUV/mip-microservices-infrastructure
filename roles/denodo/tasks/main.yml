@@ -28,6 +28,9 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ denodo_marathon_id }}"
     state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
 
 - name: Launch Denodo using Marathon
   marathon_app:
