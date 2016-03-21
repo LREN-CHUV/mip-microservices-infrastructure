@@ -38,11 +38,11 @@ vagrant_version: "1.8.1"
 workflow_version: "9b24905"
 workflow_functions:
   - name: boxplot
-    docker_image: "hbpmip/r-summary-stats:888873c"
+    docker_image: "hbpmip/r-summary-stats:e0aad40"
   - name: summarystatistics
-    docker_image: "hbpmip/r-summary-stats:888873c"
+    docker_image: "hbpmip/r-summary-stats:e0aad40"
   - name: linearregression
-    docker_image: "hbpmip/r-linear-regression:888873c"
+    docker_image: "hbpmip/r-linear-regression:e0aad40"
 
 # IDEs
 sublimetext_build: "3103"
