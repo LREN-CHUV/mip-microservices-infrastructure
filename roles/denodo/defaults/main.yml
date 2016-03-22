@@ -22,8 +22,12 @@ denodo_vdb_configuration_file: "VDBConfiguration.properties"
 denodo_launcher_classpath: "{{ denodo_dir }}/lib/denodo-launcher-util.jar"
 denodo_ld_library_path: "{{ denodo_dir }}/bin:/home/mip/denodo-5.5/dll/db"
 
+denodo_jre: '{{ denodo_dir }}/jre/'
+
+denodo_jvm_args: '-mx6144m -XX:MaxPermSize=1024m -XX:NewRatio=4'
+
 denodo_cmd: >
-  $JAVA_BIN -mx6144m -XX:MaxPermSize=1024m -XX:NewRatio=4  $DENODO4E_DEBUG_CONF -DDENODO_APP="Denodo VDP Server 5.5" \
+  $JAVA_BIN {{ denodo_jvm_args }} $DENODO4E_DEBUG_CONF -DDENODO_APP="Denodo VDP Server 5.5" \
              -classpath "$DENODO_LAUNCHER_CLASSPATH" \
              -DconfFile=$VDB_CONFIGURATION_FILE \
              -Ddenodo.rmi.server.hostname.default \

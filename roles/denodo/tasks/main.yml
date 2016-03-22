@@ -39,8 +39,8 @@
     state: "present"
     cmd: "cd {{ denodo_dir }}/bin; {{ denodo_cmd }}"
     env:
-      JAVA_HOME: "{{ java_home }}"
-      JAVA_BIN: "{{ java_home }}/jre/bin/java"
+      JAVA_HOME: "{{ denodo_jre }}"
+      JAVA_BIN: "{{ denodo_jre }}/bin/java"
       VDB_CONFIGURATION_FILE: "{{ denodo_vdb_configuration_file }}"
       DENODO_LAUNCHER_CLASSPATH: "{{ denodo_launcher_classpath }}"
       LD_LIBRARY_PATH: "{{ denodo_ld_library_path }}"
