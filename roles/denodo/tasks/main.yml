@@ -45,8 +45,8 @@
       DENODO_LAUNCHER_CLASSPATH: "{{ denodo_launcher_classpath }}"
       LD_LIBRARY_PATH: "{{ denodo_ld_library_path }}"
     instances: 1
-    cpus: 1.0
-    mem: 2048
+    cpus: {{ denodo_cpus }}
+    mem: {{ denodo_memory_heap + denodo_memory_perm + 1024 }}
     ports: []
     requirePorts: false
     constraints: [["hostname", "CLUSTER", "{{ denodo_marathon_host }}"]]

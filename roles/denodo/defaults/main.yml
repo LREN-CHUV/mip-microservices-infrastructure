@@ -24,7 +24,13 @@ denodo_ld_library_path: "{{ denodo_dir }}/bin:/home/mip/denodo-5.5/dll/db"
 
 denodo_jre: '{{ denodo_dir }}/jre/'
 
-denodo_jvm_args: '-mx6144m -XX:MaxPermSize=1024m -XX:NewRatio=4'
+denodo_cpus: 1.0
+# Heap memory in megaoctets
+denodo_memory_heap: 6144
+# Perm memory in megaoctets
+denodo_memory_perm: 1024
+
+denodo_jvm_args: '-mx{{ denodo_memory_heap }}m -XX:MaxPermSize={{ denodo_memory_perm }}m -XX:NewRatio=4'
 
 denodo_cmd: >
   $JAVA_BIN {{ denodo_jvm_args }} $DENODO4E_DEBUG_CONF -DDENODO_APP="Denodo VDP Server 5.5" \
