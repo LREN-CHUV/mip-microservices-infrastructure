@@ -9,8 +9,8 @@ docker_version: "1.10.3"
 docker_package_version: "0"
 docker_registry_version: "2.3.1"
 
-mesos_version: "0.27.2"
-mesos_package_version: "2.0.15"
+mesos_version: "0.28.0"
+mesos_package_version: "2.0.16"
 marathon_version: "0.15.3"
 marathon_package_version: "1.0.463"
 chronos_version: "2.4.0"
@@ -46,6 +46,6 @@ workflow_functions:
 
 # IDEs
 sublimetext_build: "3103"
-intellij_version: "15.0.4"
-yed_version: "3.14.4"
+intellij_version: "2016.1.1"
+yed_version: "3.15.0.2"
 soapui_version: "5.2.1"
