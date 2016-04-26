@@ -1,5 +1,6 @@
 TODO
 
+* update flyway to 4.0, flyway.properties -> flyway.conf
 * launch Gitlab with Marathon
 * watchtower role, to launch with Marathon
 * denodo: setup, upgrade, licenses
