@@ -10,9 +10,6 @@
     - role: base-system
       tags: ['runtimes']
 
-    - role: java
-      tags: ['runtimes']
-
     - role: audit-deployment
       installed_component: base-system
       tags: ['runtimes']
