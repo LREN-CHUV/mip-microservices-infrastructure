@@ -31,7 +31,7 @@
     docker_forcePullImage: true
     docker_network: BRIDGE
     docker_portMappings:
-      - hostPort: 31432
+      - hostPort: '{{ postgres_port }}'
         containerPort: 5432
     container_volumes:
       - containerPath: "/var/lib/postgresql/data"
@@ -42,7 +42,7 @@
       POSTGRES_PASSWORD: "{{ postgres_password }}"
     instances: 1
     cpus: 0.2
-    mem: 128
+    mem: 128.0
     ports: []
     requirePorts: false
     constraints: [["hostname", "CLUSTER", "{{ postgres_marathon_host }}"]]
