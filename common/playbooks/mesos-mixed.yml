@@ -12,9 +12,13 @@
 
   roles:
 
-    - role: docker-registry-slave
+    - role: docker
       tags: ['os-tools', 'container-platforms']
       when: "'docker' not in skipped_roles"
+
+    - role: docker-registry-slave
+      tags: ['os-tools', 'container-platforms']
+      when: "'docker' not in skipped_roles and docker_registry_config_orig_dir is defined"
 
     - role: mesos
       zookeeper_hostnames: "{{ groups.zookeeper | join(',') }}"

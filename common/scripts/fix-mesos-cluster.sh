@@ -19,6 +19,7 @@ rm -rf /var/lib/mesos/replicated_log/*
 
 # Extreme cases: reset zookeeper
 #rm -rf /var/lib/zookeeper/*
+#rm -rf /var/log/zookeeper/*
 
 service zookeeper start
 service mesos-master start
