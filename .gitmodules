@@ -38,29 +38,9 @@
 	path = roles/chronos
 	url = https://github.com/ludovicc/ansible-chronos.git
 	branch = master
-[submodule "roles/sublimetext"]
-	path = roles/sublimetext
-	url = https://github.com/jdauphant/ansible-role-sublimetext.git
-	branch = master
-[submodule "roles/sublimetext3-packagecontrol"]
-	path = roles/sublimetext3-packagecontrol
-	url = https://github.com/ansible-roles/ansible-role-sublimetext3_packagecontrol.git
-	branch = master
-[submodule "roles/intellij"]
-	path = roles/intellij
-	url = https://github.com/jdauphant/ansible-role-intellij.git
-	branch = master
-[submodule "roles/denkhaus.virtualbox"]
-	path = roles/denkhaus.virtualbox
-	url = https://github.com/Oefenweb/ansible-virtualbox.git
-	branch = master
 [submodule "roles/vagrant"]
 	path = roles/vagrant
 	url = https://github.com/denkhaus/ansible-vagrant.git
-	branch = master
-[submodule "roles/fish"]
-	path = roles/fish
-	url = https://github.com/SobanVuex/ansible-fish.git
 	branch = master
 [submodule "roles/sbt-extras"]
 	path = roles/sbt-extras
@@ -77,10 +57,6 @@
 [submodule "roles/activator"]
 	path = roles/activator
 	url = https://github.com/ludovicc/ansible-role-activator.git
-	branch = master
-[submodule "roles/chrome"]
-	path = roles/chrome
-	url = https://github.com/cmprescott/ansible-role-chrome.git
 	branch = master
 [submodule "roles/analytics-database/files/db"]
 	path = roles/analytics-database/files/analyticsdb
