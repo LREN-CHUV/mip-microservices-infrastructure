@@ -4,7 +4,7 @@ java_oracle_version: "8u66"
 maven_version: "3.3.9"
 
 captain_version: "0.8.0"
-docker_compose_version: "1.6.2"
+docker_compose_version: "1.7.0"
 docker_version: "1.11.1"
 docker_package_version: "0"
 docker_registry_version: "2.3.1"
@@ -51,3 +51,4 @@ sublimetext_build: "3103"
 intellij_version: "2016.1.1"
 yed_version: "3.15.0.2"
 soapui_version: "5.2.1"
+atom_ver : '1.6.2'
