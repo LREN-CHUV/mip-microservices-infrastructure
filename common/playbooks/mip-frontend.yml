@@ -14,6 +14,9 @@
 
   pre_tasks:
 
+    - name: Install Git, required for Letsencrypt
+      apt: package=git state=present
+
     - name: Check if Nginx service exists
       stat: path=/etc/init.d/nginx
       register: nginx_service_status
@@ -31,15 +34,6 @@
       service: name=nginx state=restarted
       when: nginx_service_status.stat.exists
       ignore_errors: yes
-
-    - name: Create directory for certificates
-      file:
-        path: "{{ ssl_certs_path }}"
-        state: directory
-        owner: 'deploy'
-        group: 'deploy'
-        mode: 0770
-      when: nginx_setup_ssl_certificate
 
   roles:
     - role: php
