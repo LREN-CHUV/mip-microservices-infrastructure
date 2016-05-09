@@ -52,7 +52,7 @@
 	branch = master
 [submodule "roles/php"]
 	path = roles/php
-	url = https://github.com/kosssi/ansible-role-php.git
+	url = https://github.com/ludovicc/ansible-role-php.git
 	branch = master
 [submodule "roles/activator"]
 	path = roles/activator
