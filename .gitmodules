@@ -85,3 +85,6 @@
 [submodule "roles/silpion.lib"]
 	path = roles/silpion.lib
 	url = https://github.com/silpion/ansible-lib.git
+[submodule "roles/etckeeper"]
+	path = roles/etckeeper
+	url = https://github.com/silpion/ansible-etckeeper

@@ -3,6 +3,8 @@
 private_ipv4: "{{ ip_address }}"
 skipped_roles: []
 
+etckeeper_vcs: 'git'
+
 # Blacklist the packages that cannot be automalically upgraded, either because we keep a close track of their version, or because of another reason.
 unattended_package_blacklist:
   - docker

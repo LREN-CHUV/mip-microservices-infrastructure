@@ -10,6 +10,10 @@
     - role: base-system
       tags: ['runtimes']
 
+    # Setup etckeeper and force it to use Git
+    - role: etckeeper
+      tags: ['runtimes']
+
     - role: audit-deployment
       installed_component: base-system
       tags: ['runtimes']
