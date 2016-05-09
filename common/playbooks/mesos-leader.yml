@@ -18,6 +18,11 @@
       mesos_leaders_group: "mesos-leader"
       tags: ['mesos', 'container-platforms']
 
+    # Java 8 is required for Marathon
+    - role: java
+      tags: ['mesos-frameworks', 'marathon', 'runtimes']
+      when: "'marathon' not in skipped_roles"
+
     - role: marathon
       tags: ['mesos-frameworks', 'marathon']
       when: "'marathon' not in skipped_roles"
