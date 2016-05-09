@@ -8,7 +8,7 @@
   become: True
 
 - name: Setup configuration for the portal_backend application
-  template: src=application.conf.j2 dest={{ portal_backend_config_dir }}/application.conf mode=0700 owner={{ portal_backend_user }} group={{ portal_backend_group }}
+  template: src=application.conf.j2 dest={{ portal_backend_config_dir }}/application.yml mode=0600 owner={{ portal_backend_user }} group={{ portal_backend_group }}
   become: True
 
 # Read java_home from local Ansible facts

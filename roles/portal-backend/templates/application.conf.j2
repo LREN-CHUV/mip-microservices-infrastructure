@@ -4,9 +4,10 @@ connection:
   password: "{{ portal_db_password }}"
 
 security:
-  enabled: {{ portal_backend_security_enabled }}
+  enabled: {{ portal_backend_security_enabled | lower }}
 
 hbp:
+  redirect: "/login/hpb"
   client:
     clientId: "{{ portal_backend_hbp_clientId }}"
     clientSecret: "{{ portal_backend_hbp_clientSecret }}"
@@ -37,3 +38,6 @@ server:
   use-forward-headers: true
   session:
     timeout: 2592000
+
+workflow:
+  miningUrl: {{ internal_workflow_url }}/mining
