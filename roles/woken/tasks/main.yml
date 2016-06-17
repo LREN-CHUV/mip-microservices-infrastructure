@@ -2,11 +2,11 @@
 
 # Default user in Docker appears as user 999 outside
 - name: Create directory
-  file: state=directory path={{ workflow_config_dir }} mode=0700 owner=999 group=999
+  file: state=directory path={{ woken_config_dir }} mode=0700 owner=999 group=999
   become: True
 
-- name: Setup configuration for the workflow application
-  template: src=application.conf.j2 dest={{ workflow_config_dir }}/application.conf mode=0700 owner=999 group=999
+- name: Setup configuration for the woken application
+  template: src=application.conf.j2 dest={{ woken_config_dir }}/application.conf mode=0700 owner=999 group=999
   become: True
 
 - name: Wait for Marathon
@@ -14,40 +14,40 @@
   vars:
     uri: "{{ internal_marathon_url }}"
 
-- name: Delete old workflow app using Marathon
+- name: Delete old woken app using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
-    id: "{{ workflow_marathon_id }}"
+    id: "{{ woken_marathon_id }}"
     state: "absent"
     waitTimeout: 600
   async: 600
   poll: 1
 
 # Host networking is required on Federation to be able to use Denodo JDBC over RMI driver
-- name: Launch workflow app using Marathon
+- name: Launch woken app using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
-    id: "{{ workflow_marathon_id }}"
+    id: "{{ woken_marathon_id }}"
     state: "present"
-    docker_image: "{{ workflow_docker_image }}"
-    docker_forcePullImage: true
+    docker_image: "{{ woken_docker_image }}"
+    docker_force_pull_image: true
     docker_network: HOST
     container_volumes:
-      - containerPath: "/opt/workflow/config"
-        hostPath: "{{ workflow_config_dir }}"
+      - containerPath: "/opt/woken/config"
+        hostPath: "{{ woken_config_dir }}"
         mode: RW
     instances: 1
     cpus: 0.5
     mem: 512
     ports: []
-    requirePorts: false
-    constraints: [["hostname", "CLUSTER", "{{ workflow_marathon_host }}"]]
+    require_ports: false
+    constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host }}"]]
     dependencies: []
     executor: ""
-    waitTimeout: 600
-    healthChecks:
+    wait_timeout: 600
+    health_checks:
       - protocol: HTTP
-        port: "{{ workflow_port }}"
+        port: "{{ woken_port }}"
         path: "/"
         gracePeriodSeconds: 300
         intervalSeconds: 60
@@ -55,35 +55,35 @@
         maxConsecutiveFailures: 2
   async: 600
   poll: 1
-  when: workflow_docker_network == 'HOST'
+  when: woken_docker_network == 'HOST'
 
-- name: Launch workflow using Marathon
+- name: Launch woken using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
-    id: "{{ workflow_marathon_id }}"
+    id: "{{ woken_marathon_id }}"
     state: "present"
-    docker_image: "{{ workflow_docker_image }}"
-    docker_forcePullImage: true
+    docker_image: "{{ woken_docker_image }}"
+    docker_force_pull_image: true
     docker_network: BRIDGE
-    docker_portMappings:
-      - hostPort: "{{ workflow_port }}"
+    docker_port_mappings:
+      - hostPort: "{{ woken_port }}"
         containerPort: 8087
     container_volumes:
-      - containerPath: "/opt/workflow/config"
-        hostPath: "{{ workflow_config_dir }}"
+      - containerPath: "/opt/woken/config"
+        hostPath: "{{ woken_config_dir }}"
         mode: RW
     instances: 1
     cpus: 0.5
     mem: 512
     ports: []
-    requirePorts: false
-    constraints: [["hostname", "CLUSTER", "{{ workflow_marathon_host }}"]]
+    require_ports: false
+    constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host }}"]]
     dependencies: []
     executor: ""
-    waitTimeout: 600
-    healthChecks:
+    wait_timeout: 600
+    health_checks:
       - protocol: HTTP
-        port: "{{ workflow_port }}"
+        port: "{{ woken_port }}"
         path: "/"
         gracePeriodSeconds: 300
         intervalSeconds: 60
@@ -91,7 +91,7 @@
         maxConsecutiveFailures: 2
   async: 600
   poll: 1
-  when: workflow_docker_network == 'BRIDGE'
+  when: woken_docker_network == 'BRIDGE'
 
 #      healthChecks:
 #        - protocol: COMMAND

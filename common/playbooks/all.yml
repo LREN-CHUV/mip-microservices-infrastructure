@@ -20,7 +20,7 @@
 
 - include: denodo.yml
 
-- include: workflow.yml
+- include: woken.yml
 
 - include: portal-database.yml
 

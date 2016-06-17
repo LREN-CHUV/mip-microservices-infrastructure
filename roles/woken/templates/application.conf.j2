@@ -17,7 +17,7 @@ spray.can.server {
 }
 
 app {
-  systemName = "workflow-manager"
+  systemName = "woken-manager"
   jobServiceName = "job-service"
   interface = "0.0.0.0"
   port = 8087
@@ -27,10 +27,10 @@ jobs {
   node = "{{ inventory_hostname }}"
   owner = "admin@mip.chuv.ch"
   chronosServerUrl = "{{ internal_chronos_url }}"
-{% if workflow_role == 'mip_federation' %}
+{% if woken_role == 'mip_federation' %}
   federationDb = "federation"
   nodes = {
-{% for node in workflow_nodes %}
+{% for node in woken_nodes %}
     {{ node.name }} {
       jobsUrl = "{{ node.url}}"
     }
@@ -51,7 +51,7 @@ db {
     jdbc_password="{{ analytics_db_password }}"
   }
 
-{% if workflow_role == 'mip_federation' %}
+{% if woken_role == 'mip_federation' %}
   federation {
     jdbc_driver="{{ federation_db_jdbc_driver }}"
     jdbc_jar_path="{{ federation_db_jdbc_jar }}"
@@ -74,16 +74,16 @@ defaultSettings {
   # Default settings for the request service
   request {
     nodes = {}
-{% if workflow_role == 'mip_federation' %}
+{% if woken_role == 'mip_federation' %}
     inDb = "federationDb"
 {% else %}
     inDb = "ldsm"
 {% endif %}
     outDb = "analytics"
-    mainTable = "{{ workflow_main_table }}"
+    mainTable = "{{ woken_main_table }}"
 
     functions {
-{% for fn in workflow_functions %}
+{% for fn in woken_functions %}
       {{ fn.name }} = "{{ fn.docker_image }}"
 {% endfor %}
     }

@@ -72,14 +72,14 @@ nginx_sites:
           proxy_read_timeout  90;
           proxy_buffering     on;
       }
-      location /workflow/ {
-          rewrite             ^/workflow(/.*) $1 break;
-          proxy_pass          {{ internal_workflow_url }};
-          proxy_redirect      {{ internal_workflow_url }} /workflow/;
+      location /woken/ {
+          rewrite             ^/woken(/.*) $1 break;
+          proxy_pass          {{ internal_woken_url }};
+          proxy_redirect      {{ internal_woken_url }} /woken/;
           proxy_read_timeout  90;
           proxy_buffering     on;
-          sub_filter '/webjars/' '/workflow/webjars/';
-          # TODO: Nginx >= 1.9.4 sub_filter '/api-docs' '/workflow/api-docs';
+          sub_filter '/webjars/' '/woken/webjars/';
+          # TODO: Nginx >= 1.9.4 sub_filter '/api-docs' '/woken/api-docs';
           sub_filter_once off;
       }
       # TODO: remove after Nginx 1.9.4
@@ -122,6 +122,6 @@ sites_index:
     src: images/chronos.png
 
 services_index:
-  - name: Workflow
-    url: /workflow/
+  - name: Data Mining
+    url: /woken/
     src: images/matlab.jpeg

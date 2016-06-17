@@ -28,9 +28,9 @@
     id: "{{ postgres_marathon_id }}"
     state: "present"
     docker_image: "postgres:{{ postgres_version }}"
-    docker_forcePullImage: true
+    docker_force_pull_image: true
     docker_network: BRIDGE
-    docker_portMappings:
+    docker_port_mappings:
       - hostPort: '{{ postgres_port }}'
         containerPort: 5432
     container_volumes:
@@ -44,12 +44,12 @@
     cpus: 0.2
     mem: 128.0
     ports: []
-    requirePorts: false
+    require_ports: false
     constraints: [["hostname", "CLUSTER", "{{ postgres_marathon_host }}"]]
     dependencies: []
     executor: ""
-    waitTimeout: 600
-    healthChecks:
+    wait_timeout: 600
+    health_checks:
       - protocol: COMMAND
         command:
           value: "/usr/lib/postgresql/9.4/bin/pg_isready"

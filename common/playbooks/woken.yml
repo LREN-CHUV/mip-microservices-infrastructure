@@ -7,15 +7,15 @@
   pre_tasks:
     - name: Install curl
       apt: name=curl state=present
-      tags: ['workflow', 'analytics', 'marathon-app']
+      tags: ['woken', 'analytics', 'marathon-app']
 
   roles:
 
-    - role: workflow
-      tags: ['workflow', 'analytics', 'marathon-app']
-    # Audit-deployment delegated to the workflow host
+    - role: woken
+      tags: ['woken', 'analytics', 'marathon-app']
+    # Audit-deployment delegated to the woken host
 
-- hosts: workflow
+- hosts: woken
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
@@ -24,5 +24,5 @@
   roles:
 
     - role: audit-deployment
-      installed_component: analytics-workflow
-      tags: ['workflow', 'analytics', 'marathon-app']
+      installed_component: analytics-woken
+      tags: ['woken', 'analytics', 'marathon-app']

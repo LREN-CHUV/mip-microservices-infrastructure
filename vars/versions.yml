@@ -37,8 +37,8 @@ virtualbox_version: "5.0"
 vagrant_version: "1.8.1"
 
 # Versions of our Docker containers
-workflow_version: "9b24905"
-workflow_functions:
+woken_version: "9b24905"
+woken_functions:
   - name: boxplot
     docker_image: "hbpmip/r-summary-stats:52198fd"
   - name: summarystatistics
