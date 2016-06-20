@@ -1,15 +1,15 @@
 ---
 
-workflow_marathon_id: /workflow
+woken_marathon_id: /woken
 
-workflow_config_dir: /srv/docker/workflow/config
+woken_config_dir: /srv/docker/woken/config
 
-workflow_port: 31087
-workflow_docker_network: BRIDGE
-workflow_docker_image_basename: hbpmip/workflow
-workflow_docker_image: "{{ workflow_docker_image_basename }}:{{ workflow_version }}"
+woken_port: 31087
+woken_docker_network: BRIDGE
+woken_docker_image_basename: hbpmip/woken
+woken_docker_image: "{{ woken_docker_image_basename }}:{{ woken_version }}"
 
-workflow_version: latest
+woken_version: latest
 
 analytics_db_port: 31432
 analytics_db_host: localhost
@@ -27,22 +27,22 @@ ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/analy
 ldsm_db_jdbc_driver: "org.postgresql.Driver"
 ldsm_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
 
-# URL to Chronos internal to the current cluster. You need to ensure that the workflow application can reach that URL.
+# URL to Chronos internal to the current cluster. You need to ensure that the woken application can reach that URL.
 internal_chronos_url: http://default:4400
 
 # URL to Marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
 
 cluster_role: mip_node
-workflow_role: "{{ cluster_role }}"
+woken_role: "{{ cluster_role }}"
 
 # list of name, url values
-workflow_nodes: []
+woken_nodes: []
 
-# Attach the workflow application to a particular host. The hostname should be the name known by Marathon / Mesos
-#workflow_marathon_host:
-workflow_main_table: adni_merge
-workflow_functions:
+# Attach the woken application to a particular host. The hostname should be the name known by Marathon / Mesos
+#woken_marathon_host:
+woken_main_table: adni_merge
+woken_functions:
   - name: boxplot
     docker_image: "hbpmip/r-summary-stats:latest"
   - name: linearregression
