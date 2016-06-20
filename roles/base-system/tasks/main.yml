@@ -1,7 +1,7 @@
 ---
 # default is etc/utc in build 20141129 [http://cloud.centos.org/centos/7/images/]
 - name: set timezone to etc/utc
-  sudo: yes
+  become: yes
   file:
     src: /usr/share/zoneinfo/Etc/UTC
     dest: /etc/localtime
@@ -10,7 +10,7 @@
 
 # add hosts to /etc/hosts
 - name: configure hosts file
-  sudo: yes
+  become: yes
   lineinfile:
     dest: /etc/hosts
     regexp: "^{{ hostvars[item].private_ipv4 }} {{ item }}{% if use_host_domain %} {{ item }}.{{ host_domain }}{% endif %}$"
@@ -20,7 +20,7 @@
   with_items: "{{ groups['all'] }}"
 
 - name: clean hosts file
-  sudo: yes
+  become: yes
   lineinfile:
     dest: /etc/hosts
     regexp: "{{ item }}"
