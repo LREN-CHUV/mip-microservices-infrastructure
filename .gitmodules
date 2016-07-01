@@ -54,10 +54,6 @@
 	path = roles/php
 	url = https://github.com/ludovicc/ansible-role-php.git
 	branch = master
-[submodule "roles/activator"]
-	path = roles/activator
-	url = https://github.com/ludovicc/ansible-role-activator.git
-	branch = master
 [submodule "roles/analytics-database/files/db"]
 	path = roles/analytics-database/files/analyticsdb
 	url = https://github.com/LREN-CHUV/analytics-db.git
@@ -85,6 +81,9 @@
 [submodule "roles/silpion.lib"]
 	path = roles/silpion.lib
 	url = https://github.com/silpion/ansible-lib.git
+[submodule "roles/activator"]
+	path = roles/activator
+	url = https://github.com/ludovicc/ansible-typesafe-activator.git
 [submodule "roles/etckeeper"]
-	path = roles/etckeeper
-	url = https://github.com/silpion/ansible-etckeeper
+        path = roles/etckeeper
+        url = https://github.com/silpion/ansible-etckeeper

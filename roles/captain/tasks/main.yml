@@ -5,7 +5,7 @@
     curl
       --location
       --output captain-{{ captain_version }}
-      https://github.com/harbur/captain/releases/download/v{{ captain_version }}/captain
+      https://github.com/harbur/captain/releases/download/v{{ captain_version }}/captain_{{ ansible_system | lower }}_{{ ansible_machine | replace('x86_64', 'amd64')}}
     chdir={{ util_persistent_data_path_local }}
     creates={{ util_persistent_data_path_local }}/captain-{{ captain_version }}
   become: no
