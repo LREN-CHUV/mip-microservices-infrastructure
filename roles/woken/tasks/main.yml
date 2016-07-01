@@ -38,7 +38,7 @@
         mode: RW
     instances: 1
     cpus: 0.5
-    mem: 512
+    mem: 1024.0
     ports: []
     require_ports: false
     constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host }}"]]
@@ -74,7 +74,7 @@
         mode: RW
     instances: 1
     cpus: 0.5
-    mem: 512
+    mem: 1024.0
     ports: []
     require_ports: false
     constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host }}"]]

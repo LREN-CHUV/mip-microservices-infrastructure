@@ -1,6 +1,6 @@
 ---
 # default is etc/utc in build 20141129 [http://cloud.centos.org/centos/7/images/]
-- name: set timezone to etc/utc
+- name: Set timezone to etc/utc
   become: yes
   file:
     src: /usr/share/zoneinfo/Etc/UTC
@@ -9,7 +9,7 @@
     force: yes
 
 # add hosts to /etc/hosts
-- name: configure hosts file
+- name: Configure hosts file
   become: yes
   lineinfile:
     dest: /etc/hosts
@@ -19,7 +19,7 @@
   when: hostvars[item].private_ipv4 is defined
   with_items: "{{ groups['all'] }}"
 
-- name: clean hosts file
+- name: Clean hosts file
   become: yes
   lineinfile:
     dest: /etc/hosts
@@ -28,3 +28,23 @@
   with_items:
     - '^127\.0\.\d+\.\d+(\s+)(?i){{ inventory_hostname }}.*'
     - '^::1(\s+)(?i){{ inventory_hostname }}.*'
+
+- name: Ping APT proxy
+  wait_for:
+    host: "{{ apt_proxy_host}}"
+    port: "{{ apt_proxy_port}}"
+    connect_timeout: 2
+    timeout: 5
+  register: apt_proxy_status
+  ignore_errors: true
+  when: apt_proxy_host is defined
+
+- debug: 'msg={{apt_proxy_status.state}}'
+
+- template:
+    src: apt-proxy.j2
+    dest: /etc/apt/apt.conf.d/01proxy
+  when: apt_proxy_host is defined and apt_proxy_status.state == 'started'
+
+- file: path='/etc/apt/apt.conf.d/01proxy' state='absent'
+  when: apt_proxy_host is not defined or apt_proxy_status.state != 'started'

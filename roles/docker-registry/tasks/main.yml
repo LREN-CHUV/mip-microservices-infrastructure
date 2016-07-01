@@ -25,9 +25,9 @@
     id: "{{ docker_registry_marathon_id }}"
     state: "present"
     docker_image: "registry:{{ docker_registry_version }}"
-    docker_forcePullImage: true
+    docker_force_pull_image: true
     docker_network: BRIDGE
-    docker_portMappings:
+    docker_port_mappings:
       - hostPort: "{{ docker_registry_port }}"
         containerPort: 5000
     container_volumes:
@@ -43,14 +43,14 @@
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: "/var/lib/registry"
     instances: 1
     cpus: 0.2
-    mem: 128
+    mem: 128.0
     ports: []
-    requirePorts: false
+    require_ports: false
     constraints: [["hostname", "CLUSTER", "{{ docker_registry_marathon_host }}"]]
     dependencies: []
     executor: ""
-    waitTimeout: 600
-    healthChecks:
+    wait_timeout: 600
+    health_checks:
       - protocol: TCP
         portIndex: 0
         gracePeriodSeconds: 300

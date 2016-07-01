@@ -80,7 +80,7 @@
 	url = git@gitlab.intranet.chuv:mip-portal/portal-db.git
 [submodule "roles/silpion.lib"]
 	path = roles/silpion.lib
-	url = https://github.com/silpion/ansible-lib.git
+	url = https://github.com/ludovicc/ansible-lib.git
 [submodule "roles/activator"]
 	path = roles/activator
 	url = https://github.com/ludovicc/ansible-typesafe-activator.git

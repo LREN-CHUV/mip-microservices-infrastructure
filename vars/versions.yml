@@ -1,6 +1,6 @@
 ---
 
-java_oracle_version: "8u66"
+java_oracle_version: "8u60"
 maven_version: "3.3.9"
 
 captain_version: "1.0.0"
@@ -9,8 +9,8 @@ docker_version: "1.11.2"
 docker_package_version: "0"
 docker_registry_version: "2.3.1"
 
-mesos_version: "0.28.1"
-mesos_package_version: "2.0.20"
+mesos_version: "0.28.2"
+mesos_package_version: "2.0.27"
 marathon_version: "1.1.1"
 marathon_package_version: "1.0.472"
 chronos_version: "2.4.0"
@@ -18,7 +18,7 @@ chronos_package_version: "0.1.20151007110204"
 
 gitlab_version: "8.6.7-ce.0"
 
-postgres_version: "9.4.5"
+postgres_version: "9.5.3"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar
 
 mysql_version: "5.7.12"
@@ -37,14 +37,18 @@ virtualbox_version: "5.0"
 vagrant_version: "1.8.1"
 
 # Versions of our Docker containers
-woken_version: "9b24905"
+woken_version: "38f02e9"
 woken_functions:
   - name: boxplot
-    docker_image: "hbpmip/r-summary-stats:52198fd"
+    docker_image: "hbpmip/r-summary-stats:2afe249"
   - name: summarystatistics
-    docker_image: "hbpmip/r-summary-stats:52198fd"
+    docker_image: "hbpmip/r-summary-stats:2afe249"
   - name: linearregression
-    docker_image: "hbpmip/r-linear-regression:52198fd"
+    docker_image: "hbpmip/r-linear-regression:2afe249"
+  - name: knn
+    docker_image: "hbpmip/java-rapidminer-knn:58e280f"
+  - name: naivebayes
+    docker_image: "hbpmip/java-rapidminer-naivebayes:58e280f"
 
 # IDEs
 sublimetext_build: "3114"

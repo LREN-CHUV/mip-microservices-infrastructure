@@ -45,6 +45,7 @@
       with_items:
         - postgres:9.3.9
         - postgres:9.4.4
+      #  - postgres:9.4.5
       when: ansible_lsb.id == 'Ubuntu' and ansible_lsb.major_release|int >= 15
       tags:
         - docker
