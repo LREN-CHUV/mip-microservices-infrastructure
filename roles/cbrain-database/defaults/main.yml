@@ -1,0 +1,26 @@
+---
+
+cbrain_db_marathon_id: /cbrain/db
+
+cbrain_db_data_dir: /srv/docker/cbrain_db/data
+# The user running the Docker container for mysql, default to '999' (mysql user in the mysql docker container)
+cbrain_db_docker_user: '999'
+
+# Pin the database to a particular host as it needs to store its files in a known place
+cbrain_db_marathon_host: '{{ inventory_hostname }}'
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
+cbrain_db_port: 4506
+
+# One of mysql, mariadb
+cbrain_db_image: 'mariadb'
+cbrain_db_version: "10.1.14"
+
+#cbrain_db_root_password:
+
+cbrain_db_user: cbrain
+cbrain_db_password: cbrain
+
+cbrain_db_mem: 368.0
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

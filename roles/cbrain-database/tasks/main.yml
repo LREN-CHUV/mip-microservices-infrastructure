@@ -1,0 +1,60 @@
+---
+
+# Mysql user in Docker appears as user 999 outside
+- name: Create CBrain database storage directory
+  file: state=directory path={{ cbrain_db_data_dir }} mode=0700 owner={{ cbrain_db_docker_user }} group={{ cbrain_db_docker_user }}
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old CBrain database using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ cbrain_db_marathon_id }}"
+    state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
+
+- name: Launch CBrain database using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ cbrain_db_marathon_id }}"
+    state: "present"
+    docker_image: "{{ cbrain_db_image }}:{{ cbrain_db_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ cbrain_db_port }}'
+        containerPort: 3306
+        name: 'mysql'
+        protocol: 'tcp'
+    container_volumes:
+      - containerPath: "/var/lib/mysql"
+        hostPath: "{{ cbrain_db_data_dir }}"
+        mode: RW
+    env:
+      MYSQL_DATABASE: "cbrain"
+      MYSQL_USER: "{{ cbrain_db_user }}"
+      MYSQL_PASSWORD: "{{ cbrain_db_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ cbrain_db_root_password }}"
+    instances: 1
+    cpus: 0.2
+    mem: '{{ cbrain_db_mem }}'
+    require_ports: true
+    constraints: [["hostname", "CLUSTER", "{{ cbrain_db_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "/usr/bin/mysql --host=localhost --port=3306 --user={{ cbrain_db_user }} --password={{ cbrain_db_password }} -e 'show databases;' | grep information_schema"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+  async: 600
+  poll: 1

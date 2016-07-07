@@ -1,0 +1,56 @@
+---
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old CBrain portal using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ cbrain_portal_marathon_id }}"
+    state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
+
+- name: Launch CBrain portal using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ cbrain_portal_marathon_id }}"
+    state: "present"
+    docker_image: "{{ cbrain_portal_image }}:{{ cbrain_portal_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ cbrain_portal_port }}'
+        containerPort: 3000
+        name: 'http'
+        protocol: 'tcp'
+    container_volumes: TODO
+      - containerPath: "/var/lib/mysql"
+        hostPath: "{{ cbrain_mysql_data_dir }}"
+        mode: RW
+    env:
+      MYSQL_DATABASE: "cbrain"
+      MYSQL_USER: "{{ cbrain_mysql_user }}"
+      MYSQL_PASSWORD: "{{ cbrain_mysql_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ cbrain_mysql_root_password }}"
+    instances: 1
+    cpus: 0.2
+    mem: '{{ cbrain_mysql_mem }}'
+    require_ports: true
+    #constraints: [["hostname", "CLUSTER", "{{ cbrain_mysql_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "/usr/bin/mysql --host=localhost --port=3306 --user={{ cbrain_mysql_user }} --password={{ cbrain_mysql_password }} -e 'show databases;' | grep information_schema"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+  async: 600
+  poll: 1
