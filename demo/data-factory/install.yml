@@ -32,14 +32,14 @@
 
   roles:
 
-    - role: airflow-database
-      tags: ['airflow']
-
-    - role: mri-database
-      tags: ['airflow']
-
-    - role: airflow
-      tags: ['airflow']
+#    - role: airflow-database
+#      tags: ['airflow']
+#
+#    - role: mri-database
+#      tags: ['airflow']
+#
+#    - role: airflow
+#      tags: ['airflow']
 
     - role: audit-deployment
       installed_component: airflow
@@ -50,14 +50,14 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
-    - "{{ play_dir }}/vars/cbrain.yml"
+    #- "{{ play_dir }}/vars/cbrain.yml"
 
   roles:
 
     - role: cbrain-database
       tags: ['cbrain']
 
-    - role: cbrain
+    - role: cbrain-portal
       tags: ['cbrain']
 
     - role: audit-deployment

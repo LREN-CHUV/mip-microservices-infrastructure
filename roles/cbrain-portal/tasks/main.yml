@@ -38,9 +38,9 @@
         hostPath: "{{ cbrain_portal_plugins_dir }}"
         mode: RW
     env:
-      MODE: ${MODE}
-      USERID: ${USERID}
-      GROUPID: ${GROUPID}
+      MODE: "{{ cbrain_portal_mode }}"
+      USERID: "{{ cbrain_portal_userid }}"
+      GROUPID: "{{ cbrain_portal_groupid }}"
       MYSQL_HOST: "{{ cbrain_db_marathon_host }}"
       MYSQL_PORT: "{{ cbrain_db_port }}"
       MYSQL_USER: "{{ cbrain_db_user }}"

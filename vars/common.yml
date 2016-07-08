@@ -1,7 +1,8 @@
 ---
 
 private_ipv4: "{{ ip_address }}"
-skipped_roles: []
+# Please define skipped_roles variable in derived projects
+#skipped_roles: []
 
 etckeeper_vcs: 'git'
 
@@ -30,6 +31,10 @@ firewall_fail2ban_bantime: '36000'
 firewall_fail2ban_maxretry: '3'
 firewall_fail2ban_destemail: "{{ unattended_mail }}"
 firewall_fail2ban_jails: []
+
+java_register_alternative: true
+java_register_env: true
+use_openjdk_ppa: true
 
 analytics_db_marathon_id: "/analyticsdb"
 portal_db_marathon_id: "/portaldb"

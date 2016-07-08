@@ -79,7 +79,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "../install.yml"
       ansible.inventory_path = "etc/ansible/hosts"
       ansible.limit = 'all'
-      ansible.verbose = "v"
+      ansible.verbose = "vvvv"
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
       # ansible.tags = ['airflow']
       # Use this to override ansible playbook variables

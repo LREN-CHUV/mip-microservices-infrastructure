@@ -1,10 +1,10 @@
-cbrain_master ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
+cbrain-master ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
 
 [cbrain]
-cbrain_master
+cbrain-master
 
 [zookeeper]
-cbrain_master
+cbrain-master
 
 [mesos-mixed]
-cbrain_master
+cbrain-master

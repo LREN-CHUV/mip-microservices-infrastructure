@@ -1,0 +1,5 @@
+---
+ip_address: '192.168.33.66'
+
+cbrain_db_root_password: 'MySecretPassword'
+cbrain_db_password: 'cbraindb'

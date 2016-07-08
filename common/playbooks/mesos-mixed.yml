@@ -27,11 +27,13 @@
       tags: ['mesos', 'container-platforms']
 
     # Java 8 is required for Marathon
-    - role: java
+    - role: openjdk
       tags: ['mesos-frameworks', 'marathon', 'runtimes']
       when: "'marathon' not in skipped_roles"
 
     - role: marathon
+      marathon_env_vars:
+        - "JAVA_OPTS=-Xmx512m"
       tags: ['mesos-frameworks', 'marathon']
       when: "'marathon' not in skipped_roles"
 
