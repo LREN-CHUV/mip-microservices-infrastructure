@@ -12,10 +12,6 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
-require 'yaml'
-
-settings = YAML.load_file 'envs/vagrant/vagrant.yml'
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
@@ -41,19 +37,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "cbrain_master" do |cbrain_master|
 
-    cbrain_master.vm.hostname = "cbrain_master"
+    cbrain_master.vm.hostname = "cbrain-master"
 
     # Create a forwarded port mapping which allows access to a specific port
     # within the machine from a port on the host machine. In the example below,
     # accessing "localhost:8080" will access port 80 on the guest machine.
-    cbrain_master.vm.network :forwarded_port, guest: 4480, host: 14480 # gitlab
-    cbrain_master.vm.network :forwarded_port, guest: 4080, host: 18080 # airflow
+    cbrain_master.vm.network :forwarded_port, guest: 4580, host: 14580 # CBrain portal
     cbrain_master.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos
     cbrain_master.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
-    cbrain_master.vm.network :private_network, ip: settings['ip_address']
+    cbrain_master.vm.network :private_network, ip: '192.168.33.66'
+
+    cbrain_master.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
 
   end
 
@@ -86,9 +83,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
       # ansible.tags = ['airflow']
       # Use this to override ansible playbook variables
-       ansible.extra_vars = {
-         play_dir: Dir.pwd + '/../../..'
-       }
+      ansible.extra_vars = {
+        play_dir: Dir.pwd + '/../../..'
+      }
   end
 
 end

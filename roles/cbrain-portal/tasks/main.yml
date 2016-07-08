@@ -27,30 +27,32 @@
         containerPort: 3000
         name: 'http'
         protocol: 'tcp'
-    container_volumes: TODO
-      - containerPath: "/var/lib/mysql"
-        hostPath: "{{ cbrain_mysql_data_dir }}"
+    container_volumes:
+      - containerPath: "/home/cbrain/cbrain_data_cache"
+        hostPath: "{{ cbrain_portal_data_cache_dir }}"
+        mode: RW
+      - containerPath: "/home/cbrain/.ssh"
+        hostPath: "{{ cbrain_portal_ssh_dir }}"
+        mode: RW
+      - containerPath: "/home/cbrain/plugins"
+        hostPath: "{{ cbrain_portal_plugins_dir }}"
         mode: RW
     env:
-      MYSQL_DATABASE: "cbrain"
-      MYSQL_USER: "{{ cbrain_mysql_user }}"
-      MYSQL_PASSWORD: "{{ cbrain_mysql_password }}"
-      MYSQL_ROOT_PASSWORD: "{{ cbrain_mysql_root_password }}"
+      MODE: ${MODE}
+      USERID: ${USERID}
+      GROUPID: ${GROUPID}
+      MYSQL_HOST: "{{ cbrain_db_marathon_host }}"
+      MYSQL_PORT: "{{ cbrain_db_port }}"
+      MYSQL_USER: "{{ cbrain_db_user }}"
+      MYSQL_PASSWORD: "{{ cbrain_db_password }}"
     instances: 1
     cpus: 0.2
-    mem: '{{ cbrain_mysql_mem }}'
+    mem: '{{ cbrain_portal_mem }}'
     require_ports: true
-    #constraints: [["hostname", "CLUSTER", "{{ cbrain_mysql_marathon_host }}"]]
+    constraints: [["hostname", "CLUSTER", "{{ cbrain_portal_marathon_host }}"]]
     dependencies: []
     executor: ""
     wait_timeout: 600
-    health_checks:
-      - protocol: COMMAND
-        command:
-          value: "/usr/bin/mysql --host=localhost --port=3306 --user={{ cbrain_mysql_user }} --password={{ cbrain_mysql_password }} -e 'show databases;' | grep information_schema"
-        gracePeriodSeconds: 300
-        intervalSeconds: 20
-        timeoutSeconds: 10
-        maxConsecutiveFailures: 5
+    health_checks: [] #TODO
   async: 600
   poll: 1
