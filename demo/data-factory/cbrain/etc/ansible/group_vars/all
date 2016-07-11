@@ -2,6 +2,11 @@
 
 docker_opts: "--dns 192.168.33.66"
 
+cbrain_db_port: 4506
+cbrain_db_image: 'mariadb'
+cbrain_db_version: "10.1.14"
+
+cbrain_portal_port: 4580
 cbrain_portal_image: 'lren/cbrain_portal'
 cbrain_portal_version: "dev"
 

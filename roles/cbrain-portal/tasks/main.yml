@@ -18,9 +18,20 @@
     group: "{{ cbrain_portal_group }}"
     mode: 0700
   with_items:
-    - '/home/cbrain/cbrain_data_cache'
-    - '/home/cbrain/.ssh'
-    - '/home/cbrain/plugins'
+    - '{{ cbrain_portal_data_cache_dir }}'
+    - '{{ cbrain_portal_ssh_dir }}'
+    - '{{ cbrain_portal_plugins_dir }}'
+    - '{{ cbrain_portal_data_provider_dir }}'
+
+- name: Install Git if plugins are used
+  apt: name=git
+  when: cbrain_portal_plugins
+
+- name: Download code for plugins
+  git:
+    repo: '{{ item.git_repo }}'
+    dest: '{{ cbrain_portal_plugins_dir }}/{{ item.name }}'
+  with_items: '{{ cbrain_portal_plugins }}'
 
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
@@ -60,6 +71,9 @@
       - containerPath: "/home/cbrain/plugins"
         hostPath: "{{ cbrain_portal_plugins_dir }}"
         mode: RW
+      - containerPath: "/home/cbrain/data_provider"
+        hostPath: "{{ cbrain_portal_data_provider_dir }}"
+        mode: RW
     env:
       MODE: "{{ cbrain_portal_mode }}"
       USERID: "{{ portal_user.uid }}"
@@ -68,6 +82,7 @@
       MYSQL_PORT: "{{ cbrain_db_port }}"
       MYSQL_USER: "{{ cbrain_db_user }}"
       MYSQL_PASSWORD: "{{ cbrain_db_password }}"
+      MYSQL_DATABASE: "{{ cbrain_db_database }}"
     instances: 1
     cpus: 0.2
     mem: '{{ cbrain_portal_mem }}'
@@ -84,5 +99,7 @@
         intervalSeconds: 60
         timeoutSeconds: 20
         maxConsecutiveFailures: 3
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
   async: 600
   poll: 1
