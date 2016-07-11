@@ -49,6 +49,7 @@
         containerPort: 3000
         name: 'http'
         protocol: 'tcp'
+    docker_parameters: '{{ cbrain_portal_docker_parameters }}'
     container_volumes:
       - containerPath: "/home/cbrain/cbrain_data_cache"
         hostPath: "{{ cbrain_portal_data_cache_dir }}"
@@ -75,6 +76,13 @@
     dependencies: []
     executor: ""
     wait_timeout: 600
-    health_checks: [] #TODO
+    health_checks:
+      - protocol: HTTP
+        port: "{{ cbrain_portal_port }}"
+        path: "/"
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 3
   async: 600
   poll: 1

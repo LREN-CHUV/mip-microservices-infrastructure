@@ -1,4 +1,10 @@
 ---
 
+docker_opts: "--dns 192.168.33.66"
+
 cbrain_portal_image: 'lren/cbrain_portal'
 cbrain_portal_version: "dev"
+
+cbrain_portal_docker_parameters:
+  - key: 'add-host'
+    value: "cbrain-master:192.168.33.66"

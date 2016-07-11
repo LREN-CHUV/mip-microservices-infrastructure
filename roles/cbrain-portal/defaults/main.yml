@@ -7,7 +7,11 @@ cbrain_portal_marathon_host: '{{ inventory_hostname }}'
 # Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
 cbrain_portal_port: 4580
 
-cbrain_portal_mode: 'dev'
+# Mode used when stating CBrain
+#     development: starts the application in Rails development mode."
+#     test:        starts the application in Rails test mode."
+#     production:  starts the application in Rails production mode."
+cbrain_portal_mode: 'development'
 cbrain_portal_user: 'cbrain'
 cbrain_portal_group: 'cbrain'
 
@@ -24,6 +28,8 @@ cbrain_db_port: 4506
 cbrain_portal_data_cache_dir: '/srv/docker/cbrain_portal/data'
 cbrain_portal_ssh_dir: '/srv/docker/cbrain_portal/.ssh'
 cbrain_portal_plugins_dir: '/srv/docker/cbrain_portal/plugins'
+
+cbrain_portal_docker_parameters: []
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
