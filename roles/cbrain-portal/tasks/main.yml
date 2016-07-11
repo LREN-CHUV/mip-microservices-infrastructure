@@ -1,5 +1,27 @@
 ---
 
+- name: Create group for CBrain Portal
+  group: name="{{ cbrain_portal_group }}"
+  register: portal_group
+
+- name: Create user for CBrain Portal
+  user:
+    name: "{{ cbrain_portal_user }}"
+    group: "{{ cbrain_portal_group }}"
+  register: portal_user
+
+- name: Create CBrain directories
+  file:
+    name: '{{ item }}'
+    state: directory
+    owner: "{{ cbrain_portal_user }}"
+    group: "{{ cbrain_portal_group }}"
+    mode: 0700
+  with_items:
+    - '/home/cbrain/cbrain_data_cache'
+    - '/home/cbrain/.ssh'
+    - '/home/cbrain/plugins'
+
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
@@ -39,8 +61,8 @@
         mode: RW
     env:
       MODE: "{{ cbrain_portal_mode }}"
-      USERID: "{{ cbrain_portal_userid }}"
-      GROUPID: "{{ cbrain_portal_groupid }}"
+      USERID: "{{ portal_user.uid }}"
+      GROUPID: "{{ portal_group.gid }}"
       MYSQL_HOST: "{{ cbrain_db_marathon_host }}"
       MYSQL_PORT: "{{ cbrain_db_port }}"
       MYSQL_USER: "{{ cbrain_db_user }}"
