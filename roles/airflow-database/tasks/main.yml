@@ -1,0 +1,60 @@
+---
+
+# Mysql user in Docker appears as user 999 outside
+- name: Create Mysql storage directory
+  file: state=directory path={{ airflow_mysql_data_dir }} mode=0700 owner={{ airflow_mysql_docker_user }} group={{ airflow_mysql_docker_user }}
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old Mysql using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ airflow_mysql_marathon_id }}"
+    state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
+
+- name: Launch Airflow Mysql database using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ airflow_mysql_marathon_id }}"
+    state: "present"
+    docker_image: "mysql:{{ mysql_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ airflow_mysql_port }}'
+        containerPort: 3306
+        name: 'mysql'
+        protocol: 'tcp'
+    container_volumes:
+      - containerPath: "/var/lib/mysql"
+        hostPath: "{{ airflow_mysql_data_dir }}"
+        mode: RW
+    env:
+      MYSQL_DATABASE: "airflow"
+      MYSQL_USER: "{{ airflow_mysql_user }}"
+      MYSQL_PASSWORD: "{{ airflow_mysql_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ airflow_mysql_root_password }}"
+    instances: 1
+    cpus: 0.2
+    mem: '{{ airflow_mysql_mem }}'
+    require_ports: true
+    #constraints: [["hostname", "CLUSTER", "{{ airflow_mysql_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "/usr/bin/mysql --host=localhost --port=3306 --user={{ airflow_mysql_user }} --password={{ airflow_mysql_password }} -e 'show databases;' | grep information_schema"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+  async: 600
+  poll: 1
