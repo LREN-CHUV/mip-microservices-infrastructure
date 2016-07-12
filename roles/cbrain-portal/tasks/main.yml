@@ -25,20 +25,22 @@
 
 - name: Install Git if plugins are used
   apt: name=git
-  when: cbrain_portal_plugins
+  when: cbrain_plugins
 
 - name: Download code for plugins
   git:
     repo: '{{ item.git_repo }}'
+    version: "{{ item.git_version | default('HEAD') }}"
     dest: '{{ cbrain_portal_plugins_dir }}/{{ item.name }}'
-  with_items: '{{ cbrain_portal_plugins }}'
+    depth: 1
+  with_items: '{{ cbrain_plugins }}'
 
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
     uri: "{{ internal_marathon_url }}"
 
-- name: Remove old CBrain portal using Marathon
+- name: Remove old CBrain Portal using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ cbrain_portal_marathon_id }}"
@@ -47,7 +49,7 @@
   async: 600
   poll: 1
 
-- name: Launch CBrain portal using Marathon
+- name: Launch CBrain Portal using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ cbrain_portal_marathon_id }}"
@@ -83,12 +85,16 @@
       MYSQL_USER: "{{ cbrain_db_user }}"
       MYSQL_PASSWORD: "{{ cbrain_db_password }}"
       MYSQL_DATABASE: "{{ cbrain_db_database }}"
+      CBRAIN_DATA_PROVIDER_HOST: "{{ cbrain_data_provider_marathon_host }}"
+      CBRAIN_DATA_PROVIDER_PORT: "{{ cbrain_data_provider_ssh_port }}"
+      CBRAIN_BOURREAU_HOST: "{{ cbrain_bourreau_marathon_host }}"
+      CBRAIN_BOURREAU_PORT: "{{ cbrain_bourreau_ssh_port }}"
     instances: 1
     cpus: 0.2
     mem: '{{ cbrain_portal_mem }}'
     require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ cbrain_portal_marathon_host }}"]]
-    dependencies: []
+    dependencies: '{{ cbrain_portal_dependencies }}'
     executor: ""
     wait_timeout: 600
     health_checks:
@@ -103,3 +109,17 @@
     upgrade_strategy_maximum_over_capacity: 0.0
   async: 600
   poll: 1
+
+- name: Install tar
+  apt: name=tar
+
+- name: Create an archive containing the public SSH key of CBrain Portal
+  shell: >
+    cd /tmp && \
+    mkdir -p /tmp/.portal_ssh && \
+    cp {{ cbrain_portal_ssh_dir }}/id_cbrain_portal.pub /tmp/.portal_ssh/ && \
+    chmod a+r /tmp/.portal_ssh/id_cbrain_portal.pub && \
+    tar cvf /tmp/portal_ssh.tar .portal_ssh/
+
+- name: Upload CBrain portal public SSH key to Marathon artifact store
+  command: curl -s -v -include -XPOST {{ internal_marathon_url }}/v2/artifacts/cbrain/portal/portal_ssh.tar --form file=@/tmp/portal_ssh.tar

@@ -1,0 +1,108 @@
+---
+
+- name: Create group for CBrain Bourreau
+  group: name="{{ cbrain_bourreau_group }}"
+  register: bourreau_group
+
+- name: Create user for CBrain Bourreau
+  user:
+    name: "{{ cbrain_bourreau_user }}"
+    group: "{{ cbrain_bourreau_group }}"
+  register: bourreau_user
+
+- name: Create CBrain directories
+  file:
+    name: '{{ item }}'
+    state: directory
+    owner: "{{ cbrain_bourreau_user }}"
+    group: "{{ cbrain_bourreau_group }}"
+    mode: 0700
+  with_items:
+    - '{{ cbrain_bourreau_data_cache_dir }}'
+    - '{{ cbrain_bourreau_ssh_dir }}'
+    - '{{ cbrain_bourreau_plugins_dir }}'
+    - '{{ cbrain_bourreau_task_directories_dir }}'
+
+- name: Install Git if plugins are used
+  apt: name=git
+  when: cbrain_plugins
+
+- name: Download code for plugins
+  git:
+    repo: '{{ item.git_repo }}'
+    version: "{{ item.git_version | default('HEAD') }}"
+    dest: '{{ cbrain_bourreau_plugins_dir }}/{{ item.name }}'
+    depth: 1
+  with_items: '{{ cbrain_plugins }}'
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old CBrain Bourreau using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ cbrain_bourreau_marathon_id }}"
+    state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
+
+- name: Launch CBrain Bourreau using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ cbrain_bourreau_marathon_id }}"
+    state: "present"
+    docker_image: "{{ cbrain_bourreau_image }}:{{ cbrain_bourreau_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ cbrain_bourreau_ssh_port }}'
+        containerPort: 22
+        name: 'ssh'
+        protocol: 'tcp'
+    docker_parameters: '{{ cbrain_bourreau_docker_parameters }}'
+    container_volumes:
+      - containerPath: "/home/cbrain/cbrain_data_cache"
+        hostPath: "{{ cbrain_bourreau_data_cache_dir }}"
+        mode: RW
+      - containerPath: "/home/cbrain/.portal_ssh"
+        hostPath: ".portal_ssh"
+        mode: RO
+      - containerPath: "/home/cbrain/.ssh"
+        hostPath: "{{ cbrain_bourreau_ssh_dir }}"
+        mode: RW
+      - containerPath: "/home/cbrain/plugins"
+        hostPath: "{{ cbrain_bourreau_plugins_dir }}"
+        mode: RW
+      - containerPath: "/home/cbrain/cbrain_task_directories"
+        hostPath: "{{ cbrain_bourreau_task_directories_dir }}"
+        mode: RW
+    env:
+      USERID: "{{ bourreau_user.uid }}"
+      GROUPID: "{{ bourreau_group.gid }}"
+      PORTAL_HOST: "{{ cbrain_portal_marathon_host }}"
+      PORTAL_PORT: "{{ cbrain_portal_port }}"
+    instances: 1
+    cpus: 0.2
+    mem: '{{ cbrain_bourreau_mem }}'
+    require_ports: true
+    constraints: [["hostname", "CLUSTER", "{{ cbrain_bourreau_marathon_host }}"]]
+    dependencies: '{{ cbrain_bourreau_dependencies }}'
+    fetch:
+      - uri: '{{ internal_marathon_url }}/v2/artifacts/cbrain/portal/portal_ssh.tar'
+        extract: true
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: TCP
+        port: "{{ cbrain_bourreau_ssh_port }}"
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 3
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
+  async: 600
+  poll: 1

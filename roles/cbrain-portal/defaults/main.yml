@@ -20,6 +20,7 @@ cbrain_portal_version: "dev"
 
 cbrain_portal_mem: 1572.0
 
+cbrain_db_marathon_id: /cbrain/db
 cbrain_db_user: cbrain
 cbrain_db_password: cbrain
 cbrain_db_marathon_host: '{{ inventory_hostname }}'
@@ -32,12 +33,19 @@ cbrain_portal_plugins_dir: '/srv/docker/cbrain_portal/plugins'
 cbrain_portal_data_provider_dir: '/srv/docker/cbrain_portal/data'
 
 cbrain_portal_docker_parameters: []
+cbrain_portal_dependencies:
+  - '{{ cbrain_db_marathon_id }}'
 
-cbrain_portal_plugins:
+# CBrain plugins should be the same in both Portal and Bourreau
+cbrain_plugins:
   - name: neuro
     git_repo: https://github.com/aces/cbrain-plugins-neuro.git
-    portal_install_command: "rake cbrain:plugins:install:all"
-    bourreau_install_command: "rake cbrain:plugins:install:plugins"
+    git_version: HEAD
+
+cbrain_bourreau_marathon_host: '{{ inventory_hostname }}'
+cbrain_bourreau_ssh_port: 4522
+cbrain_data_provider_marathon_host: '{{ inventory_hostname }}'
+cbrain_data_provider_ssh_port: 4523
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

@@ -1,0 +1,28 @@
+---
+
+cbrain_data_provider_marathon_id: /cbrain/data-provider
+
+# Pin the data_provider to a particular host
+cbrain_data_provider_marathon_host: '{{ inventory_hostname }}'
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
+cbrain_data_provider_ssh_port: 4523
+cbrain_data_provider_user: 'cbrain'
+cbrain_data_provider_group: 'cbrain'
+
+cbrain_data_provider_image: 'mcin/cbrain_data_provider'
+cbrain_data_provider_version: "dev"
+
+cbrain_data_provider_mem: 128.0
+
+cbrain_data_provider_data_dir: '/srv/docker/cbrain_data_provider/data'
+
+cbrain_data_provider_docker_parameters: []
+cbrain_data_provider_dependencies:
+  - '{{ cbrain_portal_marathon_id }}'
+
+cbrain_portal_marathon_id: /cbrain/portal
+cbrain_portal_marathon_host: '{{ inventory_hostname }}'
+cbrain_portal_port: 4580
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

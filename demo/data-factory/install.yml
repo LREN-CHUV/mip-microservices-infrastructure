@@ -60,6 +60,12 @@
     - role: cbrain-portal
       tags: ['cbrain']
 
+    - role: cbrain-data-provider
+      tags: ['cbrain']
+
+    - role: cbrain-bourreau
+      tags: ['cbrain']
+
     - role: audit-deployment
       installed_component: cbrain
       tags: ['cbrain']

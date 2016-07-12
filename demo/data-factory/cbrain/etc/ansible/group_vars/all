@@ -13,3 +13,16 @@ cbrain_portal_version: "dev"
 cbrain_portal_docker_parameters:
   - key: 'add-host'
     value: "cbrain-master:192.168.33.66"
+
+cbrain_bourreau_image: 'lren/cbrain_bourreau'
+cbrain_bourreau_version: "dev"
+
+cbrain_bourreau_docker_parameters:
+  - key: 'add-host'
+    value: "cbrain-master:192.168.33.66"
+
+cbrain_data_provider_image: 'lren/cbrain_data_provider'
+cbrain_data_provider_version: "dev"
+cbrain_data_provider_docker_parameters:
+  - key: 'add-host'
+    value: "cbrain-master:192.168.33.66"

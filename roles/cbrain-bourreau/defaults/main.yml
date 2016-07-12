@@ -1,0 +1,37 @@
+---
+
+cbrain_bourreau_marathon_id: /cbrain/bourreau
+
+# Pin the bourreau to a particular host
+cbrain_bourreau_marathon_host: '{{ inventory_hostname }}'
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
+cbrain_bourreau_ssh_port: 4522
+cbrain_bourreau_user: 'cbrain'
+cbrain_bourreau_group: 'cbrain'
+
+cbrain_bourreau_image: 'mcin/cbrain_bourreau'
+cbrain_bourreau_version: "dev"
+
+# You need to give enough memory to be able to run any useful tools
+cbrain_bourreau_mem: 256.0
+
+cbrain_bourreau_data_cache_dir: '/srv/docker/cbrain_bourreau/cache'
+cbrain_bourreau_ssh_dir: '/srv/docker/cbrain_bourreau/.ssh'
+cbrain_bourreau_plugins_dir: '/srv/docker/cbrain_bourreau/plugins'
+cbrain_bourreau_task_directories_dir: '/srv/docker/cbrain_bourreau/task_directories'
+
+cbrain_bourreau_docker_parameters: []
+cbrain_bourreau_dependencies:
+  - '{{ cbrain_portal_marathon_id }}'
+
+cbrain_portal_marathon_id: /cbrain/portal
+cbrain_portal_marathon_host: '{{ inventory_hostname }}'
+cbrain_portal_port: 4580
+
+# CBrain plugins should be the same in both Portal and Bourreau
+cbrain_plugins:
+  - name: neuro
+    git_repo: https://github.com/aces/cbrain-plugins-neuro.git
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

@@ -39,8 +39,6 @@
   ignore_errors: true
   when: apt_proxy_host is defined
 
-- debug: 'msg={{apt_proxy_status.state}}'
-
 - template:
     src: apt-proxy.j2
     dest: /etc/apt/apt.conf.d/01proxy

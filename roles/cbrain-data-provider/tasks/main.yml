@@ -1,0 +1,84 @@
+---
+
+- name: Create group for CBrain Data Provider
+  group: name="{{ cbrain_data_provider_group }}"
+  register: data_provider_group
+
+- name: Create user for CBrain Data Provider
+  user:
+    name: "{{ cbrain_data_provider_user }}"
+    group: "{{ cbrain_data_provider_group }}"
+  register: data_provider_user
+
+- name: Create CBrain directories
+  file:
+    name: '{{ item }}'
+    state: directory
+    owner: "{{ cbrain_data_provider_user }}"
+    group: "{{ cbrain_data_provider_group }}"
+    mode: 0700
+  with_items:
+    - '{{ cbrain_data_provider_data_dir }}'
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old CBrain Data Provider using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ cbrain_data_provider_marathon_id }}"
+    state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
+
+- name: Launch CBrain Data Provider using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ cbrain_data_provider_marathon_id }}"
+    state: "present"
+    docker_image: "{{ cbrain_data_provider_image }}:{{ cbrain_data_provider_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ cbrain_data_provider_ssh_port }}'
+        containerPort: 22
+        name: 'ssh'
+        protocol: 'tcp'
+    docker_parameters: '{{ cbrain_data_provider_docker_parameters }}'
+    container_volumes:
+      - containerPath: "/home/cbrain/data"
+        hostPath: "{{ cbrain_data_provider_data_dir }}"
+        mode: RW
+      - containerPath: "/home/cbrain/.portal_ssh"
+        hostPath: ".portal_ssh"
+        mode: RW
+    env:
+      USERID: "{{ data_provider_user.uid }}"
+      GROUPID: "{{ data_provider_group.gid }}"
+      PORTAL_HOST: "{{ cbrain_portal_marathon_host }}"
+      PORTAL_PORT: "{{ cbrain_portal_port }}"
+    instances: 1
+    cpus: 0.2
+    mem: '{{ cbrain_data_provider_mem }}'
+    require_ports: true
+    constraints: [["hostname", "CLUSTER", "{{ cbrain_data_provider_marathon_host }}"]]
+    dependencies: '{{ cbrain_data_provider_dependencies }}'
+    fetch:
+      - uri: '{{ internal_marathon_url }}/v2/artifacts/cbrain/portal/portal_ssh.tar'
+        extract: true
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: TCP
+        port: "{{ cbrain_data_provider_ssh_port }}"
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 3
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
+  async: 600
+  poll: 1
