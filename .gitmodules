@@ -90,3 +90,6 @@
 [submodule "roles/openjdk"]
 	path = roles/openjdk
 	url = https://github.com/AnsibleShipyard/ansible-java.git
+[submodule "roles/airflow"]
+	path = roles/airflow
+	url = https://github.com/LREN-CHUV/ansible-airflow.git

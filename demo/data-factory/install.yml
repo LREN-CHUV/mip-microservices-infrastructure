@@ -32,14 +32,15 @@
 
   roles:
 
-#    - role: airflow-database
-#      tags: ['airflow']
-#
+    - role: airflow-database
+      tags: ['airflow']
+
+# TODO
 #    - role: mri-database
 #      tags: ['airflow']
-#
-#    - role: airflow
-#      tags: ['airflow']
+
+    - role: airflow
+      tags: ['airflow']
 
     - role: audit-deployment
       installed_component: airflow

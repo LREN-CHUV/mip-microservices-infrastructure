@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Demo of CBrain in a Vagrant box.
+# Demo of Airflow in a Vagrant box.
 #
 # You need to install the vagrant-hostmanager plugin before running vagrant up to start the VM:
 #
@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-    # Every Vagrant virtual environment requires a box to build off of.
+  # Every Vagrant virtual environment requires a box to build off of.
   #config.vm.box = "sgallen/wily64"
   #config.vm.box = "boxcutter/ubuntu1604"
   config.vm.box = "ubuntu/trusty64"
@@ -35,22 +35,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
 
-  config.vm.define "cbrain_master" do |cbrain_master|
+  config.vm.define "airflow" do |airflow|
 
-    cbrain_master.vm.hostname = "cbrain-master"
+    airflow.vm.hostname = "airflow"
 
     # Create a forwarded port mapping which allows access to a specific port
     # within the machine from a port on the host machine. In the example below,
     # accessing "localhost:8080" will access port 80 on the guest machine.
-    cbrain_master.vm.network :forwarded_port, guest: 4580, host: 14580 # CBrain portal
-    cbrain_master.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos
-    cbrain_master.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
+    airflow.vm.network :forwarded_port, guest: 4080, host: 14080 # Airflow
+    airflow.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos
+    airflow.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
-    cbrain_master.vm.network :private_network, ip: '192.168.33.66'
+    airflow.vm.network :private_network, ip: '192.168.34.66'
 
-    cbrain_master.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
+    airflow.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
 
   end
 
@@ -59,10 +59,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Example for VirtualBox:
     #
     config.vm.provider "virtualbox" do |vb|
-      vb.name = "cbrain-mesos"
+      vb.name = "airflow-mesos"
 
       # Use VBoxManage to customize the VM. For example to change memory:
-      vb.customize ["modifyvm", :id, "--memory", "5072", "--cpus", "3", "--ioapic", "on"]
+      vb.customize ["modifyvm", :id, "--memory", "4048", "--cpus", "3", "--ioapic", "on"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
     end
@@ -72,7 +72,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   ansible_inventory_dir = "envs/vagrant/etc/ansible"
 
-  config.vm.provision "shell", inline: "grep cbrain_master /etc/hosts || echo '192.168.33.66 cbrain_master' >> /etc/hosts"
+  config.vm.provision "shell", inline: "grep airflow /etc/hosts || echo '192.168.34.66 airflow' >> /etc/hosts"
   # Mapping ansible roles with their git repositories messes with etckeeper
   config.vm.provision "shell", inline: "[ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
 
@@ -83,7 +83,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.limit = 'all'
       ansible.verbose = "vvvv"
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
-      # ansible.tags = ['airflow']
+      ansible.skip_tags = ['matlab']
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
         play_dir: Dir.pwd + '/../../..'
