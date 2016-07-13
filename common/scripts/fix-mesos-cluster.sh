@@ -2,7 +2,7 @@
 
 # Use those commands if Chronos doesn't restart after an upgrade
 
-service chronos stop 
+service chronos stop
 service marathon stop
 service mesos-slave stop
 docker rm docker-registry
@@ -14,8 +14,7 @@ rm -f /tmp/mesos/meta/slaves/latest
 rm -f /var/log/mesos/*
 
 # Brute force
-rm -rf /tmp/mesos/ /var/run/mesos/ /var/mesos
-rm -rf /var/lib/mesos/replicated_log/*
+rm -rf /tmp/mesos/ /var/run/mesos/ /var/mesos /var/lib/mesos/*
 
 # Extreme cases: reset zookeeper
 #rm -rf /var/lib/zookeeper/*
