@@ -12,15 +12,16 @@ airflow_db_marathon_host: '{{ inventory_hostname }}'
 airflow_db_port: 4306
 
 # One of mysql, mariadb
-cbrain_db_image: 'mariadb'
-cbrain_db_version: "10.1.14"
+airflow_db_image: 'mariadb'
+airflow_db_version: "10.1.14"
 
 #airflow_db_root_password:
 
 airflow_db_user: airflow
 airflow_db_password: airflow
 
-airflow_db_mem: 368.0
+airflow_db_mem: 512.0
+airflow_db_cpus: 0.5
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
