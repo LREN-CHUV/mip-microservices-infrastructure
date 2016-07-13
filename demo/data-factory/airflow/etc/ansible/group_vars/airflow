@@ -3,10 +3,8 @@
 airflow_web_server_port: 4080
 airflow_web_base_url: "http://airflow:14080"
 
-airflow_mysql_port: 4306
-airflow_mysql_password: "airflow"
-airflow_mysql_root_password: "admin"
-airflow_sql_alchemy_conn: "mysql://airflow:airflow@airflow:4306/airflow"
+airflow_db_port: 4306
+airflow_sql_alchemy_conn: "mysql://{{ airflow_db_user }}:{{ airflow_db_password }}@airflow:{{ airflow_db_port }}/airflow"
 
 airflow_dags_folder: "/usr/local/airflow/dags"
 airflow_plugins_folder: "/usr/local/airflow/plugins"
