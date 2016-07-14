@@ -4,5 +4,13 @@ ip_address: '192.168.34.66'
 airflow_db_root_password: 'MySecretPassword'
 airflow_db_password: 'airflowdb'
 
+airflow_db_additional_databases:
+  - name: mridb
+    user: '{{ mri_db_user }}'
+    password: '{{ mri_db_password }}'
+
+mri_db_user: mri
+mri_db_password: mripwd
+
 cbrain_db_root_password: 'MySecretPassword'
 cbrain_db_password: 'cbraindb'

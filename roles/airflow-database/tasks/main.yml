@@ -2,7 +2,15 @@
 
 # Mysql user in Docker appears as user 999 outside
 - name: Create Airflow database storage directory
-  file: state=directory path={{ airflow_db_data_dir }} mode=0700 owner={{ airflow_db_docker_user }} group={{ airflow_db_docker_user }}
+  file: state=directory path={{ item }} mode=0700 owner={{ airflow_db_docker_user }} group={{ airflow_db_docker_user }}
+  with_items:
+    - '{{ airflow_db_data_dir }}'
+    - '{{ airflow_db_docker_entrypoint_dir }}'
+
+- name: Creation script for additional databases
+  template:
+    src: additional-databases.sql.j2
+    dest: '{{ airflow_db_docker_entrypoint_dir }}/additional-databases.sql'
 
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
@@ -35,6 +43,9 @@
       - containerPath: "/var/lib/mysql"
         hostPath: "{{ airflow_db_data_dir }}"
         mode: RW
+      - containerPath: "/docker-entrypoint-initdb.d"
+        hostPath: "{{ airflow_db_docker_entrypoint_dir }}"
+        mode: RO
     env:
       MYSQL_DATABASE: "airflow"
       MYSQL_USER: "{{ airflow_db_user }}"

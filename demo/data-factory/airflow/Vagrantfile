@@ -51,6 +51,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     airflow.vm.network :private_network, ip: '192.168.34.66'
 
     airflow.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
+    airflow.vm.synced_folder "data/incoming", "/data/incoming", create: true
+    airflow.vm.synced_folder "data/out", "/data/SHARE", create: true
 
   end
 

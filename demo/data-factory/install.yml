@@ -35,16 +35,31 @@
     - role: airflow-database
       tags: ['airflow']
 
-# TODO
-#    - role: mri-database
-#      tags: ['airflow']
-
     - role: airflow
       tags: ['airflow']
 
     - role: audit-deployment
       installed_component: airflow
       tags: ['airflow']
+
+  post_tasks:
+
+    - name: Create folders for data and scripts
+      file: path='{{ item }}' state=directory owner=airflow
+      with_items:
+        - /data/incoming/20160713
+
+    - name: Get meta-extract code
+      git:
+        repo: https://github.com/LREN-CHUV/meta-extract.git
+        dest: /home/airflow/meta-extract
+        depth: 1
+
+    - name: Get some MRI data
+      git:
+        repo: https://github.com/dcunited001/mri-scans.git
+        dest: /data/incoming/20160713
+        depth: 1
 
 - hosts: cbrain
   become: yes

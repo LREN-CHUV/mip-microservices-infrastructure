@@ -3,6 +3,8 @@
 airflow_db_marathon_id: /airflow/db
 
 airflow_db_data_dir: /srv/docker/airflow_db/data
+airflow_db_docker_entrypoint_dir: /srv/docker/airflow_db/docker-entrypoint-initdb.d
+
 # The user running the Docker container for mysql, default to '999' (mysql user in the mysql docker container)
 airflow_db_docker_user: '999'
 
@@ -22,6 +24,9 @@ airflow_db_password: airflow
 
 airflow_db_mem: 512.0
 airflow_db_cpus: 0.5
+
+# Additional databases to create. It should contain the following properties: name, user, password
+airflow_db_additional_databases: []
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

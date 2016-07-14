@@ -2,7 +2,7 @@
 
 ### Installation:
 
-* install [Ansible](https://www.ansible.com/)
+* install [Ansible](https://www.ansible.com/), on Ubuntu you can use the script ./common/scripts/bootstrap.sh
 * install [Vagrant](https://www.vagrantup.com/)
 * start the virtual machine with Vagrant
   ```
@@ -15,9 +15,9 @@ The virtual machine should start and install CBrain, one data provider and one B
 
 You can see the CBrain portal running at [localhost:14580](http://localhost:14580)
 
-Mesos can be accessed on [localhost:15050](http://localhost:15050)
-
 Marathon can be accessed on [localhost:15080](http://localhost:15080)
+
+Mesos can be accessed on [localhost:15050](http://localhost:15050)
 
 The first time CBrain starts, it generates an administrator password. You need to find it in the logs of the portal application.
 You can download the stdout file from Marathon by navigating to the CBrain > portal application, then you can look for the password in the log.
