@@ -3,7 +3,7 @@
 ### Installation:
 
 * install [Ansible](https://www.ansible.com/), on Ubuntu you can use the script ./common/scripts/bootstrap.sh
-* install [Vagrant](https://www.vagrantup.com/)
+* install [Vagrant](https://www.vagrantup.com/) version 1.8.5 or better
 * start the virtual machine with Vagrant
   ```
     vagrant up

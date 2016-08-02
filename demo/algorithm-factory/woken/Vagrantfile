@@ -18,8 +18,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  #config.vm.box = "sgallen/wily64"
-  #config.vm.box = "boxcutter/ubuntu1604"
+  # TODO: wait for fix from Canonical https://bugs.launchpad.net/cloud-images/+bug/1565985
+  # config.vm.box = "ubuntu/xenial64"
+  # config.vm.box = "gbarbieru/xenial"
   config.vm.box = "ubuntu/trusty64"
 
   if Vagrant.has_plugin? 'vagrant-hostmanager'
@@ -74,9 +75,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   ansible_inventory_dir = "envs/vagrant/etc/ansible"
 
-  config.vm.provision "shell", inline: "grep woken /etc/hosts || echo '192.168.21.66 woken' >> /etc/hosts"
+  config.vm.provision "shell", inline: "grep woken /etc/hosts || echo '192.168.21.66 woken woken.local' >> /etc/hosts"
   # Mapping ansible roles with their git repositories messes with etckeeper
-  config.vm.provision "shell", inline: "[ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
+  config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
+  # Xenial ships only with Python 3
+  config.vm.provision "shell", inline: "apt-get install python2.7 python-simplejson"
 
   # Run provisioning with ansible
   config.vm.provision "ansible" do |ansible|
@@ -87,7 +90,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
-        play_dir: Dir.pwd + '/../../..'
+        play_dir: Dir.pwd + '/../../..',
+        datacenter: 'federation'
       }
   end
 
