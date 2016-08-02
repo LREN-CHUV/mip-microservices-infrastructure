@@ -34,10 +34,6 @@
 	path = roles/docker
 	url = https://github.com/ludovicc/ansible-docker.git
 	branch = master
-[submodule "roles/chronos"]
-	path = roles/chronos
-	url = https://github.com/ludovicc/ansible-chronos.git
-	branch = master
 [submodule "roles/vagrant"]
 	path = roles/vagrant
 	url = https://github.com/denkhaus/ansible-vagrant.git

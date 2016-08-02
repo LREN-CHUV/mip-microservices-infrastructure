@@ -75,7 +75,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   ansible_inventory_dir = "envs/vagrant/etc/ansible"
 
-  config.vm.provision "shell", inline: "grep woken /etc/hosts || echo '192.168.21.66 woken woken.local' >> /etc/hosts"
+  config.vm.provision "shell", inline: "grep woken.local /etc/hosts || echo '192.168.21.66 woken woken.local' >> /etc/hosts"
   # Mapping ansible roles with their git repositories messes with etckeeper
   config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
   # Xenial ships only with Python 3
