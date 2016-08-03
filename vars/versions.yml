@@ -28,7 +28,7 @@ mysql_version: "5.7.12"
 # Use latest NGinx from official repo
 nginx_official_repo: True
 
-flyway_version: "3.2.1"
+flyway_version: "4.0.3"
 
 nodejs_version: "0.10.37"
 nodejs_install_source: nodesource_debs

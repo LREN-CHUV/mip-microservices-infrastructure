@@ -6,3 +6,5 @@ analytics_db_admin_user: postgres
 # TO FILL - analytics_db_admin_password:
 
 analytics_db_setup_dir: /opt/analytics-database/migration
+
+flyway_version: "4.0.3"
