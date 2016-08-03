@@ -1,0 +1,15 @@
+---
+
+jenkins_marathon_id: /jenkins
+
+jenkins_marathon_host: '{{ inventory_hostname }}'
+
+jenkins_version: "2.7.1"
+
+jenkins_docker_user: '1000'
+
+jenkins_port: 9081
+
+jenkins_user: root
+
+internal_marathon_url: http://localhost:8080/jenkins

@@ -1,0 +1,20 @@
+---
+
+sonarqube_marathon_id: /sonarqube
+sonarqube_marathon_host: '{{ inventory_hostname }}'
+
+sonarqube_version: "5.6"
+
+sonarqube_docker_user: root
+
+sonarqube_port: 9000
+sonarqube_context: /sonarqube
+
+sonarqube_conf_dir: /srv/docker/sonarqube/conf
+sonarqube_data_dir: /srv/docker/sonarqube/data
+sonarqube_extensions_dir: /srv/docker/sonarqube/extension
+sonarqube_plugins_dir: /srv/docker/sonarqube/plugins
+
+sonarqube_db_url: jdbc:postgresql://localhost:5080/sonar
+
+internal_marathon_url: http://localhost:9000/sonarqube

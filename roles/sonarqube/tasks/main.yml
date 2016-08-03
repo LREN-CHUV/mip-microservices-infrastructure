@@ -1,0 +1,78 @@
+---
+
+# Create directories to persist SonarQube configuration, data, extensions and plugins.
+
+- name: Create SonarQube conf directory
+  file: state=directory path={{ sonarqube_conf_dir }} mode=0700 owner={{ sonarqube_docker_user }} group={{ sonarqube_docker_user }}
+
+- name: Create SonarQube data directory
+  file: state=directory path={{ sonarqube_data_dir }} mode=0700 owner={{ sonarqube_docker_user }} group={{ sonarqube_docker_user }}
+
+- name: Create SonarQube extensions directory
+  file: state=directory path={{ sonarqube_extensions_dir }} mode=0700 owner={{ sonarqube_docker_user }} group={{ sonarqube_docker_user }}
+
+- name: Create SonarQube plugins directory
+  file: state=directory path={{ sonarqube_plugins_dir }} mode=0700 owner={{ sonarqube_docker_user }} group={{ sonarqube_docker_user }}
+
+
+# Wait for Marathon
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+
+# Remove old SonarQube instance using Marathon
+
+- name: Remove old SonarQube using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ sonarqube_marathon_id }}"
+    state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
+
+
+# Launch SonarQube using Marathon
+
+- name: Launch SonarQube using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ sonarqube_marathon_id }}"
+    state: "present"
+    docker_image: "sonarqube:{{ sonarqube_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ sonarqube_port }}'
+        containerPort: 9000
+    container_volumes:
+      - containerPath: "/opt/sonarqube/conf"
+        hostPath: "{{ sonarqube_conf_dir }}"
+        mode: RW
+      - containerPath: "/opt/sonarqube/data"
+        hostPath: "{{ sonarqube_data_dir }}"
+        mode: RW
+      - containerPath: "/opt/sonarqube/extensions"
+        hostPath: "{{ sonarqube_extensions_dir }}"
+        mode: RW
+      - containerPath: "/opt/sonarqube/lib/bundled-plugins"
+        hostPath: "{{ sonarqube_plugins_dir }}"
+        mode: RW
+    env:
+      SONARQUBE_JDBC_URL: "{{ sonarqube_db_url }}"
+    cmd: "./bin/run.sh -Dsonar.web.context={{ sonarqube_context }}"
+    instances: 1
+    cpus: 0.2
+    mem: 128.0
+    ports: []
+    require_ports: false
+    constraints: [["hostname", "CLUSTER", "{{ sonarqube_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    # Here we should add a health check
+  async: 600
+  poll: 1

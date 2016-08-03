@@ -1,0 +1,32 @@
+---
+#
+# Master Install
+#
+# Installs _the_ world
+#
+
+- include: ../../common/playbooks/base-system.yml
+
+- include: ../../common/playbooks/zookeeper.yml
+
+- include: ../../common/playbooks/mesos-leader.yml
+
+- include: ../../common/playbooks/mesos-mixed.yml
+
+- include: ../../common/playbooks/mesos-follower.yml
+
+- hosts: sonarqube
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  roles:
+
+    - role: sonarqube
+      tags: ['sonarqube']
+
+    - role: audit-deployment
+      installed_component: sonarqube
+      tags: ['sonarqube']
+

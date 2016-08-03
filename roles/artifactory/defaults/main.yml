@@ -1,0 +1,13 @@
+artifactory_marathon_id: /artifactory
+
+artifactory_marathon_host: '{{ inventory_hostname }}'
+
+artifactory_version: "2.7.1"
+
+artifactory_docker_user: '1000'
+
+artifactory_port: 9081
+
+artifactory_user: root
+
+internal_marathon_url: http://localhost:8080/artifactory/webapp

@@ -1,0 +1,15 @@
+---
+
+ldap_marathon_id: /ldap
+
+ldap_marathon_host: '{{ inventory_hostname }}'
+
+ldap_version: "2.7.1"
+
+ldap_docker_user: '1000'
+
+ldap_port: 389
+
+ldap_user: root
+
+internal_marathon_url: ldap://ldap:389
