@@ -11,6 +11,9 @@
 
   roles:
 
+    - role: chronos
+      tags: ['mesos-frameworks', 'chronos']
+
     - role: woken
       tags: ['woken', 'analytics', 'marathon-app']
     # Audit-deployment delegated to the woken host
