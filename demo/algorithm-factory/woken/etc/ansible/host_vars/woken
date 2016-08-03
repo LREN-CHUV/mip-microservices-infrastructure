@@ -3,3 +3,5 @@ ip_address: '192.168.21.66'
 
 analytics_db_password: "analyticsdb"
 analytics_db_admin_password: "analyticsroot"
+ldsm_db_password: "ldsmdb"
+ldsm_db_admin_password: "ldsmroot"

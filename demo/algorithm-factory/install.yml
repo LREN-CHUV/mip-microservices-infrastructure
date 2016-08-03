@@ -19,4 +19,21 @@
 
 - include: ../../common/playbooks/analytics-database.yml
 
+- hosts: demo-db
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  roles:
+
+    - role: postgres
+      postgres_marathon_id: "/algorithm-factory/demodb"
+      postgres_marathon_host: "{{ ldsm_db_marathon_host }}"
+      postgres_data_dir: /srv/docker/demodb/data
+      postgres_port: "{{ ldsm_db_port }}"
+      postgres_user: "{{ ldsm_db_admin_user }}"
+      postgres_password: "{{ ldsm_db_admin_password }}"
+      tags: ['demo-database', 'database', 'analytics', 'marathon-app']
+
 - include: ../../common/playbooks/woken.yml
