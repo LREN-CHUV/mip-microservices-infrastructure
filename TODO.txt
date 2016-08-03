@@ -1,6 +1,7 @@
 TODO
 
 * update flyway to 4.0, flyway.properties -> flyway.conf
+* create a Docker image for Flyway, use it to launch Flyway.
 * launch Gitlab with Marathon
 * watchtower role, to launch with Marathon
 * denodo: setup, upgrade, licenses
@@ -8,3 +9,5 @@ TODO
 * http://blog.romkevandermeulen.nl/2015/02/19/docker-gen-automatic-nginx-config-with-a-human-touch/
 * keep track of version for Docker
 * ensure that Docker-registry is up and running before deploying workflow app with Marathon
+* connect Chronos to Sentry (raven_dsn option)
+* connect Chronos to Graphite

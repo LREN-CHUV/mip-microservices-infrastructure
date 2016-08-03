@@ -11,10 +11,10 @@
 
 ### Usage:
 
-The virtual machine should start and install Airflow.
+The virtual machine should start and install Woken.
 
 You can see Woken running at [localhost:14087](http://localhost:14087)
 
 Marathon can be accessed on [localhost:15080](http://localhost:15080)
 
-Mesos can be accessed on [localhost:15050](http://localhost:15050)
+Chronos can be accessed on [localhost:14400](http://localhost:14400)

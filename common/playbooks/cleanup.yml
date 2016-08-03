@@ -2,7 +2,7 @@
 
 # Cleanup old configurations and software
 
-- hosts: installation
+- hosts: control
   become: no
   vars_files:
     - "{{ play_dir }}/vars/common.yml"

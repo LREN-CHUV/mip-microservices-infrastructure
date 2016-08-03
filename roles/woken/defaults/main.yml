@@ -1,6 +1,6 @@
 ---
 
-woken_marathon_id: /woken
+woken_marathon_id: /algorithm-factory/woken
 
 woken_config_dir: /srv/docker/woken/config
 

@@ -14,7 +14,7 @@ internal_woken_url: "http://woken.local:8087"
 java_oracle_distribution: 'jdk'
 
 analytics_db_host: "woken.local"
-analytics_db_marathon_host: "woken.local"
+analytics_db_marathon_host: "woken"
 analytics_db_port: 31432
 analytics_db_user: "analytics"
 analytics_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_db_port }}/analytics"
@@ -22,11 +22,12 @@ analytics_db_jdbc_driver: "org.postgresql.Driver"
 analytics_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
 analytics_db_admin_user: "postgres"
 
-ldsm_db_host: "hbps2.intranet.chuv"
-ldsm_db_port: 5432
-ldsm_db_user: federation
-ldsm_db_password: "HBP4thewin"
-ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/LDSM1"
+ldsm_db_host: "woken.local"
+ldsm_db_marathon_host: "woken"
+ldsm_db_port: 31433
+ldsm_db_user: ldsm
+ldsm_db_password: "ldsmdb"
+ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/ldsm"
 ldsm_db_jdbc_driver: "org.postgresql.Driver"
 ldsm_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.3-1103.jdbc41.jar"
 

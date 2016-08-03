@@ -9,5 +9,11 @@ woken
 [mesos-mixed]
 woken
 
+[control]
+woken
+
+[analytics-db]
+woken
+
 [woken]
 woken

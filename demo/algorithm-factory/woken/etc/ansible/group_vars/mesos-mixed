@@ -12,7 +12,12 @@ mesos_zk_port: "2181"
 mesos_zk_base: "zk://woken.local:2181"
 mesos_zk: "{{ mesos_zk_base }}/mesos"
 marathon_zk_connect: "{{ mesos_zk_base }}/marathon"
-chronos_zk_connect: "{{ mesos_zk_base }}/chronos"
 chronos_zk_mesos_master: "{{ mesos_zk }}"
+chronos_zk_hosts: 'woken.local:2181'
+chronos_marathon_host: 'woken'
+
+chronos_docker_parameters:
+  - key: 'add-host'
+    value: "woken.local:192.168.21.66"
 
 skipped_roles: []

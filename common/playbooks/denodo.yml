@@ -1,5 +1,5 @@
 ---
-- hosts: install
+- hosts: control
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
