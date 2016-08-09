@@ -71,9 +71,6 @@
 [submodule "roles/docker-compose"]
 	path = roles/docker-compose
 	url = https://github.com/tumf/ansible-role-docker-compose
-[submodule "roles/portal-database/files/portaldb"]
-	path = roles/portal-database/files/portaldb
-	url = git@gitlab.intranet.chuv:mip-portal/portal-db.git
 [submodule "roles/silpion.lib"]
 	path = roles/silpion.lib
 	url = https://github.com/ludovicc/ansible-lib.git

@@ -1,0 +1,27 @@
+---
+
+docker_opts: "--dns=192.168.41.66"
+
+internal_mesos_url: "http://portal.local:5050"
+internal_marathon_url: "http://portal.local:5080"
+internal_chronos_url: "http://portal.local:4400"
+internal_portal_url: "http://portal.local:8087"
+
+java_oracle_distribution: 'jdk'
+
+portal_db_host: "portal.local"
+portal_db_marathon_host: "portal"
+portal_db_port: 31432
+portal_db_user: "portal"
+portal_db_admin_user: "postgres"
+portal_db_jdbc_url: "jdbc:postgresql://{{ portal_db_host }}:{{ portal_db_port }}/portal"
+portal_db_jdbc_driver: "org.postgresql.Driver"
+portal_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+portal_db_cpus: 0.2
+portal_db_mem: 128.0
+
+portal_backend_port: 8080
+portal_backend_marathon_host: "portal"
+portal_backend_docker_parameters:
+  - key: 'add-host'
+    value: "portal.local:192.168.41.66"
