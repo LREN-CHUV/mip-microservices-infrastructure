@@ -2,7 +2,6 @@
 
 # Use those commands if Chronos doesn't restart after an upgrade
 
-service chronos stop
 service marathon stop
 service mesos-slave stop
 docker rm docker-registry
