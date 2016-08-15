@@ -111,6 +111,7 @@
   pip: name=docker-py state=present
   delegate_to: "{{ groups['control'][0] }}"
 
+# TODO: this task does not fail on error when using Ansible 2.1.1.0
 - name: Run Flyway migration
   docker_container:
     name: flyway
@@ -120,10 +121,12 @@
     volumes:
       - '{{ analytics_db_setup_dir }}:/flyway/sql'
     env:
-      FLYWAY_DBMS: postgres
+      FLYWAY_DBMS: postgresql
       FLYWAY_HOST: '{{ analytics_db_host }}'
       FLYWAY_PORT: '{{ analytics_db_port }}'
       FLYWAY_DATABASE_NAME: '{{ analytics_db_admin_user }}'
+      FLYWAY_SCHEMAS: "analytics"
       FLYWAY_USER: '{{ analytics_db_admin_user }}'
       FLYWAY_PASSWORD: '{{ analytics_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'
   delegate_to: "{{ groups['control'][0] }}"

@@ -5,5 +5,5 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ item }}"
     state: "absent"
-  with_items: old_apps
+  with_items: '{{ old_apps }}'
   ignore_errors: True

@@ -9,11 +9,11 @@ service docker stop
 service mesos-master stop
 service zookeeper stop
 
-rm -f /tmp/mesos/meta/slaves/latest
+rm -f /var/lib/mesos/meta/slaves/latest
 rm -f /var/log/mesos/*
 
 # Brute force
-rm -rf /tmp/mesos/ /var/run/mesos/ /var/mesos /var/lib/mesos/*
+rm -rf /var/run/mesos/ /var/mesos /var/lib/mesos/*
 
 # Extreme cases: reset zookeeper
 #rm -rf /var/lib/zookeeper/*
@@ -26,4 +26,3 @@ service docker start
 service mesos-slave start
 sleep 5
 service marathon start
-service chronos start
