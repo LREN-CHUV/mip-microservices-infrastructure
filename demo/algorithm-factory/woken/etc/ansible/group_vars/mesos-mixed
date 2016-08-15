@@ -16,6 +16,7 @@ chronos_zk_mesos_master: "{{ mesos_zk }}"
 chronos_zk_hosts: 'woken.local:2181'
 chronos_marathon_host: 'woken'
 
+# We do not have access to a proper DNS in Vagrant
 chronos_docker_parameters:
   - key: 'add-host'
     value: "woken.local:192.168.21.66"
