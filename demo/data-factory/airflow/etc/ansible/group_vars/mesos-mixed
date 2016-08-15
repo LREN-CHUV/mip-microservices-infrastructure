@@ -16,5 +16,4 @@ marathon_zk_connect: "zk://localhost:2181/marathon"
 internal_mesos_url: "http://localhost:5050"
 internal_marathon_url: "http://localhost:5080"
 
-skipped_roles:
-  - chronos
+skipped_roles: []
