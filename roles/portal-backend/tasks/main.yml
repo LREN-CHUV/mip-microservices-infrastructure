@@ -38,14 +38,14 @@
     dependencies: ["{{ portal_db_marathon_id }}"]
     executor: ""
     wait_timeout: 600
-    #health_checks:
-    #  - protocol: HTTP
-    #    port: '{{ portal_backend_port }}'
-    #    path: '{{ portal_backend_context_path }}/login/hbp'
-    #    gracePeriodSeconds: 300
-    #    intervalSeconds: 60
-    #    timeoutSeconds: 20
-    #    maxConsecutiveFailures: 2
+    health_checks:
+      - protocol: HTTP
+        port: '{{ portal_backend_port }}'
+        path: '{{ portal_backend_context_path }}/health'
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
