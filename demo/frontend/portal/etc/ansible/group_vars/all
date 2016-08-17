@@ -17,11 +17,17 @@ portal_db_admin_user: "postgres"
 portal_db_jdbc_url: "jdbc:postgresql://{{ portal_db_host }}:{{ portal_db_port }}/portal"
 portal_db_jdbc_driver: "org.postgresql.Driver"
 portal_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+
+# Few resources available in Vagrant box
 portal_db_cpus: 0.2
 portal_db_mem: 128.0
 
-portal_backend_port: 8080
+portal_backend_port: 4080
 portal_backend_marathon_host: "portal"
 portal_backend_docker_parameters:
   - key: 'add-host'
     value: "portal.local:192.168.41.66"
+
+# Few resources available in Vagrant box
+portal_backend_cpus: 0.5
+portal_backend_mem: 1024.0
