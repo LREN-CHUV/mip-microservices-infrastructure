@@ -7,3 +7,5 @@
     state: "absent"
   with_items: '{{ old_apps }}'
   ignore_errors: True
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
