@@ -17,6 +17,7 @@
     waitTimeout: 600
   async: 600
   poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Launch Analytics DB using Marathon
   marathon_app:

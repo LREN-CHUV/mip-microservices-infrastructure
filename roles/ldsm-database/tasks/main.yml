@@ -14,9 +14,10 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ ldsm_db_marathon_id }}"
     state: "absent"
-    waitTimeout: 600
+    wait_timeout: 600
   async: 600
   poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Launch LDSM DB using Marathon
   marathon_app:

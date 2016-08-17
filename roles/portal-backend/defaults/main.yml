@@ -1,19 +1,31 @@
 ---
 
+# Version of the Docker image for Portal backend to use
 portal_backend_version: latest
 
+# Id of Portal backend in Marathon
 portal_backend_marathon_id: /frontend/portal-backend
+
 # Attach Portal backend to a particular host. The hostname should be the name known by Marathon / Mesos
 portal_backend_marathon_host: '{{ inventory_hostname }}'
+# Set of constraints to use to place Portal backend on some particular host(s)
+portal_backend_marathon_constraints: [["hostname", "CLUSTER", "{{ portal_backend_marathon_host }}"]]
+# Number of instances of Portal backend to launch
+portal_backend_instances: 1
 
-portal_backend_port: 8080
+# Amount of CPU reserved for Portal backend
+portal_backend_cpus: 1.0
+# Amount of memory in mb reserved for Portal backend
+portal_backend_mem: 2048.0
+
+# Port to use to expose Portal backend to other services in the cluster.
+portal_backend_port: 4080
+# Prefix path for all services provided by Portal backend
 portal_backend_context_path: "/services"
 portal_backend_session_timeout: 2592000
 portal_backend_logging_level_web: "DEBUG"
 portal_backend_logging_level_hibernate: "DEBUG"
 portal_backend_frontend_redirect_url: 'http://{{ portal_backend_marathon_host }}:{{ portal_backend_port }}/home'
-portal_backend_cpus: 1.0
-portal_backend_mem: 2048.0
 # Additional parameters for Docker
 portal_backend_docker_parameters: []
 

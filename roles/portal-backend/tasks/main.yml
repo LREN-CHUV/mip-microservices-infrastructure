@@ -10,6 +10,11 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ portal_backend_marathon_id }}"
     state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
 
 - name: Launch Portal backend using Marathon
   marathon_app:
@@ -17,25 +22,31 @@
     id: "{{ portal_backend_marathon_id }}"
     state: "present"
     docker_image: "hbpmip/portal-backend:{{ portal_backend_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: "{{ portal_backend_port }}"
+        containerPort: 8080
+    docker_parameters: '{{ portal_backend_docker_parameters }}'
     env: '{{ portal_backend_env }}'
-    instances: 1
+    instances: '{{ portal_backend_instances }}'
     cpus: '{{ portal_backend_cpus }}'
     mem: '{{ portal_backend_mem }}'
     ports: []
     require_ports: false
-    docker_parameters: '{{ portal_backend_docker_parameters }}'
-    constraints: [["hostname", "CLUSTER", "{{ portal_backend_marathon_host }}"]]
+    constraints: '{{ portal_backend_marathon_constraints }}'
     dependencies: ["{{ portal_db_marathon_id }}"]
     executor: ""
-    user: "mip"
     wait_timeout: 600
-    health_checks:
-      - protocol: HTTP
-        port: '{{ portal_backend_port }}'
-        path: '{{ portal_backend_context_path }}/login/hbp'
-        gracePeriodSeconds: 300
-        intervalSeconds: 60
-        timeoutSeconds: 20
-        maxConsecutiveFailures: 2
+    #health_checks:
+    #  - protocol: HTTP
+    #    port: '{{ portal_backend_port }}'
+    #    path: '{{ portal_backend_context_path }}/login/hbp'
+    #    gracePeriodSeconds: 300
+    #    intervalSeconds: 60
+    #    timeoutSeconds: 20
+    #    maxConsecutiveFailures: 2
   async: 600
   poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
