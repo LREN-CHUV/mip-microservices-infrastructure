@@ -1,5 +1,14 @@
 ---
 
+#
+# Setup mesos-leader on one or several servers.
+# Requires: zookeeper installed on the same or some other servers.
+#
+# The following components are optional:
+# * marathon: use --skip-tags=marathon
+# * mesos-ui: use --skip-tags=mesos-ui
+#
+
 - hosts: mesos-leader
   become: yes
   vars_files:
@@ -28,6 +37,12 @@
         - "JAVA_OPTS=-Xmx512m"
       tags: ['mesos-frameworks', 'marathon']
       when: "'marathon' not in skipped_roles"
+
+    - role: mesos-ui
+      marathon_env_vars:
+        - "JAVA_OPTS=-Xmx512m"
+      tags: ['mesos-frameworks', 'mesos-ui']
+      when: "'mesos-ui' not in skipped_roles"
 
     - role: audit-deployment
       installed_component: mesos-leader

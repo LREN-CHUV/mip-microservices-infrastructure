@@ -1,5 +1,15 @@
 ---
 
+#
+# Setup both mesos-leader and mesos-follower on one or several servers.
+# Requires: zookeeper installed on the same or some other servers.
+#
+# The following components are optional:
+# * docker: use --skip-tags=docker
+# * docker-registry-slave: use --skip-tags=docker-registry-slave or do not define
+#       the variable docker_registry_config_orig_dir
+#
+
 - hosts: mesos-follower
   become: yes
   vars_files:
@@ -13,11 +23,11 @@
   roles:
 
     - role: docker
-      tags: ['os-tools', 'container-platforms']
+      tags: ['os-tools', 'container-platforms', 'docker']
       when: "'docker' not in skipped_roles"
 
     - role: docker-registry-slave
-      tags: ['os-tools', 'container-platforms']
+      tags: ['os-tools', 'container-platforms', 'docker', 'docker-registry-slave']
       when: "'docker' not in skipped_roles and docker_registry_config_orig_dir is defined"
 
     - role: mesos

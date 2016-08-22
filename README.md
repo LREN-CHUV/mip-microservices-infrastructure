@@ -1,4 +1,7 @@
 
+[![License](https://img.shields.io/badge/license-Apache2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md)
+[![Twitter](https://img.shields.io/twitter/follow/HBPmedical%20platform.svg?style=social)](https://twitter.com/intent/follow?screen_name=HBPmedical)
+
 # Microservice infrastructure
 
 This project contains the generic version of the scripts used to deploy the Medical Informatics Platform.

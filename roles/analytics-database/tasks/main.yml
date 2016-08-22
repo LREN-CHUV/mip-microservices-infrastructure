@@ -66,6 +66,14 @@
     - curl
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+# See https://github.com/anarcher/ansible-docker-registry/issues/1
+- name: Make sure pip upgraded
+  command: easy_install -U pip
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
 
 - name: Wait for the database to be up and running
   wait_for: >

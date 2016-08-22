@@ -14,3 +14,6 @@ LATER
 
 * [stack simplification] Replace Zookeeper with Consul. Depends on [MESOS-3797](https://issues.apache.org/jira/browse/MESOS-3797)
 * Use Mesos maintenance mode to perform system upgrades, clean logs, rollout of new software. See [Mesos maintenance](http://mesos.apache.org/documentation/latest/maintenance/)
+* better manage upgrades between major versions of Postgres: https://hub.docker.com/r/tianon/postgres-upgrade/
+* [security] Integrate CoreOs Clair static analyser for Docker images to assess vulnerabilities in our images
+ https://github.com/coreos/clair
