@@ -28,3 +28,7 @@ portal
 # Install the Portal backend server
 [portal-backend]
 portal
+
+# Install the Portal frontend server
+[portal-frontend]
+portal

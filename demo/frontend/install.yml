@@ -20,3 +20,5 @@
 - include: ../../common/playbooks/portal-database.yml
 
 - include: ../../common/playbooks/portal-backend.yml
+
+- include: ../../common/playbooks/portal-frontend.yml

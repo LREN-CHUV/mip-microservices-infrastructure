@@ -1,6 +1,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md)
 [![Twitter](https://img.shields.io/twitter/follow/HBPmedical%20platform.svg?style=social)](https://twitter.com/intent/follow?screen_name=HBPmedical)
+[![Slack](https://img.shields.io/badge/slack-dev channel-e01563.svg)](https://hbpsp8.slack.com/archives/dev)
 
 # Microservice infrastructure
 

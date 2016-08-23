@@ -26,6 +26,9 @@
 
 - include: portal-backend.yml
 
+- include: portal-frontend.yml
+
+# TODO: delete?
 - include: mip-frontend.yml
 
 - include: dev.yml

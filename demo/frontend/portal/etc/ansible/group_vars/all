@@ -5,9 +5,18 @@ docker_opts: "--dns=192.168.41.66"
 internal_mesos_url: "http://portal.local:5050"
 internal_marathon_url: "http://portal.local:5080"
 internal_chronos_url: "http://portal.local:4400"
-internal_portal_url: "http://portal.local:8087"
+internal_portal_backend_server: "portal.local:{{ portal_backend_port }}"
 
 java_oracle_distribution: 'jdk'
+
+# Few resources available in Vagrant box
+portal_frontend_cpus: 0.2
+portal_frontend_mem: 256.0
+
+portal_frontend_virtual_host: '_'
+portal_frontend_docker_parameters:
+  - key: 'add-host'
+    value: "portal.local:192.168.41.66"
 
 portal_db_host: "portal.local"
 portal_db_marathon_host: "portal"

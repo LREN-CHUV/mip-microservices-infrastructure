@@ -21,7 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # TODO: wait for fix from Canonical https://bugs.launchpad.net/cloud-images/+bug/1565985
   # config.vm.box = "ubuntu/xenial64"
   # config.vm.box = "gbarbieru/xenial"
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "sgallen/wily64"
 
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
