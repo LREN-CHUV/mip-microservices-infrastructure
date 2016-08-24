@@ -35,8 +35,8 @@ nodejs_version: "0.10.37"
 nodejs_install_source: nodesource_debs
 
 # Versions of our Docker containers
-portal_frontend_version: "a6bfc15"
-portal_backend_version: "2075f59"
+portal_frontend_version: "375c7ea"
+portal_backend_version: "c6f7e7b"
 woken_version: "38f02e9"
 woken_functions:
   - name: boxplot
