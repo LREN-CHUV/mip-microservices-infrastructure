@@ -1,0 +1,15 @@
+---
+
+mesos_ui_marathon_id: /management/mesos-ui
+
+mesos_ui_port: 4200
+mesos_ui_docker_image_basename: capgemini/mesos-ui
+mesos_ui_docker_image: "{{ mesos_ui_docker_image_basename }}:{{ mesos_ui_version }}"
+
+mesos_ui_version: "standalone-0.1.4"
+
+mesos_ui_zk_hosts: '{{ mesos_zk_hosts }}'
+
+mesos_ui_cpus: 0.2
+mesos_ui_mem: 512.0 # Gulp requires quite a lot of memory
+mesos_ui_docker_parameters: []

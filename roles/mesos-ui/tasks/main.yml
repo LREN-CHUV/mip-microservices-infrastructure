@@ -1,0 +1,59 @@
+---
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Delete old Mesos UI app using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ mesos_ui_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+# Based on # https://github.com/Capgemini/mesos-ui/blob/master/marathon.json
+- name: Launch Mesos UI using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ mesos_ui_marathon_id }}"
+    state: "present"
+    docker_image: "{{ mesos_ui_docker_image }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: "{{ mesos_ui_port }}" # 0.0.0.0:
+        containerPort: 5000
+        protocol: tcp
+    docker_parameters: '{{ mesos_ui_docker_parameters }}'
+    container_volumes: []
+    env:
+      #ZOOKEEPER_ADDRESS: "{{ mesos_ui_zk_hosts }}"
+      MESOS_ENDPOINT: "{{ mesos_ui_mesos_endpoint }}"
+    labels:
+      DCOS_PACKAGE_NAME: "mesos-ui"
+      DCOS_PACKAGE_IS_FRAMEWORK: "false"
+      DCOS_PACKAGE_VERSION: "0.1.0"
+    instances: 1
+    cpus: '{{ mesos_ui_cpus }}'
+    mem: '{{ mesos_ui_mem }}'
+    ports: []
+    require_ports: false
+    constraints: [["hostname", "CLUSTER", "{{ mesos_ui_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: HTTP
+        port: "{{ mesos_ui_port }}"
+        path: "/"
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 3
+  #async: 600
+  #poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
