@@ -13,6 +13,7 @@ java_oracle_distribution: 'jdk'
 portal_frontend_cpus: 0.2
 portal_frontend_mem: 256.0
 
+portal_frontend_marathon_host: 'portal'
 portal_frontend_virtual_host: '_'
 portal_frontend_docker_parameters:
   - key: 'add-host'

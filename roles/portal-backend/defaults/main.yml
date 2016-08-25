@@ -64,7 +64,7 @@ portal_backend_env:
 
 # Production settings, with authentication and security turned on
 # portal_backend_env:
-#   DB_URL: "{{ portal_db_url }}"
+#   DB_URL: "{{ portal_db_jdbc_url }}"
 #   DB_USER: "{{ portal_db_user }}"
 #   DB_PASSWORD: "{{ portal_db_password }}"
 #   AUTHENTICATION: 1
