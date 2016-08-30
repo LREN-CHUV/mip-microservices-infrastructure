@@ -25,7 +25,7 @@ portal_backend_context_path: ""
 portal_backend_session_timeout: 2592000
 portal_backend_logging_level_web: "DEBUG"
 portal_backend_logging_level_hibernate: "DEBUG"
-portal_backend_frontend_redirect_url: 'http://{{ portal_backend_marathon_host }}:{{ portal_backend_port }}/home'
+portal_backend_frontend_after_login_url: 'http://{{ portal_backend_marathon_host }}:{{ portal_backend_port }}/home'
 # Additional parameters for Docker
 portal_backend_docker_parameters: []
 
@@ -60,7 +60,7 @@ portal_backend_env:
   SESSION_TIMEOUT: '{{ portal_backend_session_timeout }}'
   WOKEN_URL: '{{ internal_woken_url }}'
   EXAREME_URL: '{{ portal_backend_exareme_url }}'
-  FRONTEND_REDIRECT_URL: '{{ portal_backend_frontend_redirect_url }}'
+  FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
 
 # Production settings, with authentication and security turned on
 # portal_backend_env:
@@ -79,4 +79,6 @@ portal_backend_env:
 #   SESSION_TIMEOUT: '{{ portal_backend_session_timeout }}'
 #   WOKEN_URL: '{{ internal_woken_url }}'
 #   EXAREME_URL: '{{ portal_backend_exareme_url }}'
-#   FRONTEND_REDIRECT_URL: '{{ portal_backend_frontend_redirect_url }}'
+#   FRONTEND_LOGIN_URL: '{{ portal_backend_frontend_login_url }}'
+#   FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
+#   FRONTEND_AFTER_LOGOUT_URL: '{{ portal_backend_frontend_after_logout_url }}'

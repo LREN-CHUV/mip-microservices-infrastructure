@@ -37,6 +37,7 @@ portal_backend_marathon_host: "portal"
 portal_backend_docker_parameters:
   - key: 'add-host'
     value: "portal.local:192.168.41.66"
+portal_backend_frontend_after_login_url: "http://portal.local/home"
 
 # Few resources available in Vagrant box
 portal_backend_cpus: 0.5

@@ -24,6 +24,7 @@ portal_frontend_docker_parameters: []
 internal_portal_backend_server: 'localhost:4080'
 portal_frontend_virtual_host: '{{ inventory_hostname }}'
 portal_frontend_error_log_level: 'warn'
+portal_backend_context_path: ''
 
 portal_frontend_env:
   WORKER_PROCESSES: "{{ portal_frontend_cpus | round(method='ceil') | int }}"
@@ -31,3 +32,4 @@ portal_frontend_env:
   USE_GZIP: 'false'
   PORTAL_VIRTUAL_HOST: '{{ portal_frontend_virtual_host }}'
   PORTAL_BACKEND_SERVER: '{{ internal_portal_backend_server }}'
+  PORTAL_BACKEND_CONTEXT: '{{ portal_backend_context_path }}'
