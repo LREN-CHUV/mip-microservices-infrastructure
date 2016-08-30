@@ -16,7 +16,7 @@ portal_frontend_instances: 1
 # Amount of CPU reserved for Portal frontend
 portal_frontend_cpus: 1.0
 # Amount of memory in mb reserved for Portal frontend
-portal_frontend_mem: 1024.0
+portal_frontend_mem: 10.0
 
 # Additional parameters for Docker
 portal_frontend_docker_parameters: []
