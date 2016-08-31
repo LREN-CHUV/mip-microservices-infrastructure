@@ -1,0 +1,49 @@
+---
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old Portal frontend using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ portal_frontend_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
+
+- name: Launch Portal frontend using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ portal_frontend_marathon_id }}"
+    state: "present"
+    docker_image: "hbpmip/portal-frontend:{{ portal_frontend_version }}"
+    docker_force_pull_image: true
+    docker_network: HOST
+    docker_parameters: '{{ portal_frontend_docker_parameters }}'
+    env: '{{ portal_frontend_env }}'
+    instances: '{{ portal_frontend_instances }}'
+    cpus: '{{ portal_frontend_cpus }}'
+    mem: '{{ portal_frontend_mem }}'
+    ports: []
+    require_ports: false
+    constraints: '{{ portal_frontend_marathon_constraints }}'
+    dependencies: ["{{ portal_db_marathon_id }}"]
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: HTTP
+        port: 80
+        path: '/'
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true

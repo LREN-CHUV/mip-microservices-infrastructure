@@ -1,0 +1,24 @@
+---
+
+mesos_cluster: "my_cluster"
+mesos_containerizers: "docker,mesos"
+
+mesos_leader_port: "5050"
+mesos_follower_port: "5051"
+
+marathon_port: "5080"
+
+mesos_zk_port: "2181"
+mesos_zk_base: "zk://woken.local:2181"
+mesos_zk: "{{ mesos_zk_base }}/mesos"
+marathon_zk_connect: "{{ mesos_zk_base }}/marathon"
+chronos_zk_mesos_master: "{{ mesos_zk }}"
+chronos_zk_hosts: 'woken.local:2181'
+chronos_marathon_host: 'woken'
+
+# We do not have access to a proper DNS in Vagrant
+chronos_docker_parameters:
+  - key: 'add-host'
+    value: "woken.local:192.168.21.66"
+
+skipped_roles: []

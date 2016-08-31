@@ -28,9 +28,11 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ denodo_marathon_id }}"
     state: "absent"
-    waitTimeout: 600
+    wait_timeout: 600
   async: 600
   poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
 
 - name: Launch Denodo using Marathon
   marathon_app:
@@ -48,13 +50,13 @@
     cpus: "{{ denodo_cpus }}"
     mem: "{{ denodo_memory_heap + denodo_memory_perm + 1024 }}"
     ports: []
-    requirePorts: false
+    require_ports: false
     constraints: [["hostname", "CLUSTER", "{{ denodo_marathon_host }}"]]
     dependencies: []
     executor: ""
     user: "{{ denodo_user }}"
-    waitTimeout: 600
-    healthChecks:
+    wait_timeout: 600
+    health_checks:
       - protocol: TCP
         port: 9090
         gracePeriodSeconds: 300
@@ -69,3 +71,5 @@
         maxConsecutiveFailures: 2
   async: 600
   poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true

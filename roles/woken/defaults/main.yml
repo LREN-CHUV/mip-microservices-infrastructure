@@ -1,16 +1,35 @@
 ---
 
-woken_marathon_id: /woken
+# Version of the Docker image for woken to use
+woken_version: latest
 
+# Id of woken in Marathon
+woken_marathon_id: /algorithm-factory/woken
+
+# Location of the configuration directory
 woken_config_dir: /srv/docker/woken/config
 
+# Port to use to expose woken to other services in the cluster.
+# Ignored if woken_docker_network == HOST, in this case woken can be reached under port 8087
 woken_port: 31087
+# Amount of CPU reserved for woken
+woken_cpus: 0.5
+# Amount of memory in mb reserved for woken
+woken_mem: 1024.0
+# Networking mode for the Docker container running woken. Values are BRIDGE or HOST.
+# Use HOST to connect woken to Denodo on the Federation servers, otherwise prefer BRIDGE
 woken_docker_network: BRIDGE
+# Additional parameters for Docker
+woken_docker_parameters: []
 woken_docker_image_basename: hbpmip/woken
 woken_docker_image: "{{ woken_docker_image_basename }}:{{ woken_version }}"
 
-woken_version: latest
+# Attach the woken application to a particular host. The hostname should be the name known by Marathon / Mesos
+#woken_marathon_host:
+# Set of constraints to use to place woken on some particular host(s)
+woken_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host }}"]]
 
+# How woken connects to the analytics database storing its results
 analytics_db_port: 31432
 analytics_db_host: localhost
 analytics_db_user: postgres
@@ -19,6 +38,7 @@ analytics_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_d
 analytics_db_jdbc_driver: "org.postgresql.Driver"
 analytics_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
 
+# How woken connects to the LDSM database containing the data to process
 ldsm_db_port: 31432
 ldsm_db_host: localhost
 ldsm_db_user: postgres
@@ -33,14 +53,12 @@ internal_chronos_url: http://default:4400
 # URL to Marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
 
-cluster_role: mip_node
-woken_role: "{{ cluster_role }}"
+# Roles are mip_node or mip_federation
+woken_role: mip_node
 
-# list of name, url values
+# list of name, url values. Used to connect to woken workers when woken_role == mip_federation
 woken_nodes: []
 
-# Attach the woken application to a particular host. The hostname should be the name known by Marathon / Mesos
-#woken_marathon_host:
 woken_main_table: adni_merge
 woken_functions:
   - name: boxplot

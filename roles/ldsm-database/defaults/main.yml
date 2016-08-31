@@ -1,0 +1,31 @@
+---
+
+ldsm_db_marathon_id: /algorithm-factory/ldsmdb
+
+# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
+ldsm_db_marathon_host: '{{ inventory_hostname }}'
+
+# The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
+# TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
+ldsm_db_docker_user: '999'
+
+postgres_version: "9.5.3"
+
+ldsm_db_cpus: 0.5
+ldsm_db_mem: 128.0
+
+# Port exposed by Marathon, must be in the range [31000,32000[
+ldsm_db_port: 31432
+ldsm_db_host: localhost
+ldsm_db_admin_user: postgres
+# TO FILL - ldsm_db_admin_password:
+
+ldsm_db_data_dir: /srv/docker/ldsmdb/data
+
+ldsm_db_setup_dir: /opt/ldsm-database/migration
+ldsm_db_setup_scripts_dir: demo
+
+flyway_version: "4.0.3"
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

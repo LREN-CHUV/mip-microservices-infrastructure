@@ -1,0 +1,46 @@
+---
+
+# Overlay storage should help avoiding freezing Docker containers with a process that exits with error
+# See https://github.com/docker/docker/issues/12738
+# Also a kernel issue seems to be the cause
+# See https://github.com/docker/docker/issues/18180#issuecomment-167042078
+docker_opts: "--dns=192.168.21.66"
+
+internal_mesos_url: "http://woken.local:5050"
+internal_marathon_url: "http://woken.local:5080"
+internal_chronos_url: "http://woken.local:4400"
+internal_woken_url: "http://woken.local:8087"
+
+java_oracle_distribution: 'jdk'
+
+analytics_db_host: "woken.local"
+analytics_db_marathon_host: "woken"
+analytics_db_port: 31432
+analytics_db_user: "analytics"
+analytics_db_admin_user: "postgres"
+analytics_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_db_port }}/analytics"
+analytics_db_jdbc_driver: "org.postgresql.Driver"
+analytics_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+analytics_db_cpus: 0.2
+analytics_db_mem: 128.0
+
+ldsm_db_marathon_id: "/algorithm-factory/demodb"
+ldsm_db_data_dir: /srv/docker/demodb/data
+ldsm_db_setup_scripts_dir: demo
+ldsm_db_host: "woken.local"
+ldsm_db_marathon_host: "woken"
+ldsm_db_port: 31433
+ldsm_db_user: ldsm
+ldsm_db_admin_user: "postgres"
+ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/ldsm"
+ldsm_db_jdbc_driver: "org.postgresql.Driver"
+ldsm_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+ldsm_db_cpus: 0.2
+ldsm_db_mem: 128.0
+
+woken_port: 4087
+woken_docker_network: HOST
+woken_marathon_host: "woken"
+
+woken_role: mip_node
+woken_main_table: demo

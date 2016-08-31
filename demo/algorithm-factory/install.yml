@@ -1,0 +1,33 @@
+---
+#
+# Master Install
+#
+# Installs _the_ world
+#
+
+- include: ../../common/playbooks/base-system.yml
+
+- include: ../../common/playbooks/zookeeper.yml
+
+- include: ../../common/playbooks/mesos-leader.yml
+
+- include: ../../common/playbooks/mesos-mixed.yml
+
+- include: ../../common/playbooks/mesos-follower.yml
+
+- include: ../../common/playbooks/mip-services.yml
+
+- include: ../../common/playbooks/analytics-database.yml
+
+- hosts: demo-db
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  roles:
+
+    - role: ldsm-database
+      tags: ['demo-database', 'database', 'analytics', 'marathon-app']
+
+- include: ../../common/playbooks/woken.yml

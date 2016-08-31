@@ -11,6 +11,3 @@ airflow_db_additional_databases:
 
 mri_db_user: mri
 mri_db_password: mripwd
-
-cbrain_db_root_password: 'MySecretPassword'
-cbrain_db_password: 'cbraindb'

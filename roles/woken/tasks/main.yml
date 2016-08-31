@@ -19,9 +19,10 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ woken_marathon_id }}"
     state: "absent"
-    waitTimeout: 600
+    wait_timeout: 600
   async: 600
   poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
 
 # Host networking is required on Federation to be able to use Denodo JDBC over RMI driver
 - name: Launch woken app using Marathon
@@ -32,16 +33,17 @@
     docker_image: "{{ woken_docker_image }}"
     docker_force_pull_image: true
     docker_network: HOST
+    docker_parameters: '{{ woken_docker_parameters }}'
     container_volumes:
       - containerPath: "/opt/woken/config"
         hostPath: "{{ woken_config_dir }}"
         mode: RW
     instances: 1
-    cpus: 0.5
-    mem: 1024.0
+    cpus: '{{ woken_cpus }}'
+    mem: '{{ woken_mem }}'
     ports: []
     require_ports: false
-    constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host }}"]]
+    constraints: '{{ woken_marathon_constraints }}'
     dependencies: []
     executor: ""
     wait_timeout: 600
@@ -56,6 +58,7 @@
   async: 600
   poll: 1
   when: woken_docker_network == 'HOST'
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Launch woken using Marathon
   marathon_app:
@@ -68,16 +71,17 @@
     docker_port_mappings:
       - hostPort: "{{ woken_port }}"
         containerPort: 8087
+    docker_parameters: '{{ woken_docker_parameters }}'
     container_volumes:
       - containerPath: "/opt/woken/config"
         hostPath: "{{ woken_config_dir }}"
         mode: RW
     instances: 1
-    cpus: 0.5
-    mem: 1024.0
+    cpus: '{{ woken_cpus }}'
+    mem: '{{ woken_mem }}'
     ports: []
     require_ports: false
-    constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host }}"]]
+    constraints: '{{ woken_marathon_constraints }}'
     dependencies: []
     executor: ""
     wait_timeout: 600
@@ -92,13 +96,4 @@
   async: 600
   poll: 1
   when: woken_docker_network == 'BRIDGE'
-
-#      healthChecks:
-#        - protocol: COMMAND
-#          command:
-#            value: "docker exec $(for i in $(docker ps -q --no-trunc); do docker inspect $i | grep -sq 'MESOS_TASK_ID=${MESOS_TASK_ID:?}' && echo $i; done) pg_isready"
-#            # TODO: Let's hope that there will be support for in-docker commands soon. See this thread: https://groups.google.com/forum/#!topic/marathon-framework/S_k6k3ydQ-o
-#          gracePeriodSeconds: 60
-#          maxConsecutiveFailures: 5
-#          intervalSeconds: 20
-#          timeoutSeconds: 10
+  delegate_to: "{{ groups['control'][0] }}"

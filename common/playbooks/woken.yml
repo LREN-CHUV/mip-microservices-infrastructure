@@ -1,19 +1,4 @@
-- hosts: install
-  become: yes
-  vars_files:
-    - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/vars/versions.yml"
-
-  pre_tasks:
-    - name: Install curl
-      apt: name=curl state=present
-      tags: ['woken', 'analytics', 'marathon-app']
-
-  roles:
-
-    - role: woken
-      tags: ['woken', 'analytics', 'marathon-app']
-    # Audit-deployment delegated to the woken host
+---
 
 - hosts: woken
   become: yes
@@ -21,7 +6,21 @@
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
 
+  pre_tasks:
+
+    - name: Install curl on control node - required for marathon-app
+      apt: name=curl state=present
+      delegate_to: "{{ groups['control'][0] }}"
+      run_once: true
+      tags: ['denodo', 'federation', 'marathon-app']
+
   roles:
+
+    - role: chronos
+      tags: ['mesos-frameworks', 'chronos']
+
+    - role: woken
+      tags: ['woken', 'analytics', 'marathon-app']
 
     - role: audit-deployment
       installed_component: analytics-woken

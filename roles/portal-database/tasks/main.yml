@@ -1,15 +1,77 @@
 ---
 
-- name: Install Python psycopg2 module
-  apt: name=python-psycopg2 state=present
+# Postgres user in Docker appears as user 999 outside
+- name: Create Portal DB storage directory
+  file: state=directory path={{ portal_db_data_dir }} mode=0700 owner={{ portal_db_docker_user }} group={{ portal_db_docker_user }}
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old Portal DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ portal_db_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Launch Portal DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ portal_db_marathon_id }}"
+    state: "present"
+    docker_image: "postgres:{{ postgres_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ portal_db_port }}'
+        containerPort: 5432
+    container_volumes:
+      - containerPath: "/var/lib/postgresql/data"
+        hostPath: "{{ portal_db_data_dir }}"
+        mode: RW
+    env:
+      POSTGRES_USER: "{{ portal_db_admin_user }}"
+      POSTGRES_PASSWORD: "{{ portal_db_admin_password }}"
+    instances: 1
+    cpus: '{{ portal_db_cpus }}'
+    mem: '{{ portal_db_mem }}'
+    ports: []
+    require_ports: false
+    constraints: [["hostname", "CLUSTER", "{{ portal_db_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "/usr/lib/postgresql/9.5/bin/pg_isready"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
+  apt: name={{ item }} state=present
+  with_items:
+    - python-psycopg2
+    - python-pip
+    - curl
   when: ansible_os_family == 'Debian'
-  delegate_to: "{{ portal_db_host }}"
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Wait for the database to be up and running
   wait_for: >
     port="{{ portal_db_port }}"
     delay=5
-  delegate_to: "{{ portal_db_host }}"
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create a new database with name "portal"
   postgresql_db:
@@ -19,7 +81,7 @@
     login_user: "{{ portal_db_admin_user }}"
     login_password: "{{ portal_db_admin_password }}"
     state: present
-  delegate_to: "{{ portal_db_host }}"
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create portal user
   postgresql_user:
@@ -31,20 +93,4 @@
     name: "{{ portal_db_user }}"
     password: "{{ portal_db_password }}"
     role_attr_flags: "SUPERUSER"
-  delegate_to: "{{ portal_db_host }}"
-
-- name: Create setup dir
-  file: 
-    state: directory
-    path: "{{portal_db_setup_dir}}"
-
-- name: Copy sql creation scripts
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{portal_db_setup_dir}}/{{ item.dest }}"
-  with_items:
-   - src: "portaldb/sql/create.sql"
-     dest: "V1_0__initial_schema.sql"
-
-- name: Run Flyway migration
-  command: "flyway -url={{portal_db_jdbc_url}} -user={{ portal_db_user }} -password={{ portal_db_password }} -locations=filesystem:{{portal_db_setup_dir}} migrate"
+  delegate_to: "{{ groups['control'][0] }}"

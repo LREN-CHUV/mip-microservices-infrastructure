@@ -1,0 +1,44 @@
+---
+
+docker_opts: "--dns=192.168.41.66"
+
+internal_mesos_url: "http://portal.local:5050"
+internal_marathon_url: "http://portal.local:5080"
+internal_chronos_url: "http://portal.local:4400"
+internal_portal_backend_server: "portal.local:{{ portal_backend_port }}"
+
+java_oracle_distribution: 'jdk'
+
+# Few resources available in Vagrant box
+portal_frontend_cpus: 0.2
+portal_frontend_mem: 256.0
+
+portal_frontend_marathon_host: 'portal'
+portal_frontend_virtual_host: '_'
+portal_frontend_docker_parameters:
+  - key: 'add-host'
+    value: "portal.local:192.168.41.66"
+
+portal_db_host: "portal.local"
+portal_db_marathon_host: "portal"
+portal_db_port: 31432
+portal_db_user: "portal"
+portal_db_admin_user: "postgres"
+portal_db_jdbc_url: "jdbc:postgresql://{{ portal_db_host }}:{{ portal_db_port }}/portal"
+portal_db_jdbc_driver: "org.postgresql.Driver"
+portal_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+
+# Few resources available in Vagrant box
+portal_db_cpus: 0.2
+portal_db_mem: 128.0
+
+portal_backend_port: 4080
+portal_backend_marathon_host: "portal"
+portal_backend_docker_parameters:
+  - key: 'add-host'
+    value: "portal.local:192.168.41.66"
+portal_backend_frontend_after_login_url: "http://portal.local/home"
+
+# Few resources available in Vagrant box
+portal_backend_cpus: 0.5
+portal_backend_mem: 1024.0

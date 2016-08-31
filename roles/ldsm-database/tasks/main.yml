@@ -1,0 +1,134 @@
+---
+
+# Postgres user in Docker appears as user 999 outside
+- name: Create LDSM DB storage directory
+  file: state=directory path={{ ldsm_db_data_dir }} mode=0700 owner={{ ldsm_db_docker_user }} group={{ ldsm_db_docker_user }}
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old LDSM DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ ldsm_db_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Launch LDSM DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ ldsm_db_marathon_id }}"
+    state: "present"
+    docker_image: "postgres:{{ postgres_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ ldsm_db_port }}'
+        containerPort: 5432
+    container_volumes:
+      - containerPath: "/var/lib/postgresql/data"
+        hostPath: "{{ ldsm_db_data_dir }}"
+        mode: RW
+    env:
+      POSTGRES_USER: "{{ ldsm_db_admin_user }}"
+      POSTGRES_PASSWORD: "{{ ldsm_db_admin_password }}"
+    instances: 1
+    cpus: '{{ ldsm_db_cpus }}'
+    mem: '{{ ldsm_db_mem }}'
+    ports: []
+    require_ports: false
+    constraints: [["hostname", "CLUSTER", "{{ ldsm_db_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "/usr/lib/postgresql/9.5/bin/pg_isready"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
+  apt: name={{ item }} state=present
+  with_items:
+    - python-psycopg2
+    - python-pip
+    - curl
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Wait for the database to be up and running
+  wait_for: >
+    port="{{ ldsm_db_port }}"
+    delay=5
+  delegate_to: "{{ groups['control'][0] }}"
+
+- debug: var=ldsm_db_admin_user
+  delegate_to: "{{ groups['control'][0] }}"
+- debug: var=ldsm_db_admin_password
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create a new database with name "ldsm"
+  postgresql_db:
+    name: ldsm
+    port: "{{ ldsm_db_port }}"
+    login_host: "{{ ldsm_db_host }}"
+    login_user: "{{ ldsm_db_admin_user }}"
+    login_password: "{{ ldsm_db_admin_password }}"
+    state: present
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create ldsm user
+  postgresql_user:
+    login_host: "{{ ldsm_db_host }}"
+    login_user: "{{ ldsm_db_admin_user }}"
+    login_password: "{{ ldsm_db_admin_password }}"
+    db: ldsm
+    port: "{{ ldsm_db_port }}"
+    name: "{{ ldsm_db_user }}"
+    password: "{{ ldsm_db_password }}"
+    role_attr_flags: "SUPERUSER"
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create setup dir
+  file:
+    state: directory
+    path: "{{ldsm_db_setup_dir}}"
+
+- name: Copy sql creation scripts
+  copy:
+    src: "{{ item }}"
+    dest: "{{ldsm_db_setup_dir}}/{{ item | basename }}"
+  with_fileglob:
+   - "{{ ldsm_db_setup_scripts_dir }}/sql/*"
+
+- name: Install Python module for Docker (required by docker_container task)
+  pip: name=docker-py state=present
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Run Flyway migration
+  docker_container:
+    name: flyway
+    image: "lren/flyway:{{ flyway_version }}"
+    command: migrate
+    detach: no
+    volumes:
+      - '{{ ldsm_db_setup_dir }}:/flyway/sql'
+    env:
+      FLYWAY_DBMS: postgres
+      FLYWAY_HOST: '{{ ldsm_db_host }}'
+      FLYWAY_PORT: '{{ ldsm_db_port }}'
+      FLYWAY_DATABASE_NAME: '{{ ldsm_db_admin_user }}'
+      FLYWAY_USER: '{{ ldsm_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ ldsm_db_admin_password }}'
+  delegate_to: "{{ groups['control'][0] }}"

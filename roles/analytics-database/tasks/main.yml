@@ -1,15 +1,85 @@
 ---
 
-- name: Install Python psycopg2 module
-  apt: name=python-psycopg2 state=present
+# Postgres user in Docker appears as user 999 outside
+- name: Create Analytics DB storage directory
+  file: state=directory path={{ analytics_db_data_dir }} mode=0700 owner={{ analytics_db_docker_user }} group={{ analytics_db_docker_user }}
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old Analytics DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ analytics_db_marathon_id }}"
+    state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Launch Analytics DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ analytics_db_marathon_id }}"
+    state: "present"
+    docker_image: "postgres:{{ postgres_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ analytics_db_port }}'
+        containerPort: 5432
+    container_volumes:
+      - containerPath: "/var/lib/postgresql/data"
+        hostPath: "{{ analytics_db_data_dir }}"
+        mode: RW
+    env:
+      POSTGRES_USER: "{{ analytics_db_admin_user }}"
+      POSTGRES_PASSWORD: "{{ analytics_db_admin_password }}"
+    instances: 1
+    cpus: '{{ analytics_db_cpus }}'
+    mem: '{{ analytics_db_mem }}'
+    ports: []
+    require_ports: false
+    constraints: [["hostname", "CLUSTER", "{{ analytics_db_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "/usr/lib/postgresql/9.5/bin/pg_isready"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
+  apt: name={{ item }} state=present
+  with_items:
+    - python-psycopg2
+    - python-pip
+    - curl
   when: ansible_os_family == 'Debian'
-  delegate_to: "{{ analytics_db_host }}"
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+# See https://github.com/anarcher/ansible-docker-registry/issues/1
+- name: Make sure pip upgraded
+  command: easy_install -U pip
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
 
 - name: Wait for the database to be up and running
   wait_for: >
     port="{{ analytics_db_port }}"
     delay=5
-  delegate_to: "{{ analytics_db_host }}"
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create a new database with name "analytics"
   postgresql_db:
@@ -19,7 +89,7 @@
     login_user: "{{ analytics_db_admin_user }}"
     login_password: "{{ analytics_db_admin_password }}"
     state: present
-  delegate_to: "{{ analytics_db_host }}"
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create analytics user
   postgresql_user:
@@ -31,10 +101,10 @@
     name: "{{ analytics_db_user }}"
     password: "{{ analytics_db_password }}"
     role_attr_flags: "SUPERUSER"
-  delegate_to: "{{ analytics_db_host }}"
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create setup dir
-  file: 
+  file:
     state: directory
     path: "{{analytics_db_setup_dir}}"
 
@@ -46,5 +116,26 @@
    - src: "analyticsdb/sql/create.sql"
      dest: "V1_0__Create-result-table.sql"
 
+- name: Install Python module for Docker (required by docker_container task)
+  pip: name=docker-py state=present
+  delegate_to: "{{ groups['control'][0] }}"
+
+# TODO: this task does not fail on error when using Ansible 2.1.1.0
 - name: Run Flyway migration
-  command: "flyway -url={{analytics_db_jdbc_url}} -user={{ analytics_db_user }} -password={{ analytics_db_password }} -locations=filesystem:{{analytics_db_setup_dir}} migrate"
+  docker_container:
+    name: flyway
+    image: "lren/flyway:{{ flyway_version }}"
+    command: migrate
+    detach: no
+    volumes:
+      - '{{ analytics_db_setup_dir }}:/flyway/sql'
+    env:
+      FLYWAY_DBMS: postgresql
+      FLYWAY_HOST: '{{ analytics_db_host }}'
+      FLYWAY_PORT: '{{ analytics_db_port }}'
+      FLYWAY_DATABASE_NAME: '{{ analytics_db_admin_user }}'
+      FLYWAY_SCHEMAS: "analytics"
+      FLYWAY_USER: '{{ analytics_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ analytics_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'
+  delegate_to: "{{ groups['control'][0] }}"

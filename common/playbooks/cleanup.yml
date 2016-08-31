@@ -2,7 +2,7 @@
 
 # Cleanup old configurations and software
 
-- hosts: installation
+- hosts: control
   become: no
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
@@ -14,6 +14,8 @@
       old_apps:
         - /ldsm
         - /federationdb
+      tags:
+        - cleanup
 
 - hosts: managed
   become: yes
@@ -22,6 +24,13 @@
     - "{{ play_dir }}/vars/versions.yml"
 
   tasks:
+    - name: Remove old packages
+      apt: pkg="{{ item }}" state=absent
+      with_items:
+        - chronos # migrated to Docker
+      tags:
+        - cleanup
+
     - name: Remove old files
       file:
         path: "{{ item }}"
@@ -31,12 +40,16 @@
         - /opt/analytics-database/migration/V1.01__r-linear-regression-create-result-table.sql
         - /opt/analytics-database/migration/V1.02__r-box-stats-create-result-table.sql
         - /etc/apt/sources.list.d/docker.list
+        - /etc/chronos
+      tags:
+        - cleanup
 
     - name: Install docker-py to control Docker from Ansible
       apt: pkg=python-docker state=present
       when: ansible_lsb.id == 'Ubuntu' and ansible_lsb.major_release|int >= 15
       tags:
         - docker
+        - cleanup
 
     - name: Remove old Docker images
       docker_image:
@@ -45,7 +58,8 @@
       with_items:
         - postgres:9.3.9
         - postgres:9.4.4
-      #  - postgres:9.4.5
+        - postgres:9.4.5
       when: ansible_lsb.id == 'Ubuntu' and ansible_lsb.major_release|int >= 15
       tags:
         - docker
+        - cleanup

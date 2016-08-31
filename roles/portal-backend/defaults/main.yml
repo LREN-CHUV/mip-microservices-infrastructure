@@ -1,17 +1,33 @@
 ---
 
-portal_backend_marathon_id: /portal-backend
+# Version of the Docker image for Portal backend to use
+portal_backend_version: latest
 
-portal_backend_port: 8080
-portal_backend_contextPath: "/services"
+# Id of Portal backend in Marathon
+portal_backend_marathon_id: /frontend/portal-backend
 
-portal_backend_version: 0.0.1-SNAPSHOT
-portal_backend_jar: "backend-services-{{ portal_backend_version }}.jar"
+# Attach Portal backend to a particular host. The hostname should be the name known by Marathon / Mesos
+portal_backend_marathon_host: '{{ inventory_hostname }}'
+# Set of constraints to use to place Portal backend on some particular host(s)
+portal_backend_marathon_constraints: [["hostname", "CLUSTER", "{{ portal_backend_marathon_host }}"]]
+# Number of instances of Portal backend to launch
+portal_backend_instances: 1
 
-portal_backend_dir: "/home/mip/backend"
-portal_backend_config_dir: "{{ portal_backend_dir}}/config"
-portal_backend_user: mip
-portal_backend_group: mip
+# Amount of CPU reserved for Portal backend
+portal_backend_cpus: 1.0
+# Amount of memory in mb reserved for Portal backend
+portal_backend_mem: 2048.0
+
+# Port to use to expose Portal backend to other services in the cluster.
+portal_backend_port: 4080
+# Prefix path for all services provided by Portal backend
+portal_backend_context_path: ""
+portal_backend_session_timeout: 2592000
+portal_backend_logging_level_web: "DEBUG"
+portal_backend_logging_level_hibernate: "DEBUG"
+portal_backend_frontend_after_login_url: 'http://{{ portal_backend_marathon_host }}:{{ portal_backend_port }}/home'
+# Additional parameters for Docker
+portal_backend_docker_parameters: []
 
 portal_db_port: 31432
 portal_db_host: localhost
@@ -19,16 +35,50 @@ portal_db_user: postgres
 portal_db_password: postgres
 portal_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_db_port }}/postgres"
 portal_db_jdbc_driver: "org.postgresql.Driver"
-portal_db_marathon_id: "/portaldb"
+portal_db_marathon_id: "/frontend/portaldb"
 
 portal_backend_security_enabled: false
 
-#portal_backend_hbp_clientId:
-#portal_backend_hbp_clientSecret:
-portal_backend_hbp_accessTokenUri: "https://services.humanbrainproject.eu/oidc/token"
-portal_backend_hbp_userAuthorizationUri: "https://services.humanbrainproject.eu/oidc/authorize"
-portal_backend_hbp_userInfoUri: "https://services.humanbrainproject.eu/oidc/userinfo"
-portal_backend_hbp_use_current_uri: false
-portal_backend_hbp_pre_established_redirect_uri: "https://mip.humanbrainproject.eu/services/login/hbp"
+#portal_backend_hbp_client_id:
+#portal_backend_hbp_client_secret:
+portal_backend_hbp_access_token_uri: "https://services.humanbrainproject.eu/oidc/token"
+portal_backend_hbp_user_authorization_uri: "https://services.humanbrainproject.eu/oidc/authorize"
+portal_backend_hbp_user_info_uri: "https://services.humanbrainproject.eu/oidc/userinfo"
 
-portal_backend_logging_level_security: "DEBUG"
+internal_woken_url: 'http://localhost:8087'
+
+portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'
+
+portal_backend_env:
+  DB_URL: "{{ portal_db_jdbc_url }}"
+  DB_USER: "{{ portal_db_user }}"
+  DB_PASSWORD: "{{ portal_db_password }}"
+  AUTHENTICATION: 0
+  LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
+  LOGGING_LEVEL_HIBERNATE: '{{ portal_backend_logging_level_hibernate }}'
+  CONTEXT_PATH: '{{ portal_backend_context_path }}'
+  SESSION_TIMEOUT: '{{ portal_backend_session_timeout }}'
+  WOKEN_URL: '{{ internal_woken_url }}'
+  EXAREME_URL: '{{ portal_backend_exareme_url }}'
+  FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
+
+# Production settings, with authentication and security turned on
+# portal_backend_env:
+#   DB_URL: "{{ portal_db_jdbc_url }}"
+#   DB_USER: "{{ portal_db_user }}"
+#   DB_PASSWORD: "{{ portal_db_password }}"
+#   AUTHENTICATION: 1
+#   CLIENT_ID: '{{ portal_backend_hbp_client_id }}'
+#   CLIENT_SECRET: '{{ portal_backend_hbp_client_secret }}'
+#   TOKEN_URI: '{{ portal_backend_hbp_access_token_uri }}'
+#   AUTH_URI: '{{ portal_backend_hbp_user_authorization_uri }}'
+#   USER_INFO_URI: '{{ portal_backend_hbp_user_info_uri }}'
+#   LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
+#   LOGGING_LEVEL_HIBERNATE: '{{ portal_backend_logging_level_hibernate }}'
+#   CONTEXT_PATH: '{{ portal_backend_context_path }}'
+#   SESSION_TIMEOUT: '{{ portal_backend_session_timeout }}'
+#   WOKEN_URL: '{{ internal_woken_url }}'
+#   EXAREME_URL: '{{ portal_backend_exareme_url }}'
+#   FRONTEND_LOGIN_URL: '{{ portal_backend_frontend_login_url }}'
+#   FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
+#   FRONTEND_AFTER_LOGOUT_URL: '{{ portal_backend_frontend_after_logout_url }}'

@@ -1,0 +1,16 @@
+---
+
+mesos_cluster: "my_cluster"
+mesos_containerizers: "docker,mesos"
+
+mesos_leader_port: "5050"
+mesos_follower_port: "5051"
+
+marathon_port: "5080"
+
+mesos_zk_port: "2181"
+mesos_zk_base: "zk://portal.local:2181"
+mesos_zk: "{{ mesos_zk_base }}/mesos"
+marathon_zk_connect: "{{ mesos_zk_base }}/marathon"
+
+skipped_roles: []

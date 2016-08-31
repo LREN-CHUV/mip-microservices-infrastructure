@@ -1,0 +1,97 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Demo of Woken in a Vagrant box.
+#
+# You need to install the vagrant-hostmanager plugin before running vagrant up to start the VM:
+#
+#   vagrant plugin install vagrant-hostmanager
+#   vagrant up
+#
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  # TODO: wait for fix from Canonical https://bugs.launchpad.net/cloud-images/+bug/1565985
+  # config.vm.box = "ubuntu/xenial64"
+  # config.vm.box = "gbarbieru/xenial"
+  config.vm.box = "sgallen/wily64"
+
+  if Vagrant.has_plugin? 'vagrant-hostmanager'
+    config.hostmanager.enabled = true
+    config.hostmanager.manage_host = true
+    config.hostmanager.aliases = []
+  else
+    fail_with_message "vagrant-hostmanager missing, please install the plugin with this command:\nvagrant plugin install vagrant-hostmanager"
+  end
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  config.vm.define "portal" do |portal|
+
+    portal.vm.hostname = "portal"
+
+    # Create a forwarded port mapping which allows access to a specific port
+    # within the machine from a port on the host machine. In the example below,
+    # accessing "localhost:8080" will access port 80 on the guest machine.
+    portal.vm.network :forwarded_port, guest: 80, host: 18080 # portal
+    portal.vm.network :forwarded_port, guest: 443, host: 18443 # portal
+    # portal.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos - not working due to restricted ip listen
+    portal.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
+
+    # Create a private network, which allows host-only access to the machine
+    # using a specific IP.
+    portal.vm.network :private_network, ip: '192.168.41.66'
+
+    portal.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
+
+  end
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "portal-mesos"
+    # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize ["modifyvm", :id, "--memory", "4048", "--cpus", "3", "--ioapic", "on"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
+  end
+  #
+  # View the documentation for the provider you're using for more
+  # information on available options.
+
+  ansible_inventory_dir = "envs/vagrant/etc/ansible"
+
+  config.vm.provision "shell", inline: "grep portal.local /etc/hosts || echo '192.168.41.66 portal portal.local' >> /etc/hosts"
+  # Mapping ansible roles with their git repositories messes with etckeeper
+  config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
+  # Xenial ships only with Python 3
+  config.vm.provision "shell", inline: "apt-get install python2.7 python-simplejson"
+
+  # Run provisioning with ansible
+  config.vm.provision "ansible" do |ansible|
+      ansible.playbook = "../install.yml"
+      ansible.inventory_path = "etc/ansible/hosts"
+      ansible.limit = 'all'
+      ansible.verbose = "vvvv"
+      ansible.raw_ssh_args = ['-o ForwardAgent=yes']
+      ansible.skip_tags = "mesos-ui"
+      # Use this to override ansible playbook variables
+      ansible.extra_vars = {
+        play_dir: Dir.pwd + '/../../..',
+        datacenter: 'federation'
+      }
+  end
+
+end

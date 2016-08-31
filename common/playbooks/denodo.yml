@@ -1,20 +1,4 @@
 ---
-- hosts: install
-  become: yes
-  vars_files:
-    - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/vars/versions.yml"
-
-  pre_tasks:
-    - name: Install curl
-      apt: name=curl state=present
-      tags: ['denodo', 'federation', 'marathon-app']
-
-  roles:
-
-    - role: denodo
-      tags: ['denodo', 'federation', 'marathon-app']
-    # Audit-deployment delegated to the denodo host
 
 - hosts: denodo
   become: yes
@@ -22,7 +6,18 @@
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
 
+  pre_tasks:
+
+    - name: Install curl on control node - required for marathon-app
+      apt: name=curl state=present
+      delegate_to: "{{ groups['control'][0] }}"
+      run_once: true
+      tags: ['denodo', 'federation', 'marathon-app']
+
   roles:
+
+    - role: denodo
+      tags: ['denodo', 'federation', 'marathon-app']
 
     - role: audit-deployment
       installed_component: federation-denodo
