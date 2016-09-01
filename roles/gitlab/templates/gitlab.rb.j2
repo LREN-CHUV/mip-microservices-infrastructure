@@ -93,21 +93,8 @@ gitlab_rails['ldap_servers'] = YAML.load <<-'EOS' # remember to close this block
     block_auto_created_users: false
     base: '{{ gitlab_ldap_root_dn }}'
     user_filter: '{{ gitlab_ldap_filter }}'
-    ## EE only
-    group_base: ''
-    admin_group: ''
-    sync_ssh_keys: false
 EOS
 {% endif %}
-
-## Setting up Kerberos (EE only)
-## See http://doc.gitlab.com/ee/integration/kerberos.html#http-git-access
-# gitlab_rails['kerberos_enabled'] = true
-# gitlab_rails['kerberos_keytab'] = /etc/http.keytab
-# gitlab_rails['kerberos_service_principal_name'] = HTTP/gitlab.example.com@EXAMPLE.COM
-# gitlab_rails['kerberos_use_dedicated_port'] = true
-# gitlab_rails['kerberos_port'] = 8443
-# gitlab_rails['kerberos_https'] = true
 
 ## For setting up omniauth
 ## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#omniauth-google-twitter-github-login
@@ -163,8 +150,6 @@ gitlab_rails['backup_keep_time'] = 604800
 
 ## For storing GitLab application uploads
 # gitlab_rails['shared_path'] = '/var/opt/gitlab/gitlab-rails/shared'
-
-# DEPRECATED: gitlab_rails['satellites_timeout'] = 30
 
 ## GitLab Shell settings for GitLab
 gitlab_rails['gitlab_shell_ssh_port'] = {{ gitlab_ssh_port }}
@@ -259,8 +244,6 @@ gitlab_rails['smtp_authentication'] = "{{ gitlab_smtp_authentication }}"
 gitlab_rails['smtp_enable_starttls_auto'] = {{ gitlab_smtp_enable_starttls_auto | lower }}
 gitlab_rails['smtp_tls'] = {{ gitlab_smtp_tls | lower }}
 gitlab_rails['smtp_openssl_verify_mode'] = '{{ gitlab_smtp_openssl_verify_mode }}'
-gitlab_rails['tls'] = {{ gitlab_tls | lower }}
-
 # gitlab_rails['smtp_ca_path'] = "/etc/ssl/certs"
 # gitlab_rails['smtp_ca_file'] = "/etc/ssl/certs/ca-certificates.crt"
 
@@ -429,7 +412,7 @@ unicorn['port'] = 8080
 # nginx['listen_addresses'] = ['*']
 # Force nginx to listen on port 80 as this is what Docker is using
 nginx['listen_port'] = 80
-# nginx['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md#supporting-proxied-ssl
+nginx['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md#supporting-proxied-ssl
 # nginx['custom_gitlab_server_config'] = "location ^~ /foo-namespace/bar-project/raw/ {\n deny all;\n}\n"
 # nginx['custom_nginx_config'] = "include /etc/nginx/conf.d/example.conf;"
 # nginx['proxy_read_timeout'] = 300
@@ -556,6 +539,7 @@ nginx['listen_port'] = 80
 # gitlab_ci['db_socket'] = nil
 # gitlab_ci['db_sslmode'] = nil
 # gitlab_ci['db_sslrootcert'] = nil
+
 ############################
 # GitLab CI redis settings #
 ############################
@@ -663,6 +647,7 @@ nginx['listen_port'] = 80
 # ci_nginx['gzip_types'] = [ "text/plain", "text/css", "application/x-javascript", "text/xml", "application/xml", "application/xml+rss", "text/javascript", "application/json" ]
 # ci_nginx['keepalive_timeout'] = 65
 # ci_nginx['cache_max_size'] = '5000m'
+
 
 #####################
 # GitLab Mattermost #

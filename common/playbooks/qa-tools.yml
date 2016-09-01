@@ -1,0 +1,40 @@
+#
+# Install tools for development and QA
+#
+# You need to attach the target host to one of the following groups to
+# install the corresponding software:
+# * gitlab
+# * sonarqube
+#
+
+- hosts: gitlab
+  become: yes
+  gather_facts: no
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  roles:
+
+    - role: gitlab
+      tags: ['gitlab', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: gitlab
+      tags: ['gitlab', 'marathon-app']
+
+- hosts: sonarqube
+  become: yes
+  gather_facts: no
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  roles:
+
+    - role: sonarqube
+      tags: ['sonarqube', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: sonarqube
+      tags: ['sonarqube', 'marathon-app']

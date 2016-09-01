@@ -3,12 +3,43 @@
 # A few good tips for configuring Gitlab in this blog post:
 # http://www.mikeobrien.net/blog/setting-up-gitlab-with-active-directory-and-self-signed-cert/
 
-gitlab_version: "7.13.3"
+gitlab_version: "8.11.3-ce.1"
+gitlab_image: "gitlab/gitlab-ce:{{ gitlab_version }}"
 
+# Startup method for the Gitlab container. One of docker-compose, marathon
+gitlab_startup: 'marathon'
+
+# Id of Gitlab in Marathon
+gitlab_marathon_id: /qa-tools/gitlab
+
+# Attach Gitlab to a particular host. The hostname should be the name known by Marathon / Mesos
+gitlab_marathon_host: '{{ inventory_hostname }}'
+# Set of constraints to use to place Gitlab on some particular host(s)
+gitlab_marathon_constraints: [["hostname", "CLUSTER", "{{ gitlab_marathon_host }}"]]
+# Number of instances of Gitlab to launch
+gitlab_instances: 1
+
+# Amount of CPU reserved for Gitlab
+gitlab_cpus: 1.0
+# Amount of memory in mb reserved for Gitlab
+gitlab_mem: 2048.0
+# Amount of disk in mb reserved for Gitlab
+gitlab_disk: 10240.0
+
+# Additional parameters for Docker
+gitlab_docker_parameters: []
+
+# Hostname used by Gitlab
 gitlab_host: "{{ inventory_hostname }}"
 gitlab_port: 10080
 gitlab_https_port: 10443
 gitlab_ssh_port: 10022
+
+gitlab_config_dir: '/srv/docker/gitlab/config'
+gitlab_data_dir: '/srv/docker/gitlab/data'
+gitlab_lfs_dir: '/srv/docker/gitlab/lfs-objects'
+gitlab_log_dir: '/srv/docker/gitlab/log'
+gitlab_backups_dir: '/srv/docker/gitlab/backups'
 
 timezone: "Europe/Zurich"
 gitlab_timezone: "Zurich"
@@ -43,7 +74,6 @@ gitlab_smtp_authentication: "login"
 gitlab_smtp_enable_starttls_auto: true
 gitlab_smtp_tls: false
 gitlab_smtp_openssl_verify_mode: 'peer'
-gitlab_tls: true
 
 gitlab_enable_lfs: true
 
@@ -65,8 +95,3 @@ gitlab_extra_sign_in_text: |
   |
   ![Company Logo](https://www.humanbrainproject.eu/image/company_logo?img_id=10795&t=1441492532899)
   [Learn more about Human Brain Project](http://www.humanbrainproject.eu/)
-
-#gitlab_extra_sign_in_text: |
-#  |
-#  ![Company Logo](http://www.unil.ch/webdav/site/lren/shared/lren_logo_small.jpg)
-#  [Learn more about LREN](http://www.unil.ch/lren/en/home.html)

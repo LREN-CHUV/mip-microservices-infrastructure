@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "geerlingguy/ubuntu1604"
 
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
@@ -32,14 +32,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     qatools.vm.hostname = "qatools"
 
-    # Ports matching
-    qatools.vm.network :forwarded_port, guest: 8080, host: 8081 # Jenkins
-    qatools.vm.network :forwarded_port, guest: 9000, host: 9083 # SonarQube
-    qatools.vm.network :forwarded_port, guest: 8081, host: 8082 # Artifactory
-    qatools.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos
+    # Create a forwarded port mapping which allows access to a specific port
+    # within the machine from a port on the host machine.
+    qatools.vm.network :forwarded_port, guest: 10080, host: 10080 # Gitlab
+    qatools.vm.network :forwarded_port, guest: 8080, host: 10081 # Jenkins
+    qatools.vm.network :forwarded_port, guest: 8081, host: 10082 # Artifactory
+    qatools.vm.network :forwarded_port, guest: 9000, host: 10083 # SonarQube
+    # qatools.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos - not working due to restricted ip listen
     qatools.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
 
-    # Private network
+    # Create a private network, which allows host-only access to the machine
+    # using a specific IP.
     qatools.vm.network :private_network, ip: '192.168.34.67'
 
     # Shared folders
@@ -55,7 +58,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.name = "qatools"
 
       # Use VBoxManage to customize the VM. For example to change memory:
-      vb.customize ["modifyvm", :id, "--memory", "4048", "--cpus", "3", "--ioapic", "on"]
+      vb.customize ["modifyvm", :id, "--memory", "6072", "--cpus", "3", "--ioapic", "on"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
     end
@@ -67,7 +70,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "shell", inline: "grep qatools /etc/hosts || echo '192.168.34.67 qatools' >> /etc/hosts"
   # Mapping ansible roles with their git repositories messes with etckeeper
-  config.vm.provision "shell", inline: "[ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
+  config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
+  # Xenial ships only with Python 3
+  config.vm.provision "shell", inline: "apt-get install -y python2.7 python-simplejson"
 
   # Run provisioning with ansible
   config.vm.provision "ansible" do |ansible|
@@ -76,6 +81,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.limit = 'all'
       ansible.verbose = "vvvv"
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
+      ansible.skip_tags = ["mesos-ui"]
+      ansible.tags = ["gitlab"]
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
         play_dir: Dir.pwd + '/../../..'

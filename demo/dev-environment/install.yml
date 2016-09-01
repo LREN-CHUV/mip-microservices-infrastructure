@@ -15,18 +15,4 @@
 
 - include: ../../common/playbooks/mesos-follower.yml
 
-- hosts: qatools
-  become: yes
-  vars_files:
-    - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/vars/versions.yml"
-
-  roles:
-
-    - role: sonarqube
-      tags: ['sonarqube']
-
-    - role: audit-deployment
-      installed_component: qatools
-      tags: ['sonarqube']
-
+- include: ../../common/playbooks/qa-tools.yml

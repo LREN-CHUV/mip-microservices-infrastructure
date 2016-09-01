@@ -1,3 +1,10 @@
 ---
 
 docker_opts: "--dns 192.168.34.67"
+
+internal_mesos_url: "http://qatools:5050"
+internal_marathon_url: "http://qatools:5080"
+
+gitlab_cpus: 0.5
+gitlab_mem: 2048.0
+gitlab_disk: 0.0

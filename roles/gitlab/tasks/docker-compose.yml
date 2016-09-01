@@ -1,0 +1,17 @@
+---
+
+- name: Create directory for Gitlab
+  file: state=directory path=/opt/gitlab
+    owner="root" group="root" mode=0664
+
+- name: Create Docker compose conf file for Gitlab
+  template: src=docker-compose.yml.j2 dest=/opt/gitlab/docker-compose.yml
+    owner="root" group="root" mode=0664
+
+- name: Create Docker compose conf file for Gitlab
+  template: src=docker-compose.yml.j2 dest=/opt/gitlab/docker-compose.yml
+    owner="root" group="root" mode=0664
+
+- name: Start Gitlab
+  shell: docker ps -a | grep gitlab || ( cd /opt/gitlab/ && docker-compose up -d)
+  become: true

@@ -1,29 +1,45 @@
 ---
 
-- name: Create directory for Gitlab
-  file: state=directory path=/opt/gitlab
-    owner="root" group="root" mode=0664
-
-- name: Create Docker compose conf file for Gitlab
-  template: src=docker-compose.yml.j2 dest=/opt/gitlab/docker-compose.yml
-    owner="root" group="root" mode=0664
-
-- name: Create configuration directory
+- name: Create Gitlab configuration directory
   file:
-    path: /srv/docker/gitlab/config
+    path: "{{ gitlab_config_dir }}"
     state: directory
     mode: 0744
     owner: root
     group: root
 
+- name: Create Gitlab data directory
+  file:
+    path: "{{ gitlab_data_dir }}"
+    state: directory
+    mode: 0744
+    owner: root
+    group: root
+
+- name: Create Gitlab logs directory
+  file:
+    path: "{{ gitlab_log_dir }}"
+    state: directory
+    mode: 0744
+    owner: root
+    group: root
+
+- name: Create Gitlab lfs directory
+  file:
+    path: "{{ gitlab_lfs_dir }}"
+    state: directory
+
+- name: Create Gitlab backups directory
+  file:
+    path: "{{ gitlab_backups_dir }}"
+    state: directory
+
 - name: Create configuration file for Gitlab
-  template: src=gitlab.rb.j2 dest=/srv/docker/gitlab/config/gitlab.rb
+  template: src=gitlab.rb.j2 dest={{ gitlab_config_dir }}/gitlab.rb
     owner="root" group="root" mode=0664
 
-- name: Create Docker compose conf file for Gitlab
-  template: src=docker-compose.yml.j2 dest=/opt/gitlab/docker-compose.yml
-    owner="root" group="root" mode=0664
+- include: docker-compose.yml
+  when: gitlab_startup == 'docker-compose'
 
-- name: Start Gitlab
-  shell: docker ps -a | grep gitlab || ( cd /opt/gitlab/ && docker-compose up -d)
-  become: true
+- include: marathon.yml
+  when: gitlab_startup == 'marathon'

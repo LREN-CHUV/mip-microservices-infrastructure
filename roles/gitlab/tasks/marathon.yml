@@ -1,0 +1,77 @@
+---
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old Gitlab using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ gitlab_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
+
+- name: Launch Gitlab using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ gitlab_marathon_id }}"
+    state: "present"
+    docker_image: "{{ gitlab_image }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: "{{ gitlab_port }}"
+        containerPort: 80
+      - hostPort: "{{ gitlab_ssh_port }}"
+        containerPort: 22
+    docker_parameters: '{{ gitlab_docker_parameters }}'
+    container_volumes:
+      - containerPath: "/etc/gitlab"
+        hostPath: "{{ gitlab_config_dir }}"
+        mode: RW
+      - containerPath: "/var/opt/gitlab"
+        hostPath: "{{ gitlab_data_dir }}"
+        mode: RW
+      - containerPath: "/var/log/gitlab"
+        hostPath: "{{ gitlab_log_dir }}"
+        mode: RW
+      - containerPath: "/mnt/storage/lfs-objects"
+        hostPath: "{{ gitlab_lfs_dir }}"
+        mode: RW
+      - containerPath: "/var/opt/gitlab/backups"
+        hostPath: "{{ gitlab_backups_dir }}"
+        mode: RW
+    env: {}
+    instances: '{{ gitlab_instances }}'
+    cpus: '{{ gitlab_cpus }}'
+    mem: '{{ gitlab_mem }}'
+    disk: '{{ gitlab_disk }}'
+    ports: []
+    require_ports: false
+    constraints: '{{ gitlab_marathon_constraints }}'
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: HTTP
+        portIndex: 0
+        path: '/'
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
+      - protocol: TCP
+        portIndex: 1
+        gracePeriodSeconds: 300
+        intervalSeconds: 120
+        timeoutSeconds: 30
+        maxConsecutiveFailures: 4
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
