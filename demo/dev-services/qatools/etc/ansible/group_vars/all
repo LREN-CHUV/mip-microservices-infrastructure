@@ -23,5 +23,13 @@ gitlab_port: 4080
 gitlab_https_port: 4443
 gitlab_ssh_port: 4022
 
+# Force Gitlab docker to use our external database
+gitlab_postgresql_enable: false
+
+gitlab_db_host: 'qatools'
+gitlab_db_port: '{{ dev_services_db_port }}'
+gitlab_db_username: "gitlab"
+gitlab_ci_db_username: "gitlab_ci"
+
 sonarqube_port: 4900
 sonarqube_db_url: "jdbc:postgresql://{{ dev_services_db_host }}:5080/sonar"

@@ -20,11 +20,17 @@ dev_services_db_host: localhost
 dev_services_db_admin_user: postgres
 # TO FILL - dev_services_db_admin_password:
 
-dev_services_db_gitlab_user: "gitlab"
-dev_services_db_sonarcube_user: "sonar"
+gitlab_db_database: "gitlab"
+gitlab_db_user: "gitlab"
+# TO FILL - gitlab_db_password:
 
-# TO FILL - dev_services_db_gitlab_password:
-# TO FILL - dev_services_db_sonarqube_password:
+gitlab_ci_db_database: "gitlab_ci"
+gitlab_ci_db_user: "gitlab_ci"
+# TO FILL - gitlab_ci_db_password:
+
+sonarqube_db_database: "sonar"
+sonarqube_db_user: "sonar"
+# TO FILL - sonarqube_db_password:
 
 dev_services_db_data_dir: /srv/docker/portaldb/data
 

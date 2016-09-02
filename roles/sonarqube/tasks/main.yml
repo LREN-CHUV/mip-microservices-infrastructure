@@ -63,6 +63,8 @@
         mode: RW
     env:
       SONARQUBE_JDBC_URL: "{{ sonarqube_db_url }}"
+      SONARQUBE_JDBC_USERNAME: "{{ sonarqube_db_user }}"
+      SONARQUBE_JDBC_PASSWORD: "{{ sonarqube_db_password }}"
     cmd: "./bin/run.sh -Dsonar.web.context={{ sonarqube_context }}"
     instances: 1
     cpus: 0.2

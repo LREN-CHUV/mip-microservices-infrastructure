@@ -95,3 +95,24 @@ gitlab_extra_sign_in_text: |
   |
   ![Company Logo](https://www.humanbrainproject.eu/image/company_logo?img_id=10795&t=1441492532899)
   [Learn more about Human Brain Project](http://www.humanbrainproject.eu/)
+
+# Enable the internal Postgres database by default
+gitlab_postgresql_enable: true
+
+# Used only when gitlab_postgresql_enable is false
+gitlab_db_adapter: "postgresql"
+gitlab_db_encoding: "unicode"
+gitlab_db_database: "gitlab"
+gitlab_db_pool: 10
+gitlab_db_username: "gitlab"
+# gitlab_db_password:
+gitlab_db_host: '{{ gitlab_host }}'
+gitlab_db_port: 5432
+gitlab_ci_db_adapter: '{{ gitlab_db_adapter }}'
+gitlab_ci_db_encoding: '{{ gitlab_db_encoding }}'
+gitlab_ci_db_database: "gitlab_ci"
+gitlab_ci_db_pool: 10
+gitlab_ci_db_username: "gitlab_ci"
+# gitlab_ci_db_password:
+gitlab_ci_db_host: '{{ gitlab_db_host }}'
+gitlab_ci_db_port: '{{ gitlab_db_port }}'

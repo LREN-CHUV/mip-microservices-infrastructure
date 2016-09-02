@@ -16,5 +16,7 @@ sonarqube_extensions_dir: /srv/docker/sonarqube/extension
 sonarqube_plugins_dir: /srv/docker/sonarqube/plugins
 
 sonarqube_db_url: jdbc:postgresql://localhost:5080/sonar
+sonarqube_db_user: sonar
+# TO FILL: sonarqube_db_password:
 
 internal_marathon_url: http://localhost:9000/sonarqube

@@ -15,4 +15,4 @@
 
 - include: ../../common/playbooks/mesos-follower.yml
 
-- include: ../../common/playbooks/qa-tools.yml
+- include: ../../common/playbooks/dev-services.yml

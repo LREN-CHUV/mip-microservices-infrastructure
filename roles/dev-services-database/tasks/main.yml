@@ -75,12 +75,13 @@
 
 - name: Create a new database with name "gitlab"
   postgresql_db:
-    name: gitlab
+    name: "{{ gitlab_db_database }}"
     port: "{{ dev_services_db_port }}"
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
     login_password: "{{ dev_services_db_admin_password }}"
     state: present
+  when: gitlab_db_password is defined
   delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create gitlab user
@@ -88,21 +89,47 @@
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
     login_password: "{{ dev_services_db_admin_password }}"
-    db: gitlab
+    db: "{{ gitlab_db_database }}"
     port: "{{ dev_services_db_port }}"
-    name: "{{ dev_services_db_gitlab_user }}"
-    password: "{{ dev_services_db_gitlab_password }}"
+    name: "{{ gitlab_db_user }}"
+    password: "{{ gitlab_db_password }}"
     role_attr_flags: "SUPERUSER"
+  when: gitlab_db_password is defined
   delegate_to: "{{ groups['control'][0] }}"
 
-- name: Create a new database with name "sonar"
+- name: Create a new database with name "gitlab_ci"
   postgresql_db:
-    name: sonar
+    name: "{{ gitlab_ci_db_database }}"
     port: "{{ dev_services_db_port }}"
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
     login_password: "{{ dev_services_db_admin_password }}"
     state: present
+  when: gitlab_ci_db_password is defined
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create gitlab ci user
+  postgresql_user:
+    login_host: "{{ dev_services_db_host }}"
+    login_user: "{{ dev_services_db_admin_user }}"
+    login_password: "{{ dev_services_db_admin_password }}"
+    db: "{{ gitlab_ci_db_database }}"
+    port: "{{ dev_services_db_port }}"
+    name: "{{ gitlab_ci_db_user }}"
+    password: "{{ gitlab_ci_db_password }}"
+    role_attr_flags: "SUPERUSER"
+  when: gitlab_ci_db_password is defined
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create a new database with name "sonar"
+  postgresql_db:
+    name: "{{ sonarqube_db_database }}"
+    port: "{{ dev_services_db_port }}"
+    login_host: "{{ dev_services_db_host }}"
+    login_user: "{{ dev_services_db_admin_user }}"
+    login_password: "{{ dev_services_db_admin_password }}"
+    state: present
+  when: sonarqube_db_password is defined
   delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create sonar user
@@ -110,9 +137,10 @@
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
     login_password: "{{ dev_services_db_admin_password }}"
-    db: sonar
+    db: "{{ sonarqube_db_database }}"
     port: "{{ dev_services_db_port }}"
-    name: "{{ dev_services_db_sonarqube_user }}"
-    password: "{{ dev_services_db_sonarqube_password }}"
+    name: "{{ sonarqube_db_user }}"
+    password: "{{ sonarqube_db_password }}"
     role_attr_flags: "SUPERUSER"
+  when: sonarqube_db_password is defined
   delegate_to: "{{ groups['control'][0] }}"
