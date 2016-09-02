@@ -48,7 +48,7 @@ woken_functions:
 
 # QA environment
 
-gitlab_version: "8.11.3-ce.1"
+gitlab_version: "8.11.4-ce.0"
 
 # For development
 

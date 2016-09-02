@@ -1,5 +1,7 @@
 ---
 
+# Create the directories on the host needed by Gitlab with the right users and permissions
+
 - name: Create Gitlab configuration directory
   file:
     path: "{{ gitlab_config_dir }}"
@@ -16,23 +18,105 @@
     owner: root
     group: root
 
+- name: Create Gitlab redis data directory
+  file:
+    path: "{{ gitlab_data_dir }}/redis"
+    state: directory
+    mode: 0744
+    owner: 997
+    group: 998
+
+- name: Create Gitlab postgresql data directory
+  file:
+    path: "{{ gitlab_data_dir }}/postgresql"
+    state: directory
+    mode: 0744
+    owner: 996
+    group: root
+
+- name: Create Gitlab nginx data directory
+  file:
+    path: "{{ gitlab_data_dir }}/nginx"
+    state: directory
+    mode: 0744
+    owner: root
+    group: 999
+
+- name: Create Gitlab engine data directories
+  file:
+    path: "{{ gitlab_data_dir }}/{{ item }}"
+    state: directory
+    mode: 0744
+    owner: 998
+    group: root
+  with_items:
+      - git-data
+      - gitlab-ci
+      - gitlab-shell
+      - gitlab-rails
+      - gitlab-workhorse
+
 - name: Create Gitlab logs directory
   file:
     path: "{{ gitlab_log_dir }}"
     state: directory
     mode: 0744
-    owner: root
+    owner: 998
     group: root
+
+- name: Create Gitlab redis logs directory
+  file:
+    path: "{{ gitlab_log_dir }}/redis"
+    state: directory
+    mode: 0744
+    owner: 997
+    group: root
+
+- name: Create Gitlab postgresql logs directory
+  file:
+    path: "{{ gitlab_log_dir }}/postgresql"
+    state: directory
+    mode: 0744
+    owner: 996
+    group: root
+
+- name: Create Gitlab nginx logs directory
+  file:
+    path: "{{ gitlab_log_dir }}/nginx"
+    state: directory
+    mode: 0744
+    owner: root
+    group: 999
+
+- name: Create Gitlab engine logs directories
+  file:
+    path: "{{ gitlab_log_dir }}/{{ item }}"
+    state: directory
+    mode: 0744
+    owner: 998
+    group: root
+  with_items:
+    - gitlab-workhorse
+    - gitlab-rails
+    - gitlab-shell
+    - unicorn
+    - sidekiq
 
 - name: Create Gitlab lfs directory
   file:
     path: "{{ gitlab_lfs_dir }}"
     state: directory
+    mode: 0744
+    owner: 998
+    group: root
 
 - name: Create Gitlab backups directory
   file:
     path: "{{ gitlab_backups_dir }}"
     state: directory
+    mode: 0744
+    owner: 998
+    group: root
 
 - name: Create configuration file for Gitlab
   template: src=gitlab.rb.j2 dest={{ gitlab_config_dir }}/gitlab.rb

@@ -31,9 +31,9 @@ gitlab_docker_parameters: []
 
 # Hostname used by Gitlab
 gitlab_host: "{{ inventory_hostname }}"
-gitlab_port: 10080
-gitlab_https_port: 10443
-gitlab_ssh_port: 10022
+gitlab_port: 4080
+gitlab_https_port: 4443
+gitlab_ssh_port: 4022
 
 gitlab_config_dir: '/srv/docker/gitlab/config'
 gitlab_data_dir: '/srv/docker/gitlab/data'

@@ -82,7 +82,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.verbose = "vvvv"
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
       ansible.skip_tags = ["mesos-ui"]
-      ansible.tags = ["gitlab"]
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
         play_dir: Dir.pwd + '/../../..'
