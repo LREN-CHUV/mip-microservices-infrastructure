@@ -1,0 +1,6 @@
+---
+
+ip_address: '192.168.34.67'
+
+dev_services_db_gitlab_password: "gitlabpwd"
+dev_services_db_sonarqube_password: "sonarqubepwd"

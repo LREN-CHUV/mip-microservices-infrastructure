@@ -1,0 +1,27 @@
+---
+
+docker_opts: "--dns 192.168.34.67"
+
+internal_mesos_url: "http://qatools:5050"
+internal_marathon_url: "http://qatools:5080"
+
+dev_services_db_host: "qatools"
+dev_services_db_marathon_host: "qatools"
+dev_services_db_port: 31432
+dev_services_db_admin_user: "postgres"
+dev_services_db_gitlab_user: "gitlab"
+dev_services_db_sonarcube_user: "sonar"
+
+dev_services_db_cpus: 0.5
+dev_services_db_mem: 128.0
+
+gitlab_cpus: 0.5
+gitlab_mem: 2048.0
+gitlab_disk: 0.0
+
+gitlab_port: 4080
+gitlab_https_port: 4443
+gitlab_ssh_port: 4022
+
+sonarqube_port: 4900
+sonarqube_db_url: "jdbc:postgresql://{{ dev_services_db_host }}:5080/sonar"

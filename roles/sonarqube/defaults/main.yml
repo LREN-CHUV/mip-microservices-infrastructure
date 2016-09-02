@@ -1,13 +1,13 @@
 ---
 
-sonarqube_marathon_id: /sonarqube
+sonarqube_marathon_id: /dev-services/sonarqube
 sonarqube_marathon_host: '{{ inventory_hostname }}'
 
 sonarqube_version: "5.6"
 
 sonarqube_docker_user: root
 
-sonarqube_port: 9000
+sonarqube_port: 4900
 sonarqube_context: /sonarqube
 
 sonarqube_conf_dir: /srv/docker/sonarqube/conf

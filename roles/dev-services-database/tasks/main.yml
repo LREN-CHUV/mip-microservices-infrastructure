@@ -1,0 +1,118 @@
+---
+
+# Postgres user in Docker appears as user 999 outside
+- name: Create Dev Services DB storage directory
+  file: state=directory path={{ dev_services_db_data_dir }} mode=0700 owner={{ dev_services_db_docker_user }} group={{ dev_services_db_docker_user }}
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old Dev Services DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ dev_services_db_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Launch Dev Services DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ dev_services_db_marathon_id }}"
+    state: "present"
+    docker_image: "postgres:{{ postgres_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ dev_services_db_port }}'
+        containerPort: 5432
+    container_volumes:
+      - containerPath: "/var/lib/postgresql/data"
+        hostPath: "{{ dev_services_db_data_dir }}"
+        mode: RW
+    env:
+      POSTGRES_USER: "{{ dev_services_db_admin_user }}"
+      POSTGRES_PASSWORD: "{{ dev_services_db_admin_password }}"
+    instances: 1
+    cpus: '{{ dev_services_db_cpus }}'
+    mem: '{{ dev_services_db_mem }}'
+    ports: []
+    require_ports: false
+    constraints: [["hostname", "CLUSTER", "{{ dev_services_db_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "/usr/lib/postgresql/9.5/bin/pg_isready"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
+  apt: name={{ item }} state=present
+  with_items:
+    - python-psycopg2
+    - python-pip
+    - curl
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Wait for the database to be up and running
+  wait_for: >
+    port="{{ dev_services_db_port }}"
+    delay=5
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create a new database with name "gitlab"
+  postgresql_db:
+    name: gitlab
+    port: "{{ dev_services_db_port }}"
+    login_host: "{{ dev_services_db_host }}"
+    login_user: "{{ dev_services_db_admin_user }}"
+    login_password: "{{ dev_services_db_admin_password }}"
+    state: present
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create gitlab user
+  postgresql_user:
+    login_host: "{{ dev_services_db_host }}"
+    login_user: "{{ dev_services_db_admin_user }}"
+    login_password: "{{ dev_services_db_admin_password }}"
+    db: gitlab
+    port: "{{ dev_services_db_port }}"
+    name: "{{ dev_services_db_gitlab_user }}"
+    password: "{{ dev_services_db_gitlab_password }}"
+    role_attr_flags: "SUPERUSER"
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create a new database with name "sonar"
+  postgresql_db:
+    name: sonar
+    port: "{{ dev_services_db_port }}"
+    login_host: "{{ dev_services_db_host }}"
+    login_user: "{{ dev_services_db_admin_user }}"
+    login_password: "{{ dev_services_db_admin_password }}"
+    state: present
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create sonar user
+  postgresql_user:
+    login_host: "{{ dev_services_db_host }}"
+    login_user: "{{ dev_services_db_admin_user }}"
+    login_password: "{{ dev_services_db_admin_password }}"
+    db: sonar
+    port: "{{ dev_services_db_port }}"
+    name: "{{ dev_services_db_sonarqube_user }}"
+    password: "{{ dev_services_db_sonarqube_password }}"
+    role_attr_flags: "SUPERUSER"
+  delegate_to: "{{ groups['control'][0] }}"
