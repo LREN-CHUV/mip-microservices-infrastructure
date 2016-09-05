@@ -60,7 +60,7 @@ docker_compose_version: "1.8.0"
 
 lightbend_activator_version: 1.3.10
 
-virtualbox_version: "5.0"
+virtualbox_version: "5.1"
 vagrant_version: "1.8.5"
 
 # IDEs
