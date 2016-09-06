@@ -37,4 +37,4 @@ java_register_env: true
 use_openjdk_ppa: true
 
 analytics_db_marathon_id: "/algorithm-factory/analyticsdb"
-portal_db_marathon_id: "/frontend/portal-meta-db"
+portal_db_marathon_id: "/frontend/portal-db"

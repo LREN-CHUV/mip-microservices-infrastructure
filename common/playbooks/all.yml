@@ -22,6 +22,8 @@
 
 - include: woken.yml
 
+- include: portal-database.yml
+
 - include: portal-meta-database.yml
 
 - include: portal-backend.yml

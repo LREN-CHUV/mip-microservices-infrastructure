@@ -3,9 +3,11 @@
 # Postgres user in Docker appears as user 999 outside
 - name: Create Portal DB storage directory
   file: state=directory path={{ portal_meta_db_data_dir }} mode=0700 owner={{ portal_meta_db_docker_user }} group={{ portal_meta_db_docker_user }}
+  when: portal_meta_db_deploy
 
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
+  when: portal_meta_db_deploy
   vars:
     uri: "{{ internal_marathon_url }}"
   tags:
@@ -20,6 +22,7 @@
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
+  when: portal_meta_db_deploy
   tags:
     - launch
 
@@ -61,6 +64,7 @@
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
+  when: portal_meta_db_deploy
   tags:
     - launch
 

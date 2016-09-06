@@ -35,7 +35,7 @@ portal_db_user: postgres
 portal_db_password: postgres
 portal_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_db_port }}/postgres"
 portal_db_jdbc_driver: "org.postgresql.Driver"
-portal_db_marathon_id: "/frontend/portal-meta-db"
+portal_db_marathon_id: "/frontend/portal-db"
 
 portal_backend_security_enabled: false
 

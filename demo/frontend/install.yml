@@ -17,6 +17,8 @@
 
 - include: ../../common/playbooks/mip-services.yml
 
+- include: ../../common/playbooks/portal-database.yml
+
 - include: ../../common/playbooks/portal-meta-database.yml
 
 - include: ../../common/playbooks/portal-backend.yml

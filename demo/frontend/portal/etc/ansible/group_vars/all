@@ -22,15 +22,18 @@ portal_frontend_docker_parameters:
 portal_db_host: "portal.local"
 portal_db_marathon_host: "portal"
 portal_db_port: 31432
-portal_db_user: "portal"
 portal_db_admin_user: "postgres"
 portal_db_jdbc_url: "jdbc:postgresql://{{ portal_db_host }}:{{ portal_db_port }}/portal"
-portal_db_jdbc_driver: "org.postgresql.Driver"
-portal_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
 
 # Few resources available in Vagrant box
 portal_db_cpus: 0.2
 portal_db_mem: 128.0
+
+portal_meta_db_deploy: no
+portal_meta_db_host: "{{ portal_db_host }}"
+portal_meta_db_port: "{{ portal_db_port }}"
+portal_meta_db_jdbc_url: "jdbc:postgresql://{{ portal_meta_db_host }}:{{ portal_meta_db_port }}/meta"
+portal_meta_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/meta-db'
 
 portal_backend_port: 4080
 portal_backend_marathon_host: "portal"

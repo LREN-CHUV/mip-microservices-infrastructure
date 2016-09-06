@@ -22,6 +22,10 @@ portal
 portal
 
 # Install the Portal database, containing reference data and user data
+[portal-db]
+portal
+
+# Install the Portal meta database, containing meta data for the data source used in the analysis
 [portal-meta-db]
 portal
 
