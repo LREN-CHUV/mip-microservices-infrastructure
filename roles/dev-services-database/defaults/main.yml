@@ -32,9 +32,9 @@ sonarqube_db_database: "sonar"
 sonarqube_db_user: "sonar"
 # TO FILL - sonarqube_db_password:
 
-dev_services_db_data_dir: /srv/docker/portaldb/data
+dev_services_db_data_dir: /srv/docker/portal-meta-db/data
 
-dev_services_db_setup_dir: /opt/portal-database/migration
+dev_services_db_setup_dir: /opt/portal-meta-database/migration
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

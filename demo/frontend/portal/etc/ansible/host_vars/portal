@@ -7,5 +7,5 @@
 
 ip_address: '192.168.41.66'
 
-portal_db_password: "portaldb"
+portal_db_password: "portal-meta-db"
 portal_db_admin_password: "portalroot"

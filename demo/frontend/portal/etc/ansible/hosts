@@ -22,7 +22,7 @@ portal
 portal
 
 # Install the Portal database, containing reference data and user data
-[portal-db]
+[portal-meta-db]
 portal
 
 # Install the Portal backend server
