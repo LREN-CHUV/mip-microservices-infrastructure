@@ -1,28 +1,31 @@
 ---
 
-portal_db_marathon_id: /frontend/portal-meta-db
+portal_meta_db_marathon_id: /frontend/portal-meta-db
 
 # Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
-portal_db_marathon_host: '{{ inventory_hostname }}'
+portal_meta_db_marathon_host: '{{ inventory_hostname }}'
 
 # The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
 # TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
-portal_db_docker_user: '999'
+portal_meta_db_docker_user: '999'
 
 postgres_version: "9.5.3"
 
-portal_db_cpus: 0.5
-portal_db_mem: 128.0
+portal_meta_db_cpus: 0.5
+portal_meta_db_mem: 128.0
 
 # Port exposed by Marathon, must be in the range [31000,32000[
-portal_db_port: 31532
-portal_db_host: localhost
-portal_db_admin_user: postgres
-# TO FILL - portal_db_admin_password:
+portal_meta_db_port: 31532
+portal_meta_db_host: localhost
+portal_meta_db_admin_user: postgres
+# TO FILL - portal_meta_db_admin_password:
+portal_meta_db_user: "meta"
+# TO FILL - portal_meta_db_password:
 
-portal_db_data_dir: /srv/docker/portal-meta-db/data
+portal_meta_db_data_dir: /srv/docker/portal-meta-db/data
 
-portal_db_setup_dir: /opt/portal-meta-database/migration
+portal_meta_db_local_project_dir: /src/meta-db
+portal_meta_db_setup_dir: /opt/portal-meta-database/migration
 
 flyway_version: "4.0.3"
 
