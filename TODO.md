@@ -1,6 +1,6 @@
 TODO
 
-* launch Gitlab with Marathon
+* portal-meta-database: copy the SQL scripts from a versioned source
 * watchtower role, to launch with Marathon
 * denodo: setup, upgrade, licenses
 * jenkins, dockerized, launch with Marathon
