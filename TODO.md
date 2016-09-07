@@ -1,12 +1,12 @@
 TODO
 
 * portal-meta-database: copy the SQL scripts from a versioned source
+* mesos, other essential services: automatically restart service
+  https://blog.codeship.com/running-node-js-linux-systemd/
 * watchtower role, to launch with Marathon
 * denodo: setup, upgrade, licenses
 * jenkins, dockerized, launch with Marathon
-* http://blog.romkevandermeulen.nl/2015/02/19/docker-gen-automatic-nginx-config-with-a-human-touch/
 * keep track of version for Docker in local facts
-* ensure that Docker-registry is up and running before deploying workflow app with Marathon
 * connect Chronos to Sentry (raven_dsn option)
 * connect Chronos to Graphite
 
