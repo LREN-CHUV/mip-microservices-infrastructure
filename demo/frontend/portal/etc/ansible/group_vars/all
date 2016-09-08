@@ -29,11 +29,18 @@ portal_db_jdbc_url: "jdbc:postgresql://{{ portal_db_host }}:{{ portal_db_port }}
 portal_db_cpus: 0.2
 portal_db_mem: 128.0
 
-portal_meta_db_deploy: no
-portal_meta_db_host: "{{ portal_db_host }}"
-portal_meta_db_port: "{{ portal_db_port }}"
-portal_meta_db_jdbc_url: "jdbc:postgresql://{{ portal_meta_db_host }}:{{ portal_meta_db_port }}/meta"
-portal_meta_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/meta-db'
+meta_db_deploy: no
+meta_db_host: "{{ portal_db_host }}"
+meta_db_port: "{{ portal_db_port }}"
+meta_db_jdbc_url: "jdbc:postgresql://{{ meta_db_host }}:{{ meta_db_port }}/meta"
+meta_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/meta-db'
+meta_db_admin_user: "postgres"
+
+science_db_host: "portal.local"
+science_db_port: 31433
+science_db_jdbc_url: "jdbc:postgresql://{{ science_db_host }}:{{ science_db_port }}"
+science_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/science-db'
+science_db_admin_user: "postgres"
 
 portal_backend_port: 4080
 portal_backend_marathon_host: "portal"

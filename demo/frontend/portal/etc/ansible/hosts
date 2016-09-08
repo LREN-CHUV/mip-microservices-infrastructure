@@ -25,8 +25,12 @@ portal
 [portal-db]
 portal
 
-# Install the Portal meta database, containing meta data for the data source used in the analysis
-[portal-meta-db]
+# Install the Portal meta-data database
+[meta-db]
+portal
+
+# Install the science database
+[science-db]
 portal
 
 # Install the Portal backend server

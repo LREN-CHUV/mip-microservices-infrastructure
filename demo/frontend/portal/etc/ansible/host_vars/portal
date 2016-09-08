@@ -10,5 +10,8 @@ ip_address: '192.168.41.66'
 portal_db_password: "portal-db"
 portal_db_admin_password: "portalroot"
 
-portal_meta_db_password: "portal-meta-db"
-portal_meta_db_admin_password: "{{ portal_db_admin_password }}"
+meta_db_password: "meta-db"
+meta_db_admin_password: "{{ portal_db_admin_password }}"
+
+science_db_password: "science-db"
+science_db_admin_password: "scienceroot"
