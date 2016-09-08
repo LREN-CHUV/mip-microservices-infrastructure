@@ -38,7 +38,7 @@ meta_db_admin_user: "postgres"
 
 science_db_host: "portal.local"
 science_db_port: 31433
-science_db_jdbc_url: "jdbc:postgresql://{{ science_db_host }}:{{ science_db_port }}"
+science_db_jdbc_url: "jdbc:postgresql://{{ science_db_host }}:{{ science_db_port }}/science"
 science_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/science-db'
 science_db_admin_user: "postgres"
 
