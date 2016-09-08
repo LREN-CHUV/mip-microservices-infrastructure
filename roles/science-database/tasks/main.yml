@@ -125,30 +125,16 @@
       dest: "values.csv"
   delegate_to: "{{ groups['control'][0] }}"
 
+- name: Update sql creation script
+  replace:
+    dest: "{{ science_db_setup_dir }}/V1_0__Create.sql"
+    regexp: '(.+)\/docker\-entrypoint\-initdb\.d(.*)?$'
+    replace: '\1{{ science_db_setup_dir }}\2'
+  delegate_to: "{{ groups['control'][0] }}"
+
+
 - name: Install Python module for Docker (required by docker_container task)
   pip: name=docker-py state=present
-  delegate_to: "{{ groups['control'][0] }}"
-
-
-# Create /docker-entrypoint-initdb.d folder
-
-- name: Create /docker-entrypoint-initdb.d folder
-  file:
-    path: /docker-entrypoint-initdb.d
-    state: directory
-    mode: 0755
-  delegate_to: "{{ groups['control'][0] }}"
-
-
-# Copy CSV data for migration into /docker-entrypoint-initdb.d folder
-
-- name: Copy CSV data for migration into /docker-entrypoint-initdb.d folder
-  copy:
-    src: "{{ item.src }}"
-    dest: "/docker-entrypoint-initdb.d/{{ item.dest }}"
-  with_items:
-    - src: "{{ science_db_local_project_dir }}/sql/values.csv"
-      dest: "values.csv"
   delegate_to: "{{ groups['control'][0] }}"
 
 
@@ -173,14 +159,4 @@
       FLYWAY_USER: '{{ science_db_admin_user }}'
       FLYWAY_PASSWORD: '{{ science_db_admin_password }}'
       FLYWAY_DRIVER: 'org.postgresql.Driver'
-  delegate_to: "{{ groups['control'][0] }}"
-
-
-# Remove folder /docker-entrypoint-initdb.d
-
-- name: Remove folder /docker-entrypoint-initdb.d
-  file:
-    path: /docker-entrypoint-initdb.d/values.csv
-    state: absent
-    mode: 0755
   delegate_to: "{{ groups['control'][0] }}"
