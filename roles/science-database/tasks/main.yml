@@ -129,7 +129,7 @@
   replace:
     dest: "{{ science_db_setup_dir }}/V1_0__Create.sql"
     regexp: '(.+)\/docker\-entrypoint\-initdb\.d(.*)?$'
-    replace: '\1{{ science_db_setup_dir }}\2'
+    replace: '\1/flyway/sql\2'
   delegate_to: "{{ groups['control'][0] }}"
 
 
