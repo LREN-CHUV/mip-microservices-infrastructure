@@ -1,0 +1,38 @@
+---
+
+# Deploy portal-meta-db as an independant database. If false, then we assume that there is
+# a database already running and we add to it a new 'meta' schema
+meta_db_deploy: no
+
+# Used when meta_db_deploy is true
+meta_db_marathon_id: /frontend/meta-db
+
+# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
+meta_db_marathon_host: '{{ inventory_hostname }}'
+
+# The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
+# TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
+meta_db_docker_user: '999'
+
+postgres_version: "9.5.3"
+
+meta_db_cpus: 0.5
+meta_db_mem: 128.0
+
+# Port exposed by Marathon, must be in the range [31000,32000[
+meta_db_port: "{{ meta_db_port | default(31432) }}"
+meta_db_host: "{{ meta_db_host | default('locahost') }}"
+meta_db_admin_user: "{{ meta_db_admin_user | default('postgres') }}"
+meta_db_admin_password: "{{ meta_db_admin_password | default('CHANGEME') }}"
+meta_db_user: meta
+# TO FILL - meta_db_password:
+
+meta_db_data_dir: /srv/docker/meta-db/data
+
+meta_db_local_project_dir: /src/meta-db
+meta_db_setup_dir: /opt/meta-database/migration
+
+flyway_version: "4.0.3"
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

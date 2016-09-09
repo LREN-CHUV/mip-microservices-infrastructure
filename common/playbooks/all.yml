@@ -24,7 +24,9 @@
 
 - include: portal-database.yml
 
-- include: portal-meta-database.yml
+- include: meta-database.yml
+
+- include: science-database.yml
 
 - include: portal-backend.yml
 

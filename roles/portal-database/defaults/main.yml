@@ -1,6 +1,6 @@
 ---
 
-portal_db_marathon_id: /frontend/portaldb
+portal_db_marathon_id: /frontend/portal-db
 
 # Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
 portal_db_marathon_host: '{{ inventory_hostname }}'
@@ -22,7 +22,7 @@ portal_db_admin_user: postgres
 portal_db_user: portal
 # TO FILL - portal_db_password:
 
-portal_db_data_dir: /srv/docker/portaldb/data
+portal_db_data_dir: /srv/docker/portal-db/data
 
 portal_db_setup_dir: /opt/portal-database/migration
 

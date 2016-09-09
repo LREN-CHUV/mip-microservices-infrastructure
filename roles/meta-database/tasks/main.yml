@@ -1,55 +1,55 @@
 ---
 
 # Postgres user in Docker appears as user 999 outside
-- name: Create Portal DB storage directory
-  file: state=directory path={{ portal_meta_db_data_dir }} mode=0700 owner={{ portal_meta_db_docker_user }} group={{ portal_meta_db_docker_user }}
-  when: portal_meta_db_deploy
+- name: Create meta DB storage directory
+  file: state=directory path={{ meta_db_data_dir }} mode=0700 owner={{ meta_db_docker_user }} group={{ meta_db_docker_user }}
+  when: meta_db_deploy
 
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
-  when: portal_meta_db_deploy
+  when: meta_db_deploy
   vars:
     uri: "{{ internal_marathon_url }}"
   tags:
     - launch
 
-- name: Remove old Portal DB using Marathon
+- name: Remove old meta DB using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
-    id: "{{ portal_meta_db_marathon_id }}"
+    id: "{{ meta_db_marathon_id }}"
     state: "absent"
     wait_timeout: 600
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
-  when: portal_meta_db_deploy
+  when: meta_db_deploy
   tags:
     - launch
 
-- name: Launch Portal DB using Marathon
+- name: Launch meta DB using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
-    id: "{{ portal_meta_db_marathon_id }}"
+    id: "{{ meta_db_marathon_id }}"
     state: "present"
     docker_image: "postgres:{{ postgres_version }}"
     docker_force_pull_image: true
     docker_network: BRIDGE
     docker_port_mappings:
-      - hostPort: '{{ portal_meta_db_port }}'
+      - hostPort: '{{ meta_db_port }}'
         containerPort: 5432
     container_volumes:
       - containerPath: "/var/lib/postgresql/data"
-        hostPath: "{{ portal_meta_db_data_dir }}"
+        hostPath: "{{ meta_db_data_dir }}"
         mode: RW
     env:
-      POSTGRES_USER: "{{ portal_meta_db_admin_user }}"
-      POSTGRES_PASSWORD: "{{ portal_meta_db_admin_password }}"
+      POSTGRES_USER: "{{ meta_db_admin_user }}"
+      POSTGRES_PASSWORD: "{{ meta_db_admin_password }}"
     instances: 1
-    cpus: '{{ portal_meta_db_cpus }}'
-    mem: '{{ portal_meta_db_mem }}'
+    cpus: '{{ meta_db_cpus }}'
+    mem: '{{ meta_db_mem }}'
     ports: []
     require_ports: false
-    constraints: [["hostname", "CLUSTER", "{{ portal_meta_db_marathon_host }}"]]
+    constraints: [["hostname", "CLUSTER", "{{ meta_db_marathon_host }}"]]
     dependencies: []
     executor: ""
     wait_timeout: 600
@@ -64,7 +64,7 @@
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
-  when: portal_meta_db_deploy
+  when: meta_db_deploy
   tags:
     - launch
 
@@ -77,46 +77,46 @@
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
 
-- name: Wait for the database to be up and running
+- name: Wait for the meta database to be up and running
   wait_for: >
-    port="{{ portal_meta_db_port }}"
+    port="{{ meta_db_port }}"
     delay=5
   delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create a new database with name "meta"
   postgresql_db:
     name: meta
-    port: "{{ portal_meta_db_port }}"
-    login_host: "{{ portal_meta_db_host }}"
-    login_user: "{{ portal_meta_db_admin_user }}"
-    login_password: "{{ portal_meta_db_admin_password }}"
+    port: "{{ meta_db_port }}"
+    login_host: "{{ meta_db_host }}"
+    login_user: "{{ meta_db_admin_user }}"
+    login_password: "{{ meta_db_admin_password }}"
     state: present
   delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create meta user
   postgresql_user:
-    login_host: "{{ portal_meta_db_host }}"
-    login_user: "{{ portal_meta_db_admin_user }}"
-    login_password: "{{ portal_meta_db_admin_password }}"
+    login_host: "{{ meta_db_host }}"
+    login_user: "{{ portal_db_admin_user }}"
+    login_password: "{{ portal_db_admin_password }}"
     db: meta
-    port: "{{ portal_meta_db_port }}"
-    name: "{{ portal_meta_db_user }}"
-    password: "{{ portal_meta_db_password }}"
+    port: "{{ meta_db_port }}"
+    name: "{{ meta_db_user }}"
+    password: "{{ meta_db_password }}"
     role_attr_flags: "SUPERUSER"
   delegate_to: "{{ groups['control'][0] }}"
 
-- name: Create setup dir
+- name: Create setup dir for the meta database
   file:
     state: directory
-    path: "{{ portal_meta_db_setup_dir }}"
+    path: "{{ meta_db_setup_dir }}"
   delegate_to: "{{ groups['control'][0] }}"
 
 - name: Copy sql creation scripts
   copy:
     src: "{{ item.src }}"
-    dest: "{{ portal_meta_db_setup_dir }}/{{ item.dest }}"
+    dest: "{{ meta_db_setup_dir }}/{{ item.dest }}"
   with_items:
-    - src: "{{ portal_meta_db_local_project_dir }}/sql/create.sql"
+    - src: "{{ meta_db_local_project_dir }}/sql/create.sql"
       dest: "V1_0__Create.sql"
   delegate_to: "{{ groups['control'][0] }}"
 
@@ -125,7 +125,7 @@
   delegate_to: "{{ groups['control'][0] }}"
 
 # TODO: this task does not fail on error when using Ansible 2.1.1.0
-- name: Run Flyway migration
+- name: Run Flyway migration on meta-db
   docker_container:
     name: flyway
     image: "lren/flyway:{{ flyway_version }}"
@@ -135,14 +135,14 @@
     interactive: yes
     # cleanup: yes
     volumes:
-      - '{{ portal_meta_db_setup_dir }}:/flyway/sql'
+      - '{{ meta_db_setup_dir }}:/flyway/sql'
     env:
       FLYWAY_DBMS: postgresql
-      FLYWAY_HOST: '{{ portal_meta_db_host }}'
-      FLYWAY_PORT: '{{ portal_meta_db_port }}'
+      FLYWAY_HOST: '{{ meta_db_host }}'
+      FLYWAY_PORT: '{{ meta_db_port }}'
       FLYWAY_DATABASE_NAME: 'meta'
       FLYWAY_SCHEMAS: "meta"
-      FLYWAY_USER: '{{ portal_meta_db_admin_user }}'
-      FLYWAY_PASSWORD: '{{ portal_meta_db_admin_password }}'
+      FLYWAY_USER: '{{ portal_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ portal_db_admin_password }}'
       FLYWAY_DRIVER: 'org.postgresql.Driver'
   delegate_to: "{{ groups['control'][0] }}"

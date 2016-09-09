@@ -31,11 +31,27 @@ portal_backend_docker_parameters: []
 
 portal_db_port: 31432
 portal_db_host: localhost
-portal_db_user: postgres
-portal_db_password: postgres
-portal_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_db_port }}/postgres"
+portal_db_user: portal
+portal_db_password: portal-db
+portal_db_jdbc_url: "jdbc:postgresql://{{ portal_db_host }}:{{ portal_db_port }}/{{ portal_db_user }}"
 portal_db_jdbc_driver: "org.postgresql.Driver"
 portal_db_marathon_id: "/frontend/portal-db"
+
+meta_db_port: 31432
+meta_db_host: localhost
+meta_db_user: meta
+meta_db_password: meta-db
+meta_db_jdbc_url: "jdbc:postgresql://{{ meta_db_host }}:{{ meta_db_port }}/{{ meta_db_user }}"
+meta_db_jdbc_driver: "org.postgresql.Driver"
+meta_db_marathon_id: "/frontend/meta-db"
+
+science_db_port: 31433
+science_db_host: localhost
+science_db_user: science
+science_db_password: science-db
+science_db_jdbc_url: "jdbc:postgresql://{{ science_db_host }}:{{ science_db_port }}/{{ science_db_user }}"
+science_db_jdbc_driver: "org.postgresql.Driver"
+science_db_marathon_id: "/frontend/science-db"
 
 portal_backend_security_enabled: false
 
@@ -50,9 +66,16 @@ internal_woken_url: 'http://localhost:8087'
 portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'
 
 portal_backend_env:
-  DB_URL: "{{ portal_db_jdbc_url }}"
-  DB_USER: "{{ portal_db_user }}"
-  DB_PASSWORD: "{{ portal_db_password }}"
+  PORTAL_DB_URL: "{{ portal_db_jdbc_url }}"
+  PORTAL_DB_USER: "{{ portal_db_user }}"
+  PORTAL_DB_PASSWORD: "{{ portal_db_password }}"
+  META_DB_URL: "{{ meta_db_jdbc_url }}"
+  META_DB_USER: "{{ meta_db_user }}"
+  META_DB_PASSWORD:  "{{ meta_db_password }}"
+  SCIENCE_DB_URL: "{{ science_db_jdbc_url }}"
+  SCIENCE_DB_USER: "{{ science_db_user }}"
+  SCIENCE_DB_PASSWORD: "{{ science_db_password }}"
+
   AUTHENTICATION: 0
   LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
   LOGGING_LEVEL_HIBERNATE: '{{ portal_backend_logging_level_hibernate }}'
