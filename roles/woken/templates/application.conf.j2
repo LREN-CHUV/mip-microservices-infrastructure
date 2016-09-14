@@ -1,13 +1,38 @@
 akka {
-  loglevel = DEBUG
+  loglevel = INFO
 
   actor {
+    provider = "akka.cluster.ClusterActorRefProvider"
     debug {
       receive = on
       autoreceive = on
       lifecycle = on
       fsm = on
     }
+  }
+  remote {
+    maximum-payload-bytes = 10000000 bytes
+    enabled-transports = ["akka.remote.netty.tcp"]
+    netty.tcp {
+      hostname = 127.0.0.1   # external (logical) hostname
+      port = 8088            # external (logical) port
+
+      bind-hostname = 127.0.0.1 # internal (bind) hostname
+      bind-port = 8088          # internal (bind)
+
+      message-frame-size =  10000000b
+      send-buffer-size =  10000000b
+      receive-buffer-size =  10000000b
+      maximum-frame-size = 10000000b
+    }
+  }
+  cluster {
+
+    seed-nodes = [
+      "akka.tcp://woken@127.0.0.1:8088"
+    ]
+
+    roles = ["woken"]
   }
 }
 
@@ -17,7 +42,7 @@ spray.can.server {
 }
 
 app {
-  systemName = "woken-manager"
+  systemName = "woken"
   jobServiceName = "job-service"
   interface = "0.0.0.0"
   port = 8087
@@ -84,7 +109,10 @@ defaultSettings {
 
     functions {
 {% for fn in woken_functions %}
-      {{ fn.name }} = "{{ fn.docker_image }}"
+      {{ fn.name }} = {
+        image = "{{ fn.docker_image }}"
+        predictive = "{{ fn.predictive }}"
+      }
 {% endfor %}
     }
   }

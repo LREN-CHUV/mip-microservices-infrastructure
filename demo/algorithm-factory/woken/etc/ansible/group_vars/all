@@ -41,6 +41,10 @@ ldsm_db_mem: 128.0
 woken_port: 4087
 woken_docker_network: HOST
 woken_marathon_host: "woken"
+woken_mem: 512.0
+
+woken_validation_docker_network: HOST
+woken_validation_marathon_host: "woken"
 
 woken_role: mip_node
 woken_main_table: demo

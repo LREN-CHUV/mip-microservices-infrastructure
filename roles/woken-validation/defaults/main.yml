@@ -1,0 +1,36 @@
+---
+
+# Version of the Docker image for woken to use
+woken_validation_version: latest
+
+# Id of woken in Marathon
+woken_validation_marathon_id: /algorithm-factory/woken-validation
+
+# Location of the configuration directory
+woken_validation_config_dir: /srv/docker/woken-validation/config
+
+# Port to use to expose woken to other services in the cluster.
+# Ignored if woken_docker_network == HOST, in this case woken can be reached under port 8082
+woken_validation_port: 31082
+# Amount of CPU reserved for woken
+woken_validation_cpus: 0.5
+# Amount of memory in mb reserved for woken
+woken_validation_mem: 1024.0
+# Networking mode for the Docker container running woken. Values are BRIDGE or HOST.
+# Use HOST to connect woken to Denodo on the Federation servers, otherwise prefer BRIDGE
+woken_validation_docker_network: BRIDGE
+# Additional parameters for Docker
+woken_validation_docker_parameters: []
+woken_validation_docker_image_basename: hbpmip/woken-validation
+woken_validation_docker_image: "{{ woken_validation_docker_image_basename }}:{{ woken_validation_version }}"
+
+# Attach the woken application to a particular host. The hostname should be the name known by Marathon / Mesos
+#woken_marathon_host:
+# Set of constraints to use to place woken on some particular host(s)
+woken_validation_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_validation_marathon_host }}"]]
+
+# URL to Chronos internal to the current cluster. You need to ensure that the woken application can reach that URL.
+internal_chronos_url: http://default:4400
+
+# URL to Marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

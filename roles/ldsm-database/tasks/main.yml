@@ -121,6 +121,7 @@
     name: flyway
     image: "lren/flyway:{{ flyway_version }}"
     command: migrate
+    network_mode: host
     detach: no
     volumes:
       - '{{ ldsm_db_setup_dir }}:/flyway/sql'

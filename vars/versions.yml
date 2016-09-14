@@ -31,9 +31,9 @@ nodejs_version: "0.10.37"
 nodejs_install_source: nodesource_debs
 
 # Versions of our Docker containers
-portal_frontend_version: "77e5b90"
-portal_backend_version: "6731872"
-woken_version: "0eaa1a6"
+portal_frontend_version: "4cffa95"
+portal_backend_version: "fff7e51"
+woken_version: "27ee24b"
 woken_functions:
   - name: boxplot
     docker_image: "hbpmip/r-summary-stats:2afe249"
@@ -41,10 +41,13 @@ woken_functions:
     docker_image: "hbpmip/r-summary-stats:2afe249"
   - name: linearregression
     docker_image: "hbpmip/r-linear-regression:2afe249"
+  - name: anova
+    docker_image: "hbpmip/r-linear-regression:2afe249"
   - name: knn
     docker_image: "hbpmip/java-rapidminer-knn:58e280f"
   - name: naivebayes
     docker_image: "hbpmip/java-rapidminer-naivebayes:58e280f"
+woken_validation_version: "27ee24b"
 
 # QA environment
 

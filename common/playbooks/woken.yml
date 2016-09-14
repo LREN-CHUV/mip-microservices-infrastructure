@@ -13,12 +13,12 @@
       apt: name=curl state=present
       delegate_to: "{{ groups['control'][0] }}"
       run_once: true
-      tags: ['denodo', 'federation', 'marathon-app']
+      tags: ['woken', 'analytics', 'marathon-app']
 
   roles:
 
     - role: chronos
-      tags: ['mesos-frameworks', 'chronos']
+      tags: ['chronos', 'analytics', 'marathon-app']
 
     - role: woken
       tags: ['woken', 'analytics', 'marathon-app']
@@ -26,3 +26,27 @@
     - role: audit-deployment
       installed_component: analytics-woken
       tags: ['woken', 'analytics', 'marathon-app']
+
+- hosts: woken-validation
+  become: yes
+  gather_facts: no
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  pre_tasks:
+
+    - name: Install curl on control node - required for marathon-app
+      apt: name=curl state=present
+      delegate_to: "{{ groups['control'][0] }}"
+      run_once: true
+      tags: ['woken-validation', 'woken', 'analytics', 'marathon-app']
+
+  roles:
+
+    - role: woken-validation
+      tags: ['woken-validation', 'woken', 'analytics', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: analytics-woken-validation
+      tags: ['woken-validation', 'woken', 'analytics', 'marathon-app']

@@ -32,3 +32,7 @@ woken
 # Install Woken and Chronos
 [woken]
 woken
+
+# Install Woken validation
+[woken-validation]
+woken

@@ -63,5 +63,16 @@ woken_main_table: adni_merge
 woken_functions:
   - name: boxplot
     docker_image: "hbpmip/r-summary-stats:latest"
+    predictive: false
   - name: linearregression
     docker_image: "hbpmip/r-linear-regression:latest"
+    predictive: false
+  - name: anova
+    docker_image: "hbpmip/r-linear-regression:latest"
+    predictive: false
+  - name: knn
+    docker_image: "hbpmip/java-rapidminer-knn:latest"
+    predictive: true
+  - name: naivebayes
+    docker_image: "hbpmip/java-rapidminer-naivebayes:latest"
+    predictive: true

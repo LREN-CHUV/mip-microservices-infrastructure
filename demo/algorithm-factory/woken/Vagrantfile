@@ -21,7 +21,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # TODO: wait for fix from Canonical https://bugs.launchpad.net/cloud-images/+bug/1565985
   # config.vm.box = "ubuntu/xenial64"
   # config.vm.box = "gbarbieru/xenial"
-  config.vm.box = "ubuntu/trusty64"
+  # config.vm.box = "ubuntu/trusty64"
+   config.vm.box = "geerlingguy/ubuntu1604"
 
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
@@ -42,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Create a forwarded port mapping which allows access to a specific port
     # within the machine from a port on the host machine.
-    woken.vm.network :forwarded_port, guest: 4087, host: 14087 # woken
+    woken.vm.network :forwarded_port, guest: 8087, host: 14087 # woken
     # woken.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos - not working due to restricted ip listen
     woken.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
     woken.vm.network :forwarded_port, guest: 4400, host: 14400 # chronos
@@ -66,7 +67,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.name = "woken-mesos"
 
       # Use VBoxManage to customize the VM. For example to change memory:
-      vb.customize ["modifyvm", :id, "--memory", "4048", "--cpus", "3", "--ioapic", "on"]
+      vb.customize ["modifyvm", :id, "--memory", "8096", "--cpus", "3", "--ioapic", "on"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
     end
