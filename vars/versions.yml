@@ -37,16 +37,23 @@ woken_version: "27ee24b"
 woken_functions:
   - name: boxplot
     docker_image: "hbpmip/r-summary-stats:2afe249"
+    predictive: false
   - name: summarystatistics
     docker_image: "hbpmip/r-summary-stats:2afe249"
+    predictive: false
   - name: linearregression
     docker_image: "hbpmip/r-linear-regression:2afe249"
+    predictive: false
   - name: anova
     docker_image: "hbpmip/r-linear-regression:2afe249"
+    predictive: false
   - name: knn
     docker_image: "hbpmip/java-rapidminer-knn:58e280f"
+    predictive: true
   - name: naivebayes
     docker_image: "hbpmip/java-rapidminer-naivebayes:58e280f"
+    predictive: true
+
 woken_validation_version: "27ee24b"
 
 # QA environment

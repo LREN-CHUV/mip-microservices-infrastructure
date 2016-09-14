@@ -6,10 +6,10 @@
 # See https://github.com/docker/docker/issues/18180#issuecomment-167042078
 docker_opts: "--dns=192.168.21.66"
 
-internal_mesos_url: "http://woken.local:5050"
-internal_marathon_url: "http://woken.local:5080"
-internal_chronos_url: "http://woken.local:4400"
-internal_woken_url: "http://woken.local:8087"
+internal_mesos_url: "http://woken.local:{{ mesos_leader_port }}"
+internal_marathon_url: "http://woken.local:{{ marathon_port }}"
+internal_chronos_url: "http://woken.local:{{ chronos_port }}"
+internal_woken_url: "http://woken.local:{{ woken_http_port }}"
 
 java_oracle_distribution: 'jdk'
 
@@ -38,13 +38,15 @@ ldsm_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
 ldsm_db_cpus: 0.2
 ldsm_db_mem: 128.0
 
-woken_port: 4087
+woken_http_port: 4087
+woken_akka_port: 4088
 woken_docker_network: HOST
 woken_marathon_host: "woken"
 woken_mem: 512.0
 
-woken_validation_docker_network: HOST
-woken_validation_marathon_host: "woken"
-
 woken_role: mip_node
 woken_main_table: demo
+
+woken_validation_akka_port: 4082
+woken_validation_docker_network: HOST
+woken_validation_marathon_host: "woken"

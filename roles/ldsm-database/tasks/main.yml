@@ -66,16 +66,19 @@
     - curl
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+# See https://github.com/anarcher/ansible-docker-registry/issues/1
+- name: Make sure pip upgraded
+  command: easy_install -U pip
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
 
 - name: Wait for the database to be up and running
   wait_for: >
     port="{{ ldsm_db_port }}"
     delay=5
-  delegate_to: "{{ groups['control'][0] }}"
-
-- debug: var=ldsm_db_admin_user
-  delegate_to: "{{ groups['control'][0] }}"
-- debug: var=ldsm_db_admin_password
   delegate_to: "{{ groups['control'][0] }}"
 
 - name: Create a new database with name "ldsm"
@@ -104,6 +107,7 @@
   file:
     state: directory
     path: "{{ldsm_db_setup_dir}}"
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Copy sql creation scripts
   copy:
@@ -111,11 +115,13 @@
     dest: "{{ldsm_db_setup_dir}}/{{ item | basename }}"
   with_fileglob:
    - "{{ ldsm_db_setup_scripts_dir }}/sql/*"
+  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Install Python module for Docker (required by docker_container task)
   pip: name=docker-py state=present
   delegate_to: "{{ groups['control'][0] }}"
 
+# TODO: this task does not fail on error when using Ansible 2.1.1.0
 - name: Run Flyway migration
   docker_container:
     name: flyway
@@ -126,10 +132,12 @@
     volumes:
       - '{{ ldsm_db_setup_dir }}:/flyway/sql'
     env:
-      FLYWAY_DBMS: postgres
+      FLYWAY_DBMS: postgresql
       FLYWAY_HOST: '{{ ldsm_db_host }}'
       FLYWAY_PORT: '{{ ldsm_db_port }}'
       FLYWAY_DATABASE_NAME: '{{ ldsm_db_admin_user }}'
+      FLYWAY_SCHEMAS: "ldsm"
       FLYWAY_USER: '{{ ldsm_db_admin_user }}'
       FLYWAY_PASSWORD: '{{ ldsm_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'
   delegate_to: "{{ groups['control'][0] }}"

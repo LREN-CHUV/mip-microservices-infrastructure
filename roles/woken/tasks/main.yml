@@ -25,7 +25,7 @@
   delegate_to: "{{ groups['control'][0] }}"
 
 # Host networking is required on Federation to be able to use Denodo JDBC over RMI driver
-- name: Launch woken app using Marathon
+- name: Launch woken app using Marathon (host networking)
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ woken_marathon_id }}"
@@ -49,7 +49,7 @@
     wait_timeout: 600
     health_checks:
       - protocol: HTTP
-        port: "{{ woken_port }}"
+        port: "{{ woken_http_port }}"
         path: "/"
         gracePeriodSeconds: 300
         intervalSeconds: 60
@@ -60,7 +60,7 @@
   when: woken_docker_network == 'HOST'
   delegate_to: "{{ groups['control'][0] }}"
 
-- name: Launch woken using Marathon
+- name: Launch woken using Marathon (bridge networking)
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ woken_marathon_id }}"
@@ -69,8 +69,12 @@
     docker_force_pull_image: true
     docker_network: BRIDGE
     docker_port_mappings:
-      - hostPort: "{{ woken_port }}"
+      - hostPort: "{{ woken_http_port }}"
         containerPort: 8087
+        name: 'http'
+      - hostPort: "{{ woken_akka_port }}"
+        containerPort: 8088
+        name: 'akka'
     docker_parameters: '{{ woken_docker_parameters }}'
     container_volumes:
       - containerPath: "/opt/woken/config"
@@ -87,7 +91,7 @@
     wait_timeout: 600
     health_checks:
       - protocol: HTTP
-        port: "{{ woken_port }}"
+        portIndex: 0
         path: "/"
         gracePeriodSeconds: 300
         intervalSeconds: 60

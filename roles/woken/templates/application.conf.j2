@@ -14,11 +14,13 @@ akka {
     maximum-payload-bytes = 10000000 bytes
     enabled-transports = ["akka.remote.netty.tcp"]
     netty.tcp {
-      hostname = 127.0.0.1   # external (logical) hostname
-      port = 8088            # external (logical) port
+      hostname = {{ woken_marathon_host }} # external (logical) hostname
+      port = {{ woken_akka_port }} # external (logical) port
 
-      bind-hostname = 127.0.0.1 # internal (bind) hostname
-      bind-port = 8088          # internal (bind)
+{% if woken_validation_docker_network == 'BRIDGE' %}
+      bind-hostname = localhost     # internal (bind) hostname
+      bind-port = 8088              # internal (bind) port
+{% endif %}
 
       message-frame-size =  10000000b
       send-buffer-size =  10000000b
@@ -45,7 +47,7 @@ app {
   systemName = "woken"
   jobServiceName = "job-service"
   interface = "0.0.0.0"
-  port = 8087
+  port = {{ woken_http_port }}
 }
 
 jobs {

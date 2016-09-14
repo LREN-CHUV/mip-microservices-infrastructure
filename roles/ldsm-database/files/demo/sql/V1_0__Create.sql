@@ -2,9 +2,9 @@
 CREATE TABLE demo
 (
   id character varying(128) NOT NULL,
-  vol1 number,
-  vol2 number,
-  vol3 number,
+  vol1 numeric,
+  vol2 numeric,
+  vol3 numeric,
 
   CONSTRAINT pk_demo PRIMARY KEY (id)
 )

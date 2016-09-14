@@ -11,7 +11,10 @@ woken_config_dir: /srv/docker/woken/config
 
 # Port to use to expose woken to other services in the cluster.
 # Ignored if woken_docker_network == HOST, in this case woken can be reached under port 8087
-woken_port: 31087
+# Default to 8087 when using host networking, 31087 otherwise
+woken_http_port: "{% if woken_docker_network == 'BRIDGE' %}31087{% else %}8087{% endif %}"
+# Port used by Akka cluster
+woken_akka_port: "{% if woken_docker_network == 'BRIDGE' %}31088{% else %}8088{% endif %}"
 # Amount of CPU reserved for woken
 woken_cpus: 0.5
 # Amount of memory in mb reserved for woken
