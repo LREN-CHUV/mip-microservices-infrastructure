@@ -47,6 +47,18 @@ woken_mem: 512.0
 woken_role: mip_node
 woken_main_table: demo
 
+woken_docker_parameters:
+  - key: 'add-host'
+    value: "woken:192.168.21.66"
+  - key: 'add-host'
+    value: "woken.local:192.168.21.66"
+
 woken_validation_akka_port: 4082
-woken_validation_docker_network: HOST
+woken_validation_docker_network: BRIDGE
 woken_validation_marathon_host: "woken"
+
+woken_validation_docker_parameters:
+  - key: 'add-host'
+    value: "woken:192.168.21.66"
+  - key: 'add-host'
+    value: "woken.local:192.168.21.66"

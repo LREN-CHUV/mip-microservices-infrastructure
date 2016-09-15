@@ -87,7 +87,7 @@
     wait_timeout: 600
     health_checks:
       - protocol: TCP
-        portIndex: 0
+        port: 8082
         gracePeriodSeconds: 300
         intervalSeconds: 60
         timeoutSeconds: 20

@@ -85,7 +85,7 @@
 
 - name: Create a new database with name "meta"
   postgresql_db:
-    name: meta
+    name: "{{ meta_db_name }}"
     port: "{{ meta_db_port }}"
     login_host: "{{ meta_db_host }}"
     login_user: "{{ meta_db_admin_user }}"
@@ -98,7 +98,7 @@
     login_host: "{{ meta_db_host }}"
     login_user: "{{ portal_db_admin_user }}"
     login_password: "{{ portal_db_admin_password }}"
-    db: meta
+    db: "{{ meta_db_name }}"
     port: "{{ meta_db_port }}"
     name: "{{ meta_db_user }}"
     password: "{{ meta_db_password }}"
@@ -127,7 +127,7 @@
 # TODO: this task does not fail on error when using Ansible 2.1.1.0
 - name: Run Flyway migration on meta-db
   docker_container:
-    name: flyway
+    name: migrate_meta_db
     image: "lren/flyway:{{ flyway_version }}"
     command: migrate
     detach: no
@@ -140,8 +140,8 @@
       FLYWAY_DBMS: postgresql
       FLYWAY_HOST: '{{ meta_db_host }}'
       FLYWAY_PORT: '{{ meta_db_port }}'
-      FLYWAY_DATABASE_NAME: 'meta'
-      FLYWAY_SCHEMAS: "meta"
+      FLYWAY_DATABASE_NAME: '{{ meta_db_name }}'
+      FLYWAY_SCHEMAS: "public"
       FLYWAY_USER: '{{ portal_db_admin_user }}'
       FLYWAY_PASSWORD: '{{ portal_db_admin_password }}'
       FLYWAY_DRIVER: 'org.postgresql.Driver'

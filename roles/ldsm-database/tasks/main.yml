@@ -83,7 +83,7 @@
 
 - name: Create a new database with name "ldsm"
   postgresql_db:
-    name: ldsm
+    name: "{{ ldsm_db_name }}"
     port: "{{ ldsm_db_port }}"
     login_host: "{{ ldsm_db_host }}"
     login_user: "{{ ldsm_db_admin_user }}"
@@ -96,7 +96,7 @@
     login_host: "{{ ldsm_db_host }}"
     login_user: "{{ ldsm_db_admin_user }}"
     login_password: "{{ ldsm_db_admin_password }}"
-    db: ldsm
+    db: "{{ ldsm_db_name }}"
     port: "{{ ldsm_db_port }}"
     name: "{{ ldsm_db_user }}"
     password: "{{ ldsm_db_password }}"
@@ -124,7 +124,7 @@
 # TODO: this task does not fail on error when using Ansible 2.1.1.0
 - name: Run Flyway migration
   docker_container:
-    name: flyway
+    name: migrate_ldsm
     image: "lren/flyway:{{ flyway_version }}"
     command: migrate
     network_mode: host
@@ -135,8 +135,8 @@
       FLYWAY_DBMS: postgresql
       FLYWAY_HOST: '{{ ldsm_db_host }}'
       FLYWAY_PORT: '{{ ldsm_db_port }}'
-      FLYWAY_DATABASE_NAME: '{{ ldsm_db_admin_user }}'
-      FLYWAY_SCHEMAS: "ldsm"
+      FLYWAY_DATABASE_NAME: '{{ ldsm_db_name }}'
+      FLYWAY_SCHEMAS: "public"
       FLYWAY_USER: '{{ ldsm_db_admin_user }}'
       FLYWAY_PASSWORD: '{{ ldsm_db_admin_password }}'
       FLYWAY_DRIVER: 'org.postgresql.Driver'

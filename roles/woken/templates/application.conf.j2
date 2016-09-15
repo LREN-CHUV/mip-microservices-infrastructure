@@ -1,4 +1,6 @@
 akka {
+  log-dead-letters = 1
+  log-dead-letters-during-shutdown = off
   loglevel = INFO
 
   actor {
@@ -17,9 +19,13 @@ akka {
       hostname = {{ woken_marathon_host }} # external (logical) hostname
       port = {{ woken_akka_port }} # external (logical) port
 
-{% if woken_validation_docker_network == 'BRIDGE' %}
+{% if woken_docker_network == 'BRIDGE' %}
       bind-hostname = localhost     # internal (bind) hostname
       bind-port = 8088              # internal (bind) port
+{% else %}
+      bind-hostname = "{{ woken_marathon_host }}"
+      bind-port = {{ woken_akka_port }} # Network interface will be bound to the woken_akka_port port,
+                     # and remoting protocol will expect messages sent to the bound port
 {% endif %}
 
       message-frame-size =  10000000b
@@ -31,7 +37,11 @@ akka {
   cluster {
 
     seed-nodes = [
-      "akka.tcp://woken@127.0.0.1:8088"
+{% if woken_docker_network == 'BRIDGE' %}
+      "akka.tcp://woken@localhost:8088"
+{% else %}
+      "akka.tcp://woken@{{ woken_marathon_host }}:{{ woken_akka_port }}"
+{% endif %}
     ]
 
     roles = ["woken"]
@@ -113,7 +123,7 @@ defaultSettings {
 {% for fn in woken_functions %}
       {{ fn.name }} = {
         image = "{{ fn.docker_image }}"
-        predictive = "{{ fn.predictive }}"
+        predictive = {{ fn.predictive | lower }}
       }
 {% endfor %}
     }

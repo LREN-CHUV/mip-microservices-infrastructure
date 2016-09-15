@@ -83,7 +83,7 @@
 
 - name: Create a new database with name "analytics"
   postgresql_db:
-    name: analytics
+    name: "{{ analytics_db_name }}"
     port: "{{ analytics_db_port }}"
     login_host: "{{ analytics_db_host }}"
     login_user: "{{ analytics_db_admin_user }}"
@@ -96,7 +96,7 @@
     login_host: "{{ analytics_db_host }}"
     login_user: "{{ analytics_db_admin_user }}"
     login_password: "{{ analytics_db_admin_password }}"
-    db: analytics
+    db: "{{ analytics_db_name }}"
     port: "{{ analytics_db_port }}"
     name: "{{ analytics_db_user }}"
     password: "{{ analytics_db_password }}"
@@ -125,7 +125,7 @@
 # TODO: this task does not fail on error when using Ansible 2.1.1.0
 - name: Run Flyway migration
   docker_container:
-    name: flyway
+    name: migrate_analytics_db
     image: "lren/flyway:{{ flyway_version }}"
     command: migrate
     network_mode: host
@@ -136,8 +136,8 @@
       FLYWAY_DBMS: postgresql
       FLYWAY_HOST: '{{ analytics_db_host }}'
       FLYWAY_PORT: '{{ analytics_db_port }}'
-      FLYWAY_DATABASE_NAME: '{{ analytics_db_admin_user }}'
-      FLYWAY_SCHEMAS: "analytics"
+      FLYWAY_DATABASE_NAME: '{{ analytics_db_name }}'
+      FLYWAY_SCHEMAS: "public"
       FLYWAY_USER: '{{ analytics_db_admin_user }}'
       FLYWAY_PASSWORD: '{{ analytics_db_admin_password }}'
       FLYWAY_DRIVER: 'org.postgresql.Driver'

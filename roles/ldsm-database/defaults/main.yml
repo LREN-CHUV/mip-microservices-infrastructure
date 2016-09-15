@@ -17,6 +17,7 @@ ldsm_db_mem: 128.0
 # Port exposed by Marathon, must be in the range [31000,32000[
 ldsm_db_port: 31432
 ldsm_db_host: localhost
+ldsm_db_name: ldsm
 ldsm_db_admin_user: postgres
 # TO FILL - ldsm_db_admin_password:
 
