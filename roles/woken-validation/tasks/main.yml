@@ -47,13 +47,14 @@
     dependencies: []
     executor: ""
     wait_timeout: 600
-    health_checks:
-      - protocol: TCP
-        port: "{{ woken_validation_akka_port }}"
-        gracePeriodSeconds: 300
-        intervalSeconds: 60
-        timeoutSeconds: 20
-        maxConsecutiveFailures: 2
+    health_checks: []
+    # TODO: temporarly disabled
+    #  - protocol: TCP
+    #    port: "{{ woken_validation_akka_port }}"
+    #    gracePeriodSeconds: 300
+    #    intervalSeconds: 60
+    #    timeoutSeconds: 20
+    #    maxConsecutiveFailures: 2
   async: 600
   poll: 1
   when: woken_validation_docker_network == 'HOST'
@@ -85,13 +86,14 @@
     dependencies: []
     executor: ""
     wait_timeout: 600
-    health_checks:
-      - protocol: TCP
-        port: 8082
-        gracePeriodSeconds: 300
-        intervalSeconds: 60
-        timeoutSeconds: 20
-        maxConsecutiveFailures: 2
+    health_checks: []
+    # TODO: temporarly disabled
+    #  - protocol: TCP
+    #    port: "{{ woken_validation_akka_port }}"
+    #    gracePeriodSeconds: 300
+    #    intervalSeconds: 60
+    #    timeoutSeconds: 20
+    #    maxConsecutiveFailures: 2
   async: 600
   poll: 1
   when: woken_validation_docker_network == 'BRIDGE'
