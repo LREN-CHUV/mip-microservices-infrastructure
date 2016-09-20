@@ -37,7 +37,7 @@
     docker_port_mappings:
       - hostPort: '{{ meta_db_port }}'
         containerPort: 5432
-        name: 'mysql'
+        name: 'postgres'
         protocol: 'tcp'
     container_volumes:
       - containerPath: "/var/lib/postgresql/data"
