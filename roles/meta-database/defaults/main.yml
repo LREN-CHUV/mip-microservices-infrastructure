@@ -5,7 +5,7 @@
 meta_db_deploy: no
 
 # Used when meta_db_deploy is true
-meta_db_marathon_id: /frontend/meta-db
+meta_db_marathon_id: /reference/meta-db
 
 # Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
 meta_db_marathon_host: '{{ inventory_hostname }}'

@@ -20,6 +20,8 @@ ldsm_db_host: localhost
 ldsm_db_name: ldsm
 ldsm_db_admin_user: postgres
 # TO FILL - ldsm_db_admin_password:
+ldsm_db_user: ldsm
+# TO FILL - ldsm_db_password:
 
 ldsm_db_data_dir: /srv/docker/ldsmdb/data
 

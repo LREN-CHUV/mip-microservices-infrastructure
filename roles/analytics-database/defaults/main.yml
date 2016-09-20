@@ -20,6 +20,8 @@ analytics_db_host: localhost
 analytics_db_name: analytics
 analytics_db_admin_user: postgres
 # TO FILL - analytics_db_admin_password:
+analytics_db_user: analytics
+# TO FILL - analytics_db_password:
 
 analytics_db_data_dir: /srv/docker/analyticsdb/data
 

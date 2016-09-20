@@ -4,7 +4,7 @@
 portal_backend_version: latest
 
 # Id of Portal backend in Marathon
-portal_backend_marathon_id: /frontend/portal-backend
+portal_backend_marathon_id: /portal/portal-backend
 
 # Attach Portal backend to a particular host. The hostname should be the name known by Marathon / Mesos
 portal_backend_marathon_host: '{{ inventory_hostname }}'

@@ -37,6 +37,9 @@ java_register_env: true
 use_openjdk_ppa: true
 
 analytics_db_marathon_id: "/algorithm-factory/analyticsdb"
-portal_db_marathon_id: "/frontend/portal-db"
-meta_db_marathon_id: "/frontend/portal-db"
-science_db_marathon_id: "/frontend/science-db"
+denodo_marathon_id: /reference/denodo
+science_db_marathon_id: "/reference/science-db"
+portal_db_marathon_id: "/portal/portal-db"
+meta_db_marathon_id: "{{ portal_db_marathon_id }}"
+portal_backend_marathon_id: /portal/portal-backend
+portal_frontend_marathon_id: /portal/portal-frontend

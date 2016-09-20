@@ -1,6 +1,6 @@
 ---
 
-denodo_marathon_id: /denodo
+denodo_marathon_id: /reference/denodo
 
 denodo_dir: /home/mip/denodo-5.5
 denodo_user: mip

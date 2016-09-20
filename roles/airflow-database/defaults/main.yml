@@ -1,29 +1,28 @@
 ---
 
-airflow_db_marathon_id: /airflow/db
+airflow_db_marathon_id: /data-factory/airflow/db
 
-airflow_db_data_dir: /srv/docker/airflow_db/data
-airflow_db_docker_entrypoint_dir: /srv/docker/airflow_db/docker-entrypoint-initdb.d
+# Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
+airflow_db_marathon_host: '{{ inventory_hostname }}'
 
 # The user running the Docker container for mysql, default to '999' (mysql user in the mysql docker container)
 airflow_db_docker_user: '999'
-
-# Pin the database to a particular host as it needs to store its files in a known place
-airflow_db_marathon_host: '{{ inventory_hostname }}'
-# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
-airflow_db_port: 4306
 
 # One of mysql, mariadb
 airflow_db_image: 'mariadb'
 airflow_db_version: "10.1.14"
 
-#airflow_db_root_password:
-
-airflow_db_user: airflow
-airflow_db_password: airflow
-
-airflow_db_mem: 512.0
 airflow_db_cpus: 0.5
+airflow_db_mem: 512.0
+
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
+airflow_db_port: 4306
+# TO FILL - airflow_db_root_password:
+airflow_db_user: airflow
+# TO FILL - airflow_db_password: airflow
+
+airflow_db_data_dir: /srv/docker/airflow_db/data
+airflow_db_docker_entrypoint_dir: /srv/docker/airflow_db/docker-entrypoint-initdb.d
 
 # Additional databases to create. It should contain the following properties: name, user, password
 airflow_db_additional_databases: []

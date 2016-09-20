@@ -43,6 +43,9 @@
         intervalSeconds: 60
         timeoutSeconds: 20
         maxConsecutiveFailures: 2
+    upgrade_strategy:
+      minimumHealthCapacity: 0
+      maximumOverCapacity: 0
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"

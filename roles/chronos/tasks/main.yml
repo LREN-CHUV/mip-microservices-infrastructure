@@ -37,6 +37,8 @@
       CHRONOS_FAILURE_RETRY: "{{ chronos_failure_retry }}"
       CHRONOS_DISABLE_AFTER_FAILURES: "{{ chronos_disable_after_failures }}"
       CHRONOS_CLUSTER_NAME: "{{ chronos_cluster_name }}"
+    labels:
+      MARATHON_SINGLE_INSTANCE_APP: "true"
     instances: 1
     cpus: '{{ chronos_cpus }}'
     mem: '{{ chronos_mem }}'
@@ -54,6 +56,9 @@
         intervalSeconds: 60
         timeoutSeconds: 20
         maxConsecutiveFailures: 2
+    upgrade_strategy:
+      minimumHealthCapacity: 0
+      maximumOverCapacity: 0
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"

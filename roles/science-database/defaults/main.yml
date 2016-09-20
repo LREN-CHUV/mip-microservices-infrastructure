@@ -1,7 +1,7 @@
 ---
 
 # Used when science_db_deploy is true
-science_db_marathon_id: /frontend/science-db
+science_db_marathon_id: /reference/science-db
 
 # Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
 science_db_marathon_host: '{{ inventory_hostname }}'
@@ -18,12 +18,14 @@ science_db_mem: 128.0
 # Port exposed by Marathon, must be in the range [31000,32000[
 science_db_port: "{{ science_db_port | default(31433) }}"
 science_db_host: "{{ science_db_host | default('locahost') }}"
+science_db_name: science
 science_db_admin_user: "{{ science_db_admin_user | default('postgres') }}"
 science_db_admin_password: "{{ science_db_admin_password | default('CHANGEME') }}"
 science_db_user: science
 # TO FILL - science_db_password:
 
 science_db_data_dir: /srv/docker/science-db/data
+science_db_csv_dir: /srv/docker/science-db/csv
 
 science_db_local_project_dir: /src/science-db
 science_db_setup_dir: /opt/science-database/migration

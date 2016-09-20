@@ -18,6 +18,8 @@
 
 - include: analytics-database.yml
 
+- include: science-database.yml
+
 - include: denodo.yml
 
 - include: woken.yml
@@ -25,8 +27,6 @@
 - include: portal-database.yml
 
 - include: meta-database.yml
-
-- include: science-database.yml
 
 - include: portal-backend.yml
 

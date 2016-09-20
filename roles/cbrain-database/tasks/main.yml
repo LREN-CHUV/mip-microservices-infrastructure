@@ -8,15 +8,20 @@
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
     uri: "{{ internal_marathon_url }}"
+  tags:
+    - launch
 
 - name: Remove old CBrain database using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ cbrain_db_marathon_id }}"
     state: "absent"
-    waitTimeout: 600
+    wait_timeout: 600
   async: 600
   poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch
 
 - name: Launch CBrain database using Marathon
   marathon_app:
@@ -40,14 +45,16 @@
       MYSQL_USER: "{{ cbrain_db_user }}"
       MYSQL_PASSWORD: "{{ cbrain_db_password }}"
       MYSQL_ROOT_PASSWORD: "{{ cbrain_db_root_password }}"
+    labels:
+      MARATHON_SINGLE_INSTANCE_APP: "true"
     instances: 1
-    cpus: 0.2
+    cpus: '{{ cbrain_db_cpus }}'
     mem: '{{ cbrain_db_mem }}'
+    ports: [] # defined in docker_port_mappings
     require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ cbrain_db_marathon_host }}"]]
     dependencies: []
     executor: ""
-    wait_timeout: 600
     health_checks:
       - protocol: COMMAND
         command:
@@ -58,5 +65,9 @@
         maxConsecutiveFailures: 5
     upgrade_strategy_minimum_health_capacity: 0.0
     upgrade_strategy_maximum_over_capacity: 0.0
+    wait_timeout: 600
   async: 600
   poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch

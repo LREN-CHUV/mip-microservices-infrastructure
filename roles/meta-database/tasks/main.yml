@@ -37,6 +37,8 @@
     docker_port_mappings:
       - hostPort: '{{ meta_db_port }}'
         containerPort: 5432
+        name: 'mysql'
+        protocol: 'tcp'
     container_volumes:
       - containerPath: "/var/lib/postgresql/data"
         hostPath: "{{ meta_db_data_dir }}"
@@ -44,11 +46,13 @@
     env:
       POSTGRES_USER: "{{ meta_db_admin_user }}"
       POSTGRES_PASSWORD: "{{ meta_db_admin_password }}"
+    labels:
+      MARATHON_SINGLE_INSTANCE_APP: "true"
     instances: 1
     cpus: '{{ meta_db_cpus }}'
     mem: '{{ meta_db_mem }}'
     ports: []
-    require_ports: false
+    require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ meta_db_marathon_host }}"]]
     dependencies: []
     executor: ""
@@ -61,6 +65,8 @@
         intervalSeconds: 20
         timeoutSeconds: 10
         maxConsecutiveFailures: 5
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
@@ -76,12 +82,24 @@
     - curl
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
+  become: True
 
+# See https://github.com/anarcher/ansible-docker-registry/issues/1
+- name: Make sure pip upgraded
+  command: easy_install -U pip
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+- name: Install Python module for Docker (required by docker_container task)
+  pip: name=docker-py state=present
+  delegate_to: "{{ groups['control'][0] }}"
+
+# run this task on the database host
 - name: Wait for the meta database to be up and running
   wait_for: >
     port="{{ meta_db_port }}"
-    delay=5
-  delegate_to: "{{ groups['control'][0] }}"
+    delay=2
 
 - name: Create a new database with name "meta"
   postgresql_db:
@@ -118,10 +136,6 @@
   with_items:
     - src: "{{ meta_db_local_project_dir }}/sql/create.sql"
       dest: "V1_0__Create.sql"
-  delegate_to: "{{ groups['control'][0] }}"
-
-- name: Install Python module for Docker (required by docker_container task)
-  pip: name=docker-py state=present
   delegate_to: "{{ groups['control'][0] }}"
 
 # TODO: this task does not fail on error when using Ansible 2.1.1.0

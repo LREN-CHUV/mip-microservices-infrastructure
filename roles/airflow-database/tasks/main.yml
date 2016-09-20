@@ -16,6 +16,8 @@
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
     uri: "{{ internal_marathon_url }}"
+  tags:
+    - launch
 
 - name: Remove old Airflow database using Marathon
   marathon_app:
@@ -26,6 +28,8 @@
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch
 
 - name: Launch Airflow database using Marathon
   marathon_app:
@@ -52,9 +56,12 @@
       MYSQL_USER: "{{ airflow_db_user }}"
       MYSQL_PASSWORD: "{{ airflow_db_password }}"
       MYSQL_ROOT_PASSWORD: "{{ airflow_db_root_password }}"
+    labels:
+      MARATHON_SINGLE_INSTANCE_APP: "true"
     instances: 1
     cpus: '{{ airflow_db_cpus }}'
     mem: '{{ airflow_db_mem }}'
+    ports: [] # defined in docker_port_mappings
     require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ airflow_db_marathon_host }}"]]
     dependencies: []
@@ -73,3 +80,5 @@
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch

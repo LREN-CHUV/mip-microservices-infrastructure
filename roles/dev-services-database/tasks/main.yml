@@ -8,6 +8,8 @@
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
     uri: "{{ internal_marathon_url }}"
+  tags:
+    - launch
 
 - name: Remove old Dev Services DB using Marathon
   marathon_app:
@@ -18,6 +20,8 @@
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch
 
 - name: Launch Dev Services DB using Marathon
   marathon_app:
@@ -30,6 +34,8 @@
     docker_port_mappings:
       - hostPort: '{{ dev_services_db_port }}'
         containerPort: 5432
+        name: 'mysql'
+        protocol: 'tcp'
     container_volumes:
       - containerPath: "/var/lib/postgresql/data"
         hostPath: "{{ dev_services_db_data_dir }}"
@@ -37,11 +43,13 @@
     env:
       POSTGRES_USER: "{{ dev_services_db_admin_user }}"
       POSTGRES_PASSWORD: "{{ dev_services_db_admin_password }}"
+    labels:
+      MARATHON_SINGLE_INSTANCE_APP: "true"
     instances: 1
     cpus: '{{ dev_services_db_cpus }}'
     mem: '{{ dev_services_db_mem }}'
     ports: []
-    require_ports: false
+    require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ dev_services_db_marathon_host }}"]]
     dependencies: []
     executor: ""
@@ -54,9 +62,13 @@
         intervalSeconds: 20
         timeoutSeconds: 10
         maxConsecutiveFailures: 5
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch
 
 - name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
   apt: name={{ item }} state=present
@@ -66,12 +78,24 @@
     - curl
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
+  become: True
 
+# See https://github.com/anarcher/ansible-docker-registry/issues/1
+- name: Make sure pip upgraded
+  command: easy_install -U pip
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+- name: Install Python module for Docker (required by docker_container task)
+  pip: name=docker-py state=present
+  delegate_to: "{{ groups['control'][0] }}"
+
+# run this task on the database host
 - name: Wait for the database to be up and running
   wait_for: >
     port="{{ dev_services_db_port }}"
-    delay=5
-  delegate_to: "{{ groups['control'][0] }}"
+    delay=2
 
 - name: Create a new database with name "gitlab"
   postgresql_db:

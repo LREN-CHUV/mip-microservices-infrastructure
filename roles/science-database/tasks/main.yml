@@ -4,6 +4,17 @@
 - name: Create science DB storage directory
   file: state=directory path={{ science_db_data_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
 
+- name: Create science DB directory for initial data stored in CSV files
+  file: state=directory path={{ science_db_csv_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
+
+- name: Copy scientific data CSV file
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ science_db_csv_dir }}/{{ item.dest }}"
+  with_items:
+    - src: "{{ science_db_local_project_dir }}/sql/values.csv"
+      dest: "values.csv"
+
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
@@ -23,28 +34,6 @@
   tags:
     - launch
 
-- name: Create setup dir
-  file:
-    state: directory
-    path: "{{ science_db_setup_dir }}"
-  delegate_to: "{{ groups['control'][0] }}"
-
-- name: Copy scientific data CSV file
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ science_db_setup_dir }}/{{ item.dest }}"
-  with_items:
-    - src: "{{ science_db_local_project_dir }}/sql/values.csv"
-      dest: "values.csv"
-  delegate_to: "{{ groups['control'][0] }}"
-
-# - name: Update sql creation script
-#   replace:
-#     dest: "{{ science_db_setup_dir }}/V1_0__Create.sql"
-#     regexp: '(.+)\/docker\-entrypoint\-initdb\.d(.*)?$'
-#     replace: '\1/flyway/sql\2'
-#   delegate_to: "{{ groups['control'][0] }}"
-
 - name: Launch science DB using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
@@ -56,21 +45,25 @@
     docker_port_mappings:
       - hostPort: '{{ science_db_port }}'
         containerPort: 5432
+        name: 'mysql'
+        protocol: 'tcp'
     container_volumes:
       - containerPath: "/var/lib/postgresql/data"
         hostPath: "{{ science_db_data_dir }}"
         mode: RW
       - containerPath: '/docker-entrypoint-initdb.d'
-        hostPath: "{{ science_db_setup_dir }}"
-        mode: RW
+        hostPath: "{{ science_db_csv_dir }}"
+        mode: RO
     env:
       POSTGRES_USER: "{{ science_db_admin_user }}"
       POSTGRES_PASSWORD: "{{ science_db_admin_password }}"
+    labels:
+      MARATHON_SINGLE_INSTANCE_APP: "true"
     instances: 1
     cpus: '{{ science_db_cpus }}'
     mem: '{{ science_db_mem }}'
     ports: []
-    require_ports: false
+    require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ science_db_marathon_host }}"]]
     dependencies: []
     executor: ""
@@ -83,6 +76,8 @@
         intervalSeconds: 20
         timeoutSeconds: 10
         maxConsecutiveFailures: 5
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
@@ -97,16 +92,28 @@
     - curl
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
+  become: True
 
+# See https://github.com/anarcher/ansible-docker-registry/issues/1
+- name: Make sure pip upgraded
+  command: easy_install -U pip
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+- name: Install Python module for Docker (required by docker_container task)
+  pip: name=docker-py state=present
+  delegate_to: "{{ groups['control'][0] }}"
+
+# run this task on the database host
 - name: Wait for the database to be up and running
   wait_for: >
     port="{{ science_db_port }}"
-    delay=5
-  delegate_to: "{{ groups['control'][0] }}"
+    delay=2
 
 - name: Create a new database with name "science"
   postgresql_db:
-    name: science
+    name: "{{ science_db_name }}"
     port: "{{ science_db_port }}"
     login_host: "{{ science_db_host }}"
     login_user: "{{ science_db_admin_user }}"
@@ -119,15 +126,17 @@
     login_host: "{{ science_db_host }}"
     login_user: "{{ science_db_admin_user }}"
     login_password: "{{ science_db_admin_password }}"
-    db: science
+    db: "{{ science_db_name }}"
     port: "{{ science_db_port }}"
     name: "{{ science_db_user }}"
     password: "{{ science_db_password }}"
     role_attr_flags: "SUPERUSER"
   delegate_to: "{{ groups['control'][0] }}"
 
-- name: Install Python module for Docker (required by docker_container task)
-  pip: name=docker-py state=present
+- name: Create setup dir
+  file:
+    state: directory
+    path: "{{ science_db_setup_dir }}"
   delegate_to: "{{ groups['control'][0] }}"
 
 - name: Copy sql creation scripts
@@ -142,7 +151,7 @@
 # TODO: this task does not fail on error when using Ansible 2.1.1.0
 - name: Run Flyway migration
   docker_container:
-    name: flyway
+    name: migrate_science_db
     image: "lren/flyway:{{ flyway_version }}"
     command: migrate
     detach: no
@@ -155,8 +164,8 @@
       FLYWAY_DBMS: postgresql
       FLYWAY_HOST: '{{ science_db_host }}'
       FLYWAY_PORT: '{{ science_db_port }}'
-      FLYWAY_DATABASE_NAME: 'science'
-      FLYWAY_SCHEMAS: "science"
+      FLYWAY_DATABASE_NAME: '{{ science_db_name }}'
+      FLYWAY_SCHEMAS: "public"
       FLYWAY_USER: '{{ science_db_admin_user }}'
       FLYWAY_PASSWORD: '{{ science_db_admin_password }}'
       FLYWAY_DRIVER: 'org.postgresql.Driver'
