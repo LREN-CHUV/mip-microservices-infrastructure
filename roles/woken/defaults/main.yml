@@ -41,6 +41,14 @@ analytics_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_d
 analytics_db_jdbc_driver: "org.postgresql.Driver"
 analytics_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
 
+woken_result_db_port: '{{ analytics_db_port }}'
+woken_result_db_host: '{{ analytics_db_host }}'
+woken_result_db_user: '{{ analytics_db_user }}'
+woken_result_db_password: '{{ analytics_db_password }}'
+woken_result_db_jdbc_url: '{{ analytics_db_jdbc_url }}'
+woken_result_db_jdbc_driver: '{{ analytics_db_jdbc_driver }}'
+woken_result_db_jdbc_jar: '{{ analytics_db_jdbc_jar }}'
+
 # How woken connects to the LDSM database containing the data to process
 ldsm_db_port: 31432
 ldsm_db_host: localhost
@@ -49,6 +57,14 @@ ldsm_db_password: postgres
 ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/analytics"
 ldsm_db_jdbc_driver: "org.postgresql.Driver"
 ldsm_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+
+woken_data_db_port: '{{ ldsm_db_port }}'
+woken_data_db_host: '{{ ldsm_db_host }}'
+woken_data_db_user: '{{ ldsm_db_user }}'
+woken_data_db_password: '{{ ldsm_db_password }}'
+woken_data_db_jdbc_url: '{{ ldsm_db_jdbc_url }}'
+woken_data_db_jdbc_driver: '{{ ldsm_db_jdbc_driver }}'
+woken_data_db_jdbc_jar: '{{ ldsm_db_jdbc_jar }}'
 
 # URL to Chronos internal to the current cluster. You need to ensure that the woken application can reach that URL.
 internal_chronos_url: http://default:4400
