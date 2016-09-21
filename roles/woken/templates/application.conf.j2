@@ -81,11 +81,11 @@ jobs {
 
 db {
   analytics {
-    jdbc_driver="{{ woken_results_db_jdbc_driver }}"
-    jdbc_jar_path="{{ woken_results_db_jdbc_jar }}"
-    jdbc_url="{{ woken_results_db_jdbc_url }}"
-    jdbc_user="{{ woken_results_db_user }}"
-    jdbc_password="{{ woken_results_db_password }}"
+    jdbc_driver="{{ woken_result_db_jdbc_driver }}"
+    jdbc_jar_path="{{ woken_result_db_jdbc_jar }}"
+    jdbc_url="{{ woken_result_db_jdbc_url }}"
+    jdbc_user="{{ woken_result_db_user }}"
+    jdbc_password="{{ woken_result_db_password }}"
   }
 
 {% if woken_role == 'mip_federation' %}
