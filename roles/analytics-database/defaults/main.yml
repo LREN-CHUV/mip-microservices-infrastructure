@@ -23,6 +23,8 @@ analytics_db_admin_user: postgres
 analytics_db_user: analytics
 # TO FILL - analytics_db_password:
 
+analytics_db_databases: "{{ analytics_db_name }}"
+
 analytics_db_data_dir: /srv/docker/analyticsdb/data
 
 analytics_db_setup_dir: /opt/analytics-database/migration

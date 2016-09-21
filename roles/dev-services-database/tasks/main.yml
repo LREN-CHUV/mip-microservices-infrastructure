@@ -45,6 +45,7 @@
       POSTGRES_PASSWORD: "{{ dev_services_db_admin_password }}"
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ dev_services_db_databases }}"
     instances: 1
     cpus: '{{ dev_services_db_cpus }}'
     mem: '{{ dev_services_db_mem }}'
@@ -99,7 +100,7 @@
 
 - name: Create a new database with name "gitlab"
   postgresql_db:
-    name: "{{ gitlab_db_database }}"
+    name: "{{ gitlab_db_name }}"
     port: "{{ dev_services_db_port }}"
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
@@ -113,7 +114,7 @@
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
     login_password: "{{ dev_services_db_admin_password }}"
-    db: "{{ gitlab_db_database }}"
+    db: "{{ gitlab_db_name }}"
     port: "{{ dev_services_db_port }}"
     name: "{{ gitlab_db_user }}"
     password: "{{ gitlab_db_password }}"
@@ -123,7 +124,7 @@
 
 - name: Create a new database with name "gitlab_ci"
   postgresql_db:
-    name: "{{ gitlab_ci_db_database }}"
+    name: "{{ gitlab_ci_db_name }}"
     port: "{{ dev_services_db_port }}"
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
@@ -137,7 +138,7 @@
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
     login_password: "{{ dev_services_db_admin_password }}"
-    db: "{{ gitlab_ci_db_database }}"
+    db: "{{ gitlab_ci_db_name }}"
     port: "{{ dev_services_db_port }}"
     name: "{{ gitlab_ci_db_user }}"
     password: "{{ gitlab_ci_db_password }}"
@@ -147,7 +148,7 @@
 
 - name: Create a new database with name "sonar"
   postgresql_db:
-    name: "{{ sonarqube_db_database }}"
+    name: "{{ sonarqube_db_name }}"
     port: "{{ dev_services_db_port }}"
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
@@ -161,7 +162,7 @@
     login_host: "{{ dev_services_db_host }}"
     login_user: "{{ dev_services_db_admin_user }}"
     login_password: "{{ dev_services_db_admin_password }}"
-    db: "{{ sonarqube_db_database }}"
+    db: "{{ sonarqube_db_name }}"
     port: "{{ dev_services_db_port }}"
     name: "{{ sonarqube_db_user }}"
     password: "{{ sonarqube_db_password }}"

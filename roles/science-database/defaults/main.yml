@@ -24,6 +24,8 @@ science_db_admin_password: "{{ science_db_admin_password | default('CHANGEME') }
 science_db_user: science
 # TO FILL - science_db_password:
 
+science_db_databases: "{{ science_db_name }}"
+
 science_db_data_dir: /srv/docker/science-db/data
 science_db_csv_dir: /srv/docker/science-db/csv
 

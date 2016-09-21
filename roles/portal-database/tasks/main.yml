@@ -45,6 +45,7 @@
       POSTGRES_PASSWORD: "{{ portal_db_admin_password }}"
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ portal_db_databases }}"
     instances: 1
     cpus: '{{ portal_db_cpus }}'
     mem: '{{ portal_db_mem }}'

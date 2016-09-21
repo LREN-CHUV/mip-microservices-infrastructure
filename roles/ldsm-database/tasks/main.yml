@@ -45,6 +45,7 @@
       POSTGRES_PASSWORD: "{{ ldsm_db_admin_password }}"
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ ldsm_db_databases }}"
     instances: 1
     cpus: '{{ ldsm_db_cpus }}'
     mem: '{{ ldsm_db_mem }}'

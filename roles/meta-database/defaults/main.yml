@@ -28,6 +28,9 @@ meta_db_admin_password: "{{ meta_db_admin_password | default('CHANGEME') }}"
 meta_db_user: meta
 # TO FILL - meta_db_password:
 
+# Used when meta_db_deploy is true
+meta_db_databases: "{{ meta_db_name }}"
+
 meta_db_data_dir: /srv/docker/meta-db/data
 
 meta_db_local_project_dir: /src/meta-db

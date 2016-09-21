@@ -48,6 +48,7 @@
       POSTGRES_PASSWORD: "{{ meta_db_admin_password }}"
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ meta_db_databases }}"
     instances: 1
     cpus: '{{ meta_db_cpus }}'
     mem: '{{ meta_db_mem }}'

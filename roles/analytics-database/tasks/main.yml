@@ -45,6 +45,7 @@
       POSTGRES_PASSWORD: "{{ analytics_db_admin_password }}"
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ analytics_db_databases }}"
     instances: 1
     cpus: '{{ analytics_db_cpus }}'
     mem: '{{ analytics_db_mem }}'

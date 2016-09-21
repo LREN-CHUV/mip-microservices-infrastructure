@@ -37,8 +37,6 @@
       CHRONOS_FAILURE_RETRY: "{{ chronos_failure_retry }}"
       CHRONOS_DISABLE_AFTER_FAILURES: "{{ chronos_disable_after_failures }}"
       CHRONOS_CLUSTER_NAME: "{{ chronos_cluster_name }}"
-    labels:
-      MARATHON_SINGLE_INSTANCE_APP: "true"
     instances: 1
     cpus: '{{ chronos_cpus }}'
     mem: '{{ chronos_mem }}'

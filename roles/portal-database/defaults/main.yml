@@ -23,6 +23,8 @@ portal_db_admin_user: postgres
 portal_db_user: portal
 # TO FILL - portal_db_password:
 
+portal_db_databases: "{{ portal_db_name }}"
+
 portal_db_data_dir: /srv/docker/portal-db/data
 
 portal_db_setup_dir: /opt/portal-database/migration

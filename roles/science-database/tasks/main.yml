@@ -59,6 +59,7 @@
       POSTGRES_PASSWORD: "{{ science_db_admin_password }}"
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ science_db_databases }}"
     instances: 1
     cpus: '{{ science_db_cpus }}'
     mem: '{{ science_db_mem }}'

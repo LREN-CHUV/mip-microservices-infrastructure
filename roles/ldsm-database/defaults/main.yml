@@ -23,6 +23,8 @@ ldsm_db_admin_user: postgres
 ldsm_db_user: ldsm
 # TO FILL - ldsm_db_password:
 
+ldsm_db_databases: "{{ ldsm_db_name }}"
+
 ldsm_db_data_dir: /srv/docker/ldsmdb/data
 
 ldsm_db_setup_dir: /opt/ldsm-database/migration
