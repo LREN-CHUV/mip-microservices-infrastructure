@@ -40,6 +40,7 @@ analytics_db_password: postgres
 analytics_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_db_port }}/analytics"
 analytics_db_jdbc_driver: "org.postgresql.Driver"
 analytics_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+analytics_db_marathon_id: /algorithm-factory/analyticsdb
 
 woken_result_db_port: '{{ analytics_db_port }}'
 woken_result_db_host: '{{ analytics_db_host }}'
@@ -68,9 +69,14 @@ woken_data_db_jdbc_jar: '{{ ldsm_db_jdbc_jar }}'
 
 # URL to Chronos internal to the current cluster. You need to ensure that the woken application can reach that URL.
 internal_chronos_url: http://default:4400
+chronos_marathon_id: /algorithm-factory/chronos
 
 # URL to Marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
+
+woken_dependencies:
+  - '{{ chronos_marathon_id }}'
+  - '{{ analytics_db_marathon_id }}'
 
 # Roles are mip_node or mip_federation
 woken_role: mip_node
