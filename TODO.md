@@ -17,3 +17,6 @@ LATER
 * better manage upgrades between major versions of Postgres: https://hub.docker.com/r/tianon/postgres-upgrade/
 * [security] Integrate CoreOs Clair static analyser for Docker images to assess vulnerabilities in our images
  https://github.com/coreos/clair
+
+https://galaxy.ansible.com/ANXS/apt/
+https://github.com/knopki/ansible-locale
