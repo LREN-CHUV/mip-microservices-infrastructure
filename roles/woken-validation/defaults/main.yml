@@ -29,5 +29,9 @@ woken_validation_docker_image: "{{ woken_validation_docker_image_basename }}:{{ 
 # Set of constraints to use to place woken on some particular host(s)
 woken_validation_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_validation_marathon_host }}"]]
 
+woken_marathon_id: /algorithm-factory/woken
+woken_validation_dependencies:
+  - "{{ woken_marathon_id }}"
+
 # URL to Marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
