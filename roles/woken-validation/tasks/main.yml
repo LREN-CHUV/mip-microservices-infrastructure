@@ -83,7 +83,7 @@
     ports: []
     require_ports: false
     constraints: '{{ woken_validation_marathon_constraints }}'
-    dependencies: []
+    dependencies: '{{ woken_validation_dependencies }}'
     executor: ""
     wait_timeout: 600
     health_checks: []
