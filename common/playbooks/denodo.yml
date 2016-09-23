@@ -12,13 +12,13 @@
       apt: name=curl state=present
       delegate_to: "{{ groups['control'][0] }}"
       run_once: true
-      tags: ['denodo', 'federation', 'marathon-app']
+      tags: ['denodo', 'reference', 'marathon-app']
 
   roles:
 
     - role: denodo
-      tags: ['denodo', 'federation', 'marathon-app']
+      tags: ['denodo', 'reference', 'marathon-app']
 
     - role: audit-deployment
       installed_component: federation-denodo
-      tags: ['denodo', 'federation', 'marathon-app']
+      tags: ['denodo', 'reference', 'marathon-app']

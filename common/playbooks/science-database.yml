@@ -10,8 +10,8 @@
   roles:
 
     - role: science-database
-      tags: ['science-database', 'database', 'portal', 'marathon-app']
+      tags: ['science-database', 'database', 'reference', 'marathon-app']
 
     - role: audit-deployment
       installed_component: science-database
-      tags: ['science-database', 'database', 'portal', 'marathon-app']
+      tags: ['science-database', 'database', 'reference', 'marathon-app']
