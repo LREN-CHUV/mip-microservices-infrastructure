@@ -15,8 +15,8 @@ checkout:
   post:
     - git submodule sync
     - git submodule update --init
-    - pre-commit install
 
 test:
     override:
+        - pre-commit install
         - pre-commit run --all-files
