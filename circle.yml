@@ -1,0 +1,22 @@
+machine:
+  python:
+    version: 2.7.10
+  services: []
+  #  - docker
+
+dependencies:
+  #cache_directories:
+  #  - "~/docker"
+
+  override:
+    - pip install pre-commit ansible-lint
+
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+    - pre-commit install
+
+test:
+    override:
+        - pre-commit run --all-files
