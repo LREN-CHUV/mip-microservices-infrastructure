@@ -10,8 +10,8 @@
   roles:
 
     - role: analytics-database
-      tags: ['analytics-database', 'database', 'analytics', 'marathon-app']
+      tags: ['analytics-database', 'analytics-db', 'database', 'analytics', 'marathon-app']
 
     - role: audit-deployment
       installed_component: analytics-database
-      tags: ['analytics-database', 'database', 'analytics', 'marathon-app']
+      tags: ['analytics-database', 'analytics-db', 'database', 'analytics', 'marathon-app']
