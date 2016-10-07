@@ -31,7 +31,7 @@ nodejs_version: "0.10.37"
 nodejs_install_source: nodesource_debs
 
 # Versions of our Docker containers
-portal_frontend_version: "af2ddaf"
+portal_frontend_version: "32fa87b"
 portal_backend_version: "697ecae"
 woken_version: "3381947"
 woken_functions:
