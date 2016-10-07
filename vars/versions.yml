@@ -31,30 +31,30 @@ nodejs_version: "0.10.37"
 nodejs_install_source: nodesource_debs
 
 # Versions of our Docker containers
-portal_frontend_version: "32fa87b"
-portal_backend_version: "697ecae"
-woken_version: "3381947"
+portal_frontend_version: "v1.0-Florence"
+portal_backend_version: "v1.0-Florence"
+woken_version: "v1.0-Florence"
 woken_functions:
   - name: boxplot
-    docker_image: "hbpmip/r-summary-stats:2afe249"
+    docker_image: "hbpmip/r-summary-stats:v1.0-Florence"
     predictive: false
   - name: summarystatistics
-    docker_image: "hbpmip/r-summary-stats:2afe249"
+    docker_image: "hbpmip/r-summary-stats:v1.0-Florence"
     predictive: false
   - name: linearregression
-    docker_image: "hbpmip/r-linear-regression:2afe249"
+    docker_image: "hbpmip/r-linear-regression:v1.0-Florence"
     predictive: false
   - name: anova
-    docker_image: "hbpmip/r-linear-regression:2afe249"
+    docker_image: "hbpmip/r-linear-regression:v1.0-Florence"
     predictive: false
   - name: knn
-    docker_image: "hbpmip/java-rapidminer-knn:58e280f"
+    docker_image: "hbpmip/java-rapidminer-knn:v1.0-Florence"
     predictive: true
   - name: naivebayes
-    docker_image: "hbpmip/java-rapidminer-naivebayes:58e280f"
+    docker_image: "hbpmip/java-rapidminer-naivebayes:v1.0-Florence"
     predictive: true
 
-woken_validation_version: "27ee24b"
+woken_validation_version: "v1.0-Florence"
 
 # QA environment
 
