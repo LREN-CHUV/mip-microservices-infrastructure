@@ -1,6 +1,11 @@
 ---
 
+- name: Include data persistency
+  tags: captain
+  include: "{{ captain_path_to_lib_role }}/silpion.lib/tasks/datapersistency.yml"
+
 - name: Download Captain
+  tags: captain
   local_action: command
     curl
       --location
@@ -11,6 +16,7 @@
   become: no
 
 - name: Copy Captain
+  tags: captain
   become: yes
   with_items:
     - src: captain-{{ captain_version }}
@@ -21,3 +27,28 @@
     owner=0
     group=0
     mode=0755
+
+- name: Install Ansible facts.d directory
+  tags: captain
+  become: true
+  file:
+    state: directory
+    dest: /etc/ansible/facts.d
+    owner: 0
+    group: 0
+    mode: 0755
+
+- name: Install captain facts
+  tags: captain
+  become: true
+  template:
+    src: facts.j2
+    dest: /etc/ansible/facts.d/captain.fact
+    owner: 0
+    group: 0
+    mode: 0644
+
+- name: Re-read facts
+  tags: captain
+  setup:
+    filter: ansible_local

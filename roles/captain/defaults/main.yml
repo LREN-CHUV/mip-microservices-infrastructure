@@ -1,5 +1,7 @@
 ---
 
-captain_version: 0.5.0
+captain_version: 1.0.0
 
 util_persistent_data_path_local: "{{ lookup('env', 'HOME') + '/.ansible/assets' }}"
+
+captain_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}"

@@ -1,0 +1,24 @@
+{% if maven_template_use_cow %}
+#  --------------------
+# ( Managed by Ansible )
+#  --------------------
+#   o            .    .     .
+#    o      .  . .     `  ,
+#     o    .; .  : .' :  :  : .
+#      o   i..`: i` i.i.,i  i .
+#       o   `,--.|i |i|ii|ii|i:
+#            UooU\.'@@@@@@`.||'
+#            \__/(@@@@@@@@@@)'
+#                 (@@@@@@@@)
+#                 `YY~~~~YY'
+#                  ||    ||
+{% else %}
+# {{ ansible_managed }}
+{% endif %}
+
+[general]
+vendor = "LREN"
+vendor_url = "https://github.com/LREN-CHUV"
+vendor_github = "https://github.com/LREN-CHUV"
+role_version = "{{ captain_role_version }}"
+captain_version={{ captain_version }}
