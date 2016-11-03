@@ -1,3 +1,6 @@
 ---
 
 docker_opts: "--dns=192.168.33.66"
+
+internal_mesos_url: "http://airflow.local:{{ mesos_leader_port }}"
+internal_marathon_url: "http://airflow.local:{{ marathon_port }}"

@@ -32,7 +32,7 @@ airflow_plugins:
     required_pips: []
   - name: mysql
     required_debs:
-      - libmysqlclient18
+      - libmysqlclient20
       - libmysqlclient-dev
     required_pips:
       - PyMySQL

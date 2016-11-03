@@ -18,9 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  #config.vm.box = "sgallen/wily64"
-  #config.vm.box = "boxcutter/ubuntu1604"
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/xenial64"
 
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
@@ -40,16 +38,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     airflow.vm.hostname = "airflow"
 
     # Create a forwarded port mapping which allows access to a specific port
-    # within the machine from a port on the host machine. In the example below,
-    # accessing "localhost:8080" will access port 80 on the guest machine.
+    # within the machine from a port on the host machine.
     airflow.vm.network :forwarded_port, guest: 4080, host: 14080 # Airflow
-    airflow.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos
+    #airflow.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos - not working due to restricted ip listen
     airflow.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
     airflow.vm.network :private_network, ip: '192.168.34.66'
 
+    # Shared folders
     airflow.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
     airflow.vm.synced_folder "data/incoming", "/data/incoming", create: true
     airflow.vm.synced_folder "data/out", "/data/SHARE", create: true
@@ -74,9 +72,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   ansible_inventory_dir = "envs/vagrant/etc/ansible"
 
-  config.vm.provision "shell", inline: "grep airflow /etc/hosts || echo '192.168.34.66 airflow' >> /etc/hosts"
+  config.vm.provision "shell", inline: "grep airflow.local /etc/hosts || echo '192.168.34.66 airflow airflow.local' >> /etc/hosts"
   # Mapping ansible roles with their git repositories messes with etckeeper
-  config.vm.provision "shell", inline: "[ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
+  config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
+  # Xenial ships only with Python 3
+  config.vm.provision "shell", inline: "apt-get install -y python2.7 python-simplejson"
 
   # Run provisioning with ansible
   config.vm.provision "ansible" do |ansible|
@@ -88,7 +88,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.skip_tags = ['mesos-ui', 'matlab']
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
-        play_dir: Dir.pwd + '/../../..'
+        play_dir: Dir.pwd + '/../../..',
+        lib_roles_path: Dir.pwd + '/../../../roles'
       }
   end
 

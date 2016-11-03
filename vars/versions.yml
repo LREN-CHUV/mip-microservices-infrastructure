@@ -63,6 +63,8 @@ sonarqube_version: "6.0-alpine"
 
 # For development
 
+ansible_cmdb_version: 1.1.7
+
 maven_version: "3.3.9"
 
 captain_version: "1.0.0"
