@@ -6,14 +6,6 @@
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
 
-  pre_tasks:
-
-    - name: Create MIP group
-      group: name=mip
-
-    - name: Create MIP user
-      user: name=mip group=mip
-
   roles:
     - role: base-system
       tags: ['runtimes']
