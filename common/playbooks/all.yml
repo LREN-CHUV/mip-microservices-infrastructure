@@ -10,8 +10,6 @@
 
 - include: mesos-follower.yml
 
-- include: docker-registry.yml
-
 - include: cleanup.yml
 
 - include: mip-services.yml
