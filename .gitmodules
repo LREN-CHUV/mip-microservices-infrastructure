@@ -46,10 +46,6 @@
 	path = roles/nginx
 	url = https://github.com/jdauphant/ansible-role-nginx
 	branch = master
-[submodule "roles/php"]
-	path = roles/php
-	url = https://github.com/ludovicc/ansible-role-php.git
-	branch = master
 [submodule "roles/analytics-database/files/db"]
 	path = roles/analytics-database/files/analyticsdb
 	url = https://github.com/LREN-CHUV/analytics-db.git
@@ -73,7 +69,7 @@
 	url = https://github.com/tumf/ansible-role-docker-compose
 [submodule "roles/silpion.lib"]
 	path = roles/silpion.lib
-	url = https://github.com/ludovicc/ansible-lib.git
+	url = https://github.com/silpion/ansible-lib.git
 [submodule "roles/activator"]
 	path = roles/activator
 	url = https://github.com/ludovicc/ansible-typesafe-activator.git
