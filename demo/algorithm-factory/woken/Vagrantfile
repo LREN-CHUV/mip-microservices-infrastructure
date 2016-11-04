@@ -18,11 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  # TODO: wait for fix from Canonical https://bugs.launchpad.net/cloud-images/+bug/1565985
-  # config.vm.box = "ubuntu/xenial64"
-  # config.vm.box = "gbarbieru/xenial"
-  # config.vm.box = "ubuntu/trusty64"
-   config.vm.box = "geerlingguy/ubuntu1604"
+  config.vm.box = "ubuntu/xenial64"
 
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
@@ -94,7 +90,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
         play_dir: Dir.pwd + '/../../..',
-        datacenter: 'federation'
+        lib_roles_path: Dir.pwd + '/../../../roles',
+        datacenter: 'federation',
+        in_vagrant: true
       }
   end
 

@@ -133,6 +133,15 @@
   with_fileglob:
    - "{{ ldsm_db_setup_scripts_dir }}/sql/*"
   delegate_to: "{{ groups['control'][0] }}"
+  when: not in_vagrant
+
+- name: Copy sql creation scripts (Vagrant)
+  copy:
+    src: "{{ item }}"
+    dest: "{{ldsm_db_setup_dir}}/{{ item | basename }}"
+  with_fileglob:
+   - "{{ ldsm_db_setup_scripts_dir }}/sql/*"
+  when: in_vagrant
 
 # TODO: this task does not fail on error when using Ansible 2.1.1.0
 - name: Run Flyway migration
