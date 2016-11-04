@@ -2,10 +2,10 @@
 
 docker_opts: "--dns=192.168.41.66"
 
-internal_mesos_url: "http://portal.local:5050"
-internal_marathon_url: "http://portal.local:5080"
-internal_chronos_url: "http://portal.local:4400"
-internal_portal_backend_server: "portal.local:{{ portal_backend_port }}"
+internal_mesos_url: "http://demo.local:{{ mesos_leader_port }}"
+internal_marathon_url: "http://demo.local:{{ marathon_port }}"
+internal_chronos_url: "http://demo.local:{{ chronos_port }}"
+internal_portal_backend_server: "demo.local:{{ portal_backend_port }}"
 
 java_oracle_distribution: 'jdk'
 
@@ -13,14 +13,14 @@ java_oracle_distribution: 'jdk'
 portal_frontend_cpus: 0.2
 portal_frontend_mem: 256.0
 
-portal_frontend_marathon_host: 'portal'
+portal_frontend_marathon_host: 'demo'
 portal_frontend_virtual_host: '_'
 portal_frontend_docker_parameters:
   - key: 'add-host'
-    value: "portal.local:192.168.41.66"
+    value: "demo.local:192.168.41.66"
 
-portal_db_host: "portal.local"
-portal_db_marathon_host: "portal"
+portal_db_host: "demo.local"
+portal_db_marathon_host: "demo"
 portal_db_port: 31432
 portal_db_admin_user: "postgres"
 portal_db_jdbc_url: "jdbc:postgresql://{{ portal_db_host }}:{{ portal_db_port }}/portal"
@@ -36,18 +36,18 @@ meta_db_jdbc_url: "jdbc:postgresql://{{ meta_db_host }}:{{ meta_db_port }}/meta"
 meta_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/meta-db'
 meta_db_admin_user: "postgres"
 
-science_db_host: "portal.local"
+science_db_host: "demo.local"
 science_db_port: 31433
 science_db_jdbc_url: "jdbc:postgresql://{{ science_db_host }}:{{ science_db_port }}/science"
 science_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/science-db'
 science_db_admin_user: "postgres"
 
 portal_backend_port: 4080
-portal_backend_marathon_host: "portal"
+portal_backend_marathon_host: "demo"
 portal_backend_docker_parameters:
   - key: 'add-host'
-    value: "portal.local:192.168.41.66"
-portal_backend_frontend_after_login_url: "http://portal.local/home"
+    value: "demo.local:192.168.41.66"
+portal_backend_frontend_after_login_url: "http://demo.local/home"
 
 # Few resources available in Vagrant box
 portal_backend_cpus: 0.5

@@ -9,7 +9,7 @@ airflow_web_server_port: 4080
 airflow_web_base_url: "http://demo:14080"
 
 airflow_db_port: 4306
-airflow_sql_alchemy_conn: "mysql://{{ airflow_db_user }}:{{ airflow_db_password }}@airflow:{{ airflow_db_port }}/airflow"
+airflow_sql_alchemy_conn: "mysql://{{ airflow_db_user }}:{{ airflow_db_password }}@demo:{{ airflow_db_port }}/airflow"
 
 airflow_dags_folder: "/usr/local/airflow/dags"
 airflow_plugins_folder: "/usr/local/airflow/plugins"

@@ -18,10 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  # TODO: wait for fix from Canonical https://bugs.launchpad.net/cloud-images/+bug/1565985
-  # config.vm.box = "ubuntu/xenial64"
-  # config.vm.box = "gbarbieru/xenial"
-  config.vm.box = "sgallen/wily64"
+  config.vm.box = "ubuntu/xenial64"
 
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
@@ -36,23 +33,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
 
-  config.vm.define "portal" do |portal|
+  config.vm.define "demo" do |demo|
 
-    portal.vm.hostname = "portal"
+    demo.vm.hostname = "demo"
 
     # Create a forwarded port mapping which allows access to a specific port
     # within the machine from a port on the host machine. In the example below,
     # accessing "localhost:8080" will access port 80 on the guest machine.
-    portal.vm.network :forwarded_port, guest: 80, host: 18080 # portal
-    portal.vm.network :forwarded_port, guest: 443, host: 18443 # portal
-    # portal.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos - not working due to restricted ip listen
-    portal.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
+    demo.vm.network :forwarded_port, guest: 80, host: 18080 # portal
+    demo.vm.network :forwarded_port, guest: 443, host: 18443 # portal
+    # demo.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos - not working due to restricted ip listen
+    demo.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
-    portal.vm.network :private_network, ip: '192.168.41.66'
+    demo.vm.network :private_network, ip: '192.168.41.66'
 
-    portal.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
+    # Shared folders
+    demo.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
 
   end
 
@@ -73,11 +71,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   ansible_inventory_dir = "envs/vagrant/etc/ansible"
 
-  config.vm.provision "shell", inline: "grep portal.local /etc/hosts || echo '192.168.41.66 portal portal.local' >> /etc/hosts"
+  config.vm.provision "shell", inline: "grep demo.local /etc/hosts || echo '192.168.41.66 demo demo.local' >> /etc/hosts"
   # Mapping ansible roles with their git repositories messes with etckeeper
   config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
   # Xenial ships only with Python 3
-  config.vm.provision "shell", inline: "apt-get install python2.7 python-simplejson"
+  config.vm.provision "shell", inline: "apt-get install -y python2.7 python-simplejson"
 
   # Run provisioning with ansible
   config.vm.provision "ansible" do |ansible|
@@ -86,11 +84,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.limit = 'all'
       ansible.verbose = "vvvv"
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
-      ansible.skip_tags = "mesos-ui"
+      ansible.skip_tags = ['mesos-ui']
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
         play_dir: Dir.pwd + '/../../..',
-        datacenter: 'federation'
+        lib_roles_path: Dir.pwd + '/../../../roles',
+        datacenter: 'federation',
+        in_vagrant: true
       }
   end
 
