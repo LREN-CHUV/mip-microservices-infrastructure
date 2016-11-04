@@ -66,5 +66,5 @@
 #        path: /v2/
 
 #      - protocol: COMMAND
-#        command: 
+#        command:
 #          value: "curl -f -k -X GET https://$HOST:$PORT0/v2/ | grep '{}'"

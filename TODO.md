@@ -20,3 +20,4 @@ LATER
 
 https://galaxy.ansible.com/ANXS/apt/
 https://github.com/knopki/ansible-locale
+https://github.com/holms/ansible-fqdn

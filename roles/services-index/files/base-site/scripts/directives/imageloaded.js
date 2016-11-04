@@ -20,7 +20,7 @@ angular.module('akoenig.deckgrid.demo').directive('imageloaded', [
         return {
             restrict: 'A',
 
-            link: function(scope, element, attrs) {   
+            link: function(scope, element, attrs) {
                 var cssClass = attrs.loadedclass;
 
                 element.bind('load', function (e) {

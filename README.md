@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/license-Apache2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md) [![Twitter](https://img.shields.io/twitter/follow/HBPmedical%20platform.svg?style=social)](https://twitter.com/intent/follow?screen_name=HBPmedical) [![Slack](https://img.shields.io/badge/slack-dev channel-e01563.svg)](https://hbpsp8.slack.com/archives/dev) [![Trello](https://img.shields.io/badge/trello-infrastructure-blue.svg)](https://trello.com/b/h66fm9Ad/dev-research-infrastructure) [![Stories in Ready](https://badge.waffle.io/LREN-CHUV/mip-microservices-infrastructure.png?label=ready&title=Ready)](https://waffle.io/LREN-CHUV/mip-microservices-infrastructure) [![CircleCI](https://circleci.com/gh/LREN-CHUV/mip-microservices-infrastructure/tree/master.svg?style=svg)](https://circleci.com/gh/LREN-CHUV/mip-microservices-infrastructure/tree/master)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md) [![Twitter](https://img.shields.io/twitter/follow/HBPmedical%20platform.svg?style=social)](https://twitter.com/intent/follow?screen_name=HBPmedical) [![Slack](https://img.shields.io/badge/slack-dev channel-e01563.svg)](https://hbpsp8.slack.com/archives/dev) [![Trello](https://img.shields.io/badge/trello-infrastructure-blue.svg)](https://trello.com/b/h66fm9Ad/dev-research-infrastructure) [![Stories in Ready](https://badge.waffle.io/LREN-CHUV/mip-microservices-infrastructure.png?label=ready&title=Ready)](https://waffle.io/LREN-CHUV/mip-microservices-infrastructure) [![CircleCI](https://circleci.com/gh/LREN-CHUV/mip-microservices-infrastructure/tree/master.svg?style=svg)](https://circleci.com/gh/LREN-CHUV/mip-microservices-infrastructure/tree/master)
 
 # Microservice infrastructure
 
@@ -6,11 +6,31 @@ This project contains the generic version of the scripts used to deploy the Medi
 
 It attempts to follow the Mantl.io project from Cisco (https://github.com/CiscoCloud/microservices-infrastructure) but with the following restrictions:
 
-* The deployment target is Ubuntu instead of CentOS
+* The deployment target is Ubuntu 16.04 instead of CentOS
 * No support for any cloud is provided, we deploy on bare-metal and pre-configured virtual machines
 * Security, monitoring are avanced features that we may add one day, but what we aim to to is being able to switch over to Mantl once it is sufficiently stable.
 
 Disclaimer: use this project only in a well protected development environment.
+
+# Demos
+
+Demonstrations are available for the various building blocks managed by this infrastructure project.
+
+## Algorithm factory
+
+* [Woken](demo/algorithm-factory/woken/README.md)
+
+## Data factory
+
+* [Airflow](demo/data-factory/airflow/README.md)
+
+## Frontend
+
+* [Web portal](demo/frontend/portal/README.md)
+
+## Developer tools
+
+* [QA tools](demo/dev-services/qatools/README.md)
 
 # License
 
