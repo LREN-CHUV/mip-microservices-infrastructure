@@ -6,7 +6,7 @@ airflow_webserver_cpus: 0.2
 airflow_webserver_mem: 256.0
 
 airflow_web_server_port: 4080
-airflow_web_base_url: "http://airflow:14080"
+airflow_web_base_url: "http://demo:14080"
 
 airflow_db_port: 4306
 airflow_sql_alchemy_conn: "mysql://{{ airflow_db_user }}:{{ airflow_db_password }}@airflow:{{ airflow_db_port }}/airflow"
@@ -18,9 +18,9 @@ airflow_load_examples: true
 
 airflow_user: 'airflow'
 airflow_startup: 'marathon'
-airflow_mesos_master: 'airflow:5050'
+airflow_mesos_master: 'demo:5050'
 
-mri_mysql_host : "airflow"
+mri_mysql_host : "demo"
 mri_mysql_port : "4606"
 mri_mysql_password: "mri"
 mri_mysql_root_password: "admin"

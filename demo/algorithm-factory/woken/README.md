@@ -8,10 +8,12 @@ Demonstration of Woken and its environment running inside a Vagrant Virtual mach
 * install [VirtualBox](https://www.virtualbox.org/) version 5.0 or better
 * install [Vagrant](https://www.vagrantup.com/) version 1.8.5 or better
 * install vagrant plugin install vagrant-hostmanager
+
   ```
      vagrant plugin install vagrant-hostmanager
   ```
 * start the virtual machine with Vagrant
+
   ```
     vagrant up
   ```
@@ -73,9 +75,9 @@ It is organised by hosts (servers) and groups.
 
 Here, we have the following organisation:
 
-* woken: the target host, running inside a Vagrant Virtual machine
-* managed: a group containing woken, indicating that the server is managed by Ansible and should be applied a default configuration and a set of base sofware packages
-* control: a group containing woken, indicating that this server is used to perform operations affecting the whole cluster (here we have a 'cluster' of one machine)
+* demo: the target host, running inside a Vagrant Virtual machine
+* managed: a group containing demo, indicating that the server is managed by Ansible and should be applied a default configuration and a set of base sofware packages
+* control: a group containing demo, indicating that this server is used to perform operations affecting the whole cluster (here we have a 'cluster' of one machine)
 * zookeeper, mesos-mixed: groups that are used to define where and how the Mesos stack is deployed
 * analytics-db, demo-db, woken, woken-validation: groups that are used to define which applications should be deployed by Marathon
 

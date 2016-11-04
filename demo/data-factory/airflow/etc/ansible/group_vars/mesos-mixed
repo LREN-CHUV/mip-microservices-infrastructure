@@ -9,11 +9,8 @@ mesos_follower_port: "5051"
 marathon_port: "5080"
 
 mesos_zk_port: "2181"
-mesos_zk_base: "zk://localhost:2181"
-mesos_zk: "zk://localhost:2181/mesos"
-marathon_zk_connect: "zk://localhost:2181/marathon"
-
-internal_mesos_url: "http://localhost:5050"
-internal_marathon_url: "http://localhost:5080"
+mesos_zk_base: "zk://demo.local:2181"
+mesos_zk: "{{ mesos_zk_base }}/mesos"
+marathon_zk_connect: "{{ mesos_zk_base }}/marathon"
 
 skipped_roles: []
