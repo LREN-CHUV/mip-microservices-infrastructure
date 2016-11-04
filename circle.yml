@@ -13,8 +13,8 @@ dependencies:
 
 checkout:
   post:
-    - rm -rf roles/
-    - git reset --hard origin/master
+    - rm -rf * .*
+    - git clone git@gitlab.intranet.chuv:/mip-infra/mip-microservices-infrastructure.git .
     - git submodule sync
     - git submodule update --init
 
