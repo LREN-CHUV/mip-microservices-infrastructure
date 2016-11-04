@@ -13,10 +13,12 @@ dependencies:
 
 checkout:
   post:
+    - rm -rf roles/
+    - git reset --hard origin/master
     - git submodule sync
     - git submodule update --init
 
 test:
-    override:
-        - pre-commit install
-        - pre-commit run --all-files
+  override:
+    - pre-commit install
+    - pre-commit run --all-files
