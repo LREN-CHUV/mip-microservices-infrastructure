@@ -27,8 +27,7 @@ nginx_official_repo: True
 
 flyway_version: "4.0.3"
 
-nodejs_version: "0.10.37"
-nodejs_install_source: nodesource_debs
+nodejs_version: "4.6"
 
 # Versions of our Docker containers
 portal_frontend_version: "0481958"

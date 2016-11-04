@@ -57,7 +57,7 @@
 	url = https://github.com/fretscha-ansible/ansible-role-first-five-minutes.git
 [submodule "roles/nodejs"]
 	path = roles/nodejs
-	url = https://github.com/AnsibleShipyard/ansible-nodejs.git
+	url = https://github.com/nodesource/ansible-nodejs-role.git
 [submodule "roles/firewall"]
 	path = roles/firewall
 	url = https://github.com/HanXHX/ansible-firewall.git
