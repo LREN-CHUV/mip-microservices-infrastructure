@@ -9,7 +9,7 @@ mesos_follower_port: "5051"
 marathon_port: "5080"
 
 mesos_zk_port: "2181"
-mesos_zk_base: "zk://qatools:2181"
+mesos_zk_base: "zk://demo.local:2181"
 mesos_zk: "{{ mesos_zk_base }}/mesos"
 marathon_zk_connect: "{{ mesos_zk_base }}/marathon"
 

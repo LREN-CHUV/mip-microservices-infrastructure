@@ -2,11 +2,11 @@
 
 docker_opts: "--dns 192.168.34.67"
 
-internal_mesos_url: "http://qatools:5050"
-internal_marathon_url: "http://qatools:5080"
+internal_mesos_url: "http://demo.local:{{ mesos_leader_port }}"
+internal_marathon_url: "http://demo.local:{{ marathon_port }}"
 
-dev_services_db_host: "qatools"
-dev_services_db_marathon_host: "qatools"
+dev_services_db_host: "demo"
+dev_services_db_marathon_host: "demo"
 dev_services_db_port: 31432
 dev_services_db_admin_user: "postgres"
 dev_services_db_gitlab_user: "gitlab"
@@ -26,7 +26,7 @@ gitlab_ssh_port: 4022
 # Force Gitlab docker to use our external database
 gitlab_postgresql_enable: false
 
-gitlab_db_host: 'qatools'
+gitlab_db_host: 'demo'
 gitlab_db_port: '{{ dev_services_db_port }}'
 gitlab_db_username: "gitlab"
 gitlab_ci_db_username: "gitlab_ci"
