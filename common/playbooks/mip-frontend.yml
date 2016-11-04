@@ -1,5 +1,7 @@
 ---
 
+# TODO: is that still usefull?
+
 - hosts: mip-frontend
   become: yes
 
@@ -36,9 +38,6 @@
       ignore_errors: yes
 
   roles:
-    - role: php
-      when: datacenter == 'federation'
-      tags: ['mip-frontend']
 
     # Quick installation of Nginx to bootstrap Letsencrypt certificate generation
     - role: nginx
