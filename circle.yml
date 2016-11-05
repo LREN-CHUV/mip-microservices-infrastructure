@@ -13,7 +13,7 @@ dependencies:
 
 checkout:
   post:
-    - rm -rf * .git
+    - rm -rf * .git* .pre-commit-config.yaml
     - git clone git@gitlab.intranet.chuv:/mip-infra/mip-microservices-infrastructure.git .
     - git submodule sync
     - git submodule update --init
