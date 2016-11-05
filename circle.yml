@@ -13,8 +13,6 @@ dependencies:
 
 checkout:
   post:
-    - rm -rf * .git* .pre-commit-config.yaml
-    - git clone git@github.com:LREN-CHUV/mip-microservices-infrastructure.git .
     - git submodule sync
     - git submodule update --init
 
