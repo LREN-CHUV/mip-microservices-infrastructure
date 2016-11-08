@@ -32,7 +32,7 @@
 	branch = master
 [submodule "roles/docker"]
 	path = roles/docker
-	url = https://github.com/AnsibleShipyard/ansible-docker.git
+	url = https://github.com/ludovicc/ansible-docker.git
 	branch = master
 [submodule "roles/vagrant"]
 	path = roles/vagrant
