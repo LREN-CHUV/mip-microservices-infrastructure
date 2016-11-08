@@ -1,9 +1,5 @@
 ---
 
-# Postgres user in Docker appears as user 999 outside
-- name: Create Portal DB storage directory
-  file: state=directory path={{ portal_db_data_dir }} mode=0700 owner={{ portal_db_docker_user }} group={{ portal_db_docker_user }}
-
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
@@ -22,6 +18,14 @@
   delegate_to: "{{ groups['control'][0] }}"
   tags:
     - launch
+
+- name: Optional cleanup
+  file: state=absent path={{ portal_db_data_dir }}
+  when: portal_db_cleanup
+
+# Postgres user in Docker appears as user 999 outside
+- name: Create Portal DB storage directory
+  file: state=directory path={{ portal_db_data_dir }} mode=0700 owner={{ portal_db_docker_user }} group={{ portal_db_docker_user }}
 
 - name: Launch Portal DB using Marathon
   marathon_app:

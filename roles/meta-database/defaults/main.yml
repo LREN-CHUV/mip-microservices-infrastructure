@@ -36,6 +36,9 @@ meta_db_data_dir: /srv/docker/meta-db/data
 meta_db_local_project_dir: /src/meta-db
 meta_db_setup_dir: /opt/meta-database/migration
 
+# Force cleanup of the Meta DB. Please never use that in production!
+meta_db_cleanup: false
+
 flyway_version: "4.0.3"
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.

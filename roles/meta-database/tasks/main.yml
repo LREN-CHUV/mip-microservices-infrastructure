@@ -1,10 +1,5 @@
 ---
 
-# Postgres user in Docker appears as user 999 outside
-- name: Create meta DB storage directory
-  file: state=directory path={{ meta_db_data_dir }} mode=0700 owner={{ meta_db_docker_user }} group={{ meta_db_docker_user }}
-  when: meta_db_deploy
-
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   when: meta_db_deploy
@@ -25,6 +20,15 @@
   when: meta_db_deploy
   tags:
     - launch
+
+- name: Optional cleanup
+  file: state=absent path={{ meta_db_data_dir }}
+  when: meta_db_deploy and meta_db_cleanup
+
+# Postgres user in Docker appears as user 999 outside
+- name: Create meta DB storage directory
+  file: state=directory path={{ meta_db_data_dir }} mode=0700 owner={{ meta_db_docker_user }} group={{ meta_db_docker_user }}
+  when: meta_db_deploy
 
 - name: Launch meta DB using Marathon
   marathon_app:
@@ -101,6 +105,17 @@
   wait_for: >
     port="{{ meta_db_port }}"
     delay=2
+
+- name: Drop database with name "meta"
+  postgresql_db:
+    name: "{{ meta_db_name }}"
+    port: "{{ meta_db_port }}"
+    login_host: "{{ meta_db_host }}"
+    login_user: "{{ meta_db_admin_user }}"
+    login_password: "{{ meta_db_admin_password }}"
+    state: absent
+  delegate_to: "{{ groups['control'][0] }}"
+  when: (not meta_db_deploy) and meta_db_cleanup
 
 - name: Create a new database with name "meta"
   postgresql_db:

@@ -29,6 +29,9 @@ portal_db_data_dir: /srv/docker/portal-db/data
 
 portal_db_setup_dir: /opt/portal-database/migration
 
+# Force cleanup of the Portal DB. Please never use that in production!
+portal_db_cleanup: false
+
 flyway_version: "4.0.3"
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.

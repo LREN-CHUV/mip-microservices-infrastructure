@@ -1,20 +1,5 @@
 ---
 
-# Postgres user in Docker appears as user 999 outside
-- name: Create science DB storage directory
-  file: state=directory path={{ science_db_data_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
-
-- name: Create science DB directory for initial data stored in CSV files
-  file: state=directory path={{ science_db_csv_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
-
-- name: Copy scientific data CSV file
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ science_db_csv_dir }}/{{ item.dest }}"
-  with_items:
-    - src: "{{ science_db_local_project_dir }}/sql/values.csv"
-      dest: "values.csv"
-
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
@@ -33,6 +18,25 @@
   delegate_to: "{{ groups['control'][0] }}"
   tags:
     - launch
+
+# Postgres user in Docker appears as user 999 outside
+- name: Create science DB directory for initial data stored in CSV files
+  file: state=directory path={{ science_db_csv_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
+
+- name: Copy scientific data CSV file
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ science_db_csv_dir }}/{{ item.dest }}"
+  with_items:
+    - src: "{{ science_db_local_project_dir }}/sql/values.csv"
+      dest: "values.csv"
+
+- name: Optional cleanup
+  file: state=absent path={{ science_db_data_dir }}
+  when: science_db_cleanup
+
+- name: Create science DB storage directory
+  file: state=directory path={{ science_db_data_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
 
 - name: Launch science DB using Marathon
   marathon_app:
