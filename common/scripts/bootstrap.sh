@@ -19,7 +19,7 @@ cd $ROOT
 
   # Install Ansible
   [ -x /usr/bin/add-apt-repository ] && (
-    sudo add-apt-repository ppa:ansible/ansible
+    sudo add-apt-repository -y ppa:ansible/ansible
     sudo apt-get update
     sudo apt-get install -y ansible
   ) || (
