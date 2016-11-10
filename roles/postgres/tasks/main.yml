@@ -52,7 +52,7 @@
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.5/bin/pg_isready -U {{ postgres_user }}"
+          value: "/usr/lib/postgresql/9.5/bin/pg_isready"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10
@@ -62,3 +62,4 @@
 
 #    docker_parameters:
 #      - { key: "user", value: "{{ postgres_docker_user_uid.stdout }}" }
+
