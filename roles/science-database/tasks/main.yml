@@ -76,7 +76,7 @@
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.5/bin/pg_isready"
+          value: "/usr/lib/postgresql/9.5/bin/pg_isready -U {{ science_db_admin_user }}"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10
