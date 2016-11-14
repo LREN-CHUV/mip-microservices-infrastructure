@@ -20,11 +20,11 @@ meta_db_cpus: 0.5
 meta_db_mem: 128.0
 
 # Port exposed by Marathon, must be in the range [31000,32000[
-meta_db_port: "{{ meta_db_port | default(31432) }}"
-meta_db_host: "{{ meta_db_host | default('locahost') }}"
+meta_db_port: 31432
+meta_db_host: 'locahost'
 meta_db_name: meta
-meta_db_admin_user: "{{ meta_db_admin_user | default('postgres') }}"
-meta_db_admin_password: "{{ meta_db_admin_password | default('CHANGEME') }}"
+meta_db_admin_user: 'postgres'
+# TO FILL - meta_db_admin_password:
 meta_db_user: meta
 # TO FILL - meta_db_password:
 
