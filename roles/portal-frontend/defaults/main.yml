@@ -26,6 +26,10 @@ portal_frontend_virtual_host: '{{ inventory_hostname }}'
 portal_frontend_error_log_level: 'warn'
 portal_backend_context_path: ''
 
+# Enable Google Analytics
+enable_analytics: true
+tracker_id: 'UA-80660232-1'
+
 portal_frontend_env:
   WORKER_PROCESSES: "{{ portal_frontend_cpus | round(method='ceil') | int }}"
   ERROR_LOG_LEVEL: '{{ portal_frontend_error_log_level }}'
@@ -33,3 +37,5 @@ portal_frontend_env:
   PORTAL_VIRTUAL_HOST: '{{ portal_frontend_virtual_host }}'
   PORTAL_BACKEND_SERVER: '{{ internal_portal_backend_server }}'
   PORTAL_BACKEND_CONTEXT: '{{ portal_backend_context_path }}'
+  ANALYTICS: '{{ enable_analytics }}'
+  TRACKER_ID: '{{ tracker_id }}'
