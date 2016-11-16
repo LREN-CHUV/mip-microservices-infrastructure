@@ -28,7 +28,7 @@ portal_backend_context_path: ''
 
 # Enable Google Analytics
 enable_analytics: false
-tracker_id: 'UA-80660232-1'
+tracker_id: 'UA-FILL-ME'
 
 portal_frontend_env:
   WORKER_PROCESSES: "{{ portal_frontend_cpus | round(method='ceil') | int }}"
