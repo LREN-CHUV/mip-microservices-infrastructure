@@ -27,7 +27,7 @@ portal_frontend_error_log_level: 'warn'
 portal_backend_context_path: ''
 
 # Enable Google Analytics
-enable_analytics: true
+enable_analytics: false
 tracker_id: 'UA-80660232-1'
 
 portal_frontend_env:
