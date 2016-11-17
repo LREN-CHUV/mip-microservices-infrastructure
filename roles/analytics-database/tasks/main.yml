@@ -1,9 +1,5 @@
 ---
 
-# Postgres user in Docker appears as user 999 outside
-- name: Create Analytics DB storage directory
-  file: state=directory path={{ analytics_db_data_dir }} mode=0700 owner={{ analytics_db_docker_user }} group={{ analytics_db_docker_user }}
-
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
@@ -26,6 +22,10 @@
 - name: Optional cleanup
   file: state=absent path={{ analytics_db_data_dir }}
   when: analytics_db_cleanup
+
+# Postgres user in Docker appears as user 999 outside
+- name: Create Analytics DB storage directory
+  file: state=directory path={{ analytics_db_data_dir }} mode=0700 owner={{ analytics_db_docker_user }} group={{ analytics_db_docker_user }}
 
 - name: Launch Analytics DB using Marathon
   marathon_app:
