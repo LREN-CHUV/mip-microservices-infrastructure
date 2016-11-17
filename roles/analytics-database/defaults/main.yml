@@ -29,6 +29,9 @@ analytics_db_data_dir: /srv/docker/analyticsdb/data
 
 analytics_db_setup_dir: /opt/analytics-database/migration
 
+# Force cleanup of the Analytics DB. Please never use that in production!
+analytics_db_cleanup: false
+
 flyway_version: "4.0.3"
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.

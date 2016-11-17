@@ -23,6 +23,10 @@
   tags:
     - launch
 
+- name: Optional cleanup
+  file: state=absent path={{ analytics_db_data_dir }}
+  when: analytics_db_cleanup
+
 - name: Launch Analytics DB using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
