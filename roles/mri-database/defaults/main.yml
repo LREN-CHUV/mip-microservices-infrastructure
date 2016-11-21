@@ -1,6 +1,6 @@
 ---
 
-mri_db_marathon_id: /data-factory/mri-db
+mri_db_marathon_id: /data-factory/airflow/mri-db
 
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
 mri_db_marathon_host: '{{ inventory_hostname }}'

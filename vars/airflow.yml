@@ -2,9 +2,12 @@
 
 airflow_python_path: '/usr/lib/python2.7/site-packages/'
 
-airflow_db_marathon_id: '/airflow/db'
-# Identifier must be under /airflow namespace to be able to use dependencies on scheduler and webserver
-mri_db_marathon_id: '/airflow/mridb'
+airflow_scheduler_marathon_id: '/data-factory/airflow/scheduler'
+airflow_webserver_marathon_id: '/data-factory/airflow/webserver'
+
+airflow_db_marathon_id: '/data-factory/airflow/airflow-db'
+# Identifier must be under /data-factory/airflow namespace to be able to use dependencies on scheduler and webserver
+mri_db_marathon_id: '/data-factory/airflow/mri-db'
 
 airflow_scheduler_marathon_dependencies:
   - "{{ airflow_db_marathon_id }}"
