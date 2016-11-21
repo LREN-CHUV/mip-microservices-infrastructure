@@ -17,7 +17,7 @@ mri_db_mem: 512.0
 
 # Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
 mri_db_port: 4606
-# TO FILL - mri_mysql_root_password:
+# TO FILL - mri_db_root_password:
 mri_db_user: mri
 # TO FILL - mri_db_password: mri
 

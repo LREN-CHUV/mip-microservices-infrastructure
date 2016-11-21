@@ -15,7 +15,9 @@ chronos_version: "2.4.0-ubuntu-14.04"
 
 airflow_version: '1.7.1.3'
 airflow_db_image: "mariadb"
-airflow_db_version: "10.1.14"
+airflow_db_version: "{{ mariadb_version }}"
+mri_db_image: "mariadb"
+mri_db_version: "{{ mariadb_version }}"
 
 postgres_version: "9.5.4"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar

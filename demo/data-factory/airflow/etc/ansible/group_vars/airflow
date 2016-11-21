@@ -20,11 +20,11 @@ airflow_user: 'airflow'
 airflow_startup: 'marathon'
 airflow_mesos_master: 'demo:5050'
 
-mri_mysql_host : "demo"
-mri_mysql_port : "4606"
-mri_mysql_password: "mri"
-mri_mysql_root_password: "admin"
-mri_db_sql_alchemy_conn: "mysql://mri:{{ mri_mysql_password }}@{{ mri_mysql_host }}:{{ mri_mysql_port }}/mri"
+mri_db_host : "demo"
+mri_db_port : "4606"
+mri_db_password: "mri"
+mri_db_root_password: "admin"
+mri_db_sql_alchemy_conn: "mysql://mri:{{ mri_db_password }}@{{ mri_db_host }}:{{ mri_db_port }}/mri"
 
 airflow_preprocessing_data_folder: "/data/incoming"
 airflow_dicom_local_output_folder: "/data/incoming"
