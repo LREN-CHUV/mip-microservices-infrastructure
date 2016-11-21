@@ -1,0 +1,31 @@
+---
+
+- hosts: airflow
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/airflow.yml"
+
+  pre_tasks:
+
+    - name: Setup Matlab library for Python
+      command: python ./setup.py install
+      args:
+        chdir: /usr/local/MATLAB/R2015b/extern/engines/python
+      tags: ['airflow', 'matlab']
+
+  roles:
+
+    - role: airflow-database
+      tags: ['airflow-database', 'airflow-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: mri-database
+      tags: ['mri-database', 'mri-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: airflow
+      tags: ['airflow-servers', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: airflow
+      tags: ['airflow', 'data-factory', 'marathon-app']

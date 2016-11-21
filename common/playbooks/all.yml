@@ -1,5 +1,7 @@
 ---
 
+# Mesos stack
+
 - include: base-system.yml
 
 - include: zookeeper.yml
@@ -10,17 +12,35 @@
 
 - include: mesos-follower.yml
 
+# /Mesos stack
+
 - include: cleanup.yml
 
 - include: mip-services.yml
 
-- include: analytics-database.yml
+# Reference databases
 
 - include: science-database.yml
 
 - include: denodo.yml
 
+# /Reference databases
+
+# Data Factory
+
+- include: airflow.yml
+
+# /Data Factory
+
+# Algorithm Factory
+
+- include: analytics-database.yml
+
 - include: woken.yml
+
+# /Algorithm Factory
+
+# Web Exploration and Analytics
 
 - include: portal-database.yml
 
@@ -29,5 +49,7 @@
 - include: portal-backend.yml
 
 - include: portal-frontend.yml
+
+# /Web Exploration and Analytics
 
 - include: dev.yml
