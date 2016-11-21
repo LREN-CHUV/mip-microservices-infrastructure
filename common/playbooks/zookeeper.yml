@@ -6,6 +6,12 @@
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
 
+  pre_tasks:
+
+    - name: Install OpenJDK 8 on Ubuntu Xenial - fixes problematic install of openjdk-8-jre-headless
+      apt: package=openjdk-8-jdk-headless
+      when: ansible_distribution_release == 'xenial'
+
   roles:
 
     - role: zookeeper
