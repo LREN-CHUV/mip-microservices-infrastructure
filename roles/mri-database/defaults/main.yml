@@ -1,0 +1,31 @@
+---
+
+mri_db_marathon_id: /data-factory/mri-db
+
+# Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
+mri_db_marathon_host: '{{ inventory_hostname }}'
+
+# The user running the Docker container for mysql, default to '999' (mysql user in the mysql docker container)
+mri_db_docker_user: '999'
+
+# One of mysql, mariadb
+mri_db_image: 'mariadb'
+mri_db_version: "{{ mariadb_version }}"
+
+mri_db_cpus: 0.5
+mri_db_mem: 512.0
+
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
+mri_db_port: 4606
+# TO FILL - mri_mysql_root_password:
+mri_db_user: mri
+# TO FILL - mri_db_password: mri
+
+mri_db_data_dir: /srv/docker/mri_db/data
+mri_db_docker_entrypoint_dir: /srv/docker/mri_db/docker-entrypoint-initdb.d
+
+airflow_plugins_folder: '/usr/local/airflow/plugins'
+meta_database_folder: '/opt/meta-extract'
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

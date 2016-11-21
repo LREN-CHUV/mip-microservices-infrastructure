@@ -10,7 +10,7 @@ airflow_db_docker_user: '999'
 
 # One of mysql, mariadb
 airflow_db_image: 'mariadb'
-airflow_db_version: "10.1.14"
+airflow_db_version: "{{ mariadb_version }}"
 
 airflow_db_cpus: 0.5
 airflow_db_mem: 512.0
