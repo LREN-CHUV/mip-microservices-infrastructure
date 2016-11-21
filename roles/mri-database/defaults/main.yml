@@ -25,7 +25,7 @@ mri_db_data_dir: /srv/docker/mri_db/data
 mri_db_docker_entrypoint_dir: /srv/docker/mri_db/docker-entrypoint-initdb.d
 
 airflow_plugins_folder: '/usr/local/airflow/plugins'
-meta_database_folder: '/opt/meta-extract'
+mri_meta_extract_dir: '/opt/mri-meta-extract'
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

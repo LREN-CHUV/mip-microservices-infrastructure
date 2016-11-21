@@ -106,7 +106,7 @@
 - name: Setup configuration for alembic database upgrade
   template:
     src: alembic.ini.j2
-    dest: '{{ meta_database_folder }}/data/db/alembic.ini'
+    dest: '{{ mri_meta_extract_dir }}/data/db/alembic.ini'
     owner: '{{ airflow_user }}'
 
 - name: Install pip
@@ -127,4 +127,4 @@
 - name: Launch Alembic to upgrade the MRI database
   command: alembic upgrade head
   args:
-    chdir: '{{ meta_database_folder }}/data/db'
+    chdir: '{{ mri_meta_extract_dir }}/data/db'

@@ -7,18 +7,24 @@
     - "{{ play_dir }}/vars/versions.yml"
     - "{{ play_dir }}/vars/airflow.yml"
 
+  vars:
+    matlab_root: '/usr/local/MATLAB/{{ matlab_version }}'
+
   pre_tasks:
 
     - name: Setup Matlab library for Python
       command: python ./setup.py install
       args:
-        chdir: /usr/local/MATLAB/R2015b/extern/engines/python
+        chdir: '{{ matlab_root }}/extern/engines/python'
       tags: ['airflow', 'matlab']
 
   roles:
 
     - role: airflow-database
       tags: ['airflow-database', 'airflow-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: mri-meta-extract
+      tags: ['mri-meta-extract', 'airflow', 'data-factory', 'marathon-app']
 
     - role: mri-database
       tags: ['mri-database', 'mri-db', 'database', 'airflow', 'data-factory', 'marathon-app']

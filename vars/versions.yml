@@ -30,7 +30,7 @@ nginx_official_repo: True
 
 flyway_version: "4.0.3"
 
-nodejs_version: "4.6"
+matlab_version: "R2015b"
 
 # Versions of our Docker containers
 portal_frontend_version: "f01a6d9"
@@ -68,6 +68,8 @@ sonarqube_version: "6.0-alpine"
 ansible_cmdb_version: 1.17
 
 maven_version: "3.3.9"
+
+nodejs_version: "4.6"
 
 captain_version: "1.0.0"
 docker_compose_version: "1.8.0"
