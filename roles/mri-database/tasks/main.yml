@@ -55,7 +55,7 @@
         hostPath: "{{ mri_db_docker_entrypoint_dir }}"
         mode: RO
     env:
-      MYSQL_DATABASE: "airflow"
+      MYSQL_DATABASE: "mri"
       MYSQL_USER: "{{ mri_db_user }}"
       MYSQL_PASSWORD: "{{ mri_db_password }}"
       MYSQL_ROOT_PASSWORD: "{{ mri_db_root_password }}"

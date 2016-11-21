@@ -2,6 +2,14 @@
 
 ## Are all services up and running?
 
+### Check that the mesos leader was elected
+
+```
+  service mesos-slave status
+```
+
+Check that there are no errors in the log, and that 'session establishment complete on server' appears in the logs.
+
 ### On the master node, check that all services are running:
 
 ```
@@ -22,12 +30,23 @@ ZOO_WARN@zookeeper_interest@1570: Exceeded deadline by 16ms
   journalctl -u marathon
 ```
 
-
 If port mapping is used, check that the host ports required are in the range managed by Mesos, usually [4000,5000[ and [30000,31000[
 
-### Check that the mesos leader was elected
+Check that Docker was able to create the containers
 
-TODO
+```
+  docker ps -a
+```
+
+If you see containers being killed then restarted, check the configuration. There might be some conflict on ports, or the application cannot start properly.
+
+Another interesting test is looking at the logs of Docker service:
+
+```
+  journalctl -u docker -f
+```
+
+Sometimes, health-checks keep failing and that causes Marathon to keep the application in 'deploying' state.
 
 ## Did Marathon attempt to start the application?
 
@@ -43,9 +62,13 @@ Run inside the Vagrant VM
 
 Then check that the Docker image for your application is present.
 
+Sometimes, Docker Hub is unreasonably slow. You may have more luck attempting to start the application a few minutes later,
+or even run 'docker pull' yourself.
+
 ## Marathon did not even attempt to start the application
 
-TODO
+Check that the constraints that you have put on the application are possible. In particular, if you have a constraint on the hostname,
+check that this hostname is known to Mesos (look in the Mesos console).
 
 ## In a Vagrant VM
 
