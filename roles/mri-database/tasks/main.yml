@@ -1,6 +1,6 @@
 ---
 
-# Mysql user in Docker appears as user 999 outside
+# Postgresql user in Docker appears as user 999 outside
 - name: Create MRI database storage directory
   file: state=directory path={{ item }} mode=0700 owner={{ mri_db_docker_user }} group={{ mri_db_docker_user }}
   with_items:
@@ -45,20 +45,20 @@
     docker_port_mappings:
       - hostPort: '{{ mri_db_port }}'
         containerPort: 5432
-        name: 'mysql'
+        name: 'postgresql'
         protocol: 'tcp'
     container_volumes:
-      - containerPath: "/var/lib/mysql"
+      - containerPath: "/var/lib/postgresql/data"
         hostPath: "{{ mri_db_data_dir }}"
         mode: RW
       - containerPath: "/docker-entrypoint-initdb.d"
         hostPath: "{{ mri_db_docker_entrypoint_dir }}"
         mode: RO
     env:
-      MYSQL_DATABASE: "mri"
-      MYSQL_USER: "{{ mri_db_user }}"
-      MYSQL_PASSWORD: "{{ mri_db_password }}"
-      MYSQL_ROOT_PASSWORD: "{{ mri_db_root_password }}"
+      POSTGRES_DB: "mri"
+      POSTGRES_USER: "{{ mri_db_user }}"
+      POSTGRES_PASSWORD: "{{ mri_db_password }}"
+      POSTGRES_ROOT_PASSWORD: "{{ mri_db_root_password }}"
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
     instances: 1
@@ -120,7 +120,6 @@
     state: present
   with_items:
     - "SQLAlchemy==1.0.13"
-    - "PyMySQL==0.7.3"
     - "pydicom==0.9.9"
     - "alembic==0.8.6"
 
