@@ -34,7 +34,7 @@ matlab_version: "R2015b"
 
 # Versions of our Docker containers
 portal_frontend_version: "f01a6d9"
-portal_backend_version: "231c6eb"
+portal_backend_version: "bd3351d"
 woken_version: "567ca9d"
 woken_functions:
   - name: boxplot
