@@ -9,7 +9,7 @@ mri_db_marathon_host: '{{ inventory_hostname }}'
 mri_db_docker_user: '999'
 
 # One of mysql, mariadb
-mri_db_image: 'mariadb'
+mri_db_image: 'postgres'
 mri_db_version: "{{ mariadb_version }}"
 
 mri_db_cpus: 0.5

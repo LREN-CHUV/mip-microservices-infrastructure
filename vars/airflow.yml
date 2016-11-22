@@ -6,6 +6,7 @@ airflow_scheduler_marathon_id: '/data-factory/airflow/scheduler'
 airflow_webserver_marathon_id: '/data-factory/airflow/webserver'
 
 airflow_db_marathon_id: '/data-factory/airflow/airflow-db'
+
 # Identifier must be under /data-factory/airflow namespace to be able to use dependencies on scheduler and webserver
 mri_db_marathon_id: '/data-factory/airflow/mri-db'
 
@@ -33,12 +34,11 @@ airflow_plugins:
   - name: mesos
     required_debs: []
     required_pips: []
-  - name: mysql
+  - name: postgresql
     required_debs:
-      - libmysqlclient20
-      - libmysqlclient-dev
-    required_pips:
-      - PyMySQL
+      - postgresql-client
+      - python-psycopg2
+    required_pips: []
   - name: crypto
     required_debs:
       - libssl-dev

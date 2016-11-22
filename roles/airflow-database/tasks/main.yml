@@ -1,6 +1,6 @@
 ---
 
-# Mysql user in Docker appears as user 999 outside
+# Postgresql user in Docker appears as user 999 outside
 - name: Create Airflow database storage directory
   file: state=directory path={{ item }} mode=0700 owner={{ airflow_db_docker_user }} group={{ airflow_db_docker_user }}
   with_items:
@@ -41,21 +41,21 @@
     docker_network: BRIDGE
     docker_port_mappings:
       - hostPort: '{{ airflow_db_port }}'
-        containerPort: 3306
-        name: 'mysql'
+        containerPort: 5432
+        name: 'postgresql'
         protocol: 'tcp'
     container_volumes:
-      - containerPath: "/var/lib/mysql"
+      - containerPath: "/var/lib/postgresql/data"
         hostPath: "{{ airflow_db_data_dir }}"
         mode: RW
       - containerPath: "/docker-entrypoint-initdb.d"
         hostPath: "{{ airflow_db_docker_entrypoint_dir }}"
         mode: RO
     env:
-      MYSQL_DATABASE: "airflow"
-      MYSQL_USER: "{{ airflow_db_user }}"
-      MYSQL_PASSWORD: "{{ airflow_db_password }}"
-      MYSQL_ROOT_PASSWORD: "{{ airflow_db_root_password }}"
+      POSTGRES_DB: "airflow"
+      POSTGRES_USER: "{{ airflow_db_user }}"
+      POSTGRES_PASSWORD: "{{ airflow_db_password }}"
+      POSTGRES_ROOT_PASSWORD: "{{ airflow_db_root_password }}"
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
     instances: 1
@@ -69,7 +69,7 @@
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/bin/mysql --host=localhost --port=3306 --user={{ airflow_db_user }} --password={{ airflow_db_password }} -e 'show databases;' | grep information_schema"
+          value: "/usr/lib/postgresql/9.5/bin/pg_isready -U {{ airflow_db_user }} -p 5432"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10

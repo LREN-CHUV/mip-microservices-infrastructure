@@ -5,12 +5,12 @@ airflow_db_marathon_id: /data-factory/airflow/airflow-db
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
 airflow_db_marathon_host: '{{ inventory_hostname }}'
 
-# The user running the Docker container for mysql, default to '999' (mysql user in the mysql docker container)
+# The user running the Docker container for postgresql, default to '999' (postgresql user in the postgresql docker container)
 airflow_db_docker_user: '999'
 
-# One of mysql, mariadb
-airflow_db_image: 'mariadb'
-airflow_db_version: "{{ mariadb_version }}"
+# postgresql
+airflow_db_image: 'postgres'
+airflow_db_version: "9.5.4"
 
 airflow_db_cpus: 0.5
 airflow_db_mem: 512.0

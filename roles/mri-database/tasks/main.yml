@@ -44,7 +44,7 @@
     docker_network: BRIDGE
     docker_port_mappings:
       - hostPort: '{{ mri_db_port }}'
-        containerPort: 3306
+        containerPort: 5432
         name: 'mysql'
         protocol: 'tcp'
     container_volumes:
@@ -72,7 +72,7 @@
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/bin/mysql --host=localhost --port=3306 --user={{ mri_db_user }} --password={{ mri_db_password }} -e 'show databases;' | grep information_schema"
+          value: "/usr/lib/postgresql/9.5/bin/pg_isready -U {{ mri_db_user }} -p 5432"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10

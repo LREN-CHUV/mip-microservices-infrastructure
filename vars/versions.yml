@@ -14,10 +14,10 @@ marathon_package_version: "1.0.540"
 chronos_version: "2.4.0-ubuntu-14.04"
 
 airflow_version: '1.7.1.3'
-airflow_db_image: "mariadb"
-airflow_db_version: "{{ mariadb_version }}"
-mri_db_image: "mariadb"
-mri_db_version: "{{ mariadb_version }}"
+airflow_db_image: "postgres"
+airflow_db_version: "{{ postgres_version }}"
+mri_db_image: "postgres"
+mri_db_version: "{{ postgres_version }}"
 
 postgres_version: "9.5.4"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar
@@ -34,7 +34,7 @@ matlab_version: "R2015b"
 
 # Versions of our Docker containers
 portal_frontend_version: "f01a6d9"
-portal_backend_version: "bd3351d"
+portal_backend_version: "231c6eb"
 woken_version: "567ca9d"
 woken_functions:
   - name: boxplot
