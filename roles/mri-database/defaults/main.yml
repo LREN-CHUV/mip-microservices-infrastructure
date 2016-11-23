@@ -1,31 +1,45 @@
 ---
 
+# Deploy mri-db as an independant database. If false, then we assume that there is
+# a database already running and we add to it a new 'meta' schema
+mri_db_deploy: no
+
+# Used when mri_db_deploy is true
 mri_db_marathon_id: /data-factory/airflow/mri-db
 
-# Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
+# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
 mri_db_marathon_host: '{{ inventory_hostname }}'
 
-# The user running the Docker container for mysql, default to '999' (mysql user in the mysql docker container)
+# The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
+# TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
 mri_db_docker_user: '999'
 
-# One of mysql, mariadb
 mri_db_image: 'postgres'
-mri_db_version: "{{ mariadb_version }}"
+mri_db_version: "{{ postgres_version }}"
 
 mri_db_cpus: 0.5
 mri_db_mem: 512.0
 
 # Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
 mri_db_port: 4606
-# TO FILL - mri_db_root_password:
+mri_db_host: '{{ mri_db_marathon_host }}'
+mri_db_name: mri
+mri_db_admin_user: 'postgres'
+# TO FILL - mri_db_admin_password:
 mri_db_user: mri
 # TO FILL - mri_db_password: mri
+
+# Used when mri_db_deploy is true
+mri_db_databases: "{{ mri_db_name }}"
 
 mri_db_data_dir: /srv/docker/mri_db/data
 mri_db_docker_entrypoint_dir: /srv/docker/mri_db/docker-entrypoint-initdb.d
 
 airflow_plugins_folder: '/usr/local/airflow/plugins'
 mri_meta_extract_dir: '/opt/mri-meta-extract'
+
+# Force cleanup of the MRI DB. Please never use that in production!
+mri_db_cleanup: false
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

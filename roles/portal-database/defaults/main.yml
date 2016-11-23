@@ -16,13 +16,14 @@ portal_db_mem: 128.0
 
 # Port exposed by Marathon, must be in the range [31000,32000[
 portal_db_port: 31532
-portal_db_host: localhost
+portal_db_host: '{{ portal_db_marathon_host }}'
 portal_db_name: portal
 portal_db_admin_user: postgres
 # TO FILL - portal_db_admin_password:
 portal_db_user: portal
 # TO FILL - portal_db_password:
 
+# Hint in Marathon listing all the databases running in this Postgres server
 portal_db_databases: "{{ portal_db_name }}"
 
 portal_db_data_dir: /srv/docker/portal-db/data

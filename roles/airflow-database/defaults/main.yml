@@ -9,23 +9,30 @@ airflow_db_marathon_host: '{{ inventory_hostname }}'
 airflow_db_docker_user: '999'
 
 # postgresql
+postgres_version: "9.5.4"
 airflow_db_image: 'postgres'
-airflow_db_version: "9.5.4"
+airflow_db_version: "{{ postgres_version }}"
 
 airflow_db_cpus: 0.5
 airflow_db_mem: 512.0
 
 # Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
 airflow_db_port: 4306
+airflow_db_host: '{{ airflow_db_marathon_host }}'
+airflow_db_name: airflow
+airflow_db_admin_user: postgres
 # TO FILL - airflow_db_root_password:
 airflow_db_user: airflow
 # TO FILL - airflow_db_password: airflow
 
+# Hint in Marathon listing all the databases running in this Postgres server
+airflow_db_databases: "{{ airflow_db_name }}"
+
 airflow_db_data_dir: /srv/docker/airflow_db/data
 airflow_db_docker_entrypoint_dir: /srv/docker/airflow_db/docker-entrypoint-initdb.d
 
-# Additional databases to create. It should contain the following properties: name, user, password
-airflow_db_additional_databases: []
+# Force cleanup of the Airflow database. Please never use that in production!
+airflow_db_cleanup: false
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

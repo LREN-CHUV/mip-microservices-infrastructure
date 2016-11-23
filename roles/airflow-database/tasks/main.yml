@@ -1,17 +1,5 @@
 ---
 
-# Postgresql user in Docker appears as user 999 outside
-- name: Create Airflow database storage directory
-  file: state=directory path={{ item }} mode=0700 owner={{ airflow_db_docker_user }} group={{ airflow_db_docker_user }}
-  with_items:
-    - '{{ airflow_db_data_dir }}'
-    - '{{ airflow_db_docker_entrypoint_dir }}'
-
-- name: Creation script for additional databases
-  template:
-    src: additional-databases.sql.j2
-    dest: '{{ airflow_db_docker_entrypoint_dir }}/additional-databases.sql'
-
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
@@ -31,6 +19,17 @@
   tags:
     - launch
 
+- name: Optional cleanup
+  file: state=absent path={{ airflow_db_data_dir }}
+  when: airflow_db_cleanup
+
+# Postgresql user in Docker appears as user 999 outside
+- name: Create Airflow database storage directory
+  file: state=directory path={{ item }} mode=0700 owner={{ airflow_db_docker_user }} group={{ airflow_db_docker_user }}
+  with_items:
+    - '{{ airflow_db_data_dir }}'
+    - '{{ airflow_db_docker_entrypoint_dir }}'
+
 - name: Launch Airflow database using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
@@ -42,7 +41,7 @@
     docker_port_mappings:
       - hostPort: '{{ airflow_db_port }}'
         containerPort: 5432
-        name: 'postgresql'
+        name: 'postgres'
         protocol: 'tcp'
     container_volumes:
       - containerPath: "/var/lib/postgresql/data"
@@ -52,12 +51,11 @@
         hostPath: "{{ airflow_db_docker_entrypoint_dir }}"
         mode: RO
     env:
-      POSTGRES_DB: "airflow"
-      POSTGRES_USER: "{{ airflow_db_user }}"
-      POSTGRES_PASSWORD: "{{ airflow_db_password }}"
-      POSTGRES_ROOT_PASSWORD: "{{ airflow_db_root_password }}"
+      POSTGRES_USER: "{{ airflow_db_admin_user }}"
+      POSTGRES_PASSWORD: "{{ airflow_db_admin_password }}"
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ airflow_db_databases }}"
     instances: 1
     cpus: '{{ airflow_db_cpus }}'
     mem: '{{ airflow_db_mem }}'
@@ -69,7 +67,7 @@
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.5/bin/pg_isready -U {{ airflow_db_user }} -p 5432"
+          value: "/usr/lib/postgresql/9.6/bin/pg_isready -U {{ airflow_db_user }} -p 5432"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10
@@ -82,3 +80,41 @@
   delegate_to: "{{ groups['control'][0] }}"
   tags:
     - launch
+
+- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
+  apt: name={{ item }} state=present
+  with_items:
+    - python-psycopg2
+    - python-pip
+    - curl
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+# run this task on the database host
+- name: Wait for the database to be up and running
+  wait_for: >
+    port="{{ airflow_db_port }}"
+    delay=2
+
+- name: Create a new database with name "airflow"
+  postgresql_db:
+    name: "{{ airflow_db_name }}"
+    port: "{{ airflow_db_port }}"
+    login_host: "{{ airflow_db_host }}"
+    login_user: "{{ airflow_db_admin_user }}"
+    login_password: "{{ airflow_db_admin_password }}"
+    state: present
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Create airflow user
+  postgresql_user:
+    login_host: "{{ airflow_db_host }}"
+    login_user: "{{ airflow_db_admin_user }}"
+    login_password: "{{ airflow_db_admin_password }}"
+    db: "{{ airflow_db_name }}"
+    port: "{{ airflow_db_port }}"
+    name: "{{ airflow_db_user }}"
+    password: "{{ airflow_db_password }}"
+    role_attr_flags: "SUPERUSER"
+  delegate_to: "{{ groups['control'][0] }}"

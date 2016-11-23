@@ -19,7 +19,7 @@ airflow_db_version: "{{ postgres_version }}"
 mri_db_image: "postgres"
 mri_db_version: "{{ postgres_version }}"
 
-postgres_version: "9.5.4"
+postgres_version: "9.6.1-alpine"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar
 
 mysql_version: "5.7.12"

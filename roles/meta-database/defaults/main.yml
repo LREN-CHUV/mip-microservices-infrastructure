@@ -1,6 +1,6 @@
 ---
 
-# Deploy portal-meta-db as an independant database. If false, then we assume that there is
+# Deploy meta-db as an independant database. If false, then we assume that there is
 # a database already running and we add to it a new 'meta' schema
 meta_db_deploy: no
 
@@ -21,7 +21,7 @@ meta_db_mem: 128.0
 
 # Port exposed by Marathon, must be in the range [31000,32000[
 meta_db_port: 31432
-meta_db_host: 'locahost'
+meta_db_host: '{{ meta_db_marathon_host }}'
 meta_db_name: meta
 meta_db_admin_user: 'postgres'
 # TO FILL - meta_db_admin_password:

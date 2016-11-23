@@ -56,22 +56,22 @@
     instances: 1
     cpus: '{{ meta_db_cpus }}'
     mem: '{{ meta_db_mem }}'
-    ports: []
+    ports: [] # defined in docker_port_mappings
     require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ meta_db_marathon_host }}"]]
     dependencies: []
     executor: ""
-    wait_timeout: 600
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.5/bin/pg_isready -U {{ meta_db_admin_user }}"
+          value: "/usr/lib/postgresql/9.6/bin/pg_isready -U {{ meta_db_admin_user }} -p 5432"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10
         maxConsecutiveFailures: 5
     upgrade_strategy_minimum_health_capacity: 0.0
     upgrade_strategy_maximum_over_capacity: 0.0
+    wait_timeout: 600
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
