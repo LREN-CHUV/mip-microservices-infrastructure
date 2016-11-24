@@ -12,6 +12,8 @@ airflow_db_docker_user: '999'
 postgres_version: "9.5.4"
 airflow_db_image: 'postgres'
 airflow_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+airflow_db_is_ready: "{{ postgres_is_ready }}"
 
 airflow_db_cpus: 0.5
 airflow_db_mem: 512.0

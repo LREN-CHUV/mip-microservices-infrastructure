@@ -15,6 +15,8 @@
 
 - include: ../../common/playbooks/mesos-follower.yml
 
+- include: ../../common/playbooks/airflow.yml
+
 - hosts: airflow
   become: yes
   vars_files:
@@ -22,38 +24,12 @@
     - "{{ play_dir }}/vars/versions.yml"
     - "{{ play_dir }}/vars/airflow.yml"
 
-  pre_tasks:
-
-    - name: Setup Matlab library for Python
-      command: python ./setup.py install
-      args:
-        chdir: /usr/local/MATLAB/R2015b/extern/engines/python
-      tags: ['airflow', 'matlab']
-
-  roles:
-
-    - role: airflow-database
-      tags: ['airflow']
-
-    - role: airflow
-      tags: ['airflow']
-
-    - role: audit-deployment
-      installed_component: airflow
-      tags: ['airflow']
-
-  post_tasks:
+  tasks:
 
     - name: Create folders for data and scripts
       file: path='{{ item }}' state=directory owner=airflow
       with_items:
         - /data/incoming/20160713
-
-    - name: Get meta-extract code
-      git:
-        repo: https://github.com/LREN-CHUV/meta-extract.git
-        dest: /home/airflow/meta-extract
-        depth: 1
 
     - name: Get some MRI data
       git:

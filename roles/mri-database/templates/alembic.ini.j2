@@ -29,7 +29,7 @@ script_location = db_migrations
 # are written from script.py.mako
 # output_encoding = utf-8
 
-sqlalchemy.url = mysql+pymysql://{{ mri_db_user }}:{{ mri_db_password }}@{{ mri_db_host }}:{{ mri_db_port }}/mri
+sqlalchemy.url = {{ mri_db_sql_alchemy_conn }}
 
 # Logging configuration
 [loggers]

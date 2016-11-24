@@ -10,11 +10,12 @@ airflow_db_marathon_id: '/data-factory/airflow/airflow-db'
 # Identifier must be under /data-factory/airflow namespace to be able to use dependencies on scheduler and webserver
 mri_db_marathon_id: '/data-factory/airflow/mri-db'
 
+airflow_scheduler_marathon_id: '/data-factory/airflow/scheduler'
 airflow_scheduler_marathon_dependencies:
   - "{{ airflow_db_marathon_id }}"
   - "{{ mri_db_marathon_id }}"
 
-airflow_webserver_marathon_id: '/airflow/webserver'
+airflow_webserver_marathon_id: '/data-factory/airflow/webserver'
 airflow_webserver_marathon_dependencies:
   - "{{ airflow_db_marathon_id }}"
   - "{{ mri_db_marathon_id }}"

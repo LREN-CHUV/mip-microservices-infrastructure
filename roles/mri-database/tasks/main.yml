@@ -30,16 +30,6 @@
   file: state=directory path={{ item }} mode=0700 owner={{ mri_db_docker_user }} group={{ mri_db_docker_user }}
   with_items:
     - '{{ mri_db_data_dir }}'
-    - '{{ mri_db_docker_entrypoint_dir }}'
-
-- name: Copy sql creation scripts
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ mri_db_docker_entrypoint_dir }}/{{ item.dest }}"
-  with_items:
-   - src: "mridb/sql/access.sql"
-     dest: "access.sql"
-
 
 - name: Launch MRI database using Marathon
   marathon_app:
@@ -58,9 +48,6 @@
       - containerPath: "/var/lib/postgresql/data"
         hostPath: "{{ mri_db_data_dir }}"
         mode: RW
-      - containerPath: "/docker-entrypoint-initdb.d"
-        hostPath: "{{ mri_db_docker_entrypoint_dir }}"
-        mode: RO
     env:
       POSTGRES_USER: "{{ mri_db_admin_user }}"
       POSTGRES_PASSWORD: "{{ mri_db_admin_password }}"
@@ -78,7 +65,7 @@
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.6/bin/pg_isready -U {{ mri_db_user }} -p 5432"
+          value: "{{ mri_db_is_ready }} -U {{ mri_db_user }} -p 5432"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10
@@ -144,8 +131,8 @@
 - name: Create mri user
   postgresql_user:
     login_host: "{{ mri_db_host }}"
-    login_user: "{{ portal_db_admin_user }}"
-    login_password: "{{ portal_db_admin_password }}"
+    login_user: "{{ mri_db_admin_user }}"
+    login_password: "{{ mri_db_admin_password }}"
     db: "{{ mri_db_name }}"
     port: "{{ mri_db_port }}"
     name: "{{ mri_db_user }}"

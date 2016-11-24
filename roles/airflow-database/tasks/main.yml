@@ -67,7 +67,7 @@
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.6/bin/pg_isready -U {{ airflow_db_user }} -p 5432"
+          value: "{{ airflow_db_is_ready }} -U {{ airflow_db_user }} -p 5432"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10

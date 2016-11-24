@@ -16,6 +16,10 @@ mri_db_docker_user: '999'
 
 mri_db_image: 'postgres'
 mri_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+mri_db_is_ready: "{{ postgres_is_ready }}"
+
+mri_db_sql_alchemy_conn: "postgresql://{{ mri_db_user }}:{{ mri_db_password }}@{{ mri_db_host }}:{{ mri_db_port }}/mri"
 
 mri_db_cpus: 0.5
 mri_db_mem: 512.0
@@ -33,7 +37,6 @@ mri_db_user: mri
 mri_db_databases: "{{ mri_db_name }}"
 
 mri_db_data_dir: /srv/docker/mri_db/data
-mri_db_docker_entrypoint_dir: /srv/docker/mri_db/docker-entrypoint-initdb.d
 
 airflow_plugins_folder: '/usr/local/airflow/plugins'
 mri_meta_extract_dir: '/opt/mri-meta-extract'
