@@ -1,29 +1,34 @@
 ---
 
-# Used when science_db_deploy is true
 science_db_marathon_id: /reference/science-db
 
-# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
+# Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
 science_db_marathon_host: '{{ inventory_hostname }}'
 
 # The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
 # TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
 science_db_docker_user: '999'
 
-postgres_version: "9.5.3"
+# postgresql
+postgres_version: "9.5.4"
+science_db_image: 'postgres'
+science_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+science_db_is_ready: "{{ postgres_is_ready }}"
 
 science_db_cpus: 0.5
 science_db_mem: 128.0
 
 # Port exposed by Marathon, must be in the range [31000,32000[
 science_db_port: 31433
-science_db_host: 'locahost'
+science_db_host: '{{ science_db_marathon_host }}'
 science_db_name: science
 science_db_admin_user: 'postgres'
 # TO FILL - science_db_admin_password:
 science_db_user: science
 # TO FILL - science_db_password:
 
+# Hint in Marathon listing all the databases running in this Postgres server
 science_db_databases: "{{ science_db_name }}"
 
 science_db_data_dir: /srv/docker/science-db/data

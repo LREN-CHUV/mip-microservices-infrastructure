@@ -1,83 +1,7 @@
 ---
 
-- name: Wait for Marathon
-  include: ../../marathon-app/tasks/wait-for-marathon.yml
+- include: marathon.yml
   when: meta_db_deploy
-  vars:
-    uri: "{{ internal_marathon_url }}"
-  tags:
-    - launch
-
-- name: Remove old meta DB using Marathon
-  marathon_app:
-    uri: "{{ internal_marathon_url }}"
-    id: "{{ meta_db_marathon_id }}"
-    state: "absent"
-    wait_timeout: 600
-  async: 600
-  poll: 1
-  delegate_to: "{{ groups['control'][0] }}"
-  when: meta_db_deploy
-  tags:
-    - launch
-
-- name: Optional cleanup
-  file: state=absent path={{ meta_db_data_dir }}
-  when: meta_db_deploy and meta_db_cleanup
-
-# Postgres user in Docker appears as user 999 outside
-- name: Create meta DB storage directory
-  file: state=directory path={{ meta_db_data_dir }} mode=0700 owner={{ meta_db_docker_user }} group={{ meta_db_docker_user }}
-  when: meta_db_deploy
-
-- name: Launch meta DB using Marathon
-  marathon_app:
-    uri: "{{ internal_marathon_url }}"
-    id: "{{ meta_db_marathon_id }}"
-    state: "present"
-    docker_image: "postgres:{{ postgres_version }}"
-    docker_force_pull_image: true
-    docker_network: BRIDGE
-    docker_port_mappings:
-      - hostPort: '{{ meta_db_port }}'
-        containerPort: 5432
-        name: 'postgres'
-        protocol: 'tcp'
-    container_volumes:
-      - containerPath: "/var/lib/postgresql/data"
-        hostPath: "{{ meta_db_data_dir }}"
-        mode: RW
-    env:
-      POSTGRES_USER: "{{ meta_db_admin_user }}"
-      POSTGRES_PASSWORD: "{{ meta_db_admin_password }}"
-    labels:
-      MARATHON_SINGLE_INSTANCE_APP: "true"
-      DATABASES: "{{ meta_db_databases }}"
-    instances: 1
-    cpus: '{{ meta_db_cpus }}'
-    mem: '{{ meta_db_mem }}'
-    ports: [] # defined in docker_port_mappings
-    require_ports: true
-    constraints: [["hostname", "CLUSTER", "{{ meta_db_marathon_host }}"]]
-    dependencies: []
-    executor: ""
-    health_checks:
-      - protocol: COMMAND
-        command:
-          value: "/usr/lib/postgresql/9.6/bin/pg_isready -U {{ meta_db_admin_user }} -p 5432"
-        gracePeriodSeconds: 300
-        intervalSeconds: 20
-        timeoutSeconds: 10
-        maxConsecutiveFailures: 5
-    upgrade_strategy_minimum_health_capacity: 0.0
-    upgrade_strategy_maximum_over_capacity: 0.0
-    wait_timeout: 600
-  async: 600
-  poll: 1
-  delegate_to: "{{ groups['control'][0] }}"
-  when: meta_db_deploy
-  tags:
-    - launch
 
 - name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
   apt: name={{ item }} state=present
@@ -88,17 +12,6 @@
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
   become: True
-
-# See https://github.com/anarcher/ansible-docker-registry/issues/1
-- name: Make sure pip upgraded
-  command: easy_install -U pip
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-- name: Install Python module for Docker (required by docker_container task)
-  pip: name=docker-py state=present
-  delegate_to: "{{ groups['control'][0] }}"
 
 # run this task on the database host
 - name: Wait for the meta database to be up and running
@@ -154,7 +67,17 @@
       dest: "V1_0__Create.sql"
   delegate_to: "{{ groups['control'][0] }}"
 
-# TODO: this task does not fail on error when using Ansible 2.1.1.0
+# See https://github.com/anarcher/ansible-docker-registry/issues/1
+- name: Make sure pip upgraded
+  command: easy_install -U pip
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+- name: Install Python module for Docker (required by docker_container task)
+  pip: name=docker-py state=present
+  delegate_to: "{{ groups['control'][0] }}"
+
 - name: Run Flyway migration on meta-db
   docker_container:
     name: migrate_meta_db

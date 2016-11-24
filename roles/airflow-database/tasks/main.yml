@@ -23,12 +23,9 @@
   file: state=absent path={{ airflow_db_data_dir }}
   when: airflow_db_cleanup
 
-# Postgresql user in Docker appears as user 999 outside
+# Postgres user in Docker appears as user 999 outside
 - name: Create Airflow database storage directory
-  file: state=directory path={{ item }} mode=0700 owner={{ airflow_db_docker_user }} group={{ airflow_db_docker_user }}
-  with_items:
-    - '{{ airflow_db_data_dir }}'
-    - '{{ airflow_db_docker_entrypoint_dir }}'
+  file: state=directory path={{ airflow_db_data_dir }} mode=0700 owner={{ airflow_db_docker_user }} group={{ airflow_db_docker_user }}
 
 - name: Launch Airflow database using Marathon
   marathon_app:
@@ -47,9 +44,6 @@
       - containerPath: "/var/lib/postgresql/data"
         hostPath: "{{ airflow_db_data_dir }}"
         mode: RW
-      - containerPath: "/docker-entrypoint-initdb.d"
-        hostPath: "{{ airflow_db_docker_entrypoint_dir }}"
-        mode: RO
     env:
       POSTGRES_USER: "{{ airflow_db_admin_user }}"
       POSTGRES_PASSWORD: "{{ airflow_db_admin_password }}"

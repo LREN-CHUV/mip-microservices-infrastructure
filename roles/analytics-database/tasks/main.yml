@@ -32,7 +32,7 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ analytics_db_marathon_id }}"
     state: "present"
-    docker_image: "postgres:{{ postgres_version }}"
+    docker_image: "{{ analytics_db_image }}:{{ analytics_db_version }}"
     docker_force_pull_image: true
     docker_network: BRIDGE
     docker_port_mappings:
@@ -53,22 +53,22 @@
     instances: 1
     cpus: '{{ analytics_db_cpus }}'
     mem: '{{ analytics_db_mem }}'
-    ports: []
+    ports: [] # defined in docker_port_mappings
     require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ analytics_db_marathon_host }}"]]
     dependencies: []
     executor: ""
-    wait_timeout: 600
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.5/bin/pg_isready -U {{ analytics_db_admin_user }}"
+          value: "{{ analytics_db_is_ready }} -U {{ analytics_db_admin_user }}"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10
         maxConsecutiveFailures: 5
     upgrade_strategy_minimum_health_capacity: 0.0
     upgrade_strategy_maximum_over_capacity: 0.0
+    wait_timeout: 600
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
@@ -84,17 +84,6 @@
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
   become: True
-
-# See https://github.com/anarcher/ansible-docker-registry/issues/1
-- name: Make sure pip upgraded
-  command: easy_install -U pip
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-- name: Install Python module for Docker (required by docker_container task)
-  pip: name=docker-py state=present
-  delegate_to: "{{ groups['control'][0] }}"
 
 # run this task on the database host
 - name: Wait for the database to be up and running
@@ -135,11 +124,21 @@
     src: "{{ item.src }}"
     dest: "{{ analytics_db_setup_dir }}/{{ item.dest }}"
   with_items:
-   - src: "analyticsdb/sql/create.sql"
-     dest: "V1_0__Create-result-table.sql"
+    - src: "analyticsdb/sql/create.sql"
+      dest: "V1_0__Create-result-table.sql"
   delegate_to: "{{ groups['control'][0] }}"
 
-# TODO: this task does not fail on error when using Ansible 2.1.1.0
+# See https://github.com/anarcher/ansible-docker-registry/issues/1
+- name: Make sure pip upgraded
+  command: easy_install -U pip
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+- name: Install Python module for Docker (required by docker_container task)
+  pip: name=docker-py state=present
+  delegate_to: "{{ groups['control'][0] }}"
+
 - name: Run Flyway migration
   docker_container:
     name: migrate_analytics_db

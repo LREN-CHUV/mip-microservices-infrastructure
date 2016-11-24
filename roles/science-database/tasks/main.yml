@@ -19,6 +19,10 @@
   tags:
     - launch
 
+- name: Optional cleanup
+  file: state=absent path={{ science_db_data_dir }}
+  when: science_db_cleanup
+
 # Postgres user in Docker appears as user 999 outside
 - name: Create science DB directory for initial data stored in CSV files
   file: state=directory path={{ science_db_csv_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
@@ -31,10 +35,6 @@
     - src: "{{ science_db_local_project_dir }}/sql/values.csv"
       dest: "values.csv"
 
-- name: Optional cleanup
-  file: state=absent path={{ science_db_data_dir }}
-  when: science_db_cleanup
-
 - name: Create science DB storage directory
   file: state=directory path={{ science_db_data_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
 
@@ -43,7 +43,7 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ science_db_marathon_id }}"
     state: "present"
-    docker_image: "postgres:{{ postgres_version }}"
+    docker_image: "{{ science_db_image }}:{{ science_db_version }}"
     docker_force_pull_image: true
     docker_network: BRIDGE
     docker_port_mappings:
@@ -67,22 +67,22 @@
     instances: 1
     cpus: '{{ science_db_cpus }}'
     mem: '{{ science_db_mem }}'
-    ports: []
+    ports: [] # defined in docker_port_mappings
     require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ science_db_marathon_host }}"]]
     dependencies: []
     executor: ""
-    wait_timeout: 600
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.5/bin/pg_isready -U {{ science_db_admin_user }}"
+          value: "{{ science_db_is_ready }} -U {{ science_db_admin_user }}"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10
         maxConsecutiveFailures: 5
     upgrade_strategy_minimum_health_capacity: 0.0
     upgrade_strategy_maximum_over_capacity: 0.0
+    wait_timeout: 600
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
@@ -98,17 +98,6 @@
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
   become: True
-
-# See https://github.com/anarcher/ansible-docker-registry/issues/1
-- name: Make sure pip upgraded
-  command: easy_install -U pip
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-- name: Install Python module for Docker (required by docker_container task)
-  pip: name=docker-py state=present
-  delegate_to: "{{ groups['control'][0] }}"
 
 # run this task on the database host
 - name: Wait for the database to be up and running
@@ -153,7 +142,17 @@
       dest: "V1_0__Create.sql"
   delegate_to: "{{ groups['control'][0] }}"
 
-# TODO: this task does not fail on error when using Ansible 2.1.1.0
+# See https://github.com/anarcher/ansible-docker-registry/issues/1
+- name: Make sure pip upgraded
+  command: easy_install -U pip
+  when: ansible_os_family == 'Debian'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
+- name: Install Python module for Docker (required by docker_container task)
+  pip: name=docker-py state=present
+  delegate_to: "{{ groups['control'][0] }}"
+
 - name: Run Flyway migration
   docker_container:
     name: migrate_science_db

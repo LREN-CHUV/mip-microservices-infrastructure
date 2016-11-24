@@ -2,33 +2,42 @@
 
 ldsm_db_marathon_id: /algorithm-factory/ldsmdb
 
-# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
+# Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
 ldsm_db_marathon_host: '{{ inventory_hostname }}'
 
 # The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
 # TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
 ldsm_db_docker_user: '999'
 
-postgres_version: "9.5.3"
+# postgresql
+postgres_version: "9.5.4"
+ldsm_db_image: 'postgres'
+ldsm_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+ldsm_db_is_ready: "{{ postgres_is_ready }}"
 
 ldsm_db_cpus: 0.5
 ldsm_db_mem: 128.0
 
 # Port exposed by Marathon, must be in the range [31000,32000[
 ldsm_db_port: 31432
-ldsm_db_host: localhost
+ldsm_db_host: '{{ ldsm_db_marathon_host }}'
 ldsm_db_name: ldsm
 ldsm_db_admin_user: postgres
 # TO FILL - ldsm_db_admin_password:
 ldsm_db_user: ldsm
 # TO FILL - ldsm_db_password:
 
+# Hint in Marathon listing all the databases running in this Postgres server
 ldsm_db_databases: "{{ ldsm_db_name }}"
 
 ldsm_db_data_dir: /srv/docker/ldsmdb/data
 
 ldsm_db_setup_dir: /opt/ldsm-database/migration
 ldsm_db_setup_scripts_dir: demo
+
+# Force cleanup of the LDSM database. Please never use that in production!
+ldsm_db_cleanup: false
 
 flyway_version: "4.0.3"
 

@@ -2,27 +2,33 @@
 
 analytics_db_marathon_id: /algorithm-factory/analyticsdb
 
-# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
+# Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
 analytics_db_marathon_host: '{{ inventory_hostname }}'
 
 # The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
 # TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
 analytics_db_docker_user: '999'
 
-postgres_version: "9.5.3"
+# postgresql
+postgres_version: "9.5.4"
+analytics_db_image: 'postgres'
+analytics_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+analytics_db_is_ready: "{{ postgres_is_ready }}"
 
 analytics_db_cpus: 0.5
 analytics_db_mem: 128.0
 
 # Port exposed by Marathon, must be in the range [31000,32000[
 analytics_db_port: 31432
-analytics_db_host: localhost
+analytics_db_host: '{{ analytics_db_marathon_host }}'
 analytics_db_name: analytics
 analytics_db_admin_user: postgres
 # TO FILL - analytics_db_admin_password:
 analytics_db_user: analytics
 # TO FILL - analytics_db_password:
 
+# Hint in Marathon listing all the databases running in this Postgres server
 analytics_db_databases: "{{ analytics_db_name }}"
 
 analytics_db_data_dir: /srv/docker/analyticsdb/data

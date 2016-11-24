@@ -32,7 +32,7 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ portal_db_marathon_id }}"
     state: "present"
-    docker_image: "postgres:{{ postgres_version }}"
+    docker_image: "{{ portal_db_image }}:{{ portal_db_version }}"
     docker_force_pull_image: true
     docker_network: BRIDGE
     docker_port_mappings:
@@ -61,7 +61,7 @@
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.6/bin/pg_isready -U {{ portal_db_admin_user }} -p 5432"
+          value: "{{ portal_db_is_ready }} -U {{ portal_db_admin_user }} -p 5432"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10

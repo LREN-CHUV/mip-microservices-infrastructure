@@ -1,9 +1,5 @@
 ---
 
-# Postgres user in Docker appears as user 999 outside
-- name: Create Dev Services DB storage directory
-  file: state=directory path={{ dev_services_db_data_dir }} mode=0700 owner={{ dev_services_db_docker_user }} group={{ dev_services_db_docker_user }}
-
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
@@ -23,12 +19,16 @@
   tags:
     - launch
 
+# Postgres user in Docker appears as user 999 outside
+- name: Create Dev Services DB storage directory
+  file: state=directory path={{ dev_services_db_data_dir }} mode=0700 owner={{ dev_services_db_docker_user }} group={{ dev_services_db_docker_user }}
+
 - name: Launch Dev Services DB using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ dev_services_db_marathon_id }}"
     state: "present"
-    docker_image: "postgres:{{ postgres_version }}"
+    docker_image: "{{ dev_services_db_image }}:{{ dev_services_db_version }}"
     docker_force_pull_image: true
     docker_network: BRIDGE
     docker_port_mappings:
@@ -49,22 +49,22 @@
     instances: 1
     cpus: '{{ dev_services_db_cpus }}'
     mem: '{{ dev_services_db_mem }}'
-    ports: []
+    ports: [] # defined in docker_port_mappings
     require_ports: true
     constraints: [["hostname", "CLUSTER", "{{ dev_services_db_marathon_host }}"]]
     dependencies: []
     executor: ""
-    wait_timeout: 600
     health_checks:
       - protocol: COMMAND
         command:
-          value: "/usr/lib/postgresql/9.5/bin/pg_isready -U {{ dev_services_db_admin_user }}"
+          value: "{{ dev_services_db_is_ready }} -U {{ dev_services_db_admin_user }}"
         gracePeriodSeconds: 300
         intervalSeconds: 20
         timeoutSeconds: 10
         maxConsecutiveFailures: 5
     upgrade_strategy_minimum_health_capacity: 0.0
     upgrade_strategy_maximum_over_capacity: 0.0
+    wait_timeout: 600
   async: 600
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
@@ -80,17 +80,6 @@
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
   become: True
-
-# See https://github.com/anarcher/ansible-docker-registry/issues/1
-- name: Make sure pip upgraded
-  command: easy_install -U pip
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-- name: Install Python module for Docker (required by docker_container task)
-  pip: name=docker-py state=present
-  delegate_to: "{{ groups['control'][0] }}"
 
 # run this task on the database host
 - name: Wait for the database to be up and running
