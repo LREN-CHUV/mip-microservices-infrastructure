@@ -81,7 +81,7 @@ vagrant_version: "1.8.7"
 
 # IDEs
 sublimetext_build: "3114"
-intellij_version: "2016.2.5"
+intellij_version: "2016.3"
 yed_version: "3.16.2.1"
 soapui_version: "5.2.1"
 atom_ver: '1.10.2'
