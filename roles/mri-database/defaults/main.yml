@@ -45,5 +45,10 @@ mri_db_cleanup: false
 
 mri_db_sql_alchemy_conn: "postgresql://{{ mri_db_user }}:{{ mri_db_password }}@{{ mri_db_host }}:{{ mri_db_port }}/mri"
 
+mri_db_deb_packages:
+  - python-pip
+  - python-psycopg2
+  - curl
+
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

@@ -30,7 +30,7 @@ nginx_official_repo: True
 
 flyway_version: "4.0.3"
 
-matlab_version: "R2015b"
+matlab_version: "R2016b"
 
 # Versions of our Docker containers
 portal_frontend_version: "f01a6d9"

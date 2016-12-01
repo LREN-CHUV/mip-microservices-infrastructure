@@ -1,0 +1,35 @@
+---
+
+- name: Check that Matlab is installed
+  stat: path={{ matlab_root }}
+  register: matlab_path
+
+- name: Stop if Matlab is not installed
+  fail: msg='Please install MATLAB {{ matlab_version }}'
+  when: not (matlab_path.stat.isdir is defined) or (not matlab_path.stat.isdir)
+
+- name: Install Matlab Python API
+  command: '{{ matlab_python }} setup.py install'
+  args:
+    chdir: '{{ matlab_root }}/extern/engines/python/'
+    creates: '/usr/local/lib/python3.5/dist-packages/matlab/engine/matlabengine.py'
+  when: matlab_python_api
+
+- name: Re-read local facts
+  setup:
+    filter: ansible_local
+    fact_path: "{{ util_local_facts_directory|default('/etc/ansible/facts.d') }}"
+
+- name: Detect first installation for SPM
+  tags: spm
+  set_fact:
+    spm_fact_first_installation: '{{ not (ansible_local.spm is defined) or not (ansible_local.spm.general.spm_version is defined) }}'
+
+- name: Detect version upgrade for SPM
+  tags: spm
+  set_fact:
+    spm_fact_upgrade_installation: '{{ (ansible_local.spm is defined) and(ansible_local.spm.general.spm_version is defined) and (ansible_local.spm.general.spm_version != spm_version) and (ansible_local.spm.general.spm_revision != spm_revision) }}'
+
+- include: install.yml
+  when: spm_fact_first_installation or spm_fact_upgrade_installation
+  tags: spm

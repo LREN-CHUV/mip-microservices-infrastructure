@@ -36,5 +36,10 @@ airflow_db_data_dir: /srv/docker/airflow_db/data
 # Force cleanup of the Airflow database. Please never use that in production!
 airflow_db_cleanup: false
 
+airflow_db_deb_packages:
+  - python-pip
+  - python-psycopg2
+  - curl
+
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

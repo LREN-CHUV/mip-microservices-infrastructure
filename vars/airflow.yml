@@ -1,6 +1,6 @@
 ---
 
-airflow_python_path: '/usr/lib/python2.7/site-packages/'
+airflow_python_path: '/usr/local/lib/python3.5/dist-packages/'
 
 # We assume that MRI database is deployed under the same Postgres instance as airflow database
 # Identifier must be under /data-factory/airflow namespace to be able to use dependencies on scheduler and webserver
@@ -17,6 +17,27 @@ airflow_webserver_marathon_dependencies:
 
 # TODO airflow_executor: 'MesosExecutor'
 
+airflow_db_deb_packages:
+  - python3-pip
+  - python3-psycopg2
+  - curl
+
+mri_db_deb_packages:
+  - python3-pip
+  - python3-psycopg2
+  - curl
+
+airflow_deb_packages:
+  - netcat
+  - curl
+  - python3-pip
+  - python3-dev
+  - libffi-dev
+  - build-essential
+  - locales
+  - libffi-dev
+  - libssl-dev
+
 airflow_pip_packages:
   - "pytz==2015.7"
   - pyOpenSSL
@@ -32,7 +53,7 @@ airflow_plugins:
   - name: postgresql
     required_debs:
       - postgresql-client
-      - python-psycopg2
+      - python3-psycopg2
     required_pips: []
   - name: crypto
     required_debs:
@@ -44,3 +65,20 @@ airflow_plugins:
       - libkrb5-dev
       - libsasl2-dev
     required_pips: []
+
+airflow_scripts:
+  - url: https://github.com/HBPSp8Repo/mri-preprocessing-pipeline.git
+    # Need to use the SHA hash to let Ansible be able to check the PGP signature of the commit
+    version: 7304142b36c81c64864779bae9abe77440c1cea5
+    verify_commit: true
+    dest: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline'
+  - url: https://github.com/HBPSp8Repo/airflow-imaging-plugins.git
+    version: master
+    # TODO set to true
+    verify_commit: false
+    dest: '{{ airflow_scripts_root }}/airflow-imaging-plugins'
+  - url: https://github.com/HBPSp8Repo/airflow-mri-preprocessing-dags.git
+    version: master
+    # TODO set to true
+    verify_commit: false
+    dest: '{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags'

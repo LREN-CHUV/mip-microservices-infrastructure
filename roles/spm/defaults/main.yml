@@ -1,0 +1,23 @@
+---
+
+matlab_version: R2016b
+matlab_architecture: glnxa64
+matlab_root: '/usr/local/MATLAB/{{ matlab_version }}'
+
+matlab_install_file: "/tmp/matlab_{{ matlab_version}}_{{ matlab_architecture}}.zip"
+
+matlab_python_api: yes
+matlab_python: '/usr/bin/python'
+# The path that will contain the installed Python library for Matlab
+matlab_python_path: '/usr/local/lib/python3.5/dist-packages'
+
+spm_version: 12
+spm_revision: r6906
+spm_download_url: 'https://hbps1.chuv.ch/artifactory/mip-software/spm/spm{{ spm_version }}/spm{{ spm_version }}-{{ spm_revision }}.zip'
+# TODO set to true
+spm_download_validate_url: false
+spm_install_root: /opt
+spm_dir: '/opt/spm{{ spm_version }}'
+
+# path to lib_role
+spm_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}"

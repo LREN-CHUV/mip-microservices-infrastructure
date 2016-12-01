@@ -77,10 +77,7 @@
 
 - name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
   apt: name={{ item }} state=present
-  with_items:
-    - python-psycopg2
-    - python-pip
-    - curl
+  with_items: '{{ airflow_db_deb_packages }}'
   when: ansible_os_family == 'Debian'
   delegate_to: "{{ groups['control'][0] }}"
   become: True
