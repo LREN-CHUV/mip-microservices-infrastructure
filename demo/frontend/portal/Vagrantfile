@@ -75,7 +75,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Mapping ansible roles with their git repositories messes with etckeeper
   config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
   # Xenial ships only with Python 3
-  config.vm.provision "shell", inline: "apt-get install -y python2.7 python-simplejson"
+  config.vm.provision "shell", inline: "apt-get update && apt-get install -y python2.7 python-simplejson"
 
   # Run provisioning with ansible
   config.vm.provision "ansible" do |ansible|
