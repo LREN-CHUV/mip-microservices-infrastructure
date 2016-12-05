@@ -12,7 +12,7 @@
   command: '{{ matlab_python }} setup.py install'
   args:
     chdir: '{{ matlab_root }}/extern/engines/python/'
-    creates: '/usr/local/lib/python3.5/dist-packages/matlab/engine/matlabengine.py'
+    creates: '{{ matlab_python_library_path }}/matlab/engine/matlabengine.py'
   when: matlab_python_api
 
 - name: Re-read local facts

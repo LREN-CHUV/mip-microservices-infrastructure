@@ -7,9 +7,10 @@ matlab_root: '/usr/local/MATLAB/{{ matlab_version }}'
 matlab_install_file: "/tmp/matlab_{{ matlab_version}}_{{ matlab_architecture}}.zip"
 
 matlab_python_api: yes
-matlab_python: '/usr/bin/python'
+python_location: '/usr/bin/python'
+matlab_python: '{{ python_location }}'
 # The path that will contain the installed Python library for Matlab
-matlab_python_path: '/usr/local/lib/python3.5/dist-packages'
+matlab_python_library_path: '/usr/local/lib/python3.5/dist-packages'
 
 spm_version: 12
 spm_revision: r6906
