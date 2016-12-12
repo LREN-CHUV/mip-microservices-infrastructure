@@ -114,6 +114,7 @@ airflow_extra_settings:
     parameters:
       sql_alchemy_conn: '{{ mri_db_sql_alchemy_conn }}'
       preprocessing_data_folder: '{{ mri_preprocessing_data_folder }}'
+      min_free_space_local_folder: '{{ mri_min_free_space_local_folder }}'
       dicom_local_folder: "{{ mri_dicom_local_folder }}"
       nifti_local_folder: '{{ mri_nifti_local_folder }}'
       nifti_server_folder: '{{ mri_nifti_server_folder }}'

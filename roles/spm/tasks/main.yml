@@ -15,6 +15,28 @@
     creates: '{{ matlab_python_library_path }}/matlab/engine/matlabengine.py'
   when: matlab_python_api
 
+- name: Fix stdc library used by Matlab
+  file:
+    src: '/usr/lib/x86_64-linux-gnu/libstdc++.so.6'
+    dest: '/usr/local/MATLAB/{{ matlab_version }}/sys/os/glnxa64/libstdc++.so.6'
+    state: link
+    force: yes
+  when: matlab_python_api and (ansible_lsb.id == 'Ubuntu') and (ansible_lsb.release == '16.04')
+
+- name: Check that Matlab Python API is running
+  command: |
+    {{ matlab_python }} -c '
+    import math
+    import matlab.engine
+    eng = matlab.engine.start_matlab()
+    ret = eng.sqrt(4.0)
+    print(ret)
+    eng.exit()'
+  env:
+    PYTHONPATH: '{{ matlab_python_library_path }}'
+  changed_when: False
+  when: matlab_python_api
+
 - name: Re-read local facts
   setup:
     filter: ansible_local
@@ -33,3 +55,16 @@
 - include: install.yml
   when: spm_fact_first_installation or spm_fact_upgrade_installation
   tags: spm
+
+- name: Check that SPM is running
+  command: |
+    {{ matlab_python }} -c '
+    import matlab.engine
+    eng = matlab.engine.start_matlab()
+    eng.addpath("/opt/spm12")
+    eng.spm("Dir")
+    eng.exit()'
+  env:
+    PYTHONPATH: '{{ matlab_python_library_path }}'
+  changed_when: False
+  when: matlab_python_api
