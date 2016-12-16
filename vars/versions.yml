@@ -34,8 +34,8 @@ matlab_version: "R2016b"
 
 # Versions of our Docker containers
 portal_frontend_version: "f01a6d9"
-portal_backend_version: "231c6eb"
-woken_version: "567ca9d"
+portal_backend_version: "ef8b78c"
+woken_version: "0615569"
 woken_functions:
   - name: boxplot
     docker_image: "hbpmip/r-summary-stats:v1.0-Florence"
