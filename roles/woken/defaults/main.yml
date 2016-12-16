@@ -86,10 +86,10 @@ woken_nodes: []
 
 woken_main_table: adni_merge
 woken_functions:
-  - name: boxplot
+  - name: statisticsSummary
     docker_image: "hbpmip/r-summary-stats:latest"
     predictive: false
-  - name: linearregression
+  - name: linearRegression
     docker_image: "hbpmip/r-linear-regression:latest"
     predictive: false
   - name: anova
@@ -98,6 +98,6 @@ woken_functions:
   - name: knn
     docker_image: "hbpmip/java-rapidminer-knn:latest"
     predictive: true
-  - name: naivebayes
+  - name: naiveBayes
     docker_image: "hbpmip/java-rapidminer-naivebayes:latest"
     predictive: true
