@@ -43,6 +43,7 @@ science_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/science-db
 science_db_admin_user: "postgres"
 
 portal_backend_port: 4080
+portal_backend_akka_port: 4089
 portal_backend_marathon_host: "demo"
 portal_backend_docker_parameters:
   - key: 'add-host'

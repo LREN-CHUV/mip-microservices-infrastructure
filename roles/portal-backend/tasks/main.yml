@@ -28,6 +28,9 @@
       - hostPort: "{{ portal_backend_port }}"
         containerPort: 8080
         name: 'http'
+      - hostPort: "{{ portal_backend_akka_port }}"
+        containerPort: 4089
+        name: 'akka'
     docker_parameters: '{{ portal_backend_docker_parameters }}'
     env: '{{ portal_backend_env }}'
     instances: '{{ portal_backend_instances }}'

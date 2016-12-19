@@ -20,6 +20,7 @@ portal_backend_mem: 2048.0
 
 # Port to use to expose Portal backend to other services in the cluster.
 portal_backend_port: 4080
+portal_backend_akka_port: 4089
 # Prefix path for all services provided by Portal backend
 portal_backend_context_path: ""
 portal_backend_session_timeout: 2592000
@@ -61,6 +62,9 @@ portal_backend_hbp_access_token_uri: "https://services.humanbrainproject.eu/oidc
 portal_backend_hbp_user_authorization_uri: "https://services.humanbrainproject.eu/oidc/authorize"
 portal_backend_hbp_user_info_uri: "https://services.humanbrainproject.eu/oidc/userinfo"
 
+woken_host: 'localhost'
+woken_port: '8088'
+woken_path: '/user/entrypoint'
 internal_woken_url: 'http://localhost:8087'
 
 portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'
@@ -87,6 +91,9 @@ portal_backend_env:
   WOKEN_URL: '{{ internal_woken_url }}'
   EXAREME_URL: '{{ portal_backend_exareme_url }}'
   FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
+  WOKEN_HOST: '{{ woken_host }}'
+  WOKEN_PORT: '{{ woken_port }}'
+  WOKEN_PATH: '{{ woken_path }}'
 
 # Production settings, with authentication and security turned on
 # portal_backend_env:
