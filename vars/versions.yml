@@ -53,7 +53,7 @@ woken_functions:
     docker_image: "hbpmip/java-rapidminer-naivebayes:v1.0-Florence"
     predictive: true
 
-woken_validation_version: "bb82cfe"
+woken_validation_version: "7ec4b81"
 
 # QA environment
 
