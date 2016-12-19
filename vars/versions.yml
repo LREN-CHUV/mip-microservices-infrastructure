@@ -35,7 +35,7 @@ matlab_version: "R2016b"
 # Versions of our Docker containers
 portal_frontend_version: "f01a6d9"
 portal_backend_version: "e6a1950"
-woken_version: "5f8872b"
+woken_version: "d42fbd9"
 woken_functions:
   - name: statisticsSummary
     docker_image: "hbpmip/r-summary-stats:v1.0-Florence"
