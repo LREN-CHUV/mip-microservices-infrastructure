@@ -18,7 +18,39 @@ spm_download_url: 'https://hbps1.chuv.ch/artifactory/mip-software/spm/spm{{ spm_
 # TODO set to true
 spm_download_validate_url: false
 spm_install_root: /opt
-spm_dir: '/opt/spm{{ spm_version }}'
+spm_dir: '/{{ spm_install_root }}/spm{{ spm_version }}'
+spm_toolbox_dir: '{{ spm_dir }}/toolbox'
+
+spm_vbq_version: '20160415'
+spm_smartdep_version: '20131016'
+spm_mri_templates_version: '20050329'
+spm_mri_tpm_version: '20151218'
+
+spm_toolbox:
+  - name: VBQ
+    version: '{{ spm_vbq_version }}'
+    download_url: 'https://hbps1.chuv.ch/artifactory/mip-software/spm/spm{{ spm_version }}/VBQ-{{ spm_vbq_version }}.zip'
+    download_validate_url: false
+    marker_file: 'B1Map_process.m'
+  - name: smartdep
+    version: '{{ spm_smartdep_version }}'
+    download_url: 'https://hbps1.chuv.ch/artifactory/mip-software/spm/spm{{ spm_version }}/smartdep-{{ spm_smartdep_version }}.zip'
+    download_validate_url: false
+    marker_file: 'spm_smartdep.m'
+
+spm_template:
+  - name: mri-templates
+    folder: templates
+    version: '{{ spm_mri_templates_version }}'
+    download_url: 'https://hbps1.chuv.ch/artifactory/mip-software/templates/mri-templates/mri-templates-{{ spm_mri_templates_version }}.zip'
+    download_validate_url: false
+    marker_file: 'T1.nii'
+  - name: tpm
+    folder: tpm
+    version: '{{ spm_mri_tpm_version }}'
+    download_url: 'https://hbps1.chuv.ch/artifactory/mip-software/templates/tpm/tpm-{{ spm_mri_tpm_version }}.zip'
+    download_validate_url: false
+    marker_file: 'nwTPM_sl3.nii'
 
 # path to lib_role
 spm_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}"

@@ -1,0 +1,30 @@
+---
+
+- name: Delete old version of SPM templates
+  file:
+    path: '{{ spm_dir }}/{{ item.folder }}'
+    state: absent
+  with_items: '{{ spm_template }}'
+
+- name: Create emptry directory for SPM template
+  file:
+    path: '{{ spm_dir }}/{{ item.folder }}'
+    state: directory
+  with_items: '{{ spm_template }}'
+
+- name: Download and unpack SPM templates
+  unarchive:
+    src: '{{ item.download_url }}'
+    remote_src: yes
+    validate_certs: '{{ item.download_validate_url }}'
+    dest: '{{ spm_dir }}/{{ item.folder }}'
+    creates: '{{ spm_dir }}/{{ item.folder }}/{{ item.marker_file }}'
+  with_items: '{{ spm_template }}'
+
+- name: Write local facts for SPM
+  include: "{{ spm_path_to_lib_role }}/silpion.lib/tasks/localfacts.yml"
+  vars:
+    namespace: spm
+    lib_action_become_enable: true
+    lib_action_become_user: "root"
+    lib_action_become_method: "sudo"

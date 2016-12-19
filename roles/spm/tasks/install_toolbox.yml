@@ -1,0 +1,31 @@
+---
+
+- name: Delete old version of SPM toolboxes
+  file:
+    path: '{{ spm_toolbox_dir }}/{{ item.name }}'
+    state: absent
+  with_items: '{{ spm_toolbox }}'
+
+- name: Create emptry directories for SPM toolboxes
+  file:
+    path: '{{ spm_toolbox_dir }}/{{ item.name }}'
+    state: directory
+  with_items: '{{ spm_toolbox }}'
+
+- name: Download and unpack SPM toolboxes
+  unarchive:
+    src: '{{ item.download_url }}'
+    remote_src: yes
+    validate_certs: '{{ item.download_validate_url }}'
+    dest: '{{ spm_toolbox_dir }}/{{ item.name }}'
+    creates: '{{ spm_toolbox_dir }}/{{ item.name }}/{{ item.marker_file }}'
+  with_items: '{{ spm_toolbox }}'
+
+- name: Write local facts for SPM
+  include: "{{ spm_path_to_lib_role }}/silpion.lib/tasks/localfacts.yml"
+  vars:
+    namespace: spm
+    spm_template: []
+    lib_action_become_enable: true
+    lib_action_become_user: "root"
+    lib_action_become_method: "sudo"

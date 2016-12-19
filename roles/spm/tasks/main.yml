@@ -50,10 +50,64 @@
 - name: Detect version upgrade for SPM
   tags: spm
   set_fact:
-    spm_fact_upgrade_installation: '{{ (ansible_local.spm is defined) and(ansible_local.spm.general.spm_version is defined) and (ansible_local.spm.general.spm_version != spm_version) and (ansible_local.spm.general.spm_revision != spm_revision) }}'
+    spm_fact_upgrade_installation: '{{ (ansible_local.spm is defined) and (ansible_local.spm.general.spm_version is defined) and (ansible_local.spm.general.spm_version != spm_version) and (ansible_local.spm.general.spm_revision != spm_revision) }}'
 
 - include: install.yml
   when: spm_fact_first_installation or spm_fact_upgrade_installation
+  tags: spm
+
+# Always reinstall toolbox if SPM changes, this is to keep facts up-to-date
+- name: Init detect first installation for SPM toolboxes
+  tags: spm
+  set_fact:
+    spm_toolbox_fact_first_installation: '{{ spm_fact_first_installation }}'
+
+- name: Init detect version upgrade for SPM toolboxes
+  tags: spm
+  set_fact:
+    spm_toolbox_fact_upgrade_installation: '{{ spm_fact_upgrade_installation }}'
+
+- name: Detect first installation for SPM toolboxes
+  tags: spm
+  set_fact:
+    spm_toolbox_fact_first_installation: "{{ spm_toolbox_fact_first_installation or not (ansible_local.spm is defined) or not ((item.name + '_version') in ansible_local.spm.general.toolbox) }}"
+  with_items: "{{ spm_toolbox }}"
+
+- name: Detect version upgrade for SPM toolboxes
+  tags: spm
+  set_fact:
+    spm_toolbox_fact_upgrade_installation: "{{ spm_toolbox_fact_upgrade_installation or ( (ansible_local.spm is defined) and ((item.name + '_version') in ansible_local.spm.general.toolbox) and (ansible_local.spm.general.toolbox[item.name + '_version'] != item.version) ) }}"
+  with_items: "{{ spm_toolbox }}"
+
+- include: install_toolbox.yml
+  when: spm_toolbox_fact_first_installation or spm_toolbox_fact_upgrade_installation
+  tags: spm
+
+  # Always reinstall templates if SPM or its toolboxes changes, this is to keep facts up-to-date
+- name: Init detect first installation for SPM templates
+  tags: spm
+  set_fact:
+    spm_template_fact_first_installation: '{{ spm_toolbox_fact_first_installation }}'
+
+- name: Init detect version upgrade for SPM templates
+  tags: spm
+  set_fact:
+    spm_template_fact_upgrade_installation: '{{ spm_toolbox_fact_upgrade_installation }}'
+
+- name: Detect first installation for SPM templates
+  tags: spm
+  set_fact:
+    spm_template_fact_first_installation: "{{ spm_template_fact_first_installation or not (ansible_local.spm is defined) or not ((item.name + '_version') in ansible_local.spm.general.template) }}"
+  with_items: "{{ spm_template }}"
+
+- name: Detect version upgrade for SPM templates
+  tags: spm
+  set_fact:
+    spm_template_fact_upgrade_installation: "{{ spm_template_fact_upgrade_installation or ( (ansible_local.spm is defined) and ((item.name + '_version') in ansible_local.spm.general.template) and (ansible_local.spm.general.template[item.name + '_version'] != item.version) ) }}"
+  with_items: "{{ spm_template }}"
+
+- include: install_template.yml
+  when: spm_template_fact_first_installation or spm_template_fact_upgrade_installation
   tags: spm
 
 - name: Check that SPM is running

@@ -2,7 +2,7 @@
 
 - name: Delete old version of SPM
   file:
-    path: '{{ spm_install_root }}/spm{{ spm_version }}'
+    path: '{{ spm_dir }}'
     state: absent
 
 - name: Download and unpack SPM
@@ -11,12 +11,14 @@
     remote_src: yes
     validate_certs: '{{ spm_download_validate_url }}'
     dest: '{{ spm_install_root }}'
-    creates: '{{ spm_install_root }}/spm{{ spm_version }}'
+    creates: '{{ spm_dir }}'
 
 - name: Write local facts for SPM
   include: "{{ spm_path_to_lib_role }}/silpion.lib/tasks/localfacts.yml"
   vars:
     namespace: spm
+    spm_toolbox: []
+    spm_template: []
     lib_action_become_enable: true
     lib_action_become_user: "root"
     lib_action_become_method: "sudo"

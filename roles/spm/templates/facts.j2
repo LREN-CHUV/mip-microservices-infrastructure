@@ -6,6 +6,18 @@
     "role_version": "{{ spm_role_version }}",
     "matlab_version": "{{ matlab_version }}",
     "spm_version": "{{ spm_version }}",
-    "spm_revision": "{{ spm_revision }}"
+    "spm_revision": "{{ spm_revision }}",
+    "toolbox": {
+{% for toolbox in spm_toolbox %}
+      "{{ toolbox.name }}_version": "{{ toolbox.version }}",
+      "{{ toolbox.name }}_download_url": "{{ toolbox.download_url }}"{% if not loop.last %},{% endif %}
+{% endfor %}
+    },
+    "template": {
+{% for template in spm_template %}
+      "{{ template.name }}_version": "{{ template.version }}",
+      "{{ template.name }}_download_url": "{{ template.download_url }}"{% if not loop.last %},{% endif %}
+{% endfor %}
+    }
   }
 }

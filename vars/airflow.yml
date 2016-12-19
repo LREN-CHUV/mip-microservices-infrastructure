@@ -46,6 +46,7 @@ airflow_pip_packages:
   - pyasn1
   - pydicom
   - alembic
+  - "slackclient==1.0.4"
   - "git+https://github.com/HBPSp8Repo/airflow-imaging-plugins.git@master#egg=airflow_imaging_plugins"
 
 airflow_plugins:
@@ -73,23 +74,27 @@ airflow_slot_pools:
   - name: 'image_preprocessing'
     slots: '{{ ansible_processor_vcpus - 1 }}'
     description: 'Number of parallel Matlab instances that can process images'
+  - name: 'io_intensive'
+    slots: 2
+    description: 'Number of concurrent IO intensive processes that can run in parallel'
   - name: 'remote_file_copy'
     slots: 2
     description: 'Number of concurrent file copy operations over the network'
 
 airflow_scripts:
   - url: https://github.com/HBPSp8Repo/mri-preprocessing-pipeline.git
-    # Need to use the SHA hash to let Ansible be able to check the PGP signature of the commit
-    version: 7304142b36c81c64864779bae9abe77440c1cea5
+    version: '{{ mri_preprocessing_pipeline_version }}'
     verify_commit: true
     dest: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline'
   - url: https://github.com/HBPSp8Repo/airflow-mri-preprocessing-dags.git
-    version: master
+    version: '{{ airflow_mri_preprocessing_dags_version }}'
     # TODO set to true
     verify_commit: false
     dest: '{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags'
 
 # Configuration for MRI preprocessing pipeline running in Airflow
+#mri_max_active_runs
+#mri_min_free_space_local_folder
 #mri_preprocessing_data_folder: "/mnt/filearc/CRN/LREN/IRMMP16/prisma"
 #mri_dicom_local_folder: "/data/incoming"
 #mri_nifti_local_folder: "/data/Nifti_Data_MPMs"
@@ -100,6 +105,8 @@ airflow_scripts:
 #mri_mpm_maps_server_folder: "/mnt/filerc/LREN/SHARE/AIR_VBQ_Output_All"
 #mri_pipelines_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines"
 #mri_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
+#mri_slack_channel
+#mri_slack_channel_user
 
 #spm_dir: /opt/spm12
 
@@ -114,6 +121,7 @@ airflow_extra_settings:
     parameters:
       sql_alchemy_conn: '{{ mri_db_sql_alchemy_conn }}'
       preprocessing_data_folder: '{{ mri_preprocessing_data_folder }}'
+      max_active_runs: '{{ mri_max_active_runs }}'
       min_free_space_local_folder: '{{ mri_min_free_space_local_folder }}'
       dicom_local_folder: "{{ mri_dicom_local_folder }}"
       nifti_local_folder: '{{ mri_nifti_local_folder }}'
@@ -124,6 +132,9 @@ airflow_extra_settings:
       mpm_maps_server_folder: '{{ mri_mpm_maps_server_folder }}'
       pipelines_path: '{{ mri_pipelines_path }}'
       protocols_file: '{{ mri_protocols_file }}'
+      slack_token: '{{ mri_slack_token | default(slack_token) }}'
+      slack_channel: '{{ mri_slack_channel }}'
+      slack_channel_user: '{{ mri_slack_channel_user }}'
 
 airflow_work_dirs:
   - '{{ mri_dicom_local_folder }}'

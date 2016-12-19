@@ -2,7 +2,7 @@
 
 java_version: 8
 java_oracle_version: "8u60"
-docker_version: "1.12.3"
+docker_version: "1.12.5"
 docker_package_version: "0"
 docker_registry_version: "2.3.1"
 
@@ -57,6 +57,17 @@ woken_functions:
     predictive: true
 
 woken_validation_version: "v1.0-Florence"
+
+# Data factory
+
+spm_version: 12
+spm_revision: r6906
+spm_vbq_version: '20160415'
+spm_smartdep_version: '20131016'
+spm_mri_templates_version: '20050329'
+spm_mri_tpm_version: '20151218'
+mri_preprocessing_pipeline_version: '1.0.2'
+airflow_mri_preprocessing_dags_version: 'master'
 
 # QA environment
 
