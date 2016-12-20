@@ -1,0 +1,73 @@
+---
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old PostgresRAW UI using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ postgresraw_ui_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
+
+- name: Launch PostgresRAW UI using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ postgresraw_ui_marathon_id }}"
+    state: "present"
+    docker_image: "{{ postgresraw_ui_image }}:{{ postgresraw_ui_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: "{{ postgresraw_ui_admin_port }}"
+        containerPort: 5555
+        name: 'http-admin'
+      - hostPort: "{{ postgresraw_ui_api_port }}"
+        containerPort: 54321
+        name: 'http-api'
+    container_volumes:
+      - containerPath: "{{ postgresraw_ui_docker_pg_data_folder }}"
+        hostPath: "{{ postgresraw_ui_pg_data_folder }}"
+        mode: RW
+      - containerPath: "{{ postgresraw_ui_docker_raw_data_folder }}"
+        hostPath: "{{ postgresraw_ui_raw_data_folder }}"
+        mode: RO
+    docker_parameters: '{{ postgresraw_ui_docker_parameters }}'
+    env: '{{ postgresraw_ui_env }}'
+    instances: '{{ postgresraw_ui_instances }}'
+    cpus: '{{ postgresraw_ui_cpus }}'
+    mem: '{{ postgresraw_ui_mem }}'
+    ports: []
+    require_ports: false
+    constraints: '{{ postgresraw_ui_marathon_constraints }}'
+    dependencies: '{{ postgresraw_ui_dependencies }}'
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: HTTP
+        port: 5555
+        path: '/'
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
+      - protocol: HTTP
+        port: 54321
+        path: '/'
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
+    upgrade_strategy:
+      minimumHealthCapacity: 0
+      maximumOverCapacity: 0
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true

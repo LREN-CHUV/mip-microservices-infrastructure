@@ -70,6 +70,9 @@ or even run 'docker pull' yourself.
 Check that the constraints that you have put on the application are possible. In particular, if you have a constraint on the hostname,
 check that this hostname is known to Mesos (look in the Mesos console).
 
+Ports exposed by the application are managed by Mesos. It controls in particular if the port is in acceptable ranges.
+Those ranges are usually 4000-5000 and 31000-32000. Check the value of 'mesos_resources' variable for your environment.
+
 ## In a Vagrant VM
 
 I have not managed to setup a proper DNS server inside a Vagrant VM that can be used from the Docker containers to resolve the hostname of the Vagrant VM and its companion VMs.

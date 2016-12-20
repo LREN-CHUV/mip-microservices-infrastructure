@@ -1,0 +1,20 @@
+---
+
+- hosts: ldsm-db
+  become: yes
+  gather_facts: no
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  roles:
+
+    - role: ldsm-database
+      tags: ['ldsm-database', 'ldsm-db', 'database', 'hospital-database', 'marathon-app']
+
+    - role: postgresraw-ui
+      tags: ['postgresraw-ui', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: ldsm-database
+      tags: ['ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']

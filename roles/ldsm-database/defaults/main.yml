@@ -36,6 +36,16 @@ ldsm_db_data_dir: /srv/docker/ldsmdb/data
 ldsm_db_setup_dir: /opt/ldsm-database/migration
 ldsm_db_setup_scripts_dir: demo
 
+lsdm_db_volumes:
+  - containerPath: "/var/lib/postgresql/data"
+    hostPath: "{{ ldsm_db_data_dir }}"
+    mode: RW
+
+ldsm_db_env:
+  POSTGRES_USER: "{{ ldsm_db_admin_user }}"
+  POSTGRES_PASSWORD: "{{ ldsm_db_admin_password }}"
+  POSTGRES_DB: '{{ ldsm_db_name }}'
+
 # Force cleanup of the LDSM database. Please never use that in production!
 ldsm_db_cleanup: false
 
