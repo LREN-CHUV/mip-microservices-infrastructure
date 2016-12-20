@@ -70,7 +70,7 @@
     docker_network: BRIDGE
     docker_port_mappings:
       - hostPort: "{{ woken_validation_akka_port }}"
-        containerPort: 8082
+        containerPort: 4082
         name: 'akka'
     docker_parameters: '{{ woken_validation_docker_parameters }}'
     container_volumes:
