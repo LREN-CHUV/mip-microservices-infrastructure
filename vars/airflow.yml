@@ -69,16 +69,20 @@ airflow_plugins:
       - libsasl2-dev
     required_pips: []
 
+#airflow_pool_io_intensive: 12
+#airflow_pool_remote_file_copy: 2
+#airflow_pool_image_preprocessing: '{{ ansible_processor_vcpus - airflow_pool_io_intensive - 1 }}'
+
 # List of slot pools to create in Airflow (similar to using the Pools menu in Airflow webserver)
 airflow_slot_pools:
   - name: 'image_preprocessing'
-    slots: '{{ ansible_processor_vcpus - 1 }}'
+    slots: '{{ airflow_pool_image_preprocessing }}'
     description: 'Number of parallel Matlab instances that can process images'
   - name: 'io_intensive'
-    slots: 2
+    slots: '{{ airflow_pool_io_intensive }}'
     description: 'Number of concurrent IO intensive processes that can run in parallel'
   - name: 'remote_file_copy'
-    slots: 2
+    slots: '{{ airflow_pool_remote_file_copy }}'
     description: 'Number of concurrent file copy operations over the network'
 
 airflow_scripts:
@@ -107,6 +111,7 @@ airflow_scripts:
 #mri_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
 #mri_slack_channel
 #mri_slack_channel_user
+#mri_email_errors_to
 
 #spm_dir: /opt/spm12
 
@@ -126,17 +131,19 @@ airflow_extra_settings:
       dicom_local_folder: "{{ mri_dicom_local_folder }}"
       nifti_local_folder: '{{ mri_nifti_local_folder }}'
       nifti_server_folder: '{{ mri_nifti_server_folder }}'
-      neuro_morphometric_atlas_local_folder: '{{ mri_neuro_morphometric_atlas_local_folder }}'
-      neuro_morphometric_atlas_server_folder: '{{ mri_neuro_morphometric_atlas_server_folder }}'
       mpm_maps_local_folder: '{{ mri_mpm_maps_local_folder }}'
       mpm_maps_server_folder: '{{ mri_mpm_maps_server_folder }}'
+      neuro_morphometric_atlas_local_folder: '{{ mri_neuro_morphometric_atlas_local_folder }}'
+      neuro_morphometric_atlas_server_folder: '{{ mri_neuro_morphometric_atlas_server_folder }}'
       pipelines_path: '{{ mri_pipelines_path }}'
       protocols_file: '{{ mri_protocols_file }}'
       slack_token: '{{ mri_slack_token | default(slack_token) }}'
       slack_channel: '{{ mri_slack_channel }}'
       slack_channel_user: '{{ mri_slack_channel_user }}'
+      email_errors_to: '{{ mri_email_errors_to }}'
 
 airflow_work_dirs:
   - '{{ mri_dicom_local_folder }}'
   - '{{ mri_nifti_local_folder }}'
   - '{{ mri_mpm_maps_local_folder }}'
+  - '{{ mri_neuro_morphometric_atlas_local_folder }}'

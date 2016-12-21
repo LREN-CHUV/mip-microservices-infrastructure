@@ -1,26 +1,5 @@
 ---
 
-- hosts: airflow-agent
-  become: yes
-  vars_files:
-    - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/vars/versions.yml"
-    - "{{ play_dir }}/vars/airflow.yml"
-
-  roles:
-
-    - role: spm
-      tags: ['spm', 'matlab', 'airflow-slave', 'airflow', 'data-factory', 'marathon-app']
-
-    - role: airflow
-      airflow_install_master: false
-      airflow_install_agent: true
-      tags: ['airflow-slave', 'airflow', 'data-factory', 'marathon-app']
-
-    - role: audit-deployment
-      installed_component: airflow-slave
-      tags: ['airflow', 'data-factory', 'marathon-app']
-
 - hosts: airflow-master
   become: yes
   vars_files:
@@ -46,4 +25,25 @@
 
     - role: audit-deployment
       installed_component: airflow-master
+      tags: ['airflow', 'data-factory', 'marathon-app']
+
+- hosts: airflow-agent
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/airflow.yml"
+
+  roles:
+
+    - role: spm
+      tags: ['spm', 'matlab', 'airflow-slave', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: airflow
+      airflow_install_master: false
+      airflow_install_agent: true
+      tags: ['airflow-slave', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: airflow-slave
       tags: ['airflow', 'data-factory', 'marathon-app']
