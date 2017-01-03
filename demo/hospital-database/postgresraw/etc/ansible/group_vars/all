@@ -24,29 +24,26 @@ ldsm_db_is_ready: "/bin/true"
 
 ldsm_db_data_dir: '/srv/docker/ldsmdb/data'
 ldsm_db_raw_data_dir: '/dataset'
-ldsm_db_docker_db_data_folder: '/var/lib/postgresql/data'
-ldsm_db_docker_raw_data_folder: '/dataset'
 
 lsdm_db_volumes:
-  - containerPath: "{{ ldsm_db_docker_db_data_folder }}"
+  - containerPath: '/data'
     hostPath: "{{ ldsm_db_data_dir }}"
     mode: RW
-  - containerPath: "{{ ldsm_db_docker_raw_data_folder }}"
+  - containerPath: '/datasets'
     hostPath: "{{ ldsm_db_raw_data_dir }}"
     mode: RO
 
 ldsm_db_env:
   POSTGRES_USER: "{{ ldsm_db_admin_user }}"
   POSTGRES_PASSWORD: "{{ ldsm_db_admin_password }}"
-  POSTGRES_DB: '{{ ldsm_db_name }}'
-  PGDATA: "{{ ldsm_db_docker_db_data_folder }}/pgdata"
+  POSTGRES_DB: "{{ ldsm_db_name }}"
+  PGDATA: '/data/pgdata'
 
 # Few resources available in Vagrant box
 ldsm_db_cpus: 0.2
 ldsm_db_mem: 128.0
 
 postgresraw_ui_admin_port: 31555
-postgresraw_ui_api_port: 31321
 
 # Few resources available in Vagrant box
 postgresraw_ui_cpus: 0.2

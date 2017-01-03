@@ -15,7 +15,6 @@ postgresraw_ui_marathon_constraints: [["hostname", "CLUSTER", "{{ postgresraw_ui
 postgresraw_ui_instances: 1
 
 postgresraw_ui_admin_port: 31555
-postgresraw_ui_api_port: 31321
 
 # Amount of CPU reserved for PostgresRAW UI
 postgresraw_ui_cpus: 1.0
@@ -30,8 +29,6 @@ postgresraw_ui_postgres_port: '{{ ldsm_db_port }}'
 postgresraw_ui_postgres_user: '{{ ldsm_db_user }}'
 postgresraw_ui_postgres_password: '{{ ldsm_db_password }}'
 postgresraw_ui_postgres_db: '{{ ldsm_db_name }}'
-postgresraw_ui_docker_pg_data_folder: '{{ ldsm_db_docker_db_data_folder }}'
-postgresraw_ui_docker_raw_data_folder: '{{ ldsm_db_docker_raw_data_folder }}'
 postgresraw_ui_pg_data_folder: '{{ ldsm_db_data_dir }}'
 postgresraw_ui_raw_data_folder: '{{ ldsm_db_raw_data_dir }}'
 
@@ -41,7 +38,5 @@ postgresraw_ui_env:
   POSTGRES_USER: "{{ postgresraw_ui_postgres_user }}"
   POSTGRES_PASSWORD: "{{ postgresraw_ui_postgres_password }}"
   POSTGRES_DB: "{{ postgresraw_ui_postgres_db }}"
-  docker_pg_data_folder: "{{ postgresraw_ui_docker_pg_data_folder }}"
-  docker_raw_data_folder: "{{ postgresraw_ui_docker_raw_data_folder }}"
 
 postgresraw_ui_dependencies: ["{{ ldsm_db_marathon_id }}"]
