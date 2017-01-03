@@ -23,6 +23,8 @@ airflow_plugins_folder: "/usr/local/airflow/plugins"
 airflow_load_examples: true
 
 airflow_user: 'airflow'
+airflow_group: 'airflow'
+airflow_home: '/usr/local/airflow'
 airflow_startup: 'marathon'
 airflow_mesos_master: 'demo:5050'
 airflow_db_databases: "airflow,mri"
