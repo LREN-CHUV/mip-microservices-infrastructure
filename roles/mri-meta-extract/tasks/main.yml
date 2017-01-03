@@ -1,8 +1,0 @@
----
-
-- name: Get a copy of the MRI meta extract project
-  git:
-    repo: '{{ mri_meta_extract_repo }}'
-    version: '{{ mri_meta_extract_version }}'
-    dest: '{{ mri_meta_extract_dir }}'
-    depth: 1

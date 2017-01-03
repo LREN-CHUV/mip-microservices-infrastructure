@@ -1,6 +1,0 @@
----
-
-mri_meta_extract_dir: '/opt/mri-meta-extract'
-
-mri_meta_extract_repo: https://github.com/LREN-CHUV/mri-meta-extract.git
-mri_meta_extract_version: master

@@ -1,0 +1,6 @@
+---
+
+mri_meta_db_dir: '/opt/mri-meta-db'
+
+mri_meta_db_repo: https://github.com/LREN-CHUV/mri-meta-db.git
+mri_meta_db_version: master

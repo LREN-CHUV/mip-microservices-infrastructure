@@ -38,7 +38,7 @@ mri_db_databases: "{{ mri_db_name }}"
 mri_db_data_dir: /srv/docker/mri_db/data
 
 airflow_plugins_folder: '/usr/local/airflow/plugins'
-mri_meta_extract_dir: '/opt/mri-meta-extract'
+mri_meta_db_dir: '/opt/mri-meta-db'
 
 # Force cleanup of the MRI DB. Please never use that in production!
 mri_db_cleanup: false

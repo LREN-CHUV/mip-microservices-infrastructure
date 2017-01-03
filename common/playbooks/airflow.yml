@@ -12,8 +12,8 @@
     - role: airflow-database
       tags: ['airflow-database', 'airflow-db', 'database', 'airflow', 'data-factory', 'marathon-app']
 
-    - role: mri-meta-extract
-      tags: ['mri-meta-extract', 'airflow', 'data-factory', 'marathon-app']
+    - role: mri-meta-db
+      tags: ['mri-meta-db', 'airflow', 'data-factory', 'marathon-app']
 
     - role: mri-database
       tags: ['mri-database', 'mri-db', 'database', 'airflow', 'data-factory', 'marathon-app']
