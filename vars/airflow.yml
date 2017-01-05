@@ -97,6 +97,7 @@ airflow_scripts:
     dest: '{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags'
 
 # Configuration for MRI preprocessing pipeline running in Airflow
+#mri_dataset
 #mri_max_active_runs
 #mri_min_free_space_local_folder
 #mri_preprocessing_data_folder: "/mnt/filearc/CRN/LREN/IRMMP16/prisma"
@@ -125,6 +126,7 @@ airflow_extra_settings:
   - section: mri
     parameters:
       sql_alchemy_conn: '{{ mri_db_sql_alchemy_conn }}'
+      dataset: '{{ mri_dataset }}'
       preprocessing_data_folder: '{{ mri_preprocessing_data_folder }}'
       max_active_runs: '{{ mri_max_active_runs }}'
       min_free_space_local_folder: '{{ mri_min_free_space_local_folder }}'
