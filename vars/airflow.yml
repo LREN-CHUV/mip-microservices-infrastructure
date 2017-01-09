@@ -47,6 +47,7 @@ airflow_pip_packages:
   - pydicom
   - alembic
   - "slackclient==1.0.4"
+  - "mri-meta-extract=={{ mri_meta_extract_version }}"
   - "git+https://github.com/HBPSp8Repo/airflow-imaging-plugins.git@master#egg=airflow_imaging_plugins"
 
 airflow_plugins:
@@ -97,22 +98,28 @@ airflow_scripts:
     dest: '{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags'
 
 # Configuration for MRI preprocessing pipeline running in Airflow
-#mri_dataset
-#mri_max_active_runs
-#mri_min_free_space_local_folder
-#mri_preprocessing_data_folder: "/mnt/filearc/CRN/LREN/IRMMP16/prisma"
-#mri_dicom_local_folder: "/data/incoming"
-#mri_nifti_local_folder: "/data/Nifti_Data_MPMs"
-#mri_nifti_server_folder: "/mnt/filerc/LREN/SHARE/AIR_VBQ_Output_All/DataNifti_All"
-#mri_neuro_morphometric_atlas_local_folder: "/data/Neuromorphics_Atlasing"
-#mri_neuro_morphometric_atlas_server_folder: "/mnt/filerc/LREN/SHARE/AIR_Neuromorphics_Atlasing"
-#mri_mpm_maps_local_folder: "/data/MPMs_All"
-#mri_mpm_maps_server_folder: "/mnt/filerc/LREN/SHARE/AIR_VBQ_Output_All"
-#mri_pipelines_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines"
-#mri_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
+#mri_datasets
+#mri_local_drive
+#mri_email_errors_to
 #mri_slack_channel
 #mri_slack_channel_user
-#mri_email_errors_to
+
+#main_data_set: "LREN"
+#main_data_max_active_runs
+#main_data_preprocessing_scanners: "daily,continuous"
+#main_data_preprocessing_pipelines: 'dicom_to_nifti,mpm_maps,neuro_morphometric_atlas'
+#main_data_preprocessing_data_folder: "/mnt/filearc/CRN/LREN/IRMMP16/prisma"
+#main_data_min_free_space_local_folder
+#main_data_dicom_local_folder: "/data/incoming"
+#main_data_dicom_files_pattern: '/**/MR.*'
+#main_data_nifti_local_folder: "/data/Nifti_Data_MPMs"
+#main_data_nifti_server_folder: "/mnt/filerc/LREN/SHARE/AIR_VBQ_Output_All/DataNifti_All"
+#main_data_neuro_morphometric_atlas_local_folder: "/data/Neuromorphics_Atlasing"
+#main_data_neuro_morphometric_atlas_server_folder: "/mnt/filerc/LREN/SHARE/AIR_Neuromorphics_Atlasing"
+#main_data_mpm_maps_local_folder: "/data/MPMs_All"
+#main_data_mpm_maps_server_folder: "/mnt/filerc/LREN/SHARE/AIR_VBQ_Output_All"
+#main_data_pipelines_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines"
+#main_data_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
 
 #spm_dir: /opt/spm12
 
@@ -126,26 +133,33 @@ airflow_extra_settings:
   - section: mri
     parameters:
       sql_alchemy_conn: '{{ mri_db_sql_alchemy_conn }}'
-      dataset: '{{ mri_dataset }}'
-      preprocessing_data_folder: '{{ mri_preprocessing_data_folder }}'
-      max_active_runs: '{{ mri_max_active_runs }}'
-      min_free_space_local_folder: '{{ mri_min_free_space_local_folder }}'
-      dicom_local_folder: "{{ mri_dicom_local_folder }}"
-      nifti_local_folder: '{{ mri_nifti_local_folder }}'
-      nifti_server_folder: '{{ mri_nifti_server_folder }}'
-      mpm_maps_local_folder: '{{ mri_mpm_maps_local_folder }}'
-      mpm_maps_server_folder: '{{ mri_mpm_maps_server_folder }}'
-      neuro_morphometric_atlas_local_folder: '{{ mri_neuro_morphometric_atlas_local_folder }}'
-      neuro_morphometric_atlas_server_folder: '{{ mri_neuro_morphometric_atlas_server_folder }}'
-      pipelines_path: '{{ mri_pipelines_path }}'
-      protocols_file: '{{ mri_protocols_file }}'
+      datasets: '{{ mri_datasets }}'
+      local_drive: '{{ mri_local_drive }}'
+      email_errors_to: '{{ mri_email_errors_to }}'
       slack_token: '{{ mri_slack_token | default(slack_token) }}'
       slack_channel: '{{ mri_slack_channel }}'
       slack_channel_user: '{{ mri_slack_channel_user }}'
-      email_errors_to: '{{ mri_email_errors_to }}'
+  - section: main-dataset
+    parameters:
+      dataset: '{{ main_data_set }}'
+      max_active_runs: '{{ main_data_max_active_runs }}'
+      preprocessing_scanners: '{{ main_data_preprocessing_scanners }}'
+      preprocessing_pipelines: '{{ main_data_preprocessing_pipelines }}'
+      preprocessing_data_folder: '{{ main_data_preprocessing_data_folder }}'
+      min_free_space_local_folder: '{{ main_data_min_free_space_local_folder }}'
+      dicom_local_folder: "{{ main_data_dicom_local_folder }}"
+      dicom_files_pattern: "{{ main_data_dicom_files_pattern | default('/**/MR.*') }}"
+      nifti_local_folder: '{{ main_data_nifti_local_folder }}'
+      nifti_server_folder: '{{ main_data_nifti_server_folder }}'
+      mpm_maps_local_folder: '{{ main_data_mpm_maps_local_folder }}'
+      mpm_maps_server_folder: '{{ main_data_mpm_maps_server_folder }}'
+      neuro_morphometric_atlas_local_folder: '{{ main_data_neuro_morphometric_atlas_local_folder }}'
+      neuro_morphometric_atlas_server_folder: '{{ main_data_neuro_morphometric_atlas_server_folder }}'
+      pipelines_path: '{{ main_data_pipelines_path }}'
+      protocols_file: '{{ main_data_protocols_file }}'
 
 airflow_work_dirs:
-  - '{{ mri_dicom_local_folder }}'
-  - '{{ mri_nifti_local_folder }}'
-  - '{{ mri_mpm_maps_local_folder }}'
-  - '{{ mri_neuro_morphometric_atlas_local_folder }}'
+  - '{{ main_data_dicom_local_folder }}'
+  - '{{ main_data_nifti_local_folder }}'
+  - '{{ main_data_mpm_maps_local_folder }}'
+  - '{{ main_data_neuro_morphometric_atlas_local_folder }}'
