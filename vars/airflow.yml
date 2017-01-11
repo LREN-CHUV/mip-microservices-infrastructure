@@ -111,7 +111,7 @@ airflow_scripts:
 #main_data_preprocessing_data_folder: "/mnt/filearc/CRN/LREN/IRMMP16/prisma"
 #main_data_min_free_space_local_folder
 #main_data_dicom_local_folder: "/data/incoming"
-#main_data_dicom_files_pattern: '/**/MR.*'
+#main_data_dicom_files_pattern: '**/MR.*'
 #main_data_nifti_local_folder: "/data/Nifti_Data_MPMs"
 #main_data_nifti_server_folder: "/mnt/filerc/LREN/SHARE/AIR_VBQ_Output_All/DataNifti_All"
 #main_data_neuro_morphometric_atlas_local_folder: "/data/Neuromorphics_Atlasing"
@@ -148,7 +148,7 @@ airflow_extra_settings:
       preprocessing_data_folder: '{{ main_data_preprocessing_data_folder }}'
       min_free_space_local_folder: '{{ main_data_min_free_space_local_folder }}'
       dicom_local_folder: "{{ main_data_dicom_local_folder }}"
-      dicom_files_pattern: "{{ main_data_dicom_files_pattern | default('/**/MR.*') }}"
+      dicom_files_pattern: "{{ main_data_dicom_files_pattern | default('**/MR.*') }}"
       nifti_local_folder: '{{ main_data_nifti_local_folder }}'
       nifti_server_folder: '{{ main_data_nifti_server_folder }}'
       mpm_maps_local_folder: '{{ main_data_mpm_maps_local_folder }}'

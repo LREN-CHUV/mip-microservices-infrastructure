@@ -63,8 +63,8 @@ spm_vbq_version: '20160415'
 spm_smartdep_version: '20131016'
 spm_mri_templates_version: '20050329'
 spm_mri_tpm_version: '20151218'
-mri_meta_extract_version: '1.1.0'
-mri_preprocessing_pipeline_version: '1.0.6'
+mri_meta_extract_version: '1.1.4'
+mri_preprocessing_pipeline_version: '1.1.1'
 airflow_mri_preprocessing_dags_version: 'master'
 
 # QA environment
