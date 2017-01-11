@@ -28,14 +28,11 @@
       - hostPort: "{{ postgresraw_ui_admin_port }}"
         containerPort: 5555
         name: 'http-admin'
-      - hostPort: "{{ postgresraw_ui_api_port }}"
-        containerPort: 54321
-        name: 'http-api'
     container_volumes:
-      - containerPath: "{{ postgresraw_ui_docker_pg_data_folder }}"
+      - containerPath: '/data'
         hostPath: "{{ postgresraw_ui_pg_data_folder }}"
         mode: RW
-      - containerPath: "{{ postgresraw_ui_docker_raw_data_folder }}"
+      - containerPath: '/datasets'
         hostPath: "{{ postgresraw_ui_raw_data_folder }}"
         mode: RO
     docker_parameters: '{{ postgresraw_ui_docker_parameters }}'
@@ -51,14 +48,7 @@
     wait_timeout: 600
     health_checks:
       - protocol: HTTP
-        port: 5555
-        path: '/'
-        gracePeriodSeconds: 300
-        intervalSeconds: 60
-        timeoutSeconds: 20
-        maxConsecutiveFailures: 2
-      - protocol: HTTP
-        port: 54321
+        port: "{{ postgresraw_ui_admin_port }}"
         path: '/'
         gracePeriodSeconds: 300
         intervalSeconds: 60
