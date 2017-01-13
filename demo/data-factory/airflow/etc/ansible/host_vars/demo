@@ -13,3 +13,6 @@ airflow_db_password: 'airflowdb'
 mri_db_user: mri
 mri_db_password: mripwd
 mri_db_admin_password: "{{ airflow_db_admin_password }}"
+
+slack_token: ''
+

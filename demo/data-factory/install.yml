@@ -17,7 +17,7 @@
 
 - include: ../../common/playbooks/airflow.yml
 
-- hosts: airflow
+- hosts: airflow-agent
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
@@ -40,12 +40,12 @@
     - name: Create folders for data and scripts
       file: path='{{ item }}' state=directory owner=airflow
       with_items:
-        - /data/incoming/20160713
+        - /data/demo
 
-    - name: Get some MRI data
+    - name: Get some MRI data from public datasets (it takes time)
       git:
         repo: https://github.com/dcunited001/mri-scans.git
-        dest: /data/incoming/20160713
+        dest: /data/demo
         depth: 1
 
 - hosts: cbrain

@@ -86,10 +86,11 @@ airflow_slot_pools:
     slots: '{{ airflow_pool_remote_file_copy }}'
     description: 'Number of concurrent file copy operations over the network'
 
+# airflow_scripts_verify_commit
 airflow_scripts:
   - url: https://github.com/HBPSp8Repo/mri-preprocessing-pipeline.git
     version: '{{ mri_preprocessing_pipeline_version }}'
-    verify_commit: true
+    verify_commit: '{{ airflow_scripts_verify_commit | default(False) }}'
     dest: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline'
   - url: https://github.com/HBPSp8Repo/airflow-mri-preprocessing-dags.git
     version: '{{ airflow_mri_preprocessing_dags_version }}'
@@ -134,7 +135,6 @@ airflow_extra_settings:
     parameters:
       sql_alchemy_conn: '{{ mri_db_sql_alchemy_conn }}'
       datasets: '{{ mri_datasets }}'
-      local_drive: '{{ mri_local_drive }}'
       email_errors_to: '{{ mri_email_errors_to }}'
       slack_token: '{{ mri_slack_token | default(slack_token) }}'
       slack_channel: '{{ mri_slack_channel }}'
@@ -149,12 +149,16 @@ airflow_extra_settings:
       min_free_space_local_folder: '{{ main_data_min_free_space_local_folder }}'
       dicom_local_folder: "{{ main_data_dicom_local_folder }}"
       dicom_files_pattern: "{{ main_data_dicom_files_pattern | default('**/MR.*') }}"
+      dicom_organizer_local_folder: "{{ main_data_dicom_organizer_local_folder | default(None) }}"
+      dicom_organizer_data_structure: "{{ main_data_dicom_organizer_data_structure | default(None) }}"
+      dicom_select_T1_local_folder: "{{ main_data_dicom_select_T1_local_folder | default(None) }}"
+      dicom_select_T1_protocols_file: "{{ main_data_dicom_select_T1_protocols_file | default(None) }}"
       nifti_local_folder: '{{ main_data_nifti_local_folder }}'
-      nifti_server_folder: '{{ main_data_nifti_server_folder }}'
+      nifti_server_folder: "{{ main_data_nifti_server_folder | default(None) }}"
       mpm_maps_local_folder: '{{ main_data_mpm_maps_local_folder }}'
-      mpm_maps_server_folder: '{{ main_data_mpm_maps_server_folder }}'
+      mpm_maps_server_folder: "{{ main_data_mpm_maps_server_folder | default(None) }}"
       neuro_morphometric_atlas_local_folder: '{{ main_data_neuro_morphometric_atlas_local_folder }}'
-      neuro_morphometric_atlas_server_folder: '{{ main_data_neuro_morphometric_atlas_server_folder }}'
+      neuro_morphometric_atlas_server_folder: "{{ main_data_neuro_morphometric_atlas_server_folder | default(None) }}"
       pipelines_path: '{{ main_data_pipelines_path }}'
       protocols_file: '{{ main_data_protocols_file }}'
 

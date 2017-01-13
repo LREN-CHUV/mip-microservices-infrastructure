@@ -19,6 +19,10 @@ demo
 [mesos-mixed]
 demo
 
-# Install Airflow
-[airflow]
+# Install Airflow master (databases + webserver)
+[airflow-master]
+demo
+
+# Install Airflow agent (scheduler + scripts + related applications like SPM)
+[airflow-agent]
 demo
