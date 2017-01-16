@@ -17,7 +17,10 @@ airflow_webserver_marathon_dependencies:
 
 # TODO airflow_executor: 'MesosExecutor'
 
+# Need both Python2 version of the Postgres library for ansible and Python 3 version for Airflow
 airflow_db_deb_packages:
+  - python-pip
+  - python-psycopg2
   - python3-pip
   - python3-psycopg2
   - python3-numpy
@@ -33,6 +36,7 @@ airflow_deb_packages:
   - curl
   - python3-pip
   - python3-dev
+  - python3-psycopg2
   - libffi-dev
   - build-essential
   - locales
@@ -62,8 +66,9 @@ airflow_plugins:
   - name: crypto
     required_debs:
       - libssl-dev
-    required_pips:
-      - cryptography
+      - python-cryptography
+      - python3-cryptography
+    required_pips: []
   - name: ldap
     required_debs:
       - libkrb5-dev

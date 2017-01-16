@@ -5,4 +5,3 @@
     repo: '{{ mri_meta_db_repo }}'
     version: '{{ mri_meta_db_version }}'
     dest: '{{ mri_meta_db_dir }}'
-    depth: 1
