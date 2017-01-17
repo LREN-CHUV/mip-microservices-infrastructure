@@ -33,10 +33,13 @@ flyway_version: "4.0.3"
 matlab_version: "R2016b"
 
 # Versions of our Docker containers
-portal_frontend_version: "f01a6d9"
-portal_backend_version: "e6a1950"
-woken_version: "d42fbd9"
+portal_frontend_version: "8a946dc"
+portal_backend_version: "67bc403"
+woken_version: "26fdcdf"
 woken_functions:
+  - name: histograms
+    docker_image: "hbpmip/python-histograms:7be184a"
+    predictive: false
   - name: statisticsSummary
     docker_image: "hbpmip/r-summary-stats:v1.0-Florence"
     predictive: false
