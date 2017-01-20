@@ -77,6 +77,7 @@ jobs {
   ldsmDb = "ldsm"
 {% endif %}
   resultDb = "analytics"
+  metaDb = "metadata"
 }
 
 db {
@@ -86,6 +87,13 @@ db {
     jdbc_url="{{ woken_result_db_jdbc_url }}"
     jdbc_user="{{ woken_result_db_user }}"
     jdbc_password="{{ woken_result_db_password }}"
+  }
+  metadata {
+    jdbc_driver="{{ woken_metadata_db_jdbc_driver }}"
+    jdbc_jar_path="{{ woken_metadata_db_jdbc_jar }}"
+    jdbc_url="{{ woken_metadata_db_jdbc_url }}"
+    jdbc_user="{{ woken_metadata_db_user }}"
+    jdbc_password="{{ woken_metadata_db_password }}"
   }
 
 {% if woken_role == 'mip_federation' %}
@@ -117,6 +125,7 @@ defaultSettings {
     inDb = "ldsm"
 {% endif %}
     outDb = "analytics"
+    metaDb = "metadata"
     mainTable = "{{ woken_main_table }}"
 
     functions {
