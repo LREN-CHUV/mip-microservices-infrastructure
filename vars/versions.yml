@@ -34,7 +34,7 @@ matlab_version: "R2016b"
 
 # Versions of our Docker containers
 portal_frontend_version: "8a946dc"
-portal_backend_version: "67bc403"
+portal_backend_version: "5fc9193"
 woken_version: "db4d0d9"
 woken_functions:
   - name: histograms
