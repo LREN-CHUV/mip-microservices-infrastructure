@@ -13,19 +13,19 @@
       apt: name=curl state=present
       delegate_to: "{{ groups['control'][0] }}"
       run_once: true
-      tags: ['woken', 'analytics', 'marathon-app']
+      tags: ['woken', 'analytics', 'meta-db', 'marathon-app']
 
   roles:
 
     - role: chronos
-      tags: ['chronos', 'analytics', 'marathon-app']
+      tags: ['chronos', 'analytics', 'meta-db', 'marathon-app']
 
     - role: woken
-      tags: ['woken', 'analytics', 'marathon-app']
+      tags: ['woken', 'analytics', 'meta-db', 'marathon-app']
 
     - role: audit-deployment
       installed_component: analytics-woken
-      tags: ['woken', 'analytics', 'marathon-app']
+      tags: ['woken', 'analytics', 'meta-db', 'marathon-app']
 
 - hosts: woken-validation
   become: yes
@@ -40,13 +40,13 @@
       apt: name=curl state=present
       delegate_to: "{{ groups['control'][0] }}"
       run_once: true
-      tags: ['woken-validation', 'woken', 'analytics', 'marathon-app']
+      tags: ['woken-validation', 'woken', 'analytics', 'meta-db', 'marathon-app']
 
   roles:
 
     - role: woken-validation
-      tags: ['woken-validation', 'woken', 'analytics', 'marathon-app']
+      tags: ['woken-validation', 'woken', 'analytics', 'meta-db', 'marathon-app']
 
     - role: audit-deployment
       installed_component: analytics-woken-validation
-      tags: ['woken-validation', 'woken', 'analytics', 'marathon-app']
+      tags: ['woken-validation', 'woken', 'analytics', 'meta-db', 'marathon-app']
