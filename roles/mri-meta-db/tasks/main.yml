@@ -1,7 +1,0 @@
----
-
-- name: Get a copy of the MRI meta db project
-  git:
-    repo: '{{ mri_meta_db_repo }}'
-    version: '{{ mri_meta_db_version }}'
-    dest: '{{ mri_meta_db_dir }}'

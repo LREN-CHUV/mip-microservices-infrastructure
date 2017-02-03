@@ -33,16 +33,25 @@ airflow_group: 'airflow'
 airflow_home: '/usr/local/airflow'
 airflow_startup: 'marathon'
 airflow_mesos_master: 'demo:5050'
-airflow_db_databases: "airflow,mri"
+airflow_db_databases: "airflow,data_catalog,i2b2,mipmap"
 
 airflow_pool_io_intensive: 1
 airflow_pool_remote_file_copy: 1
 airflow_pool_image_preprocessing: 1
 
-mri_db_deploy: no
-mri_db_host: '{{ airflow_db_host }}'
-mri_db_port: '{{ airflow_db_port }}'
-mri_db_sql_alchemy_conn: "postgresql://mri:{{ mri_db_password }}@{{ mri_db_host }}:{{ mri_db_port }}/mri"
+data_catalog_db_deploy: no
+data_catalog_db_host: '{{ airflow_db_host }}'
+data_catalog_db_port: '{{ airflow_db_port }}'
+data_catalog_db_sql_alchemy_conn: "postgresql://data_catalog:{{ data_catalog_db_password }}@{{ data_catalog_db_host }}:{{ data_catalog_db_port }}/data_catalog"
+
+i2b2_db_deploy: no
+i2b2_db_host: '{{ airflow_db_host }}'
+i2b2_db_port: '{{ airflow_db_port }}'
+i2b2_db_sql_alchemy_conn: "postgresql://i2b2:{{ i2b2_db_password }}@{{ i2b2_db_host }}:{{ i2b2_db_port }}/i2b2"
+
+mipmap_db_deploy: no
+mipmap_db_host: '{{ airflow_db_host }}'
+mipmap_db_port: '{{ airflow_db_port }}'
 
 # Configuration for MRI preprocessing pipeline running in Airflow
 mri_datasets: 'main-dataset'

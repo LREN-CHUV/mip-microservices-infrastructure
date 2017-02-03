@@ -1,0 +1,76 @@
+---
+
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+  tags:
+    - launch
+
+- name: Remove old Data Catalog database using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ data_catalog_db_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch
+
+- name: Optional cleanup
+  file: state=absent path={{ data_catalog_db_data_dir }}
+  when: data_catalog_db_cleanup
+
+# Postgresql user in Docker appears as user 999 outside
+- name: Create Data Catalog database storage directory
+  file: state=directory path={{ data_catalog_db_data_dir }} mode=0700 owner={{ data_catalog_db_docker_user }} group={{ data_catalog_db_docker_user }}
+
+- name: Launch Data Catalog database using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ data_catalog_db_marathon_id }}"
+    state: "present"
+    docker_image: "{{ data_catalog_db_image }}:{{ data_catalog_db_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ data_catalog_db_port }}'
+        containerPort: 5432
+        name: 'postgres'
+        protocol: 'tcp'
+    container_volumes:
+      - containerPath: "/var/lib/postgresql/data"
+        hostPath: "{{ data_catalog_db_data_dir }}"
+        mode: RW
+    env:
+      POSTGRES_USER: "{{ data_catalog_db_admin_user }}"
+      POSTGRES_PASSWORD: "{{ data_catalog_db_admin_password }}"
+    labels:
+      MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ data_catalog_db_databases }}"
+    instances: 1
+    cpus: '{{ data_catalog_db_cpus }}'
+    mem: '{{ data_catalog_db_mem }}'
+    ports: [] # defined in docker_port_mappings
+    require_ports: true
+    constraints: [["hostname", "CLUSTER", "{{ data_catalog_db_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "{{ data_catalog_db_is_ready }} -U {{ data_catalog_db_user }} -p 5432"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch

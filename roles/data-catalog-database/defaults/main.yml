@@ -1,0 +1,60 @@
+---
+
+# Deploy data-catalog-db as an independant database. If false, then we assume that there is
+# a database already running and we add to it a new 'meta' schema
+data_catalog_db_deploy: no
+
+# Used when data_catalog_db_deploy is true
+data_catalog_db_marathon_id: /data-factory/airflow/data-catalog-db
+
+# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
+data_catalog_db_marathon_host: '{{ inventory_hostname }}'
+
+# The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
+# TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
+data_catalog_db_docker_user: '999'
+
+data_catalog_db_image: 'postgres'
+postgres_version: "9.5.4"
+data_catalog_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+data_catalog_db_is_ready: "{{ postgres_is_ready }}"
+
+data_catalog_db_cpus: 0.5
+data_catalog_db_mem: 512.0
+
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
+data_catalog_db_port: 4606
+data_catalog_db_host: '{{ data_catalog_db_marathon_host }}'
+data_catalog_db_name: data_catalog
+data_catalog_db_admin_user: 'postgres'
+# TO FILL - data_catalog_db_admin_password:
+data_catalog_db_user: data_catalog
+# TO FILL - data_catalog_db_password: data_catalog
+
+# Used when data_catalog_db_deploy is true
+data_catalog_db_databases: "{{ data_catalog_db_name }}"
+
+data_catalog_db_data_dir: /srv/docker/data_catalog_db/data
+
+airflow_plugins_folder: '/usr/local/airflow/plugins'
+
+# Force cleanup of the data_catalog DB. Please never use that in production!
+data_catalog_db_cleanup: false
+
+data_catalog_db_sql_alchemy_conn: "postgresql://{{ data_catalog_db_user }}:{{ data_catalog_db_password }}@{{ data_catalog_db_host }}:{{ data_catalog_db_port }}/data_catalog"
+
+data_catalog_db_deb_packages:
+  - python-pip
+  - python-psycopg2
+  - curl
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080
+
+# We use an Alembic project to deploy and upgrade the database schema
+# TODO: this could go into a Docker container
+data_catalog_db_project_dir: '/opt/data-catalog-db'
+
+data_catalog_db_project_repo: https://github.com/LREN-CHUV/data-catalog-db.git
+data_catalog_db_project_version: master

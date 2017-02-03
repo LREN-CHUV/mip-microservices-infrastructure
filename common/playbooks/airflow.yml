@@ -12,11 +12,14 @@
     - role: airflow-database
       tags: ['airflow-database', 'airflow-db', 'database', 'airflow', 'data-factory', 'marathon-app']
 
-    - role: mri-meta-db
-      tags: ['mri-meta-db', 'airflow', 'data-factory', 'marathon-app']
+    - role: data-catalog-database
+      tags: ['data-catalog-database', 'data-catalog-db', 'airflow', 'data-factory', 'marathon-app']
 
-    - role: mri-database
-      tags: ['mri-database', 'mri-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+    - role: i2b2-database
+      tags: ['i2b2-database', 'i2b2-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: mipmap-database
+      tags: ['mipmap-database', 'mipmap-db', 'database', 'airflow', 'data-factory', 'marathon-app']
 
     - role: airflow
       airflow_install_master: true

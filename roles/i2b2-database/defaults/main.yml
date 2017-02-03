@@ -1,0 +1,60 @@
+---
+
+# Deploy i2b2-db as an independant database. If false, then we assume that there is
+# a database already running and we add to it a new 'meta' schema
+i2b2_db_deploy: no
+
+# Used when i2b2_db_deploy is true
+i2b2_db_marathon_id: /data-factory/airflow/i2b2-db
+
+# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
+i2b2_db_marathon_host: '{{ inventory_hostname }}'
+
+# The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
+# TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
+i2b2_db_docker_user: '999'
+
+i2b2_db_image: 'postgres'
+postgres_version: "9.5.4"
+i2b2_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+i2b2_db_is_ready: "{{ postgres_is_ready }}"
+
+i2b2_db_cpus: 0.5
+i2b2_db_mem: 512.0
+
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
+i2b2_db_port: 4606
+i2b2_db_host: '{{ i2b2_db_marathon_host }}'
+i2b2_db_name: i2b2
+i2b2_db_admin_user: 'postgres'
+# TO FILL - i2b2_db_admin_password:
+i2b2_db_user: i2b2
+# TO FILL - i2b2_db_password: i2b2
+
+# Used when i2b2_db_deploy is true
+i2b2_db_databases: "{{ i2b2_db_name }}"
+
+i2b2_db_data_dir: /srv/docker/i2b2_db/data
+
+airflow_plugins_folder: '/usr/local/airflow/plugins'
+
+# Force cleanup of the i2b2 DB. Please never use that in production!
+i2b2_db_cleanup: false
+
+i2b2_db_sql_alchemy_conn: "postgresql://{{ i2b2_db_user }}:{{ i2b2_db_password }}@{{ i2b2_db_host }}:{{ i2b2_db_port }}/i2b2"
+
+i2b2_db_deb_packages:
+  - python-pip
+  - python-psycopg2
+  - curl
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080
+
+# We use an Alembic project to deploy and upgrade the database schema
+# TODO: this could go into a Docker container
+i2b2_db_project_dir: '/opt/i2b2-db'
+
+i2b2_db_project_repo: https://github.com/LREN-CHUV/i2b2-db.git
+i2b2_db_project_version: master

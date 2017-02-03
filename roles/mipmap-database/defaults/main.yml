@@ -1,0 +1,54 @@
+---
+
+# Deploy mipmap-db as an independant database. If false, then we assume that there is
+# a database already running and we add to it a new 'meta' schema
+mipmap_db_deploy: no
+
+# Used when mipmap_db_deploy is true
+mipmap_db_marathon_id: /data-factory/airflow/mipmap-db
+
+# Attach the Postgres database to a particular host. The hostname should be the name known by Marathon / Mesos
+mipmap_db_marathon_host: '{{ inventory_hostname }}'
+
+# The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
+# TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
+mipmap_db_docker_user: '999'
+
+mipmap_db_image: 'postgres'
+postgres_version: "9.5.4"
+mipmap_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+mipmap_db_is_ready: "{{ postgres_is_ready }}"
+
+mipmap_db_cpus: 0.5
+mipmap_db_mem: 512.0
+
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
+mipmap_db_port: 4606
+mipmap_db_host: '{{ mipmap_db_marathon_host }}'
+mipmap_db_name: mipmap
+mipmap_db_admin_user: 'postgres'
+# TO FILL - mipmap_db_admin_password:
+mipmap_db_user: mipmap
+# TO FILL - mipmap_db_password: mipmap
+
+# Used when mipmap_db_deploy is true
+mipmap_db_databases: "{{ mipmap_db_name }}"
+
+mipmap_db_data_dir: /srv/docker/mipmap_db/data
+
+airflow_plugins_folder: '/usr/local/airflow/plugins'
+
+# Force cleanup of the mipmap DB. Please never use that in production!
+mipmap_db_cleanup: false
+
+mipmap_db_sql_alchemy_conn: "postgresql://{{ mipmap_db_user }}:{{ mipmap_db_password }}@{{ mipmap_db_host }}:{{ mipmap_db_port }}/mipmap"
+
+# Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
+mipmap_db_deb_packages:
+  - python-pip
+  - python-psycopg2
+  - curl
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080
