@@ -59,4 +59,4 @@ i2b2_db_project_dir: '/opt/i2b2-db'
 i2b2_db_project_repo: https://github.com/LREN-CHUV/i2b2-db.git
 i2b2_db_project_version: master
 
-data_catalog_setup_image: 'hbpmip/i2b2-setup'
+i2b2_setup_image: 'hbpmip/i2b2-setup'
