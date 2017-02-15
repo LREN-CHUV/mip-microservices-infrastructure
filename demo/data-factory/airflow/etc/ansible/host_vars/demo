@@ -14,5 +14,10 @@ mri_db_user: mri
 mri_db_password: mripwd
 mri_db_admin_password: "{{ airflow_db_admin_password }}"
 
-slack_token: ''
+data_catalog_db_password: 'datacatalogpwd'
+data_catalog_db_admin_password: "{{ airflow_db_admin_password }}"
 
+i2b2_db_password: 'i2b2pwd'
+i2b2_db_admin_password: "{{ airflow_db_admin_password }}"
+
+slack_token: ''

@@ -91,19 +91,15 @@
     - "pydicom==0.9.9"
     - "alembic==0.8.6"
 
-- name: Get a copy of the i2b2-db Alembic project
-  git:
-    repo: '{{ i2b2_db_project_repo }}'
-    version: '{{ i2b2_db_project_version }}'
-    dest: '{{ i2b2_db_project_dir }}'
-
-- name: Setup configuration for alembic database upgrade
-  template:
-    src: alembic.ini.j2
-    dest: '{{ i2b2_db_project_dir }}/alembic.ini'
-    owner: '{{ airflow_user }}'
-
-- name: Launch Alembic to upgrade the i2b2 database
-  command: alembic upgrade head
-  args:
-    chdir: '{{ i2b2_db_project_dir }}'
+- name: Run Alembc migration
+  docker_container:
+    name: migrate_i2b2_db
+    image: "{{ i2b2_setup_image }}:{{ i2b2_setup_version }}"
+    command: upgrade head
+    detach: no
+    network_mode: host
+    interactive: yes
+    # cleanup: yes
+    env:
+      DB_URL: "{{ i2b2_db_sql_alchemy_conn }}"
+  delegate_to: "{{ groups['control'][0] }}"

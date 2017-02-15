@@ -91,19 +91,15 @@
     - "pydicom==0.9.9"
     - "alembic==0.8.6"
 
-- name: Get a copy of the data-catalog-db Alembic project
-  git:
-    repo: '{{ data_catalog_db_project_repo }}'
-    version: '{{ data_catalog_db_project_version }}'
-    dest: '{{ data_catalog_db_project_dir }}'
-
-- name: Setup configuration for alembic database upgrade
-  template:
-    src: alembic.ini.j2
-    dest: '{{ data_catalog_db_project_dir }}/alembic.ini'
-    owner: '{{ airflow_user }}'
-
-- name: Launch Alembic to upgrade the Data Catalog database
-  command: alembic upgrade head
-  args:
-    chdir: '{{ data_catalog_db_project_dir }}'
+- name: Run Alembc migration
+  docker_container:
+    name: migrate_data_catalog_db
+    image: "{{ data_catalog_setup_image }}:{{ data_catalog_setup_version }}"
+    command: upgrade head
+    detach: no
+    network_mode: host
+    interactive: yes
+    # cleanup: yes
+    env:
+      DB_URL: "{{ data_catalog_db_sql_alchemy_conn }}"
+  delegate_to: "{{ groups['control'][0] }}"

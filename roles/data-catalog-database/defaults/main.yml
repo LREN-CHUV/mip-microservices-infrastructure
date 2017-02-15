@@ -58,3 +58,5 @@ data_catalog_db_project_dir: '/opt/data-catalog-db'
 
 data_catalog_db_project_repo: https://github.com/LREN-CHUV/data-catalog-db.git
 data_catalog_db_project_version: master
+
+data_catalog_setup_image: 'hbpmip/data-catalog-setup'
