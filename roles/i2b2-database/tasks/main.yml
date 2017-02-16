@@ -77,20 +77,6 @@
     state: directory
     owner: '{{ airflow_user }}'
 
-- name: Install pip
-  apt:
-    name: 'python-pip'
-    state: present
-
-- name: Install required Python packages
-  pip:
-    name: '{{ item }}'
-    state: present
-  with_items:
-    - "SQLAlchemy==1.0.13"
-    - "pydicom==0.9.9"
-    - "alembic==0.8.6"
-
 - name: Run Alembc migration
   docker_container:
     name: migrate_i2b2_db
