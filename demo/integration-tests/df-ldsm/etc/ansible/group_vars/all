@@ -1,0 +1,128 @@
+---
+
+docker_opts: "--dns=192.168.33.66"
+
+internal_mesos_url: "http://demo.local:{{ mesos_leader_port }}"
+internal_marathon_url: "http://demo.local:{{ marathon_port }}"
+
+python_location: '/usr/bin/python3'
+python_pip: '/usr/bin/pip3'
+
+#############################################################################
+# Airflow
+airflow_scheduler_cpus: 0.2
+airflow_scheduler_mem: 2048.0
+airflow_webserver_cpus: 0.2
+airflow_webserver_mem: 384.0
+
+airflow_web_server_port: 4080
+airflow_web_server_host: '0.0.0.0'
+airflow_web_base_url: "http://demo:14080"
+
+airflow_db_host: "demo"
+airflow_db_port: 4321
+airflow_sql_alchemy_conn: "postgresql://airflow:{{ airflow_db_password }}@{{ airflow_db_host }}:{{ airflow_db_port }}/airflow"
+
+airflow_scripts_root: '/opt/airflow-scripts'
+airflow_scripts_verify_commit: false
+airflow_dags_folder: "{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags"
+airflow_plugins_folder: '{{ airflow_scripts_root }}/airflow-imaging-plugins'
+
+airflow_load_examples: true
+
+airflow_user: 'airflow'
+airflow_group: 'airflow'
+airflow_home: '/usr/local/airflow'
+airflow_startup: 'marathon'
+airflow_mesos_master: 'demo:5050'
+airflow_db_databases: "airflow,mri"
+
+airflow_pool_io_intensive: 1
+airflow_pool_remote_file_copy: 1
+airflow_pool_image_preprocessing: 1
+
+mri_db_deploy: no
+mri_db_host: '{{ airflow_db_host }}'
+mri_db_port: '{{ airflow_db_port }}'
+mri_db_sql_alchemy_conn: "postgresql://mri:{{ mri_db_password }}@{{ mri_db_host }}:{{ mri_db_port }}/mri"
+
+#############################################################################
+# Configuration for MRI preprocessing pipeline running in Airflow
+mri_datasets: 'main-dataset'
+mri_email_errors_to: ''
+mri_slack_channel: '#data'
+mri_slack_channel_user: 'Airflow'
+
+main_data_set: 'Demo'
+main_data_max_active_runs: 30
+main_data_preprocessing_scanners: 'flat'
+main_data_preprocessing_pipelines: 'dicom_organizer,dicom_select_T1,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas'
+main_data_preprocessing_data_folder: "/data/demo"
+main_data_min_free_space_local_folder: 0.3
+main_data_dicom_local_folder: "/data/incoming"
+main_data_dicom_files_pattern: '**/*.dcm'
+main_data_dicom_organizer_local_folder: "/data/organizer"
+main_data_dicom_organizer_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
+main_data_dicom_select_T1_local_folder: "/data/select_T1"
+main_data_dicom_select_T1_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
+main_data_nifti_local_folder: "/data/nifti"
+main_data_mpm_maps_local_folder: "/data/mpm_maps"
+main_data_neuro_morphometric_atlas_local_folder: "/data/neuro_morphometric_atlas"
+main_data_pipelines_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines"
+main_data_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
+
+airflow_work_dirs:
+  - '{{ main_data_dicom_local_folder }}'
+  - '{{ main_data_dicom_organizer_local_folder }}'
+  - '{{ main_data_dicom_select_T1_local_folder }}'
+  - '{{ main_data_nifti_local_folder }}'
+  - '{{ main_data_mpm_maps_local_folder }}'
+  - '{{ main_data_neuro_morphometric_atlas_local_folder }}'
+
+spm_dir: "/opt/spm12"
+
+#############################################################################
+# LDSM
+ldsm_db_marathon_id: /hospital-database/ldsmdb
+
+ldsm_db_host: "demo.local"
+ldsm_db_marathon_host: "demo"
+ldsm_db_port: 31432
+ldsm_db_name: ldsm
+ldsm_db_admin_user: "postgres"
+ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/portal"
+
+ldsm_db_image: 'hbpmip/postgresraw'
+ldsm_db_version: 'latest'
+ldsm_db_is_ready: "/bin/true"
+
+ldsm_db_data_dir: '/srv/docker/ldsmdb/data'
+ldsm_db_raw_data_dir: "/data/ldsm"
+
+lsdm_db_volumes:
+  - containerPath: '/data'
+    hostPath: "{{ ldsm_db_data_dir }}"
+    mode: RW
+  - containerPath: '/datasets'
+    hostPath: "{{ ldsm_db_raw_data_dir }}"
+    mode: RO
+
+ldsm_db_env:
+  POSTGRES_USER: "{{ ldsm_db_admin_user }}"
+  POSTGRES_PASSWORD: "{{ ldsm_db_admin_password }}"
+  POSTGRES_DB: "{{ ldsm_db_name }}"
+  PGDATA: '/data/pgdata'
+
+# Few resources available in Vagrant box
+ldsm_db_cpus: 0.2
+ldsm_db_mem: 128.0
+
+postgresraw_ui_admin_port: 31555
+
+# Few resources available in Vagrant box
+postgresraw_ui_cpus: 0.2
+postgresraw_ui_mem: 100.0
+
+postgresraw_ui_docker_parameters:
+  - key: 'add-host'
+    value: "demo.local:192.168.34.66"
