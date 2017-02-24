@@ -6,7 +6,9 @@
 
 This project contains the generic version of the scripts used to deploy the Medical Informatics Platform.
 
-It attempts to follow the Mantl.io project from Cisco (https://github.com/CiscoCloud/microservices-infrastructure) but with the following restrictions:
+The platform runs over a [Mesos](http://mesos.apache.org/) cluster and most services are managed by [Marathon](https://mesosphere.github.io/marathon/).
+
+mip-microservices-infrastructure attempts to follow the Mantl.io project from Cisco (https://github.com/CiscoCloud/microservices-infrastructure) but with the following restrictions:
 
 * The deployment target is Ubuntu 16.04 instead of CentOS
 * No support for any cloud is provided, we deploy on bare-metal and pre-configured virtual machines
