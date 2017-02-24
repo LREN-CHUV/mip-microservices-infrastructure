@@ -77,7 +77,7 @@
     state: directory
     owner: '{{ airflow_user }}'
 
-- name: Run Alembc migration
+- name: Run Alembic migration
   docker_container:
     name: migrate_data_catalog_db
     image: "{{ data_catalog_setup_image }}:{{ data_catalog_setup_version }}"

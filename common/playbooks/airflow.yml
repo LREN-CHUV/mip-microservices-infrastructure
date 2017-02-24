@@ -40,7 +40,7 @@
   roles:
 
     - role: spm
-      tags: ['spm', 'matlab', 'airflow-slave', 'airflow', 'data-factory', 'marathon-app']
+      tags: ['spm', 'airflow-slave', 'airflow', 'data-factory', 'marathon-app']
 
     - role: airflow
       airflow_install_master: false

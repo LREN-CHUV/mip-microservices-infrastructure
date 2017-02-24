@@ -77,7 +77,7 @@
     state: directory
     owner: '{{ airflow_user }}'
 
-- name: Run Alembc migration
+- name: Run Alembic migration
   docker_container:
     name: migrate_i2b2_db
     image: "{{ i2b2_setup_image }}:{{ i2b2_setup_version }}"

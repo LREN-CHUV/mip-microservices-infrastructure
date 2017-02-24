@@ -26,7 +26,7 @@ airflow_scripts_verify_commit: false
 airflow_dags_folder: "{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags"
 airflow_plugins_folder: '{{ airflow_scripts_root }}/airflow-imaging-plugins'
 
-airflow_load_examples: true
+airflow_load_examples: false
 
 airflow_user: 'airflow'
 airflow_group: 'airflow'

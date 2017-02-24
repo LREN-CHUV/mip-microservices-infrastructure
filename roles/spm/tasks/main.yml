@@ -3,10 +3,12 @@
 - name: Check that Matlab is installed
   stat: path={{ matlab_root }}
   register: matlab_path
+  tags: matlab
 
 - name: Stop if Matlab is not installed
   fail: msg='Please install MATLAB {{ matlab_version }}'
   when: not (matlab_path.stat.isdir is defined) or (not matlab_path.stat.isdir)
+  tags: matlab
 
 - name: Install Matlab Python API
   command: '{{ matlab_python }} setup.py install'
@@ -14,6 +16,7 @@
     chdir: '{{ matlab_root }}/extern/engines/python/'
     creates: '{{ matlab_python_library_path }}/matlab/engine/matlabengine.py'
   when: matlab_python_api
+  tags: matlab
 
 - name: Fix stdc library used by Matlab
   file:
@@ -22,6 +25,7 @@
     state: link
     force: yes
   when: matlab_python_api and (ansible_lsb.id == 'Ubuntu') and (ansible_lsb.release == '16.04')
+  tags: matlab
 
 - name: Check that Matlab Python API is running
   command: |
@@ -36,6 +40,7 @@
     PYTHONPATH: '{{ matlab_python_library_path }}'
   changed_when: False
   when: matlab_python_api
+  tags: matlab
 
 - name: Re-read local facts
   setup:
@@ -122,3 +127,6 @@
     PYTHONPATH: '{{ matlab_python_library_path }}'
   changed_when: False
   when: matlab_python_api
+  tags:
+    - matlab
+    - spm

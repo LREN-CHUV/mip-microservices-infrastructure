@@ -20,4 +20,7 @@ data_catalog_db_admin_password: "{{ airflow_db_admin_password }}"
 i2b2_db_password: 'i2b2pwd'
 i2b2_db_admin_password: "{{ airflow_db_admin_password }}"
 
+mipmap_db_password: 'mipmappwd'
+mipmap_db_admin_password: "{{ airflow_db_admin_password }}"
+
 slack_token: ''

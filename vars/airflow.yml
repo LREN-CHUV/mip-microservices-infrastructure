@@ -140,7 +140,7 @@ airflow_extra_settings:
       spm_dir: '{{ spm_dir }}'
   - section: mri
     parameters:
-      sql_alchemy_conn: '{{ mri_db_sql_alchemy_conn }}'
+      sql_alchemy_conn: '{{ data_catalog_db_sql_alchemy_conn }}'
       datasets: '{{ mri_datasets }}'
       email_errors_to: '{{ mri_email_errors_to }}'
       slack_token: '{{ mri_slack_token | default(slack_token) }}'
