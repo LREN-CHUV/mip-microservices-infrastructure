@@ -50,7 +50,8 @@ airflow_pip_packages:
   - pyasn1
   - pydicom
   - alembic
-  - "slackclient==1.0.4"
+  - "slackclient=={{ slackclient_py_version }}"
+  - "docker-py=={{ docker_py_version }}"
   - "mri-meta-extract=={{ mri_meta_extract_version }}"
   - "git+https://github.com/HBPSp8Repo/airflow-imaging-plugins.git@master#egg=airflow_imaging_plugins"
 
