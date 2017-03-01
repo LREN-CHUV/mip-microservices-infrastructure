@@ -1,6 +1,5 @@
 ---
 
-# Used when science_db_deploy is true
 science_db_marathon_id: /reference/science-db
 
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos

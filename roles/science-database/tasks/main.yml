@@ -24,19 +24,21 @@
   when: science_db_cleanup
 
 # Postgres user in Docker appears as user 999 outside
-- name: Create science DB directory for initial data stored in CSV files
-  file: state=directory path={{ science_db_csv_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
+- name: Create science DB storage directory
+  file: state=directory path={{ science_db_data_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
 
+- name: Create science DB directory for initial data stored in CSV files
+  file: state=directory path={{ science_db_csv_dir }} mode=0744
+
+# CSV files should be copied to the database server and exposed inside the database server container in the path /mnt
 - name: Copy scientific data CSV file
   copy:
     src: "{{ item.src }}"
     dest: "{{ science_db_csv_dir }}/{{ item.dest }}"
+    mode: 0744
   with_items:
     - src: "{{ science_db_local_project_dir }}/sql/values.csv"
       dest: "values.csv"
-
-- name: Create science DB storage directory
-  file: state=directory path={{ science_db_data_dir }} mode=0700 owner={{ science_db_docker_user }} group={{ science_db_docker_user }}
 
 - name: Launch science DB using Marathon
   marathon_app:
@@ -55,8 +57,9 @@
       - containerPath: "/var/lib/postgresql/data"
         hostPath: "{{ science_db_data_dir }}"
         mode: RW
-      - containerPath: '/docker-entrypoint-initdb.d'
-        hostPath: "{{ science_db_csv_dir }}"
+      # because /mnt is accessible to postgres user in the container
+      - containerPath: '/mnt/values.csv'
+        hostPath: "{{ science_db_csv_dir }}/values.csv"
         mode: RO
     env:
       POSTGRES_USER: "{{ science_db_admin_user }}"
@@ -140,6 +143,13 @@
   with_items:
     - src: "{{ science_db_local_project_dir }}/sql/create.sql"
       dest: "V1_0__Create.sql"
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Fix sql creation scripts
+  replace:
+    dest: "{{ science_db_setup_dir }}/V1_0__Create.sql"
+    regexp: "/docker-entrypoint-initdb.d"
+    replace: "/mnt"
   delegate_to: "{{ groups['control'][0] }}"
 
 # See https://github.com/anarcher/ansible-docker-registry/issues/1
