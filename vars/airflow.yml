@@ -53,6 +53,7 @@ airflow_pip_packages:
   - "slackclient=={{ slackclient_py_version }}"
   - "docker-py=={{ docker_py_version }}"
   - "mri-meta-extract=={{ mri_meta_extract_version }}"
+  - "i2b2-import=={{ i2b2_import_version }}"
   - "git+https://github.com/HBPSp8Repo/airflow-imaging-plugins.git@master#egg=airflow_imaging_plugins"
 
 airflow_plugins:
