@@ -54,7 +54,7 @@ airflow_pip_packages:
   - "docker-py=={{ docker_py_version }}"
   - "mri-meta-extract=={{ mri_meta_extract_version }}"
   - "i2b2-import=={{ i2b2_import_version }}"
-  - "git+https://github.com/HBPSp8Repo/airflow-imaging-plugins.git@master#egg=airflow_imaging_plugins"
+  - "git+https://github.com/HBPMedical/airflow-imaging-plugins.git@master#egg=airflow_imaging_plugins"
 
 airflow_plugins:
   - name: mesos
@@ -95,11 +95,11 @@ airflow_slot_pools:
 
 # airflow_scripts_verify_commit
 airflow_scripts:
-  - url: https://github.com/HBPSp8Repo/mri-preprocessing-pipeline.git
+  - url: https://github.com/HBPMedical/mri-preprocessing-pipeline.git
     version: '{{ mri_preprocessing_pipeline_version }}'
     verify_commit: '{{ airflow_scripts_verify_commit | default(False) }}'
     dest: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline'
-  - url: https://github.com/HBPSp8Repo/airflow-mri-preprocessing-dags.git
+  - url: https://github.com/HBPMedical/airflow-mri-preprocessing-dags.git
     version: '{{ airflow_mri_preprocessing_dags_version }}'
     # TODO set to true
     verify_commit: false
@@ -111,6 +111,7 @@ airflow_scripts:
 #mri_email_errors_to
 #mri_slack_channel
 #mri_slack_channel_user
+#mri_mipmap_db_confile_file: ''
 
 #main_data_set: "LREN"
 #main_data_session_id_by_patient: False -- true for LREN
@@ -130,6 +131,11 @@ airflow_scripts:
 #main_data_neuro_morphometric_atlas_TPM_template: "{{ spm_dir }}/tpm/nwTPM_sl3.nii"
 #main_data_pipelines_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines"
 #main_data_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
+#main_data_ehr_scanners
+#main_data_ehr_data_folder
+#main_data_ehr_versioned_folder
+#main_data_ehr_to_i2b2_capture_docker_image
+#main_data_ehr_to_i2b2_capture_folder
 
 #spm_dir: /opt/spm12
 
@@ -148,6 +154,7 @@ airflow_extra_settings:
       slack_token: '{{ mri_slack_token | default(slack_token) }}'
       slack_channel: '{{ mri_slack_channel }}'
       slack_channel_user: '{{ mri_slack_channel_user }}'
+      mipmap_db_confile_file: "{{ mri_mipmap_db_confile_file | default('/dev/null') }}"
   - section: main-dataset
     parameters:
       dataset: '{{ main_data_set }}'
@@ -172,9 +179,18 @@ airflow_extra_settings:
       neuro_morphometric_atlas_TPM_template: "{{ main_data_neuro_morphometric_atlas_TPM_template | default(spm_dir + '/tpm/nwTPM_sl3.nii') }}"
       pipelines_path: '{{ main_data_pipelines_path }}'
       protocols_file: '{{ main_data_protocols_file }}'
+      ehr_scanners: "{{ main_data_ehr_scanners | default('') }}"
+      ehr_data_folder: '{{ main_data_ehr_data_folder | default(None) }}'
+      ehr_versioned_folder: '{{ main_data_ehr_versioned_folder | default(None) }}'
+      ehr_to_i2b2_capture_docker_image: '{{ main_data_ehr_to_i2b2_capture_docker_image | default(None) }}'
+      ehr_to_i2b2_capture_folder: '{{ main_data_ehr_to_i2b2_capture_folder | default(None) }}'
 
 airflow_work_dirs:
   - '{{ main_data_dicom_local_folder }}'
+  - '{{ main_data_dicom_organizer_local_folder | default('/') }}'
+  - '{{ main_data_dicom_select_T1_local_folder | default('/') }}'
   - '{{ main_data_nifti_local_folder }}'
   - '{{ main_data_mpm_maps_local_folder }}'
   - '{{ main_data_neuro_morphometric_atlas_local_folder }}'
+  - '{{ main_data_ehr_versioned_folder | default('/') }}'
+  - '{{ main_data_ehr_to_i2b2_capture_folder | default('/') }}'

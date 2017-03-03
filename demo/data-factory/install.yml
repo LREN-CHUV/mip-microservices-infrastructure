@@ -41,10 +41,12 @@
       file: path='{{ item }}' state=directory owner=airflow
       with_items:
         - /data/demo
+        - /data/ehr_demo
 
     - name: Get some MRI data from public datasets (it takes time)
       git:
         repo: https://github.com/dcunited001/mri-scans.git
+        version: master
         dest: /data/demo
         depth: 1
 
