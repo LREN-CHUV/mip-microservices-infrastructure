@@ -2,19 +2,19 @@
 
 # Mesos stack
 
-- include: base-system.yml
+- include: infrastructure/base-system.yml
 
-- include: zookeeper.yml
+- include: infrastructure/zookeeper.yml
 
-- include: mesos-leader.yml
+- include: infrastructure/mesos-leader.yml
 
-- include: mesos-mixed.yml
+- include: infrastructure/mesos-mixed.yml
 
-- include: mesos-follower.yml
+- include: infrastructure/mesos-follower.yml
 
 # /Mesos stack
 
-- include: cleanup.yml
+- include: infrastructure/cleanup.yml
 
 - include: mip-services.yml
 
@@ -28,15 +28,15 @@
 
 # Data Factory
 
-- include: airflow.yml
+- include: data-factory/airflow.yml
 
 # /Data Factory
 
 # Algorithm Factory
 
-- include: analytics-database.yml
+- include: algorithm-factory/analytics-database.yml
 
-- include: woken.yml
+- include: algorithm-factory/woken.yml
 
 # /Algorithm Factory
 

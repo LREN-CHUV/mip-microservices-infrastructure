@@ -5,19 +5,19 @@
 # Installs _the_ world
 #
 
-- include: ../../common/playbooks/base-system.yml
+- include: ../../common/playbooks/infrastructure/base-system.yml
 
-- include: ../../common/playbooks/zookeeper.yml
+- include: ../../common/playbooks/infrastructure/zookeeper.yml
 
-- include: ../../common/playbooks/mesos-leader.yml
+- include: ../../common/playbooks/infrastructure/mesos-leader.yml
 
-- include: ../../common/playbooks/mesos-mixed.yml
+- include: ../../common/playbooks/infrastructure/mesos-mixed.yml
 
-- include: ../../common/playbooks/mesos-follower.yml
+- include: ../../common/playbooks/infrastructure/mesos-follower.yml
 
 - include: ../../common/playbooks/mip-services.yml
 
-- include: ../../common/playbooks/analytics-database.yml
+- include: ../../common/playbooks/algorithm-factory/analytics-database.yml
 
 - hosts: demo-db
   become: yes
@@ -30,4 +30,4 @@
     - role: ldsm-database
       tags: ['demo-database', 'database', 'analytics', 'marathon-app']
 
-- include: ../../common/playbooks/woken.yml
+- include: ../../common/playbooks/algorithm-factory/woken.yml
