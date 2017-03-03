@@ -62,10 +62,10 @@ TODO: provide example data and some tests
 
 | Algorithm Factory | Organisation | License | Management | Continuous integration |
 |-------------------|--------------|---------|------------|------------------------|
-| [woken](https://github.com/HBPSP8Repo/woken) | [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) | [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/HBPSP8Repo/woken/blob/master/LICENSE) |   |   |
-| [base-docker-images](https://github.com/HBPSP8Repo/base-docker-images) | [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) | [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md) |   |   |
-| [functions-repository](https://github.com/HBPSP8Repo/functions-repository) |  [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) | [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md) |   |   |
-| [sample-datasets-db](https://github.com/HBPSP8Repo/sample-datasets-db) | [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) | [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/HBPSP8Repo/sample-datasets-db/blob/master/LICENSE) |   |   |
+| [woken](https://github.com/HBPMedical/woken) | [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) | [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/HBPMedical/woken/blob/master/LICENSE) |   |   |
+| [base-docker-images](https://github.com/HBPMedical/base-docker-images) | [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) | [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md) |   |   |
+| [functions-repository](https://github.com/HBPMedical/functions-repository) |  [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) | [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md) |   |   |
+| [sample-datasets-db](https://github.com/HBPMedical/sample-datasets-db) | [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) | [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/HBPMedical/sample-datasets-db/blob/master/LICENSE) |   |   |
 
 ### Configuration for Ansible inventory
 
