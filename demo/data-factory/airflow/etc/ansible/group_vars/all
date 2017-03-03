@@ -78,6 +78,7 @@ main_data_pipelines_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline
 main_data_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
 main_data_ehr_scanners: 'flat'
 main_data_ehr_data_folder: '/data/ehr_demo'
+main_data_ehr_data_folder_depth: 1
 main_data_ehr_versioned_folder: '/data/ehr_versioned'
 main_data_ehr_to_i2b2_capture_docker_image: 'hbpmip/mipmap'
 main_data_ehr_to_i2b2_capture_folder: '/data/ehr_i2b2_capture'
