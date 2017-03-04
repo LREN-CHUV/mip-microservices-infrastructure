@@ -37,6 +37,23 @@
     - "{{ play_dir }}/vars/versions.yml"
     - "{{ play_dir }}/vars/airflow.yml"
 
+  pre_tasks:
+
+    - name: Define user in .gitconfig
+      ini_file:
+        dest: '{{ airflow_home }}/.gitconfig'
+        section: user
+        option: '{{ item.option }}'
+        value: '{{ item.value }}'
+        owner: airflow
+        group: airflow
+        mode: 0644
+        backup: yes
+      with_items:
+        - { option: 'email', value: "airflow@{{ ansible_fqdn }}" }
+        - { option: 'name', value: 'Airflow' }
+      tags: ['airflow-slave', 'airflow', 'data-factory', 'marathon-app']
+
   roles:
 
     - role: spm
