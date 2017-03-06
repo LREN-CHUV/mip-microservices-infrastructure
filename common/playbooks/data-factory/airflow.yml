@@ -54,6 +54,13 @@
         - { option: 'name', value: 'Airflow' }
       tags: ['airflow-slave', 'airflow', 'data-factory', 'marathon-app']
 
+    - name: Allow Airflow to run Docker containers
+      user:
+        name: airflow
+        shell: /bin/bash
+        groups: docker
+        append: yes
+
   roles:
 
     - role: spm
