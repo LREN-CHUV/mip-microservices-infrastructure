@@ -1,0 +1,8 @@
+# Configuration for MipMap database
+# {{ansible_managed}}
+
+driver = org.postgresql.Driver
+uri = jdbc:postgresql://{{ mipmap_db_host }}:{{ mipmap_db_port }}/
+username = {{ mipmap_db_user }}
+password = {{ mipmap_db_password }}
+mappingTask-DatabaseName = {{ mipmap_db_name }}

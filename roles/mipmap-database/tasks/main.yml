@@ -76,3 +76,13 @@
     path: '{{ airflow_home}}'
     state: directory
     owner: '{{ airflow_user }}'
+
+- name: Create configuration folder for MipMap
+  file:
+    path: '/etc/mipmap'
+    state: directory
+
+- name: Store the configuration for MipMap
+  template:
+    src: 'postgresdb.properties.j2'
+    dest: '/etc/mipmap/postgresdb.properties'
