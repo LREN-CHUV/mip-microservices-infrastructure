@@ -169,6 +169,8 @@ airflow_extra_settings:
       dicom_files_pattern: "{{ main_data_dicom_files_pattern | default('**/MR.*') }}"
       dicom_organizer_local_folder: "{{ main_data_dicom_organizer_local_folder | default(None) }}"
       dicom_organizer_data_structure: "{{ main_data_dicom_organizer_data_structure | default(None) }}"
+      images_selection_local_folder: "{{ main_data_images_selection_local_folder | default(None) }}"
+      images_selection_file_path: "{{ main_data_images_selection_file_path | default(None) }}"
       dicom_select_T1_local_folder: "{{ main_data_dicom_select_T1_local_folder | default(None) }}"
       dicom_select_T1_protocols_file: "{{ main_data_dicom_select_T1_protocols_file | default(None) }}"
       nifti_local_folder: '{{ main_data_nifti_local_folder }}'
@@ -190,6 +192,7 @@ airflow_extra_settings:
 airflow_work_dirs:
   - '{{ main_data_dicom_local_folder }}'
   - "{{ main_data_dicom_organizer_local_folder | default('/tmp') }}"
+  - "{{ main_data_images_selection_local_folder | default('/tmp') }}"
   - "{{ main_data_dicom_select_T1_local_folder | default('/tmp') }}"
   - '{{ main_data_nifti_local_folder }}'
   - '{{ main_data_mpm_maps_local_folder }}'
