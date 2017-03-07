@@ -1,5 +1,6 @@
 ---
 
+airflow_python_local_dist_packages: '/usr/local/lib/python3.5/dist-packages'
 airflow_python_libraries_path: '/usr/lib/python3/dist/packages/:/usr/local/lib/python3.5/dist-packages/'
 
 # We assume that MRI database is deployed under the same Postgres instance as airflow database
