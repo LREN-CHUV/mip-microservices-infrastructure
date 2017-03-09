@@ -2,7 +2,7 @@
 
 java_version: 8
 java_oracle_version: "8u60"
-docker_version: "1.13.1"
+docker_version: "17.03.0~ce"
 docker_package_version: "0"
 docker_registry_version: "2.3.1"
 
