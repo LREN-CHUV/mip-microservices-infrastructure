@@ -58,7 +58,7 @@
     executor: ""
     wait_timeout: 600
     health_checks:
-      - protocol: HTTP
+      - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_HTTP{% else %}HTTP{% endif %}"
         portIndex: 0
         path: '/'
         gracePeriodSeconds: 300

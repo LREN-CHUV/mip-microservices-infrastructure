@@ -96,7 +96,7 @@
     executor: ""
     wait_timeout: 600
     health_checks:
-      - protocol: TCP
+      - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_TCP{% else %}TCP{% endif %}"
         port: "{{ cbrain_bourreau_ssh_port }}"
         gracePeriodSeconds: 300
         intervalSeconds: 60

@@ -9,8 +9,8 @@ docker_registry_version: "2.3.1"
 mesos_version: "1.1.0"
 mesos_package_version: "2.0.107"
 mesos_ui_version: "standalone-0.1.4"
-marathon_version: "1.3.6"
-marathon_package_version: "1.0.540"
+marathon_version: "1.4.1"
+marathon_package_version: "1.0.635"
 chronos_version: "2.4.0-ubuntu-14.04"
 
 airflow_version: '1.7.1.3'
