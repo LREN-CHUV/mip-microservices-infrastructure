@@ -30,18 +30,24 @@
       group:
         name: '{{ airflow_group }}'
         state: present
+      tags:
+        - demo
 
     - name: Create user for Airflow
       user:
         name: '{{ airflow_user }}'
         group: '{{ airflow_group }}'
         home: '{{ airflow_home }}'
+      tags:
+        - demo
 
     - name: Create folders for data and scripts
       file: path='{{ item }}' state=directory owner=airflow
       with_items:
         - /data/demo
         - /data/ehr_demo
+      tags:
+        - demo
 
     - name: Get some MRI data from public datasets (it takes time)
       git:
@@ -49,6 +55,26 @@
         version: master
         dest: /data/demo
         depth: 1
+      tags:
+        - demo
+
+    - name: Get some demo EHR data from Git
+      git:
+        repo: https://github.com/HBPMedical/MIPMap-demo-ehr-to-i2b2.git
+        version: master
+        dest: /data/MIPMap-demo-ehr-to-i2b2
+        depth: 1
+      tags:
+        - demo
+
+    - name: Put the demo EHR data into the input folder
+      copy:
+        src: /data/MIPMap-demo-ehr-to-i2b2/source/
+        version: master
+        dest: /data/ehr_demo/
+      delegate_to: "{{ inventory_hostname }}"
+      tags:
+        - demo
 
 - hosts: cbrain
   become: yes
