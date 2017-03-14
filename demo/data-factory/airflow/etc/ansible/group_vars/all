@@ -67,7 +67,10 @@ main_data_preprocessing_data_folder: "/data/demo"
 main_data_min_free_space_local_folder: 0.3
 main_data_dicom_local_folder: "/data/incoming"
 main_data_dicom_files_pattern: '**/*.dcm'
+main_data_images_organizer_docker_image: 'hbpmip/hierarchizer'
+main_data_images_organizer_version: 'latest'
 main_data_images_organizer_local_folder: "/data/organizer"
+main_data_images_organizer_dataset_type: 'DICOM'
 main_data_images_organizer_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
 main_data_images_selection_local_folder: '/data/images_selection'
 main_data_images_selection_file_path: "{{ main_data_dicom_local_folder }}/images_selection.csv"
