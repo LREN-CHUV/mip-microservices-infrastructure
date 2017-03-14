@@ -30,10 +30,10 @@ if [ "$1" = "--reset" ]; then
   echo
   echo "Please manually stop all applications using the Marathon interface before continuing"
   echo "Press enter to continue."
-  read -p "> " go
+  read -p "> "
 fi
 
-ansible-playbook --ask-become-pass -i envs/$DATACENTER/etc/ansible/ \
-        -e play_dir=$ROOT/../.. \
-        -e datacenter=$DATACENTER $OPTS \
-        $ROOT/../playbooks/fix-mesos-cluster.yml
+ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
+        -e play_dir="$ROOT/../.." \
+        -e datacenter="$DATACENTER" "$OPTS" \
+        "$ROOT/../playbooks/fix-mesos-cluster.yml"

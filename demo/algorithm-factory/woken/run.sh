@@ -5,5 +5,5 @@ set -e
 if [ -z "$@" ]; then
   vagrant up
 else
-  vagrant $@
+  vagrant "$@"
 fi

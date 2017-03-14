@@ -7,5 +7,5 @@ mkdir dataset
 if [ -z "$@" ]; then
   vagrant up
 else
-  vagrant $@
+  vagrant "$@"
 fi

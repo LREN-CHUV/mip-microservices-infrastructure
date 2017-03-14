@@ -68,9 +68,8 @@
         - demo
 
     - name: Put the demo EHR data into the input folder
-      copy:
+      synchronize:
         src: /data/MIPMap-demo-ehr-to-i2b2/source/
-        version: master
         dest: /data/ehr_demo/
       delegate_to: "{{ inventory_hostname }}"
       tags:
