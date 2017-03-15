@@ -72,6 +72,7 @@ i2b2_import_version: '1.4.5'
 i2b2_setup_version: '1.4.5'
 slackclient_py_version: '1.0.5'
 docker_py_version: '1.10.6'
+airflow_imaging_plugins_version: '0.2'
 airflow_mri_preprocessing_dags_version: 'master'
 
 # QA environment

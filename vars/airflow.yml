@@ -55,7 +55,7 @@ airflow_pip_packages:
   - "docker-py=={{ docker_py_version }}"
   - "mri-meta-extract=={{ mri_meta_extract_version }}"
   - "i2b2-import=={{ i2b2_import_version }}"
-  - "git+https://github.com/HBPMedical/airflow-imaging-plugins.git@master#egg=airflow_imaging_plugins"
+  - "airflow_imaging_plugins=={{ airflow_imaging_plugins_version }}"
 
 airflow_plugins:
   - name: mesos
@@ -115,6 +115,7 @@ airflow_scripts:
 #mri_mipmap_db_confile_file: ''
 
 #main_data_set: "LREN"
+#main_data_set_config: 'boost,session_id_by_patient,visit_id_in_patient_id'
 #main_data_session_id_by_patient: False -- true for LREN
 #main_data_max_active_runs
 #main_data_preprocessing_scanners: "daily,continuous"
@@ -165,6 +166,7 @@ airflow_extra_settings:
   - section: main-dataset
     parameters:
       dataset: '{{ main_data_set }}'
+      dataset_config: '{{ main_data_set_config }}'
       max_active_runs: '{{ main_data_max_active_runs }}'
       session_id_by_patient: '{{ main_data_session_id_by_patient | default(False) }}'
       preprocessing_scanners: '{{ main_data_preprocessing_scanners }}'
