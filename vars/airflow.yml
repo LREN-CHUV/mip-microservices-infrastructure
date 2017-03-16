@@ -100,22 +100,24 @@ airflow_scripts:
     version: '{{ mri_preprocessing_pipeline_version }}'
     verify_commit: '{{ airflow_scripts_verify_commit | default(False) }}'
     dest: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline'
-  - url: https://github.com/HBPMedical/airflow-mri-preprocessing-dags.git
-    version: '{{ airflow_mri_preprocessing_dags_version }}'
+  - url: https://github.com/HBPMedical/data-factory-airflow-dags.git
+    version: '{{data_factory_airflow_dags_version }}'
     # TODO set to true
     verify_commit: false
-    dest: '{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags'
+    dest: '{{ airflow_scripts_root }}/data-factory-airflow-dags'
 
-# Configuration for MRI preprocessing pipeline running in Airflow
-#mri_datasets
-#mri_local_drive
-#mri_email_errors_to
-#mri_slack_channel
-#mri_slack_channel_user
-#mri_mipmap_db_confile_file: ''
+airflow_dags_folder: "{{ airflow_scripts_root }}/data-factory-airflow-dags"
 
-#main_data_set: "LREN"
-#main_data_set_config: 'boost,session_id_by_patient,visit_id_in_patient_id'
+# Configuration for Data factory pipelines (MRI preprocessing and ETL) running in Airflow
+#data_factory_datasets
+#data_factory_local_drive
+#data_factory_email_errors_to
+#data_factory_slack_channel
+#data_factory_slack_channel_user
+#data_factory_mipmap_db_confile_file: ''
+
+#main_data_name: "LREN"
+#main_data_config: 'boost,session_id_by_patient,visit_id_in_patient_id'
 #main_data_session_id_by_patient: False -- true for LREN
 #main_data_max_active_runs
 #main_data_preprocessing_scanners: "daily,continuous"
@@ -154,19 +156,19 @@ airflow_extra_settings:
   - section: spm
     parameters:
       spm_dir: '{{ spm_dir }}'
-  - section: mri
+  - section: "data-factory"
     parameters:
       sql_alchemy_conn: '{{ data_catalog_db_sql_alchemy_conn }}'
-      datasets: '{{ mri_datasets }}'
-      email_errors_to: '{{ mri_email_errors_to }}'
-      slack_token: '{{ mri_slack_token | default(slack_token) }}'
-      slack_channel: '{{ mri_slack_channel }}'
-      slack_channel_user: '{{ mri_slack_channel_user }}'
-      mipmap_db_confile_file: "{{ mri_mipmap_db_confile_file | default('/dev/null') }}"
-  - section: main-dataset
+      datasets: '{{ data_factory_datasets }}'
+      email_errors_to: '{{ data_factory_email_errors_to }}'
+      slack_token: '{{ data_factory_slack_token | default(slack_token) }}'
+      slack_channel: '{{ data_factory_slack_channel }}'
+      slack_channel_user: '{{ data_factory_slack_channel_user }}'
+      mipmap_db_confile_file: "{{ data_factory_mipmap_db_confile_file | default('/dev/null') }}"
+  - section: "data-factory:main"
     parameters:
-      dataset: '{{ main_data_set }}'
-      dataset_config: '{{ main_data_set_config }}'
+      dataset: '{{ main_data_name }}'
+      dataset_config: '{{ main_data_config }}'
       max_active_runs: '{{ main_data_max_active_runs }}'
       session_id_by_patient: '{{ main_data_session_id_by_patient | default(False) }}'
       preprocessing_scanners: '{{ main_data_preprocessing_scanners }}'

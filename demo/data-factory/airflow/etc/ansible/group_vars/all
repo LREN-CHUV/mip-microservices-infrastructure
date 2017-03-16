@@ -23,8 +23,6 @@ airflow_sql_alchemy_conn: "postgresql://airflow:{{ airflow_db_password }}@{{ air
 
 airflow_scripts_root: '/opt/airflow-scripts'
 airflow_scripts_verify_commit: false
-airflow_dags_folder: "{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags"
-airflow_plugins_folder: '{{ airflow_scripts_root }}/airflow-imaging-plugins'
 
 airflow_load_examples: false
 
@@ -54,13 +52,13 @@ mipmap_db_host: '{{ airflow_db_host }}'
 mipmap_db_port: '{{ airflow_db_port }}'
 
 # Configuration for MRI preprocessing pipeline running in Airflow
-mri_datasets: 'main-dataset'
-mri_email_errors_to: ''
-mri_slack_channel: '#data'
-mri_slack_channel_user: 'Airflow'
+data_factory_datasets: 'main'
+data_factory_email_errors_to: ''
+data_factory_slack_channel: '#data'
+data_factory_slack_channel_user: 'Airflow'
 
-main_data_set: 'Demo'
-main_data_set_config: 'boost'
+main_data_name: 'Demo'
+main_data_config: 'boost'
 main_data_max_active_runs: 30
 main_data_preprocessing_scanners: 'flat'
 main_data_preprocessing_pipelines: 'dicom_organizer,images_selection,dicom_select_T1,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas'
