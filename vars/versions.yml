@@ -72,7 +72,8 @@ i2b2_import_version: '1.5.3'
 i2b2_setup_version: '1.4.5'
 slackclient_py_version: '1.0.5'
 docker_py_version: '1.10.6'
-airflow_imaging_plugins_version: '0.4.0'
+hierarchizer_version: '1.0.7'
+airflow_imaging_plugins_version: '0.4.2'
 data_factory_airflow_dags_version: 'master'
 
 # QA environment
