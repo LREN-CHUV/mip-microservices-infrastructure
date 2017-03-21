@@ -173,68 +173,78 @@ airflow_extra_settings:
       input_config: '{{ main_preprocessing_input_config }}'
       max_active_runs: '{{ main_preprocessing_max_active_runs }}'
       min_free_space: '{{ main_preprocessing_min_free_space }}'
+      misc_library_path: '{{ main_preprocessing_misc_library_path }}'
+      pipelines_path: '{{ main_preprocessing_pipelines_path }}'
       scanners: '{{ main_preprocessing_scanners }}'
       pipelines: '{{ main_preprocessing_pipelines }}'
-      pipelines_path: '{{ main_preprocessing_pipelines_path }}'
-      protocols_file: '{{ main_preprocessing_protocols_file }}'
-      nifti_local_folder: '{{ main_preprocessing_nifti_local_folder }}'
-      nifti_server_folder: "{{ main_preprocessing_nifti_server_folder | default(None) }}"
-  - section: "data-factory:main:preprocessing:copy-to-local"
+  - section: "data-factory:main:preprocessing:copy_to_local"
     parameters:
       output_folder: "{{ main_preprocessing_copy_to_local_output_folder }}"
   - section: "data-factory:main:preprocessing:dicom_organiser"
     parameters:
-      docker_image: "{{ main_preprocessing_dicom_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_preprocessing_dicom_organiser_version | default('latest') }}"
-      docker_input_dir: "{{ main_preprocessing_dicom_organiser_input_folder | default(None) }}"
-      docker_output_dir: "{{ main_preprocessing_dicom_organiser_output_folder | default(None) }}"
-      data_structure: "{{ main_preprocessing_dicom_organiser_data_structure }}"
       output_folder: "{{ main_preprocessing_dicom_organiser_output_folder }}"
-  - section: "data-factory:main:preprocessing:nifti_organiser"
+      data_structure: "{{ main_preprocessing_dicom_organiser_data_structure }}"
+      docker_image: "{{ main_preprocessing_dicom_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_preprocessing_dicom_organiser_version | default('latest') }}"
+      docker_input_dir: "{{ main_preprocessing_dicom_organiser_input_folder | default('/input_folder') }}"
+      docker_output_dir: "{{ main_preprocessing_dicom_organiser_output_folder | default('/output_folder') }}"
+  - section: "data-factory:main:preprocessing:dicom_selection"
     parameters:
-      docker_image: "{{ main_preprocessing_nifti_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_preprocessing_nifti_organiser_version | default('latest') }}"
-      docker_input_dir: "{{ main_preprocessing_nifti_organiser_input_folder | default(None) }}"
-      docker_output_dir: "{{ main_preprocessing_nifti_organiser_output_folder | default(None) }}"
-      data_structure: "{{ main_preprocessing_nifti_organiser_data_structure }}"
-      output_folder: "{{ main_preprocessing_nifti_organiser_output_folder }}"
-  - section: "data-factory:main:preprocessing:images_selection"
-    parameters:
-      output_folder: "{{ main_preprocessing_images_selection_output_folder | default(None) }}"
-      images_selection_csv_path: "{{ main_preprocessing_images_selection_file_path | default(None) }}"
+      output_folder: "{{ main_preprocessing_dicom_selection_output_folder | default(None) }}"
+      images_selection_csv_path: "{{ main_preprocessing_dicom_selection_images_selection_csv_path | default(None) }}"
   - section: "data-factory:main:preprocessing:dicom_select_T1"
     parameters:
       output_folder: "{{ main_preprocessing_dicom_select_t1_output_folder | default(None) }}"
-      protocols_definition_file: "{{ main_preprocessing_dicom_select_T1_protocols_definition_file }}"
       spm_function: "{{ main_preprocessing_dicom_select_t1_spm_function }}"
       pipeline_path: "{{ main_preprocessing_dicom_select_t1_pipeline_path }}"
       misc_library_path: "{{ main_preprocessing_dicom_select_t1_misc_library_path }}"
-      backup_folder: "{{ main_preprocessing_dicom_select_t1_backup_folder }}"
-      dcm2nii_program: "{{ main_preprocessing_dicom_select_t1_dcm2nii_program }}"
+      protocols_file: "{{ main_preprocessing_dicom_select_T1_protocols_file }}"
+  - section: "data-factory:main:preprocessing:dicom_to_nifti"
+    parameters:
+      output_folder: "{{ main_preprocessing_dicom_to_nifti_output_folder | default(None) }}"
+      backup_folder: "{{ main_preprocessing_nifti_organiser_backup_folder }}"
+      spm_function: "{{ main_preprocessing_dicom_to_nifti_spm_function }}"
+      pipeline_path: "{{ main_preprocessing_dicom_to_nifti_pipeline_path }}"
+      misc_library_path: "{{ main_preprocessing_dicom_to_nifti_misc_library_path }}"
+      protocols_file: "{{ main_preprocessing_dicom_to_nifti_protocols_file }}"
+      dcm2nii_program: "{{ main_preprocessing_dicom_to_nifti_dcm2nii_program }}"
+  - section: "data-factory:main:preprocessing:nifti_organiser"
+    parameters:
+      output_folder: "{{ main_preprocessing_nifti_organiser_output_folder }}"
+      data_structure: "{{ main_preprocessing_nifti_organiser_data_structure }}"
+      docker_image: "{{ main_preprocessing_nifti_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_preprocessing_nifti_organiser_version | default('latest') }}"
+      docker_input_dir: "{{ main_preprocessing_nifti_organiser_input_folder | default('/input_folder') }}"
+      docker_output_dir: "{{ main_preprocessing_nifti_organiser_output_folder | default('/output_folder') }}"
+  - section: "data-factory:main:preprocessing:nifti_selection"
+    parameters:
+      output_folder: "{{ main_preprocessing_nifti_selection_output_folder | default(None) }}"
+      csv_path: "{{ main_preprocessing_nifti_selection_csv_path | default(None) }}"
   - section: "data-factory:main:preprocessing:mpm_maps"
     parameters:
-      output_folder: '{{ main_preprocessing_mpm_maps_output_folder }}'
-      server_folder: "{{ main_preprocessing_mpm_maps_server_folder | default(None) }}"
+      output_folder: "{{ main_preprocessing_mpm_maps_output_folder | default(None) }}"
+      backup_folder: "{{ main_preprocessing_mpm_maps_backup_folder }}"
+      spm_function: "{{ main_preprocessing_mpm_maps_spm_function }}"
+      pipeline_path: "{{ main_preprocessing_mpm_maps_pipeline_path }}"
+      misc_library_path: "{{ main_preprocessing_mpm_maps_misc_library_path }}"
+      protocols_file: "{{ main_preprocessing_mpm_maps_protocols_file }}"
   - section: "data-factory:main:preprocessing:neuro_morphometric_atlas"
     parameters:
-      output_folder: '{{ main_preprocessing_neuro_morphometric_atlas_local_folder }}'
-      server_folder: "{{ main_preprocessing_neuro_morphometric_atlas_server_folder | default(None) }}"
-      TPM_template: "{{ main_preprocessing_neuro_morphometric_atlas_TPM_template | default(spm_dir + '/tpm/nwTPM_sl3.nii') }}"
+      output_folder: "{{ main_preprocessing_neuro_morphometric_atlas_output_folder | default(None) }}"
+      backup_folder: "{{ main_preprocessing_neuro_morphometric_atlas_backup_folder }}"
       spm_function: "{{ main_preprocessing_neuro_morphometric_atlas_spm_function }}"
-  - section: "data-factory:main:preprocessing:features_to_i2b2"
+      pipeline_path: "{{ main_preprocessing_neuro_morphometric_atlas_pipeline_path }}"
+      misc_library_path: "{{ main_preprocessing_neuro_morphometric_atlas_misc_library_path }}"
+      protocols_file: "{{ main_preprocessing_neuro_morphometric_atlas_protocols_file }}"
+      tpm_template: "{{ main_preprocessing_neuro_morphometric_atlas_tpm_template }}"
+  - section: "data-factory:main:ehr"
     parameters:
-      output_folder: "{{ main_preprocessing_features_to_i2b2_local_folder | default(None) }}"
-  - section: "data-factory:main:etl"
+      input_folder: "{{ main_ehr_input_folder | default(None) }}"
+      input_folder_depth: "main_ehr_input_folder_depth"
+      min_free_space: "main_ehr_min_free_space"
+      scanners: "main_ehr_scanners"
+      pipelines: "main_ehr_pipelines"
+  - section: "data-factory:main:ehr:map_ehr_to_i2b2"
     parameters:
-      min_free_space: "{{ main_etl_min_free_space }}"
-  - section: "data-factory:main:etl:ehr_to_i2b2"
-    parameters:
-      scanners: "{{ main_preprocessing_ehr_scanners | default('') }}"
-      data_folder: '{{ main_preprocessing_ehr_data_folder | default(None) }}'
-      data_folder_depth: '{{ main_preprocessing_ehr_data_folder_depth | default(1) }}'
-      docker_image: '{{ main_preprocessing_ehr_to_i2b2_capture_docker_image | default(None) }}'
-      output_folder: '{{ main_preprocessing_ehr_to_i2b2_capture_folder | default(None) }}'
-  - section: "data-factory:main:etl:version_ehr"
-    parameters:
-      output_folder: '{{ main_etl_version_ehr_output_folder | default(None) }}'
+      docker_image: "{{ main_ehr_map_ehr_to_i2b2_docker_image | default(None) }}"
 
 airflow_work_dirs: "
   {% set dirs = [] %}
