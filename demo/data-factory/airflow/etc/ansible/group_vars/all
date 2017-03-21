@@ -61,19 +61,17 @@ main_dataset_label: 'Demo'
 main_preprocessing_input_config: 'boost'
 main_preprocessing_max_active_runs: 30
 main_preprocessing_scanners: 'flat'
-main_preprocessing_pipelines: 'dicom_organizer,dicom_selection,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas'
+main_preprocessing_pipelines: 'dicom_organizer,dicom_selection,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas,export_features'
 main_preprocessing_data_folder: "/data/demo"
-main_preprocessing_min_free_space_local_folder: 0.3
-main_preprocessing_copy_to_folder_local_folder: "/data/incoming"
-main_preprocessing_dicom_files_pattern: '**/*.dcm'
+main_preprocessing_min_free_space: 0.3
+main_preprocessing_copy_to_local: "/data/incoming"
 main_preprocessing_images_organizer_docker_image: 'hbpmip/hierarchizer'
 main_preprocessing_images_organizer_version: '{{ hierarchizer_version }}'
-main_preprocessing_images_organizer_local_folder: "/data/organizer"
-main_preprocessing_images_organizer_dataset_type: 'DICOM'
+main_preprocessing_images_organizer_output_folder: "/data/organizer"
 main_preprocessing_images_organizer_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
-main_preprocessing_images_selection_local_folder: '/data/images_selection'
+main_preprocessing_images_selection_output_folder: '/data/images_selection'
 main_preprocessing_images_selection_file_path: "{{ main_preprocessing_copy_to_folder_local_folder }}/images_selection.csv"
-main_preprocessing_dicom_select_T1_local_folder: "/data/select_T1"
+main_preprocessing_dicom_select_T1_output_folder: "/data/select_T1"
 main_preprocessing_dicom_select_T1_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
 main_preprocessing_nifti_local_folder: "/data/nifti"
 main_preprocessing_mpm_maps_local_folder: "/data/mpm_maps"
