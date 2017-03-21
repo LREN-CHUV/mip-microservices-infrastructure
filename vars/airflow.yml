@@ -155,6 +155,9 @@ airflow_extra_settings:
   - section: spm
     parameters:
       spm_dir: '{{ spm_dir }}'
+  - section: mipmap
+    parameters:
+      db_config_file: "{{ data_factory_mipmap_db_config_file | default('/dev/null') }}"
   - section: "data-factory"
     parameters:
       sql_alchemy_conn: '{{ data_catalog_db_sql_alchemy_conn }}'
@@ -163,7 +166,6 @@ airflow_extra_settings:
       slack_token: '{{ data_factory_slack_token | default(slack_token) }}'
       slack_channel: '{{ data_factory_slack_channel }}'
       slack_channel_user: '{{ data_factory_slack_channel_user }}'
-      mipmap_db_confile_file: "{{ data_factory_mipmap_db_confile_file | default('/dev/null') }}"
   - section: "data-factory:main"
     parameters:
       dataset_label: '{{ main_dataset_label }}'
@@ -245,6 +247,9 @@ airflow_extra_settings:
   - section: "data-factory:main:ehr:map_ehr_to_i2b2"
     parameters:
       docker_image: "{{ main_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2') }}:{{ main_ehr_map_ehr_to_i2b2_version | default('latest') }}"
+  - section: "data-factory:main:ehr:version_incoming_ehr"
+    parameters:
+      output_folder: "{{ main_ehr_version_incoming_ehr_output_folder }}"
 
 airflow_work_dirs: "
   {% set dirs = [] %}
