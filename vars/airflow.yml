@@ -244,7 +244,7 @@ airflow_extra_settings:
       pipelines: "main_ehr_pipelines"
   - section: "data-factory:main:ehr:map_ehr_to_i2b2"
     parameters:
-      docker_image: "{{ main_ehr_map_ehr_to_i2b2_docker_image | default(None) }}"
+      docker_image: "{{ main_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2') }}:{{ main_ehr_map_ehr_to_i2b2_version | default('latest') }}"
 
 airflow_work_dirs: "
   {% set dirs = [] %}
