@@ -125,11 +125,11 @@ airflow_dags_folder: "{{ airflow_scripts_root }}/data-factory-airflow-dags"
 #main_preprocessing_min_free_space
 #main_preprocessing_preprocessing_copy_to_folder_local_folder: "/data/incoming"
 #main_preprocessing_dicom_files_pattern: '**/MR.*'
-#main_preprocessing_images_organizer_docker_image: 'hbpmip/hierarchizer'
-#main_preprocessing_images_organizer_version: '{{ hierarchizer_version }}'
-#main_preprocessing_images_organizer_local_folder: /data/organizer
-#main_preprocessing_images_organizer_dataset_type: 'DICOM'
-#main_preprocessing_images_organizer_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
+#main_preprocessing_images_organiser_docker_image: 'hbpmip/hierarchizer'
+#main_preprocessing_images_organiser_version: '{{ hierarchizer_version }}'
+#main_preprocessing_images_organiser_local_folder: /data/organiser
+#main_preprocessing_images_organiser_dataset_type: 'DICOM'
+#main_preprocessing_images_organiser_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
 #main_preprocessing_nifti_local_folder: "/data/Nifti_Data_MPMs"
 #main_preprocessing_nifti_server_folder: "/mnt/filerc/LREN/SHARE/AIR_VBQ_Output_All/DataNifti_All"
 #main_preprocessing_mpm_maps_local_folder: "/data/MPMs_All"
@@ -253,8 +253,8 @@ airflow_extra_settings:
 
 airflow_work_dirs: "
   {% set dirs = [] %}
-  {% if main_preprocessing_dicom_organizer_local_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_dicom_organizer_local_folder] %}
+  {% if main_preprocessing_dicom_organiser_local_folder is defined %}
+    {% set dirs = dirs + [main_preprocessing_dicom_organiser_local_folder] %}
   {% endif %}
   {% if main_preprocessing_images_selection_local_folder is defined %}
     {% set dirs = dirs + [main_preprocessing_images_selection_local_folder] %}
@@ -266,7 +266,7 @@ airflow_work_dirs: "
 "
 
 #  - '{{ main_preprocessing_dicom_local_folder }}'
-#  - "{{ main_preprocessing_dicom_organizer_local_folder | default('/tmp/airflow/dicom_organizer') }}"
+#  - "{{ main_preprocessing_dicom_organiser_local_folder | default('/tmp/airflow/dicom_organiser') }}"
 #  - "{{ main_preprocessing_images_selection_local_folder | default('/tmp/airflow/images_selection') }}"
 #  - "{{ main_preprocessing_dicom_select_T1_local_folder | default('/tmp/airflow/dicom_select_T1') }}"
 #  - '{{ main_preprocessing_nifti_local_folder }}'

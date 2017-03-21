@@ -56,13 +56,13 @@ mri_slack_channel_user: 'Airflow'
 main_data_set: 'Demo'
 main_data_max_active_runs: 30
 main_data_preprocessing_scanners: 'flat'
-main_data_preprocessing_pipelines: 'dicom_organizer,dicom_select_T1,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas'
+main_data_preprocessing_pipelines: 'dicom_organiser,dicom_select_T1,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas'
 main_data_preprocessing_data_folder: "/data/demo"
 main_data_min_free_space_local_folder: 0.3
 main_data_dicom_local_folder: "/data/incoming"
 main_data_dicom_files_pattern: '**/*.dcm'
-main_data_dicom_organizer_local_folder: "/data/organizer"
-main_data_dicom_organizer_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
+main_data_dicom_organiser_local_folder: "/data/organiser"
+main_data_dicom_organiser_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
 main_data_dicom_select_T1_local_folder: "/data/select_T1"
 main_data_dicom_select_T1_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
 main_data_nifti_local_folder: "/data/nifti"
@@ -73,7 +73,7 @@ main_data_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline
 
 airflow_work_dirs:
   - '{{ main_data_dicom_local_folder }}'
-  - '{{ main_data_dicom_organizer_local_folder }}'
+  - '{{ main_data_dicom_organiser_local_folder }}'
   - '{{ main_data_dicom_select_T1_local_folder }}'
   - '{{ main_data_nifti_local_folder }}'
   - '{{ main_data_mpm_maps_local_folder }}'
