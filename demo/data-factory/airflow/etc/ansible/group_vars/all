@@ -75,7 +75,7 @@ main_preprocessing_dicom_organiser_version: "{{ hierarchizer_version }}"
 main_preprocessing_dicom_organiser_docker_input_folder: ''
 main_preprocessing_dicom_organiser_docker_output_folder: ''
 main_preprocessing_dicom_selection_output_folder: ''
-main_preprocessing_dicom_selection_images_selection_csv_path: "{{ main_preprocessing_copy_to_local }}/images_selection.csv"
+main_preprocessing_dicom_selection_images_selection_csv_path: "{{ main_preprocessing_copy_to_local_output_folder }}/images_selection.csv"
 main_preprocessing_dicom_select_t1_output_folder: '/data/select_T1'
 main_preprocessing_dicom_select_t1_spm_function: ''
 main_preprocessing_dicom_select_t1_pipeline_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
@@ -95,7 +95,7 @@ main_preprocessing_nifti_organiser_version: "{{ hierarchizer_version }}"
 main_preprocessing_nifti_organiser_input_folder: ''
 main_preprocessing_nifti_organiser_output_folder: ''
 main_preprocessing_nifti_selection_output_folder: ''
-main_preprocessing_nifti_selection_csv_path: "{{ main_preprocessing_copy_to_local }}/images_selection.csv"
+main_preprocessing_nifti_selection_csv_path: "{{ main_preprocessing_copy_to_local_output_folder }}/images_selection.csv"
 main_preprocessing_mpm_maps_output_folder: '/data/mpm_maps'
 main_preprocessing_mpm_maps_backup_folder: ''
 main_preprocessing_mpm_maps_spm_function: ''
