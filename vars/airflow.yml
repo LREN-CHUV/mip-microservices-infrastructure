@@ -171,8 +171,8 @@ airflow_extra_settings:
     parameters:
       input_folder: '{{ main_preprocessing_input_folder }}'
       input_config: '{{ main_preprocessing_input_config }}'
-      max_active_runs: '{{ main_preprocessing_max_active_runs }}'
-      min_free_space: '{{ main_preprocessing_min_free_space }}'
+      max_active_runs: '{{ main_preprocessing_max_active_runs }} | default(30)'
+      min_free_space: '{{ main_preprocessing_min_free_space }} | default(0.3)'
       misc_library_path: '{{ main_preprocessing_misc_library_path }}'
       pipelines_path: '{{ main_preprocessing_pipelines_path }}'
       scanners: '{{ main_preprocessing_scanners }}'
