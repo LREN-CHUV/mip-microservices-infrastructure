@@ -57,43 +57,65 @@ data_factory_email_errors_to: ''
 data_factory_slack_channel: '#data'
 data_factory_slack_channel_user: 'Airflow'
 
+# Configuration for Demo dataset
 main_dataset_label: 'Demo'
+main_preprocessing_input_folder: '/data/demo'
 main_preprocessing_input_config: 'boost'
 main_preprocessing_max_active_runs: 30
+main_preprocessing_min_free_space: 0.3
+main_preprocessing_misc_library_path: ''
+main_preprocessing_pipelines_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
 main_preprocessing_scanners: 'flat'
 main_preprocessing_pipelines: 'dicom_organizer,dicom_selection,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas,export_features'
-main_preprocessing_input_folder: "/data/demo"
-main_preprocessing_min_free_space: 0.3
-main_preprocessing_copy_to_local: "/data/incoming"
-main_preprocessing_images_organiser_output_folder_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
+main_preprocessing_copy_to_local_output_folder: '/data/incoming'
+main_preprocessing_dicom_organiser_output_folder: ''
+main_preprocessing_dicom_organiser_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
 main_preprocessing_dicom_organiser_docker_image: 'hbpmip/hierarchizer'
-main_preprocessing_dicom_organiser_version: '{{ hierarchizer_version }}'
-main_preprocessing_dicom_organiser_input_folder: "/data/organizer"
-main_preprocessing_dicom_organiser_output_folder: "/data/organizer"
-main_preprocessing_dicom_organiser_data_structure: "{{ main_preprocessing_images_organiser_output_folder_structure }}"
-main_preprocessing_nifti_organiser_docker_image: 'hbpmip/hierarchizer'
-main_preprocessing_nifti_organiser_version: '{{ hierarchizer_version }}'
-main_preprocessing_nifti_organiser_input_folder: "/data/organizer"
-main_preprocessing_nifti_organiser_output_folder: "/data/organizer"
-main_preprocessing_nifti_organiser_data_structure: "{{ main_preprocessing_images_organiser_output_folder_structure }}"
-main_preprocessing_dicom_selection_output_folder: '/data/images_selection'
+main_preprocessing_dicom_organiser_version: "{{ hierarchizer_version }}"
+main_preprocessing_dicom_organiser_docker_input_folder: ''
+main_preprocessing_dicom_organiser_docker_output_folder: ''
+main_preprocessing_dicom_selection_output_folder: ''
 main_preprocessing_dicom_selection_images_selection_csv_path: "{{ main_preprocessing_copy_to_local }}/images_selection.csv"
-main_preprocessing_nifti_selection_output_folder: '/data/images_selection'
-main_preprocessing_nifti_selection_images_selection_csv_path: "{{ main_preprocessing_copy_to_local }}/images_selection.csv"
-main_preprocessing_dicom_select_T1_output_folder: "/data/select_T1"
-main_preprocessing_dicom_select_T1_protocols_definition_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
-main_preprocessing_nifti_local_folder: "/data/nifti"
-main_preprocessing_mpm_maps_local_folder: "/data/mpm_maps"
-main_preprocessing_neuro_morphometric_atlas_local_folder: "/data/neuro_morphometric_atlas"
-main_preprocessing_pipelines_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines"
-main_preprocessing_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
-main_etl_input_config: "{{ main_preprocessing_input_config }}"
-main_etl_ehr_scanners: 'flat'
-main_etl_ehr_data_folder: '/data/ehr_demo'
-main_etl_ehr_data_folder_depth: 0
-main_etl_ehr_versioned_folder: '/data/ehr_versioned'
-main_etl_ehr_to_i2b2_capture_docker_image: "hbpmip/mipmap-demo-ehr-to-i2b2:{{ ehr_to_i2b2_capture_version }}"
-main_etl_ehr_to_i2b2_capture_folder: '/data/ehr_i2b2_capture'
+main_preprocessing_dicom_select_t1_output_folder: '/data/select_T1'
+main_preprocessing_dicom_select_t1_spm_function: ''
+main_preprocessing_dicom_select_t1_pipeline_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
+main_preprocessing_dicom_select_t1_misc_library_path: ''
+main_preprocessing_dicom_select_T1_protocols_file: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt'
+main_preprocessing_dicom_to_nifti_output_folder: '/data/nifti'
+main_preprocessing_dicom_to_nifti_backup_folder: ''
+main_preprocessing_dicom_to_nifti_spm_function: ''
+main_preprocessing_dicom_to_nifti_pipeline_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
+main_preprocessing_dicom_to_nifti_misc_library_path: ''
+main_preprocessing_dicom_to_nifti_protocols_file: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt'
+main_preprocessing_dicom_to_nifti_dcm2nii_program: ''
+main_preprocessing_nifti_organiser_output_folder: ''
+main_preprocessing_nifti_organiser_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
+main_preprocessing_nifti_organiser_docker_image: 'hbpmip/hierarchizer'
+main_preprocessing_nifti_organiser_version: "{{ hierarchizer_version }}"
+main_preprocessing_nifti_organiser_input_folder: ''
+main_preprocessing_nifti_organiser_output_folder: ''
+main_preprocessing_nifti_selection_output_folder: ''
+main_preprocessing_nifti_selection_csv_path: "{{ main_preprocessing_copy_to_local }}/images_selection.csv"
+main_preprocessing_mpm_maps_output_folder: '/data/mpm_maps'
+main_preprocessing_mpm_maps_backup_folder: ''
+main_preprocessing_mpm_maps_spm_function: ''
+main_preprocessing_mpm_maps_pipeline_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
+main_preprocessing_mpm_maps_misc_library_path: ''
+main_preprocessing_mpm_maps_protocols_file: ''
+main_preprocessing_neuro_morphometric_atlas_output_folder: '/data/neuro_morphometric_atlas'
+main_preprocessing_neuro_morphometric_atlas_backup_folder: ''
+main_preprocessing_neuro_morphometric_atlas_spm_function: ''
+main_preprocessing_neuro_morphometric_atlas_pipeline_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
+main_preprocessing_neuro_morphometric_atlas_misc_library_path: ''
+main_preprocessing_neuro_morphometric_atlas_protocols_file: ''
+main_preprocessing_neuro_morphometric_atlas_tpm_template: ''
+main_ehr_input_folder: '/data/ehr_demo'
+main_ehr_input_folder_depth: 0
+main_ehr_min_free_space: 0.3
+main_ehr_scanners: 'flat'
+main_ehr_pipelines: ''
+main_ehr_map_ehr_to_i2b2_docker_image: 'hbpmip/mipmap-demo-ehr-to-i2b2'
+main_ehr_map_ehr_to_i2b2_version: "{{ map_ehr_to_i2b2_version }}"
 
 airflow_work_dirs:
   - '{{ main_preprocessing_dicom_local_folder }}'

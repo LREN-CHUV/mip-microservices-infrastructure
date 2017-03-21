@@ -185,8 +185,8 @@ airflow_extra_settings:
       output_folder: "{{ main_preprocessing_dicom_organiser_output_folder }}"
       data_structure: "{{ main_preprocessing_dicom_organiser_data_structure }}"
       docker_image: "{{ main_preprocessing_dicom_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_preprocessing_dicom_organiser_version | default('latest') }}"
-      docker_input_dir: "{{ main_preprocessing_dicom_organiser_input_folder | default('/input_folder') }}"
-      docker_output_dir: "{{ main_preprocessing_dicom_organiser_output_folder | default('/output_folder') }}"
+      docker_input_dir: "{{ main_preprocessing_dicom_organiser_docker_input_folder | default('/input_folder') }}"
+      docker_output_dir: "{{ main_preprocessing_dicom_organiser_docker_output_folder | default('/output_folder') }}"
   - section: "data-factory:main:preprocessing:dicom_selection"
     parameters:
       output_folder: "{{ main_preprocessing_dicom_selection_output_folder | default(None) }}"
@@ -201,7 +201,7 @@ airflow_extra_settings:
   - section: "data-factory:main:preprocessing:dicom_to_nifti"
     parameters:
       output_folder: "{{ main_preprocessing_dicom_to_nifti_output_folder | default(None) }}"
-      backup_folder: "{{ main_preprocessing_nifti_organiser_backup_folder }}"
+      backup_folder: "{{ main_preprocessing_dicom_to_nifti_backup_folder }}"
       spm_function: "{{ main_preprocessing_dicom_to_nifti_spm_function }}"
       pipeline_path: "{{ main_preprocessing_dicom_to_nifti_pipeline_path }}"
       misc_library_path: "{{ main_preprocessing_dicom_to_nifti_misc_library_path }}"
@@ -238,10 +238,10 @@ airflow_extra_settings:
   - section: "data-factory:main:ehr"
     parameters:
       input_folder: "{{ main_ehr_input_folder | default(None) }}"
-      input_folder_depth: "main_ehr_input_folder_depth"
-      min_free_space: "main_ehr_min_free_space"
-      scanners: "main_ehr_scanners"
-      pipelines: "main_ehr_pipelines"
+      input_folder_depth: "{{ main_ehr_input_folder_depth }} | default(0)"
+      min_free_space: "{{ main_ehr_min_free_space | default(0.3) }}"
+      scanners: "{{ main_ehr_scanners }}"
+      pipelines: "{{ main_ehr_pipelines }}"
   - section: "data-factory:main:ehr:map_ehr_to_i2b2"
     parameters:
       docker_image: "{{ main_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2') }}:{{ main_ehr_map_ehr_to_i2b2_version | default('latest') }}"
