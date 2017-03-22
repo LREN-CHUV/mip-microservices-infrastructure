@@ -168,7 +168,8 @@ airflow_extra_settings:
       db_config_file: "{{ data_factory_mipmap_db_config_file | default('/dev/null') }}"
   - section: "data-factory"
     parameters:
-      sql_alchemy_conn: '{{ data_catalog_db_sql_alchemy_conn }}'
+      data_catalog_sql_alchemy_conn: '{{ data_catalog_db_sql_alchemy_conn }}'
+      i2b2_sql_alchemy_conn: '{{ i2b2_db_sql_alchemy_conn }}'
       datasets: '{{ data_factory_datasets }}'
       email_errors_to: '{{ data_factory_email_errors_to }}'
       slack_token: '{{ data_factory_slack_token | default(slack_token) }}'
