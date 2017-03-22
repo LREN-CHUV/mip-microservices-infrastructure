@@ -253,24 +253,32 @@ airflow_extra_settings:
 
 airflow_work_dirs: "
   {% set dirs = [] %}
-  {% if main_preprocessing_dicom_organiser_local_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_dicom_organiser_local_folder] %}
+  {% if main_preprocessing_copy_to_local_output_folder is defined %}
+    {% set dirs = dirs + [main_preprocessing_copy_to_local_output_folder] %}
   {% endif %}
-  {% if main_preprocessing_images_selection_local_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_images_selection_local_folder] %}
+  {% if main_preprocessing_dicom_organiser_docker_image is defined %}
+    {% set dirs = dirs + [main_preprocessing_dicom_organiser_docker_image] %}
   {% endif %}
-  {% if main_preprocessing_dicom_select_T1_local_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_dicom_select_T1_local_folder] %}
+  {% if main_preprocessing_dicom_select_t1_output_folder is defined %}
+    {% set dirs = dirs + [main_preprocessing_dicom_select_t1_output_folder] %}
+  {% endif %}
+  {% if main_preprocessing_dicom_to_nifti_output_folder is defined %}
+    {% set dirs = dirs + [main_preprocessing_dicom_to_nifti_output_folder] %}
+  {% endif %}
+  {% if main_preprocessing_mpm_maps_output_folder is defined %}
+    {% set dirs = dirs + [main_preprocessing_mpm_maps_output_folder] %}
+  {% endif %}
+  {% if main_preprocessing_neuro_morphometric_atlas_output_folder is defined %}
+    {% set dirs = dirs + [main_preprocessing_neuro_morphometric_atlas_output_folder] %}
   {% endif %}
   {{ dirs | list }}
 "
 
-#  - '{{ main_preprocessing_dicom_local_folder }}'
-#  - "{{ main_preprocessing_dicom_organiser_local_folder | default('/tmp/airflow/dicom_organiser') }}"
-#  - "{{ main_preprocessing_images_selection_local_folder | default('/tmp/airflow/images_selection') }}"
-#  - "{{ main_preprocessing_dicom_select_T1_local_folder | default('/tmp/airflow/dicom_select_T1') }}"
-#  - '{{ main_preprocessing_nifti_local_folder }}'
-#  - '{{ main_preprocessing_mpm_maps_local_folder }}'
-#  - '{{ main_preprocessing_neuro_morphometric_atlas_local_folder }}'
-#  - "{{ main_preprocessing_ehr_versioned_folder | default('/tmp/airflow/ehr_versioned') }}"
-#  - "{{ main_preprocessing_ehr_to_i2b2_capture_folder | default('/tmp/airflow/ehr_to_i2b2_capture') }}"
+# airflow_work_dirs:
+#   - '{{ main_preprocessing_copy_to_local_output_folder }}'
+#   - '{{ main_preprocessing_dicom_organiser_docker_image }}'
+#   - '{{ main_preprocessing_dicom_select_t1_output_folder }}'
+#   - '{{ main_preprocessing_dicom_to_nifti_output_folder }}'
+#   - '{{ main_preprocessing_mpm_maps_output_folder }}'
+#   - '{{ main_preprocessing_neuro_morphometric_atlas_output_folder }}'
+
