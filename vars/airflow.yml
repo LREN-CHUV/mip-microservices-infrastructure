@@ -251,38 +251,38 @@ airflow_extra_settings:
     parameters:
       output_folder: "{{ main_ehr_version_incoming_ehr_output_folder }}"
 
-airflow_work_dirs: "
-  {% set dirs = [] %}
-  {% if main_preprocessing_copy_to_local_output_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_copy_to_local_output_folder] %}
-  {% endif %}
-  {% if main_preprocessing_dicom_organiser_output_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_dicom_organiser_output_folder] %}
-  {% endif %}
-  {% if main_preprocessing_dicom_select_t1_output_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_dicom_select_t1_output_folder] %}
-  {% endif %}
-  {% if main_preprocessing_dicom_to_nifti_output_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_dicom_to_nifti_output_folder] %}
-  {% endif %}
-  {% if main_preprocessing_nifti_organiser_output_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_nifti_organiser_output_folder] %}
-  {% endif %}
-  {% if main_preprocessing_mpm_maps_output_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_mpm_maps_output_folder] %}
-  {% endif %}
-  {% if main_preprocessing_neuro_morphometric_atlas_output_folder is defined %}
-    {% set dirs = dirs + [main_preprocessing_neuro_morphometric_atlas_output_folder] %}
-  {% endif %}
-  {{ dirs | list }}
-"
+# airflow_work_dirs: "
+#   {% set dirs = [] %}
+#   {% if main_preprocessing_copy_to_local_output_folder is defined %}
+#     {% set dirs = dirs + [main_preprocessing_copy_to_local_output_folder] %}
+#   {% endif %}
+#   {% if main_preprocessing_dicom_organiser_output_folder is defined %}
+#     {% set dirs = dirs + [main_preprocessing_dicom_organiser_output_folder] %}
+#   {% endif %}
+#   {% if main_preprocessing_dicom_select_t1_output_folder is defined %}
+#     {% set dirs = dirs + [main_preprocessing_dicom_select_t1_output_folder] %}
+#   {% endif %}
+#   {% if main_preprocessing_dicom_to_nifti_output_folder is defined %}
+#     {% set dirs = dirs + [main_preprocessing_dicom_to_nifti_output_folder] %}
+#   {% endif %}
+#   {% if main_preprocessing_nifti_organiser_output_folder is defined %}
+#     {% set dirs = dirs + [main_preprocessing_nifti_organiser_output_folder] %}
+#   {% endif %}
+#   {% if main_preprocessing_mpm_maps_output_folder is defined %}
+#     {% set dirs = dirs + [main_preprocessing_mpm_maps_output_folder] %}
+#   {% endif %}
+#   {% if main_preprocessing_neuro_morphometric_atlas_output_folder is defined %}
+#     {% set dirs = dirs + [main_preprocessing_neuro_morphometric_atlas_output_folder] %}
+#   {% endif %}
+#   {{ dirs | list }}
+# "
 
-# airflow_work_dirs:
-#   - '{{ main_preprocessing_copy_to_local_output_folder }}'
-#   - '{{ main_preprocessing_dicom_organiser_output_folder }}'
-#   - '{{ main_preprocessing_dicom_select_t1_output_folder }}'
-#   - '{{ main_preprocessing_dicom_to_nifti_output_folder }}'
-#   - '{{ main_preprocessing_nifti_organiser_output_folder }}'
-#   - '{{ main_preprocessing_mpm_maps_output_folder }}'
-#   - '{{ main_preprocessing_neuro_morphometric_atlas_output_folder }}'
+airflow_work_dirs:
+  - '{{ main_preprocessing_copy_to_local_output_folder }}'
+  - '{{ main_preprocessing_dicom_organiser_output_folder }}'
+  - '{{ main_preprocessing_dicom_select_t1_output_folder }}'
+  - '{{ main_preprocessing_dicom_to_nifti_output_folder }}'
+  - '{{ main_preprocessing_nifti_organiser_output_folder }}'
+  - '{{ main_preprocessing_mpm_maps_output_folder }}'
+  - '{{ main_preprocessing_neuro_morphometric_atlas_output_folder }}'
 
