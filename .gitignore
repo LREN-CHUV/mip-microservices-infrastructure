@@ -4,3 +4,4 @@ tmp/
 RUNNING_PID
 *.retry
 .idea/
+*.pyc

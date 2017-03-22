@@ -116,15 +116,6 @@ main_ehr_scanners: 'flat'
 main_ehr_pipelines: ''
 main_ehr_map_ehr_to_i2b2_docker_image: 'hbpmip/mipmap-demo-ehr-to-i2b2'
 main_ehr_map_ehr_to_i2b2_version: "{{ map_ehr_to_i2b2_version }}"
-main_ehr_version_incoming_ehr_output_folder: '/data/versioned_ehr'
-
-airflow_work_dirs:
-  - '{{ main_preprocessing_copy_to_local_output_folder }}'
-  - '{{ main_preprocessing_dicom_organiser_output_folder }}'
-  - '{{ main_preprocessing_dicom_select_t1_output_folder }}'
-  - '{{ main_preprocessing_dicom_to_nifti_output_folder }}'
-  - '{{ main_preprocessing_nifti_organiser_output_folder }}'
-  - '{{ main_preprocessing_mpm_maps_output_folder }}'
-  - '{{ main_preprocessing_neuro_morphometric_atlas_output_folder }}'
+main_ehr_version_incoming_ehr_output_folder: '/data/ehr_versioned'
 
 spm_dir: "/opt/spm12"
