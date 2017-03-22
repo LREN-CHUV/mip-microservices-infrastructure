@@ -69,7 +69,7 @@ main_preprocessing_pipelines_path: '{{ airflow_scripts_root }}/mri-preprocessing
 main_preprocessing_scanners: 'flat'
 main_preprocessing_pipelines: 'dicom_organiser,dicom_selection,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas,export_features'
 main_preprocessing_copy_to_local_output_folder: '/data/incoming'
-main_preprocessing_dicom_organiser_output_folder: '/data/organiser'
+main_preprocessing_dicom_organiser_output_folder: '/data/dicom_organiser'
 main_preprocessing_dicom_organiser_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
 main_preprocessing_dicom_organiser_docker_image: 'hbpmip/hierarchizer'
 main_preprocessing_dicom_organiser_version: "{{ hierarchizer_version }}"
@@ -89,7 +89,7 @@ main_preprocessing_dicom_to_nifti_pipeline_path: '{{ airflow_scripts_root }}/mri
 main_preprocessing_dicom_to_nifti_misc_library_path: ''
 main_preprocessing_dicom_to_nifti_protocols_file: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt'
 main_preprocessing_dicom_to_nifti_dcm2nii_program: ''
-main_preprocessing_nifti_organiser_output_folder: ''
+main_preprocessing_nifti_organiser_output_folder: '/data/nifti_organiser'
 main_preprocessing_nifti_organiser_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
 main_preprocessing_nifti_organiser_docker_image: 'hbpmip/hierarchizer'
 main_preprocessing_nifti_organiser_version: "{{ hierarchizer_version }}"
