@@ -53,7 +53,7 @@ airflow_pip_packages:
   - alembic
   - "slackclient=={{ slackclient_py_version }}"
   - "docker-py=={{ docker_py_version }}"
-  - "mri-meta-extract=={{ mri_meta_extract_version }}"
+  - "data-tracking=={{ data_tracking_version }}"
   - "i2b2-import=={{ i2b2_import_version }}"
   - "airflow_imaging_plugins=={{ airflow_imaging_plugins_version }}"
 
