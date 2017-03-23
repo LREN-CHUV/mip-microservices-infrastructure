@@ -246,7 +246,7 @@ airflow_extra_settings:
       pipeline_path: "{{ main_preprocessing_neuro_morphometric_atlas_pipeline_path | default(main_preprocessing_pipelines_path + '/NeuroMorphometric_Pipeline/NeuroMorphometric_tbx/label') }}"
       misc_library_path: "{{ main_preprocessing_neuro_morphometric_atlas_misc_library_path | default(main_preprocessing_misc_library_path) }}"
       protocols_definition_file: "{{ main_preprocessing_neuro_morphometric_atlas_protocols_definition_file | default(main_preprocessing_protocols_definition_file) }}"
-      tpm_template: "{{ main_preprocessing_neuro_morphometric_atlas_tpm_template | default(spm_dir + 'tpm/nwTPM_sl3.nii') }}"
+      tpm_template: "{{ main_preprocessing_neuro_morphometric_atlas_tpm_template | default(spm_dir + '/tpm/nwTPM_sl3.nii') }}"
   - section: "data-factory:main:ehr"
     parameters:
       input_folder: "{{ main_ehr_input_folder | default(None) }}"
