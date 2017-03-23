@@ -76,7 +76,7 @@ main_preprocessing_dicom_organiser_docker_image: 'hbpmip/hierarchizer'
 main_preprocessing_dicom_organiser_version: "{{ hierarchizer_version }}"
 # main_preprocessing_dicom_organiser_docker_input_folder - use default
 # main_preprocessing_dicom_organiser_docker_output_folder - use default
-main_preprocessing_dicom_selection_output_folder' '/data/dicom_selection'
+main_preprocessing_dicom_selection_output_folder: '/data/dicom_selection'
 main_preprocessing_dicom_selection_images_selection_csv_path: "{{ main_preprocessing_copy_to_local_output_folder }}/images_selection.csv"
 main_preprocessing_dicom_select_t1_output_folder: '/data/select_T1'
 # main_preprocessing_dicom_select_t1_spm_function - use default
