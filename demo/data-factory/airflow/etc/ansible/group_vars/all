@@ -68,7 +68,7 @@ main_preprocessing_misc_library_path: '{{ airflow_scripts_root }}/mri-preprocess
 main_preprocessing_pipelines_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
 main_preprocessing_protocols_definition_file: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt'
 main_preprocessing_scanners: 'flat'
-main_preprocessing_pipelines: 'dicom_organiser,dicom_selection,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas,export_features'
+main_preprocessing_pipelines: 'dicom_organiser,dicom_to_nifti,mpm_maps,neuro_morphometric_atlas,export_features,catalog_to_i2b2'
 main_preprocessing_copy_to_local_output_folder: '/data/incoming'
 main_preprocessing_dicom_organiser_output_folder: '/data/dicom_organiser'
 main_preprocessing_dicom_organiser_output_folder_structure: '#PatientID/#AcquisitionDate/#SeriesDescription/#SeriesDate'
@@ -76,13 +76,13 @@ main_preprocessing_dicom_organiser_docker_image: 'hbpmip/hierarchizer'
 main_preprocessing_dicom_organiser_version: "{{ hierarchizer_version }}"
 # main_preprocessing_dicom_organiser_docker_input_folder - use default
 # main_preprocessing_dicom_organiser_docker_output_folder - use default
-main_preprocessing_dicom_selection_output_folder: '/data/dicom_selection'
-main_preprocessing_dicom_selection_images_selection_csv_path: "{{ main_preprocessing_copy_to_local_output_folder }}/images_selection.csv"
-main_preprocessing_dicom_select_t1_output_folder: '/data/select_T1'
+# main_preprocessing_dicom_selection_output_folder: '/data/dicom_selection'
+# main_preprocessing_dicom_selection_images_selection_csv_path: "{{ main_preprocessing_copy_to_local_output_folder }}/images_selection.csv"
+# main_preprocessing_dicom_select_t1_output_folder: '/data/select_T1'
 # main_preprocessing_dicom_select_t1_spm_function - use default
-main_preprocessing_dicom_select_t1_pipeline_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
+# main_preprocessing_dicom_select_t1_pipeline_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
 # main_preprocessing_dicom_select_t1_misc_library_path - use default
-main_preprocessing_dicom_select_T1_protocols_definition_file: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt'
+# main_preprocessing_dicom_select_T1_protocols_definition_file: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt'
 main_preprocessing_dicom_to_nifti_output_folder: '/data/nifti'
 main_preprocessing_dicom_to_nifti_backup_folder: ''
 # main_preprocessing_dicom_to_nifti_spm_function - use default
@@ -95,7 +95,7 @@ main_preprocessing_nifti_organiser_docker_image: 'hbpmip/hierarchizer'
 main_preprocessing_nifti_organiser_version: "{{ hierarchizer_version }}"
 # main_preprocessing_nifti_organiser_input_folder - use default
 # main_preprocessing_nifti_selection_output_folder - use default
-main_preprocessing_nifti_selection_csv_path: "{{ main_preprocessing_copy_to_local_output_folder }}/images_selection.csv"
+# main_preprocessing_nifti_selection_csv_path: "{{ main_preprocessing_copy_to_local_output_folder }}/images_selection.csv"
 main_preprocessing_mpm_maps_output_folder: '/data/mpm_maps'
 # main_preprocessing_mpm_maps_backup_folder - use default
 # main_preprocessing_mpm_maps_spm_function - use default
