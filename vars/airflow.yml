@@ -195,7 +195,7 @@ airflow_extra_settings:
   - section: "data-factory:main:preprocessing:dicom_organiser"
     parameters:
       output_folder: "{{ main_preprocessing_dicom_organiser_output_folder }}"
-      data_structure: "{{ main_preprocessing_dicom_organiser_data_structure }}"
+      output_folder_structure: "{{ main_preprocessing_dicom_organiser_output_folder_structure }}"
       docker_image: "{{ main_preprocessing_dicom_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_preprocessing_dicom_organiser_version | default('latest') }}"
       docker_input_dir: "{{ main_preprocessing_dicom_organiser_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_preprocessing_dicom_organiser_docker_output_folder | default('/output_folder') }}"
@@ -222,7 +222,7 @@ airflow_extra_settings:
   - section: "data-factory:main:preprocessing:nifti_organiser"
     parameters:
       output_folder: "{{ main_preprocessing_nifti_organiser_output_folder }}"
-      data_structure: "{{ main_preprocessing_nifti_organiser_data_structure }}"
+      output_folder_structure: "{{ main_preprocessing_nifti_organiser_output_folder_structure }}"
       docker_image: "{{ main_preprocessing_nifti_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_preprocessing_nifti_organiser_version | default('latest') }}"
       docker_input_dir: "{{ main_preprocessing_nifti_organiser_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_preprocessing_nifti_organiser_docker_output_folder | default('/output_folder') }}"
