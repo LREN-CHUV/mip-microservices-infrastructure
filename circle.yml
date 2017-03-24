@@ -5,15 +5,14 @@ machine:
   #  - docker
 
 dependencies:
-  override:
-    - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe"
-    - sudo apt-get update
-    - sudo apt-get install -t trusty-backports shellcheck
   #cache_directories:
   #  - "~/docker"
 
   override:
     - pip install pre-commit ansible-lint
+    - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe"
+    - sudo apt-get update
+    - sudo apt-get install -t trusty-backports shellcheck
 
 checkout:
   post:
