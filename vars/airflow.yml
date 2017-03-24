@@ -259,7 +259,7 @@ airflow_extra_settings:
       docker_image: "{{ main_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2') }}:{{ main_ehr_map_ehr_to_i2b2_version | default('latest') }}"
   - section: "data-factory:main:ehr:version_incoming_ehr"
     parameters:
-      output_folder: "{{ main_ehr_version_incoming_ehr_output_folder }}"
+      output_folder: "{{ main_ehr_version_incoming_ehr_output_folder | default(None) }}"
 
 airflow_work_dirs: "{{ [
     main_preprocessing_copy_to_local_output_folder,
