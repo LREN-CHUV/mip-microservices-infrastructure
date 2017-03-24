@@ -8,7 +8,7 @@ angular.module('akoenig.deckgrid.demo').controller('HomeController', [
     function initialize ($scope,$http,$location) {
 
       'use strict';
-      
+
       $scope.sites = {{ sites_index | to_json }};
 
       $scope.services = {{ services_index | to_json }};
