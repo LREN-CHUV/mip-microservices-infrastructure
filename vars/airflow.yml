@@ -260,6 +260,27 @@ airflow_extra_settings:
   - section: "data-factory:main:ehr:version_incoming_ehr"
     parameters:
       output_folder: "{{ main_ehr_version_incoming_ehr_output_folder | default(None) }}"
+  - section: "data-factory:main:reorganisation"
+    parameters:
+      input_config: "{{ main_reorganisation_input_config | default('') }}"
+      min_free_space: "{{ main_reorganisation_min_free_space | default(0.3) }}"
+  - section: "data-factory:main:reorganisation:copy_all_to_local"
+    parameters:
+      output_folder: "{{ main_reorganisation_copy_all_to_local_output_folder | default(None) }}"
+  - section: "data-factory:main:reorganisation:dicom_organiser"
+    parameters:
+      output_folder: "{{ main_reorganisation_dicom_organiser_output_folder }}"
+      output_folder_structure: "{{ main_reorganisation_dicom_organiser_output_folder_structure }}"
+      docker_image: "{{ main_reorganisation_dicom_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_reorganisation_dicom_organiser_version | default('latest') }}"
+      docker_input_dir: "{{ main_reorganisation_dicom_organiser_docker_input_folder | default('/input_folder') }}"
+      docker_output_dir: "{{ main_reorganisation_dicom_organiser_docker_output_folder | default('/output_folder') }}"
+  - section: "data-factory:main:reorganisation:nifti_organiser"
+    parameters:
+      output_folder: "{{ main_reorganisation_nifti_organiser_output_folder }}"
+      output_folder_structure: "{{ main_reorganisation_nifti_organiser_output_folder_structure }}"
+      docker_image: "{{ main_reorganisation_nifti_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_reorganisation_nifti_organiser_version | default('latest') }}"
+      docker_input_dir: "{{ main_reorganisation_nifti_organiser_docker_input_folder | default('/input_folder') }}"
+      docker_output_dir: "{{ main_reorganisation_nifti_organiser_docker_output_folder | default('/output_folder') }}"
 
 airflow_work_dirs: "{{ [
     main_preprocessing_copy_to_local_output_folder,
@@ -271,6 +292,9 @@ airflow_work_dirs: "{{ [
     main_preprocessing_nifti_selection_output_folder,
     main_preprocessing_mpm_maps_output_folder,
     main_preprocessing_neuro_morphometric_atlas_output_folder,
-    main_ehr_version_incoming_ehr_output_folder
+    main_ehr_version_incoming_ehr_output_folder,
+    main_reorganisation_copy_all_to_local_output_folder,
+    main_reorganisation_dicom_organiser_output_folder,
+    main_reorganisation_nifti_organiser_output_folder
   ] | defined_vars_to_list }}
 "
