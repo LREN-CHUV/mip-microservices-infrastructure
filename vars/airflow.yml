@@ -262,6 +262,7 @@ airflow_extra_settings:
       output_folder: "{{ main_ehr_version_incoming_ehr_output_folder | default(None) }}"
   - section: "data-factory:main:reorganisation"
     parameters:
+      input_folder: "{{ main_reorganisation_input_folder | default(None) }}"
       input_config: "{{ main_reorganisation_input_config | default('') }}"
       min_free_space: "{{ main_reorganisation_min_free_space | default(0.3) }}"
   - section: "data-factory:main:reorganisation:copy_all_to_local"

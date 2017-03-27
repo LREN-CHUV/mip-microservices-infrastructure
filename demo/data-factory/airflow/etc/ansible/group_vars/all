@@ -118,6 +118,7 @@ main_ehr_map_ehr_to_i2b2_docker_image: 'hbpmip/mipmap-demo-ehr-to-i2b2'
 main_ehr_map_ehr_to_i2b2_version: "{{ map_ehr_to_i2b2_version }}"
 main_ehr_version_incoming_ehr_output_folder: '/data/ehr_versioned'
 main_reorganisation_input_config: 'boost'
+main_reorganisation_input_folder: '/data/demo'
 main_reorganisation_copy_all_to_local_output_folder: '/data/all_incoming'
 main_reorganisation_dicom_organiser_output_folder: '/data/dicom_organised'
 main_reorganisation_dicom_organiser_output_folder_structure: '#PatientID/#AcquisitionDate/#SeriesDescription/#SeriesDate'
