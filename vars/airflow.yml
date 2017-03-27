@@ -265,6 +265,8 @@ airflow_extra_settings:
       input_folder: "{{ main_reorganisation_input_folder | default(None) }}"
       input_config: "{{ main_reorganisation_input_config | default('') }}"
       min_free_space: "{{ main_reorganisation_min_free_space | default(0.3) }}"
+      max_active_runs: '{{ main_reorganisation_max_active_runs | default(30) }}'
+      pipelines: '{{ main_reorganisation_pipelines }}'
   - section: "data-factory:main:reorganisation:copy_all_to_local"
     parameters:
       output_folder: "{{ main_reorganisation_copy_all_to_local_output_folder | default(None) }}"

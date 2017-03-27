@@ -126,5 +126,6 @@ main_reorganisation_dicom_organiser_version: "{{ hierarchizer_version }}"
 main_reorganisation_nifti_organiser_output_folder: '/data/nifti_organised'
 main_reorganisation_nifti_organiser_output_folder_structure: '#PatientID/#AcquisitionDate/#SeriesDescription/#SeriesDate'
 main_reorganisation_nifti_organiser_version: "{{ hierarchizer_version }}"
+main_reorganisation_pipelines: 'dicom_reorganise,trigger_preprocessing'
 
 spm_dir: "/opt/spm12"
