@@ -270,13 +270,13 @@ airflow_extra_settings:
   - section: "data-factory:main:reorganisation:copy_all_to_local"
     parameters:
       output_folder: "{{ main_reorganisation_copy_all_to_local_output_folder | default(None) }}"
-  - section: "data-factory:main:reorganisation:dicom_organiser"
+  - section: "data-factory:main:reorganisation:dicom_reorganise"
     parameters:
-      output_folder: "{{ main_reorganisation_dicom_organiser_output_folder }}"
-      output_folder_structure: "{{ main_reorganisation_dicom_organiser_output_folder_structure }}"
-      docker_image: "{{ main_reorganisation_dicom_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_reorganisation_dicom_organiser_version | default('latest') }}"
-      docker_input_dir: "{{ main_reorganisation_dicom_organiser_docker_input_folder | default('/input_folder') }}"
-      docker_output_dir: "{{ main_reorganisation_dicom_organiser_docker_output_folder | default('/output_folder') }}"
+      output_folder: "{{ main_reorganisation_dicom_reorganise_output_folder }}"
+      output_folder_structure: "{{ main_reorganisation_dicom_reorganise_output_folder_structure }}"
+      docker_image: "{{ main_reorganisation_dicom_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_reorganisation_dicom_reorganise_version | default('latest') }}"
+      docker_input_dir: "{{ main_reorganisation_dicom_reorganise_docker_input_folder | default('/input_folder') }}"
+      docker_output_dir: "{{ main_reorganisation_dicom_reorganise_docker_output_folder | default('/output_folder') }}"
   - section: "data-factory:main:reorganisation:nifti_organiser"
     parameters:
       output_folder: "{{ main_reorganisation_nifti_organiser_output_folder }}"

@@ -120,12 +120,12 @@ main_ehr_version_incoming_ehr_output_folder: '/data/ehr_versioned'
 main_reorganisation_input_config: 'boost'
 main_reorganisation_input_folder: '/data/demo'
 main_reorganisation_copy_all_to_local_output_folder: '/data/all_incoming'
-main_reorganisation_dicom_organiser_output_folder: '/data/dicom_organised'
-main_reorganisation_dicom_organiser_output_folder_structure: '#PatientID/#AcquisitionDate/#SeriesDescription/#SeriesDate'
-main_reorganisation_dicom_organiser_version: "{{ hierarchizer_version }}"
-main_reorganisation_nifti_organiser_output_folder: '/data/nifti_organised'
-main_reorganisation_nifti_organiser_output_folder_structure: '#PatientID/#AcquisitionDate/#SeriesDescription/#SeriesDate'
-main_reorganisation_nifti_organiser_version: "{{ hierarchizer_version }}"
+main_reorganisation_dicom_reorganise_output_folder: '/data/dicom_organised'
+main_reorganisation_dicom_reorganise_output_folder_structure: '#PatientID/#AcquisitionDate/#SeriesDescription/#SeriesDate'
+main_reorganisation_dicom_reorganise_version: "{{ hierarchizer_version }}"
+main_reorganisation_nifti_reorganise_output_folder: '/data/nifti_organised'
+main_reorganisation_nifti_reorganise_output_folder_structure: '#PatientID/#AcquisitionDate/#SeriesDescription/#SeriesDate'
+main_reorganisation_nifti_reorganise_version: "{{ hierarchizer_version }}"
 main_reorganisation_pipelines: 'dicom_reorganise,trigger_preprocessing'
 
 spm_dir: "/opt/spm12"
