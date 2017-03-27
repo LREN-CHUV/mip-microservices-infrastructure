@@ -252,6 +252,7 @@ airflow_extra_settings:
       input_folder: "{{ main_ehr_input_folder | default(None) }}"
       input_folder_depth: "{{ main_ehr_input_folder_depth | default(0) }}"
       min_free_space: "{{ main_ehr_min_free_space | default(0.3) }}"
+      max_active_runs: '{{ main_ehr_max_active_runs | default(30) }}'
       scanners: "{{ main_ehr_scanners }}"
       pipelines: "{{ main_ehr_pipelines }}"
   - section: "data-factory:main:ehr:map_ehr_to_i2b2"
