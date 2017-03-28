@@ -192,24 +192,6 @@ airflow_extra_settings:
   - section: "data-factory:main:preprocessing:copy_to_local"
     parameters:
       output_folder: "{{ main_preprocessing_copy_to_local_output_folder }}"
-  - section: "data-factory:main:preprocessing:dicom_organiser"
-    parameters:
-      output_folder: "{{ main_preprocessing_dicom_organiser_output_folder }}"
-      output_folder_structure: "{{ main_preprocessing_dicom_organiser_output_folder_structure }}"
-      docker_image: "{{ main_preprocessing_dicom_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_preprocessing_dicom_organiser_version | default('latest') }}"
-      docker_input_dir: "{{ main_preprocessing_dicom_organiser_docker_input_folder | default('/input_folder') }}"
-      docker_output_dir: "{{ main_preprocessing_dicom_organiser_docker_output_folder | default('/output_folder') }}"
-  - section: "data-factory:main:preprocessing:dicom_selection"
-    parameters:
-      output_folder: "{{ main_preprocessing_dicom_selection_output_folder | default(None) }}"
-      images_selection_csv_path: "{{ main_preprocessing_dicom_selection_images_selection_csv_path | default(None) }}"
-  - section: "data-factory:main:preprocessing:dicom_select_T1"
-    parameters:
-      output_folder: "{{ main_preprocessing_dicom_select_t1_output_folder | default(None) }}"
-      spm_function: "{{ main_preprocessing_dicom_select_t1_spm_function| default('selectT1') }}"
-      pipeline_path: "{{ main_preprocessing_dicom_select_t1_pipeline_path | default(main_preprocessing_pipelines_path + '/SelectT1_Pipeline') }}"
-      misc_library_path: "{{ main_preprocessing_dicom_select_t1_misc_library_path | default(main_preprocessing_misc_library_path) }}"
-      protocols_definition_file: "{{ main_preprocessing_dicom_select_T1_protocols_definition_file | default(main_preprocessing_pipelines_path + '/SelectT1_Pipeline/Protocols_definition_PPMI.txt') }}"
   - section: "data-factory:main:preprocessing:dicom_to_nifti"
     parameters:
       output_folder: "{{ main_preprocessing_dicom_to_nifti_output_folder | default(None) }}"
@@ -219,17 +201,6 @@ airflow_extra_settings:
       misc_library_path: "{{ main_preprocessing_dicom_to_nifti_misc_library_path | default(main_preprocessing_misc_library_path) }}"
       protocols_definition_file: "{{ main_preprocessing_dicom_to_nifti_protocols_definition_file | default(main_preprocessing_protocols_definition_file) }}"
       dcm2nii_program: "{{ main_preprocessing_dicom_to_nifti_dcm2nii_program | default(main_preprocessing_pipelines_path + '/Nifti_Conversion_Pipeline/dcm2nii') }}"
-  - section: "data-factory:main:preprocessing:nifti_organiser"
-    parameters:
-      output_folder: "{{ main_preprocessing_nifti_organiser_output_folder }}"
-      output_folder_structure: "{{ main_preprocessing_nifti_organiser_output_folder_structure }}"
-      docker_image: "{{ main_preprocessing_nifti_organiser_docker_image | default('hbpmip/hierarchizer') }}:{{ main_preprocessing_nifti_organiser_version | default('latest') }}"
-      docker_input_dir: "{{ main_preprocessing_nifti_organiser_docker_input_folder | default('/input_folder') }}"
-      docker_output_dir: "{{ main_preprocessing_nifti_organiser_docker_output_folder | default('/output_folder') }}"
-  - section: "data-factory:main:preprocessing:nifti_selection"
-    parameters:
-      output_folder: "{{ main_preprocessing_nifti_selection_output_folder | default(None) }}"
-      csv_path: "{{ main_preprocessing_nifti_selection_csv_path | default(None) }}"
   - section: "data-factory:main:preprocessing:mpm_maps"
     parameters:
       output_folder: "{{ main_preprocessing_mpm_maps_output_folder | default(None) }}"
