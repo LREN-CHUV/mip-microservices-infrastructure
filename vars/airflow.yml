@@ -256,6 +256,12 @@ airflow_extra_settings:
       docker_image: "{{ main_reorganisation_nifti_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_reorganisation_nifti_reorganise_version | default('latest') }}"
       docker_input_dir: "{{ main_reorganisation_nifti_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_reorganisation_nifti_reorganise_docker_output_folder | default('/output_folder') }}"
+  - section: "data-factory:main:reorganisation:trigger_preprocessing"
+    parameters:
+      depth: "{{ main_reorganisation_trigger_preprocessing_depth | default('1') }}"
+  - section: "data-factory:main:reorganisation:trigger_ehr"
+    parameters:
+      depth: "{{ main_reorganisation_trigger_ehr_depth | default('0') }}"
 
 airflow_work_dirs: "{{ [
     main_preprocessing_copy_to_local_output_folder,
