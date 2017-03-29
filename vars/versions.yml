@@ -61,7 +61,7 @@ woken_validation_version: "7ec4b81"
 matlab_version: "R2016b"
 spm_version: 12
 spm_revision: r6906
-spm_vbq_version: '20160415'
+spm_vbq_version: '1.0-svn166'
 spm_smartdep_version: '20131016'
 spm_mri_templates_version: '20050329'
 spm_mri_tpm_version: '20151218'
