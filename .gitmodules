@@ -20,7 +20,7 @@
 	branch = master
 [submodule "roles/silpion.util"]
 	path = roles/silpion.util
-	url = https://github.com/silpion/ansible-util.git
+	url = https://github.com/LREN-CHUV/ansible-util.git
 	branch = master
 [submodule "roles/zookeeper"]
 	path = roles/zookeeper
