@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-DATACENTER=federation
+: ${DATACENTER:=federation}
 
 force=false
 if [ "$1" = "--force" ]; then
