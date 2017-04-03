@@ -5,3 +5,5 @@ RUNNING_PID
 *.retry
 .idea/
 *.pyc
+._*
+.DS_Store
