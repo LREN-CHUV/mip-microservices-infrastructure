@@ -1,6 +1,4 @@
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md) [![Twitter](https://img.shields.io/twitter/follow/HBPmedical%20platform.svg?style=social)](https://twitter.com/intent/follow?screen_name=HBPmedical) [![Slack](https://img.shields.io/badge/slack-dev channel-e01563.svg)](https://hbpsp8.slack.com/archives/dev) [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/ludovicc/medical-informatic-platform-of-the-human-brain-project) [![CircleCI](https://circleci.com/gh/LREN-CHUV/mip-microservices-infrastructure/tree/master.svg?style=svg)](https://circleci.com/gh/LREN-CHUV/mip-microservices-infrastructure/tree/master)
-
-[![Trello](https://img.shields.io/badge/trello-infrastructure-blue.svg)](https://trello.com/b/h66fm9Ad/dev-research-infrastructure) [![Stories in Ready](https://badge.waffle.io/LREN-CHUV/mip-microservices-infrastructure.png?label=ready&title=stories%20ready)](https://waffle.io/LREN-CHUV/mip-microservices-infrastructure) [![Stories in In Progress](https://badge.waffle.io/LREN-CHUV/mip-microservices-infrastructure.png?label=in+progress&title=stories%20in%20progress)](https://waffle.io/LREN-CHUV/mip-microservices-infrastructure)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/LREN-CHUV/mip-microservices-infrastructure/blob/master/LICENSE.md) [![Twitter](https://img.shields.io/twitter/follow/HBPmedical%20platform.svg?style=social)](https://twitter.com/intent/follow?screen_name=HBPmedical) [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/ludovicc/medical-informatic-platform-of-the-human-brain-project) [![CircleCI](https://circleci.com/gh/LREN-CHUV/mip-microservices-infrastructure/tree/master.svg?style=svg)](https://circleci.com/gh/LREN-CHUV/mip-microservices-infrastructure/tree/master) [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html)
 
 # Microservice infrastructure
 
@@ -12,7 +10,7 @@ mip-microservices-infrastructure attempts to follow the Mantl.io project from Ci
 
 * The deployment target is Ubuntu 16.04 instead of CentOS
 * No support for any cloud is provided, we deploy on bare-metal and pre-configured virtual machines
-* Security, monitoring are avanced features that we may add one day, but what we aim to to is being able to switch over to Mantl once it is sufficiently stable.
+* Security, monitoring are advanced features that we may add one day, but what we aim to to is being able to switch over to Mantl once it is sufficiently stable.
 
 Disclaimer: use this project only in a well protected development environment.
 
@@ -35,6 +33,10 @@ Demonstrations are available for the various building blocks managed by this inf
 ## Developer tools
 
 * [QA tools](demo/dev-services/qatools/README.md)
+
+# Development
+
+[![Slack](https://img.shields.io/badge/slack-infrastructure%20channel-e01563.svg)](https://hbpsp8.slack.com/archives/infrastructure)  [![Trello](https://img.shields.io/badge/trello-infrastructure-blue.svg)](https://trello.com/b/h66fm9Ad/dev-research-infrastructure) [![Stories in Ready](https://badge.waffle.io/LREN-CHUV/mip-microservices-infrastructure.png?label=ready&title=stories%20ready)](https://waffle.io/LREN-CHUV/mip-microservices-infrastructure) [![Stories in In Progress](https://badge.waffle.io/LREN-CHUV/mip-microservices-infrastructure.png?label=in+progress&title=stories%20in%20progress)](https://waffle.io/LREN-CHUV/mip-microservices-infrastructure)
 
 # License
 
