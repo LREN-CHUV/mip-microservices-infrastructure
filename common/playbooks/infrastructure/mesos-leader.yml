@@ -19,6 +19,11 @@
     - name: Install curl
       apt: name=curl state=present
 
+    - name: Set default value for skipped_roles
+      set_fact:
+        skipped_roles: []
+      when: skipped_roles is not defined
+
   roles:
 
     - role: mesos
@@ -38,11 +43,11 @@
       tags: ['mesos-frameworks', 'marathon']
       when: "'marathon' not in skipped_roles"
 
-    - role: mesos-ui
-      marathon_env_vars:
-        - "JAVA_OPTS=-Xmx512m"
-      tags: ['mesos-frameworks', 'mesos-ui']
-      when: "'mesos-ui' not in skipped_roles"
+    #- role: mesos-ui
+    #  marathon_env_vars:
+    #    - "JAVA_OPTS=-Xmx512m"
+    #  tags: ['mesos-frameworks', 'mesos-ui']
+    #  when: "'mesos-ui' not in skipped_roles"
 
     - role: audit-deployment
       installed_component: mesos-leader

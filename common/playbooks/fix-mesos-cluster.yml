@@ -15,6 +15,11 @@
 
   tasks:
 
+    - name: Set default value for skipped_roles
+      set_fact:
+        skipped_roles: []
+      when: skipped_roles is not defined
+
     - name: Stop all services
       service:
         name: '{{ item }}'
@@ -47,6 +52,11 @@
     - "{{ play_dir }}/vars/versions.yml"
 
   tasks:
+
+    - name: Set default value for skipped_roles
+      set_fact:
+        skipped_roles: []
+      when: skipped_roles is not defined
 
     - name: Stop all services
       service:
@@ -86,6 +96,11 @@
     - "{{ play_dir }}/vars/versions.yml"
 
   tasks:
+
+    - name: Set default value for skipped_roles
+      set_fact:
+        skipped_roles: []
+      when: skipped_roles is not defined
 
     - name: Stop all services
       service:
@@ -124,6 +139,11 @@
 
   tasks:
 
+    - name: Set default value for skipped_roles
+      set_fact:
+        skipped_roles: []
+      when: skipped_roles is not defined
+
     - name: Restore directories
       file:
         path: '{{ item }}'
@@ -148,6 +168,11 @@
     - "{{ play_dir }}/vars/versions.yml"
 
   tasks:
+
+    - name: Set default value for skipped_roles
+      set_fact:
+        skipped_roles: []
+      when: skipped_roles is not defined
 
     - name: Restore Mesos directories
       file:
@@ -186,6 +211,11 @@
     - "{{ play_dir }}/vars/versions.yml"
 
   tasks:
+
+    - name: Set default value for skipped_roles
+      set_fact:
+        skipped_roles: []
+      when: skipped_roles is not defined
 
     - name: Restore Mesos directories
       file:
