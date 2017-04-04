@@ -42,13 +42,13 @@
 
 # Web Exploration and Analytics
 
-- include: portal-database.yml
+- include: portal/portal-database.yml
 
 - include: meta-database.yml
 
-- include: portal-backend.yml
+- include: portal/portal-backend.yml
 
-- include: portal-frontend.yml
+- include: portal/portal-frontend.yml
 
 # /Web Exploration and Analytics
 

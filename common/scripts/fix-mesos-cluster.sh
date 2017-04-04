@@ -36,4 +36,4 @@ fi
 ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
         -e play_dir="$ROOT/../.." \
         -e datacenter="$DATACENTER" "$OPTS" \
-        "$ROOT/../playbooks/fix-mesos-cluster.yml"
+        "$ROOT/../playbooks/infrastructure/fix-mesos-cluster.yml"

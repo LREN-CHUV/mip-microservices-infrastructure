@@ -34,6 +34,6 @@ if [ "$1" != "--skip-git-crypt" ]; then
 
   [ -x /usr/bin/git-crypt ] || (
     echo "Please enter the sudo password for this local computer to install git-crypt"
-    ansible-playbook --ask-become-pass -i ../../envs/install/etc/ansible ../playbooks/ansible-install.yml
+    ansible-playbook --ask-become-pass -i ../../envs/install/etc/ansible ../playbooks/infrastructure/ansible-install.yml
   )
 fi

@@ -23,6 +23,6 @@
 
 - include: ../../common/playbooks/science-database.yml
 
-- include: ../../common/playbooks/portal-backend.yml
+- include: ../../common/playbooks/portal/portal-backend.yml
 
-- include: ../../common/playbooks/portal-frontend.yml
+- include: ../../common/playbooks/portal/portal-frontend.yml
