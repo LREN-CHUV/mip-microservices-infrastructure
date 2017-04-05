@@ -23,7 +23,7 @@ DATACENTER=federation
 
 OPTS=""
 if [ "$1" = "--reset" ]; then
-  OPTS="-e reset_mesos=True"
+  OPTS="$OPTS -e reset_mesos=True"
   echo "This action will destroy all applications in your cluster."
   echo "You will have to reinstall all software by running:"
   echo "    ./setup.sh --tags=marathon-app"
@@ -33,7 +33,10 @@ if [ "$1" = "--reset" ]; then
   read -p "> "
 fi
 
-ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
-        -e play_dir="$ROOT/../.." \
-        -e datacenter="$DATACENTER" "$OPTS" \
-        "$ROOT/../playbooks/infrastructure/fix-mesos-cluster.yml"
+cd "$ROOT/../.."
+
+# shellcheck disable=SC2086
+ansible-playbook --ask-become-pass -i "$(pwd)/envs/$DATACENTER/etc/ansible/" \
+        -e play_dir="$(pwd)" \
+        -e datacenter="$DATACENTER" $OPTS \
+        "common/playbooks/infrastructure/fix-mesos-cluster.yml"
