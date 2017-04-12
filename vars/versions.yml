@@ -31,8 +31,8 @@ nginx_official_repo: True
 flyway_version: "4.0.3"
 
 # Versions of our Docker containers
-portal_frontend_version: "8a946dc"
-portal_backend_version: "5fc9193"
+portal_frontend_version: "6806abc"
+portal_backend_version: "5b2012e"
 woken_version: "695ad47"
 woken_functions:
   - name: histograms
@@ -65,16 +65,16 @@ spm_vbq_version: '1.0-svn166'
 spm_smartdep_version: '20131016'
 spm_mri_templates_version: '20050329'
 spm_mri_tpm_version: '20151218'
-data_tracking_version: '1.5.5'
+data_tracking_version: '1.5.6'
 data_catalog_setup_version: '1.4.5'
 mri_preprocessing_pipeline_version: '1.2.8'
-i2b2_import_version: '1.5.4'
-i2b2_setup_version: '1.4.5'
+i2b2_import_version: '1.5.7'
+i2b2_setup_version: '1.4.6'
 slackclient_py_version: '1.0.5'
 docker_py_version: '1.10.6'
 hierarchizer_version: '1.2.0'
-airflow_imaging_plugins_version: '2.2.7'
-data_factory_airflow_dags_version: '0.8.16'
+airflow_imaging_plugins_version: '2.2.11'
+data_factory_airflow_dags_version: '0.8.19'
 map_ehr_to_i2b2_version: '0.1'
 
 # QA environment
