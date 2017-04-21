@@ -5,7 +5,7 @@
 # is safe to store secrets such as passwords in it and then commit the file in a
 # Git repository
 
-ip_address: '192.168.34.66'
+ip_address: '192.168.23.33'
 
 airflow_db_admin_password: 'MySecretPassword'
 airflow_db_password: 'airflowdb'
@@ -20,3 +20,6 @@ mipmap_db_password: 'mipmappwd'
 mipmap_db_admin_password: "{{ airflow_db_admin_password }}"
 
 slack_token: ''
+
+ldsm_db_password: "ldsm-db"
+ldsm_db_admin_password: "ldsmroot"

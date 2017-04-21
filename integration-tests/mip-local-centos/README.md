@@ -1,11 +1,6 @@
-# Demo of MIP Data Factory featuring Airflow
+# MIP Local on Centos
 
-This is a demonstration of the MIP Data Factory focusing on its workflow application, Airflow.
-
-The demonstration runs inside a Vagrant Virtual machine and .
-
-, ETL pipelines for medical data and
-
+Integration test and demonstration of MIP Local running inside a Vagrant Virtual machine.
 
 ## Installation
 
@@ -53,10 +48,14 @@ You can see Airflow running at [localhost:14080](http://localhost:14080)
 
 Marathon can be accessed on [localhost:15080](http://localhost:15080)
 
+PostgresRAW UI should be accessible from [localhost:15555](http://localhost:15555)
+
 ## Testing
 
-Example data is provided in /data/demo folder inside the VM, but you need Matlab installed
-in the virtual machine to execute the [SPM 12](http://www.fil.ion.ucl.ac.uk/spm) based preprocessing pipelines.
+Example data is provided in /data/demo folder inside the VM, but the preprocessing pipelines
+cannot work at the moment as they require Matlab installed.
+
+The ./data/ldsm folder is mapped to the Query Engine and any CSV file present in this folder will be automatically registered and visible as a table.
 
 ## For developers
 

@@ -8,6 +8,8 @@ internal_marathon_url: "http://demo.local:{{ marathon_port }}"
 python_location: '/usr/bin/python3'
 python_pip: '/usr/bin/pip3'
 
+#############################################################################
+# Airflow
 airflow_scheduler_cpus: 0.2
 airflow_scheduler_mem: 2560.0
 airflow_webserver_cpus: 0.2
@@ -23,6 +25,8 @@ airflow_sql_alchemy_conn: "postgresql://airflow:{{ airflow_db_password }}@{{ air
 
 airflow_scripts_root: '/opt/airflow-scripts'
 airflow_scripts_verify_commit: false
+airflow_dags_folder: "{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags"
+airflow_plugins_folder: '{{ airflow_scripts_root }}/airflow-imaging-plugins'
 
 airflow_load_examples: false
 
@@ -52,12 +56,14 @@ mipmap_db_host: '{{ airflow_db_host }}'
 mipmap_db_port: '{{ airflow_db_port }}'
 mipmap_db_config_file: '/dev/null'
 
+#############################################################################
 # Configuration for MRI preprocessing pipeline running in Airflow
 data_factory_datasets: 'main'
 data_factory_email_errors_to: ''
 data_factory_slack_channel: '#data'
 data_factory_slack_channel_user: 'Airflow'
 
+#############################################################################
 # Configuration for Demo dataset
 main_dataset_label: 'Demo'
 main_preprocessing_input_folder: '/data/demo'

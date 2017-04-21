@@ -88,7 +88,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
         play_dir: Dir.pwd + '/../../..',
-        lib_roles_path: Dir.pwd + '/../../../roles'
+        lib_roles_path: Dir.pwd + '/../../../roles',
+        in_vagrant: true
       }
   end
 

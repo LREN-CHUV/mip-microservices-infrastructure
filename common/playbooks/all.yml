@@ -1,5 +1,7 @@
 ---
 
+- include: infrastructure/check-requirements.yml
+
 # Mesos stack
 
 - include: infrastructure/base-system.yml

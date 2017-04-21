@@ -1,0 +1,18 @@
+---
+#
+# Master Install
+#
+# Installs _the_ world
+#
+
+- include: ../../common/playbooks/base-system.yml
+
+- include: ../../common/playbooks/zookeeper.yml
+
+- include: ../../common/playbooks/mesos-leader.yml
+
+- include: ../../common/playbooks/mesos-mixed.yml
+
+- include: ../../common/playbooks/mesos-follower.yml
+
+- include: ../../common/playbooks/mip-services.yml

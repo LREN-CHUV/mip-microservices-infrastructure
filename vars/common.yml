@@ -32,7 +32,7 @@ firewall_fail2ban_maxretry: '3'
 firewall_fail2ban_destemail: "{{ unattended_mail }}"
 firewall_fail2ban_jails: []
 
-java_register_alternative: true
+java_register_alternative: "{{ ansible_os_family == 'Debian' }}"
 java_register_env: true
 use_openjdk_ppa: true
 

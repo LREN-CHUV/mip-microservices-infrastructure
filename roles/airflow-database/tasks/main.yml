@@ -1,79 +1,7 @@
 ---
 
-- name: Wait for Marathon
-  include: ../../marathon-app/tasks/wait-for-marathon.yml
-  vars:
-    uri: "{{ internal_marathon_url }}"
-  tags:
-    - launch
-
-- name: Remove old Airflow database using Marathon
-  marathon_app:
-    uri: "{{ internal_marathon_url }}"
-    id: "{{ airflow_db_marathon_id }}"
-    state: "absent"
-    wait_timeout: 600
-  async: 600
-  poll: 1
-  delegate_to: "{{ groups['control'][0] }}"
-  tags:
-    - launch
-
-- name: Optional cleanup
-  file: state=absent path={{ airflow_db_data_dir }}
-  when: airflow_db_cleanup
-
-# Postgres user in Docker appears as user 999 outside
-- name: Create Airflow database storage directory
-  file: state=directory path={{ airflow_db_data_dir }} mode=0700 owner={{ airflow_db_docker_user }} group={{ airflow_db_docker_user }}
-
-- name: Launch Airflow database using Marathon
-  marathon_app:
-    uri: "{{ internal_marathon_url }}"
-    id: "{{ airflow_db_marathon_id }}"
-    state: "present"
-    docker_image: "{{ airflow_db_image }}:{{ airflow_db_version }}"
-    docker_force_pull_image: true
-    docker_network: BRIDGE
-    docker_port_mappings:
-      - hostPort: '{{ airflow_db_port }}'
-        containerPort: 5432
-        name: 'postgres'
-        protocol: 'tcp'
-    container_volumes:
-      - containerPath: "/var/lib/postgresql/data"
-        hostPath: "{{ airflow_db_data_dir }}"
-        mode: RW
-    env:
-      POSTGRES_USER: "{{ airflow_db_admin_user }}"
-      POSTGRES_PASSWORD: "{{ airflow_db_admin_password }}"
-    labels:
-      MARATHON_SINGLE_INSTANCE_APP: "true"
-      DATABASES: "{{ airflow_db_databases }}"
-    instances: 1
-    cpus: '{{ airflow_db_cpus }}'
-    mem: '{{ airflow_db_mem }}'
-    ports: [] # defined in docker_port_mappings
-    require_ports: true
-    constraints: [["hostname", "CLUSTER", "{{ airflow_db_marathon_host }}"]]
-    dependencies: []
-    executor: ""
-    health_checks:
-      - protocol: COMMAND
-        command:
-          value: "{{ airflow_db_is_ready }} -U {{ airflow_db_user }} -p 5432"
-        gracePeriodSeconds: 300
-        intervalSeconds: 20
-        timeoutSeconds: 10
-        maxConsecutiveFailures: 5
-    upgrade_strategy_minimum_health_capacity: 0.0
-    upgrade_strategy_maximum_over_capacity: 0.0
-    wait_timeout: 600
-  async: 600
-  poll: 1
-  delegate_to: "{{ groups['control'][0] }}"
-  tags:
-    - launch
+- include: marathon.yml
+  when: airflow_db_deploy
 
 - name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
   apt: name={{ item }} state=present
@@ -82,11 +10,29 @@
   delegate_to: "{{ groups['control'][0] }}"
   become: True
 
+- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
+  yum: name={{ item }} state=present
+  with_items: '{{ airflow_db_yum_packages }}'
+  when: ansible_os_family == 'RedHat'
+  delegate_to: "{{ groups['control'][0] }}"
+  become: True
+
 # run this task on the database host
 - name: Wait for the database to be up and running
   wait_for: >
     port="{{ airflow_db_port }}"
     delay=2
+
+- name: Drop database with name "data_catalog"
+  postgresql_db:
+    name: "{{ data_catalog_db_name }}"
+    port: "{{ data_catalog_db_port }}"
+    login_host: "{{ data_catalog_db_host }}"
+    login_user: "{{ data_catalog_db_admin_user }}"
+    login_password: "{{ data_catalog_db_admin_password }}"
+    state: absent
+  delegate_to: "{{ groups['control'][0] }}"
+  when: (not data_catalog_db_deploy) and data_catalog_db_cleanup
 
 - name: Create a new database with name "airflow"
   postgresql_db:

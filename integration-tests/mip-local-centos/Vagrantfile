@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "bento/centos-7.2"
 
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
@@ -47,7 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
-    demo.vm.network :private_network, ip: '192.168.34.66'
+    demo.vm.network :private_network, ip: '192.168.23.33'
 
     # Shared folders
     demo.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
@@ -64,7 +64,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Example for VirtualBox:
     #
     config.vm.provider "virtualbox" do |vb|
-      vb.name = "airflow-mesos"
+      vb.name = "mip-local-centos"
 
       # Use VBoxManage to customize the VM. For example to change memory:
       vb.customize ["modifyvm", :id, "--memory", "5072", "--cpus", "3", "--ioapic", "on"]
@@ -77,11 +77,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   ansible_inventory_dir = "envs/vagrant/etc/ansible"
 
-  config.vm.provision "shell", inline: "grep demo.local /etc/hosts || echo '192.168.34.66 demo demo.local' >> /etc/hosts"
+  config.vm.provision "shell", inline: "grep demo.local /etc/hosts || echo '192.168.23.33 demo demo.local' >> /etc/hosts"
   # Mapping ansible roles with their git repositories messes with etckeeper
   config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
-  # Xenial ships only with Python 3
-  config.vm.provision "shell", inline: "sudo apt-get update && sudo apt-get install -y python2.7 python-simplejson"
 
   # Run provisioning with ansible
   config.vm.provision "ansible" do |ansible|
@@ -93,8 +91,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.skip_tags = ['mesos-ui', 'matlab']
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
-        play_dir: Dir.pwd + '/../../..',
-        lib_roles_path: Dir.pwd + '/../../../roles',
+        play_dir: Dir.pwd + '/../..',
+        lib_roles_path: Dir.pwd + '/../../roles',
         in_vagrant: true
       }
   end

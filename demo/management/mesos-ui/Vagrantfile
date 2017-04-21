@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Demo of Airflow in a Vagrant box.
+# Demo of Woken in a Vagrant box.
 #
 # You need to install the vagrant-hostmanager plugin before running vagrant up to start the VM:
 #
@@ -18,7 +18,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu/xenial64"
+  # TODO: wait for fix from Canonical https://bugs.launchpad.net/cloud-images/+bug/1565985
+  # config.vm.box = "ubuntu/xenial64"
+  # config.vm.box = "gbarbieru/xenial"
+  config.vm.box = "ubuntu/trusty64"
 
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
@@ -33,69 +36,60 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
 
-  config.vm.define "demo" do |demo|
+  config.vm.define "management" do |management|
 
-    demo.vm.hostname = "demo"
+    management.vm.hostname = "management"
 
     # Create a forwarded port mapping which allows access to a specific port
     # within the machine from a port on the host machine.
-    demo.vm.network :forwarded_port, guest: 4080, host: 14080 # Airflow
-    #demo.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos - not working due to restricted ip listen
-    demo.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
-    demo.vm.network :forwarded_port, guest: 31432, host: 18432 # PostgresRAW
-    demo.vm.network :forwarded_port, guest: 31555, host: 15555 # PostgresRAW UI
+    # management.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos - not working due to restricted ip listen
+    management.vm.network :forwarded_port, guest: 4200, host: 14200 # mesos-ui
+    management.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
-    demo.vm.network :private_network, ip: '192.168.34.66'
+    management.vm.network :private_network, ip: '192.168.51.66'
 
-    # Shared folders
-    demo.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
-    demo.vm.synced_folder "data/out", "/data/SHARE", create: true
+    management.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
 
-    # LSC: FIXME: Should be the output of the DF
-    # LDSM Shared folders
-    #demo.vm.synced_folder "dataset/db", "/data/ldsm/db", create: true
-    demo.vm.synced_folder "data/ldsm", "/data/ldsm", create: true
   end
 
-    # Provider-specific configuration so you can fine-tune various
-    # backing providers for Vagrant. These expose provider-specific options.
-    # Example for VirtualBox:
-    #
-    config.vm.provider "virtualbox" do |vb|
-      vb.name = "airflow-mesos"
-
-      # Use VBoxManage to customize the VM. For example to change memory:
-      vb.customize ["modifyvm", :id, "--memory", "5072", "--cpus", "3", "--ioapic", "on"]
-      vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
-      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
-    end
-    #
-    # View the documentation for the provider you're using for more
-    # information on available options.
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "management-mesos"
+    # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize ["modifyvm", :id, "--memory", "4048", "--cpus", "3", "--ioapic", "on"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
+  end
+  #
+  # View the documentation for the provider you're using for more
+  # information on available options.
 
   ansible_inventory_dir = "envs/vagrant/etc/ansible"
 
-  config.vm.provision "shell", inline: "grep demo.local /etc/hosts || echo '192.168.34.66 demo demo.local' >> /etc/hosts"
+  config.vm.provision "shell", inline: "grep management.local /etc/hosts || echo '192.168.51.66 management management.local' >> /etc/hosts"
   # Mapping ansible roles with their git repositories messes with etckeeper
   config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
   # Xenial ships only with Python 3
-  config.vm.provision "shell", inline: "sudo apt-get update && sudo apt-get install -y python2.7 python-simplejson"
+  config.vm.provision "shell", inline: "apt-get install -y python2.7 python-simplejson"
 
   # Run provisioning with ansible
   config.vm.provision "ansible" do |ansible|
-      ansible.playbook = "install.yml"
+      ansible.playbook = "../install.yml"
       ansible.inventory_path = "etc/ansible/hosts"
       ansible.limit = 'all'
-      ansible.verbose = "v"
+      ansible.verbose = "vvvv"
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
-      ansible.skip_tags = ['mesos-ui', 'matlab']
+      ansible.tags = "mesos-ui"
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
         play_dir: Dir.pwd + '/../../..',
-        lib_roles_path: Dir.pwd + '/../../../roles',
-        in_vagrant: true
+        datacenter: 'federation'
       }
   end
+
 end
