@@ -27,6 +27,15 @@ airflow_db_deb_packages:
   - python3-numpy
   - curl
 
+# Need both Python2 version of the Postgres library for ansible and Python 3 version for Airflow
+airflow_db_yum_packages:
+  - python-pip
+  - python-psycopg2
+  - python3-pip
+  - python3-psycopg2
+  - python3-numpy
+  - curl
+
 mri_db_deb_packages:
   - python3-pip
   - python3-psycopg2

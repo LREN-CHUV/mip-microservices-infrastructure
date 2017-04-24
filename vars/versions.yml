@@ -10,7 +10,7 @@ mesos_package_version: "2.0.2"
 mesos_ui_version: "standalone-0.1.4"
 marathon_version: "1.4.2"
 marathon_package_version: "1.0.647"
-chronos_version: "2.4.0-ubuntu-14.04"
+chronos_version: "2.4.0-centos-7"
 
 airflow_version: '1.8.0'
 airflow_db_image: "postgres"
