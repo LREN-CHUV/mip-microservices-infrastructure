@@ -20,13 +20,13 @@
 
 - include: mip-services.yml
 
-# Reference databases
+# Databases
 
 - include: science-database.yml
 
-- include: denodo.yml
+- include: ldsm-database.yml
 
-# /Reference databases
+# / Databases
 
 # Data Factory
 

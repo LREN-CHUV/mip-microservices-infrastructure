@@ -78,6 +78,3 @@
 [submodule "roles/airflow"]
 	path = roles/airflow
 	url = https://github.com/LREN-CHUV/ansible-airflow.git
-[submodule "roles/docker.avi"]
-	path = roles/docker.avi
-	url = https://github.com/avinetworks/ansible-role-docker.git
