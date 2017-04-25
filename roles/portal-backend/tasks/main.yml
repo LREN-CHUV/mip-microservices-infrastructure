@@ -27,6 +27,7 @@
     docker_port_mappings:
       - hostPort: "{{ portal_backend_port }}"
         containerPort: 8080
+        protocol: 'tcp'
         name: 'http'
       - hostPort: "{{ portal_backend_akka_port }}"
         containerPort: 4089

@@ -26,6 +26,7 @@
     docker_port_mappings:
       - hostPort: "{{ chronos_port }}"
         containerPort: 4400
+        protocol: 'tcp'
         name: 'http'
       #- hostPort: "{{ chronos_libprocess_port }}"
       #  containerPort: 8081
@@ -54,7 +55,7 @@
     wait_timeout: 600
     health_checks:
       - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_HTTP{% else %}HTTP{% endif %}"
-        port: "{{ chronos_port }}"
+        portIndex: 0
         path: "/"
         gracePeriodSeconds: 300
         intervalSeconds: 60

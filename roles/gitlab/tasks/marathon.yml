@@ -27,8 +27,12 @@
     docker_port_mappings:
       - hostPort: "{{ gitlab_port }}"
         containerPort: 80
+        protocol: 'tcp'
+        name: 'http'
       - hostPort: "{{ gitlab_ssh_port }}"
         containerPort: 22
+        protocol: 'tcp'
+        name: 'ssh'
     docker_parameters: '{{ gitlab_docker_parameters }}'
     container_volumes:
       - containerPath: "/etc/gitlab"

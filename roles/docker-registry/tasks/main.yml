@@ -30,6 +30,8 @@
     docker_port_mappings:
       - hostPort: "{{ docker_registry_port }}"
         containerPort: 5000
+        protocol: 'tcp'
+        name: 'docker-registry'
     container_volumes:
       - containerPath: "/certs"
         hostPath: "{{ docker_registry_certificate_path }}"

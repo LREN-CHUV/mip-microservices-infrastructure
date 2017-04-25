@@ -73,9 +73,11 @@
     docker_port_mappings:
       - hostPort: "{{ woken_http_port }}"
         containerPort: 8087
+        protocol: 'tcp'
         name: 'http'
       - hostPort: "{{ woken_akka_port }}"
         containerPort: 8088
+        protocol: 'tcp'
         name: 'akka'
     docker_parameters: '{{ woken_docker_parameters }}'
     container_volumes:

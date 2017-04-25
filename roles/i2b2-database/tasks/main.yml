@@ -77,15 +77,15 @@
     state: directory
     owner: '{{ airflow_user }}'
 
-- name: Run Alembic migration
+- name: Setup I2B2 database using Alembic migration
   docker_container:
-    name: migrate_i2b2_db
+    name: setup_i2b2_db
     image: "{{ i2b2_setup_image }}:{{ i2b2_setup_version }}"
     command: upgrade head
     detach: no
     network_mode: host
     interactive: yes
-    # cleanup: yes
+    cleanup: yes
     env:
       DB_URL: "{{ i2b2_db_sql_alchemy_conn }}"
   delegate_to: "{{ groups['control'][0] }}"

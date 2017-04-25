@@ -27,7 +27,8 @@
     docker_port_mappings:
       - hostPort: "{{ postgresraw_ui_admin_port }}"
         containerPort: 5555
-        name: 'http-admin'
+        protocol: 'tcp'
+        name: 'http'
     container_volumes:
       - containerPath: '/data'
         hostPath: "{{ postgresraw_ui_pg_data_folder }}"
