@@ -22,10 +22,6 @@
 	path = roles/zookeeper
 	url = https://github.com/LREN-CHUV/ansible-zookeeper.git
 	branch = master
-[submodule "roles/flyway"]
-	path = roles/flyway
-	url = https://github.com/amarao/ansible-flyway
-	branch = master
 [submodule "roles/docker"]
 	path = roles/docker
 	url = https://github.com/LREN-CHUV/ansible-docker.git
@@ -42,9 +38,6 @@
 	path = roles/nginx
 	url = https://github.com/jdauphant/ansible-role-nginx
 	branch = master
-[submodule "roles/analytics-database/files/db"]
-	path = roles/analytics-database/files/analyticsdb
-	url = https://github.com/LREN-CHUV/analytics-db.git
 [submodule "roles/unattended-upgrades"]
 	path = roles/unattended-upgrades
 	url = https://github.com/jnv/ansible-role-unattended-upgrades.git

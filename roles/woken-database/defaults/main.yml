@@ -1,0 +1,42 @@
+---
+
+woken_db_marathon_id: /algorithm-factory/woken-db
+
+# Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
+woken_db_marathon_host: '{{ inventory_hostname }}'
+
+# The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
+# TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
+woken_db_docker_user: '999'
+
+woken_db_image: 'postgres'
+postgres_version: "9.5.4"
+woken_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+woken_db_is_ready: "{{ postgres_is_ready }}"
+
+woken_db_cpus: 0.5
+woken_db_mem: 128.0
+
+# Port exposed by Marathon, must be in the range [31000,32000[
+woken_db_port: 31432
+woken_db_host: '{{ woken_db_marathon_host }}'
+woken_db_name: woken
+woken_db_admin_user: postgres
+# TO FILL - woken_db_admin_password:
+woken_db_user: woken
+# TO FILL - woken_db_password:
+
+# Hint in Marathon listing all the databases running in this Postgres server
+woken_db_databases: "{{ woken_db_name }}"
+
+woken_db_data_dir: /srv/docker/wokendb/data
+
+# Force cleanup of the Woken DB. Please never use that in production!
+woken_db_cleanup: false
+
+woken_db_setup_version: '1.0.0'
+woken_db_setup_image: 'hbpmip/woken-db-setup:{{ woken_db_setup_version }}'
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080

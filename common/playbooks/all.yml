@@ -36,9 +36,11 @@
 
 # Algorithm Factory
 
-- include: algorithm-factory/analytics-database.yml
+- include: algorithm-factory/woken-database.yml
 
 - include: algorithm-factory/woken.yml
+
+- include: algorithm-factory/woken-validation.yml
 
 # /Algorithm Factory
 

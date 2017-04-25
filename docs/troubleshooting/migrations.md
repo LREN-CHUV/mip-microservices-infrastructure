@@ -6,21 +6,21 @@
 * Check that the migration worked without problems
 
 ```
-  docker inspect migrate_analytics_db | grep Status
+  docker inspect setup_woken_db | grep Status
   # it should return:
   #   "Status": "exited",
-  docker inspect migrate_analytics_db | grep ExitCode
+  docker inspect setup_woken_db | grep ExitCode
   # it should return:
   #   "ExitCode": 0,
 ```
 
-Note: replace migrate_analytics_db by the name of the Docker container that should manage the migration for your database.
-Currently, the name should be one of migrate_analytics_db, migrate_ldsm, migrate_meta_db
+Note: replace setup_woken_db by the name of the Docker container that should manage the migration for your database.
+Currently, the name should be one of setup_woken_db, migrate_ldsm, migrate_meta_db
 
 * Check that the migration did what you expected
 
 ```
-  docker logs migrate_analytics_db
+  docker logs setup_woken_db
   # it should return for example:
   # Migrating schema "public" to version 1.0 - Create-result-table
 ```

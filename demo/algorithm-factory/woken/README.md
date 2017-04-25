@@ -79,6 +79,6 @@ Here, we have the following organisation:
 * managed: a group containing demo, indicating that the server is managed by Ansible and should be applied a default configuration and a set of base sofware packages
 * control: a group containing demo, indicating that this server is used to perform operations affecting the whole cluster (here we have a 'cluster' of one machine)
 * zookeeper, mesos-mixed: groups that are used to define where and how the Mesos stack is deployed
-* analytics-db, demo-db, woken, woken-validation: groups that are used to define which applications should be deployed by Marathon
+* woken-db, demo-db, woken, woken-validation: groups that are used to define which applications should be deployed by Marathon
 
 [![Inventory configuration](inventory-config.png)]()

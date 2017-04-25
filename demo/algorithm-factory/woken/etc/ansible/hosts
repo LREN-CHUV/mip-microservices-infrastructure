@@ -19,8 +19,8 @@ demo
 [mesos-mixed]
 demo
 
-# Install the Analytics database, used by Woken to store its results
-[analytics-db]
+# Install the Woken database, used by Woken to store its results
+[woken-db]
 demo
 
 # Install a Demo database providing data to the algorithms

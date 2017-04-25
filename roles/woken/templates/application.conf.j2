@@ -76,12 +76,12 @@ jobs {
 {% else %}
   ldsmDb = "ldsm"
 {% endif %}
-  resultDb = "analytics"
+  resultDb = "woken"
   metaDb = "metadata"
 }
 
 db {
-  analytics {
+  woken {
     jdbc_driver="{{ woken_result_db_jdbc_driver }}"
     jdbc_jar_path="{{ woken_result_db_jdbc_jar }}"
     jdbc_url="{{ woken_result_db_jdbc_url }}"
@@ -124,7 +124,7 @@ defaultSettings {
 {% else %}
     inDb = "ldsm"
 {% endif %}
-    outDb = "analytics"
+    outDb = "woken"
     metaDb = "metadata"
     mainTable = "{{ woken_main_table }}"
 

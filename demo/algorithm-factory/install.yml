@@ -17,7 +17,7 @@
 
 - include: ../../common/playbooks/mip-services.yml
 
-- include: ../../common/playbooks/algorithm-factory/analytics-database.yml
+- include: ../../common/playbooks/algorithm-factory/woken-database.yml
 
 - hosts: demo-db
   become: yes
@@ -28,6 +28,8 @@
   roles:
 
     - role: ldsm-database
-      tags: ['demo-database', 'database', 'analytics', 'marathon-app']
+      tags: ['demo-database', 'database', 'analytics', 'algorithm-factory', 'af', 'marathon-app']
 
 - include: ../../common/playbooks/algorithm-factory/woken.yml
+
+- include: ../../common/playbooks/algorithm-factory/woken-validation.yml

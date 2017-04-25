@@ -13,40 +13,16 @@
       apt: name=curl state=present
       delegate_to: "{{ groups['control'][0] }}"
       run_once: true
-      tags: ['woken', 'analytics', 'meta-db', 'marathon-app']
+      tags: ['woken', 'analytics', 'algorithm-factory', 'af', 'marathon-app']
 
   roles:
 
     - role: chronos
-      tags: ['chronos', 'analytics', 'meta-db', 'marathon-app']
+      tags: ['chronos', 'analytics', 'algorithm-factory', 'af', 'marathon-app']
 
     - role: woken
-      tags: ['woken', 'analytics', 'meta-db', 'marathon-app']
+      tags: ['woken', 'analytics', 'algorithm-factory', 'af', 'marathon-app']
 
     - role: audit-deployment
-      installed_component: analytics-woken
-      tags: ['woken', 'analytics', 'meta-db', 'marathon-app']
-
-- hosts: woken-validation
-  become: yes
-  gather_facts: no
-  vars_files:
-    - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/vars/versions.yml"
-
-  pre_tasks:
-
-    - name: Install curl on control node - required for marathon-app
-      apt: name=curl state=present
-      delegate_to: "{{ groups['control'][0] }}"
-      run_once: true
-      tags: ['woken-validation', 'woken', 'analytics', 'meta-db', 'marathon-app']
-
-  roles:
-
-    - role: woken-validation
-      tags: ['woken-validation', 'woken', 'analytics', 'meta-db', 'marathon-app']
-
-    - role: audit-deployment
-      installed_component: analytics-woken-validation
-      tags: ['woken-validation', 'woken', 'analytics', 'meta-db', 'marathon-app']
+      installed_component: algorithm-factory-woken
+      tags: ['woken', 'analytics', 'algorithm-factory', 'af', 'marathon-app']

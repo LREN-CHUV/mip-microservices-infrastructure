@@ -1,0 +1,17 @@
+---
+
+- hosts: woken-db
+  become: yes
+  gather_facts: no
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  roles:
+
+    - role: woken-database
+      tags: ['woken-database', 'woken-db', 'database', 'analytics', 'algorithm-factory', 'af', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: algorithm-factory-woken-database
+      tags: ['woken-database', 'woken-db', 'database', 'analytics', 'algorithm-factory', 'af', 'marathon-app']

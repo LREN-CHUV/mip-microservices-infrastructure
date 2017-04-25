@@ -36,7 +36,7 @@ java_register_alternative: "{{ ansible_os_family == 'Debian' }}"
 java_register_env: true
 use_openjdk_ppa: true
 
-analytics_db_marathon_id: "/algorithm-factory/analyticsdb"
+woken_db_marathon_id: "/algorithm-factory/woken-db"
 denodo_marathon_id: /reference/denodo
 science_db_marathon_id: "/reference/science-db"
 portal_db_marathon_id: "/portal/portal-db"

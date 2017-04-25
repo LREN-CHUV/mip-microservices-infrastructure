@@ -13,16 +13,17 @@ internal_woken_url: "http://demo.local:{{ woken_http_port }}"
 
 java_oracle_distribution: 'jdk'
 
-analytics_db_host: "demo.local"
-analytics_db_marathon_host: "demo"
-analytics_db_port: 31432
-analytics_db_user: "analytics"
-analytics_db_admin_user: "postgres"
-analytics_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_db_port }}/analytics"
-analytics_db_jdbc_driver: "org.postgresql.Driver"
-analytics_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
-analytics_db_cpus: 0.2
-analytics_db_mem: 128.0
+woken_db_host: "demo.local"
+woken_db_marathon_host: "demo"
+woken_db_port: 31432
+woken_db_user: "woken"
+woken_db_admin_user: "postgres"
+woken_db_name: "woken"
+woken_db_jdbc_url: "jdbc:postgresql://{{ woken_db_host }}:{{ woken_db_port }}/{{ woken_db_name }}"
+woken_db_jdbc_driver: "org.postgresql.Driver"
+woken_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+woken_db_cpus: 0.2
+woken_db_mem: 128.0
 
 ldsm_db_marathon_id: "/algorithm-factory/demodb"
 ldsm_db_data_dir: /srv/docker/demodb/data
@@ -32,7 +33,8 @@ ldsm_db_marathon_host: "demo"
 ldsm_db_port: 31433
 ldsm_db_user: ldsm
 ldsm_db_admin_user: "postgres"
-ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/ldsm"
+ldsm_db_name: ldsm
+ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/{{ ldsm_db_name }}"
 ldsm_db_jdbc_driver: "org.postgresql.Driver"
 ldsm_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
 ldsm_db_cpus: 0.2

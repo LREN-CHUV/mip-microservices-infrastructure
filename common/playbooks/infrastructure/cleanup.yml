@@ -37,8 +37,8 @@
         state: absent
       with_items:
         - /srv/docker/postgres
-        - /opt/analytics-database/migration/V1.01__r-linear-regression-create-result-table.sql
-        - /opt/analytics-database/migration/V1.02__r-box-stats-create-result-table.sql
+        - /opt/analytics-database
+        - /srv/docker/analyticsdb
         - /etc/apt/sources.list.d/docker.list
         - /etc/chronos
       tags:

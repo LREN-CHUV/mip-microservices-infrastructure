@@ -32,30 +32,32 @@ woken_marathon_host: "{{ marathon_hostname }}"
 # Set of constraints to use to place woken on some particular host(s)
 woken_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host }}"]]
 
-# How woken connects to the analytics database storing its results
-analytics_db_port: 31432
-analytics_db_host: localhost
-analytics_db_user: postgres
-analytics_db_password: postgres
-analytics_db_jdbc_url: "jdbc:postgresql://{{ analytics_db_host }}:{{ analytics_db_port }}/analytics"
-analytics_db_jdbc_driver: "org.postgresql.Driver"
-analytics_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
-analytics_db_marathon_id: /algorithm-factory/analyticsdb
+# How woken connects to the woken database storing its results
+woken_db_port: 31432
+woken_db_host: localhost
+woken_db_user: postgres
+woken_db_password: postgres
+woken_db_name: woken
+woken_db_jdbc_url: "jdbc:postgresql://{{ woken_db_host }}:{{ woken_db_port }}/{{ woken_db_name }}"
+woken_db_jdbc_driver: "org.postgresql.Driver"
+woken_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+woken_db_marathon_id: /algorithm-factory/wokendb
 
-woken_result_db_port: '{{ analytics_db_port }}'
-woken_result_db_host: '{{ analytics_db_host }}'
-woken_result_db_user: '{{ analytics_db_user }}'
-woken_result_db_password: '{{ analytics_db_password }}'
-woken_result_db_jdbc_url: '{{ analytics_db_jdbc_url }}'
-woken_result_db_jdbc_driver: '{{ analytics_db_jdbc_driver }}'
-woken_result_db_jdbc_jar: '{{ analytics_db_jdbc_jar }}'
+woken_result_db_port: '{{ woken_db_port }}'
+woken_result_db_host: '{{ woken_db_host }}'
+woken_result_db_user: '{{ woken_db_user }}'
+woken_result_db_password: '{{ woken_db_password }}'
+woken_result_db_jdbc_url: '{{ woken_db_jdbc_url }}'
+woken_result_db_jdbc_driver: '{{ woken_db_jdbc_driver }}'
+woken_result_db_jdbc_jar: '{{ woken_db_jdbc_jar }}'
 
 # How woken connects to the LDSM database containing the data to process
 ldsm_db_port: 31432
 ldsm_db_host: localhost
 ldsm_db_user: postgres
 ldsm_db_password: postgres
-ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/analytics"
+ldsm_db_name: ldsm
+ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/{{ ldsm_db_name }}"
 ldsm_db_jdbc_driver: "org.postgresql.Driver"
 ldsm_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
 
@@ -84,7 +86,7 @@ internal_marathon_url: "http://{{ marathon_hostname }}:{{ marathon_port }}"
 
 woken_dependencies:
   - '{{ chronos_marathon_id }}'
-  - '{{ analytics_db_marathon_id }}'
+  - '{{ woken_db_marathon_id }}'
 
 # Roles are mip_node or mip_federation
 woken_role: mip_node

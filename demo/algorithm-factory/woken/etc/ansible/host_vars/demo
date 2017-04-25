@@ -7,7 +7,7 @@
 
 ip_address: '192.168.21.66'
 
-analytics_db_password: "analyticsdb"
-analytics_db_admin_password: "analyticsroot"
+woken_db_password: "wokendb"
+woken_db_admin_password: "wokenroot"
 ldsm_db_password: "ldsmdb"
 ldsm_db_admin_password: "ldsmroot"
