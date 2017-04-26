@@ -1,0 +1,5 @@
+---
+
+etckeeper_gitignore:
+  - 'tor/keys/'
+  - '/ufw/user.rules'

@@ -9,6 +9,7 @@
           Security is not enabled. Please run `security-setup` in the root
           directory and re-run this playbook with the `--extra-vars`/`-e` option
           pointing to your `security.yml` (e.g., `-e @security.yml`)
+      tags: ['checks', 'infra', 'infrastructure']
 
     # Change concurrently with the required ansible version in requirements.txt
     - name: check for compatible Ansible version
@@ -19,6 +20,7 @@
         msg: >
           Your version of Ansible doesn't match the required version. Please
           install ansible-playbook with `pip install -r requirements.txt`.
+      tags: ['checks', 'infra', 'infrastructure']
 
 - hosts: all
   gather_facts: yes
@@ -30,6 +32,7 @@
           Your machines have a misconfigured date. Please run
           `ansible --become all -a 'date --set="yyyymmdd"'` with the current
           date before continuing.
+      tags: ['checks', 'infra', 'infrastructure']
 
     - name: check for compatible centos version
       when: ansible_os_family == 'RedHat' and ansible_distribution_version | version_compare("7.2", "<")
@@ -38,6 +41,7 @@
           Your hosts don't appear to be running a compatible version of Centos.
           Please run the playbook playbooks/upgrade-packages.yml before
           continuing.
+      tags: ['checks', 'infra', 'infrastructure']
 
     - name: check for compatible kernel version
       when: ansible_kernel | version_compare("3.10.0-327", "<")
@@ -46,3 +50,4 @@
           Your hosts don't appear to be running a compatible version of the
           Linux kernel. Please run the playbook playbooks/upgrade-packages.yml
           before continuing.
+      tags: ['checks', 'infra', 'infrastructure']

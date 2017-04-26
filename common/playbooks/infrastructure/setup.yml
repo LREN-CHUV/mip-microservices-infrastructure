@@ -1,0 +1,19 @@
+---
+
+- include: check-requirements.yml
+
+- include: base-system.yml
+
+# Mesos stack
+
+- include: zookeeper.yml
+
+- include: mesos-leader.yml
+
+- include: mesos-mixed.yml
+
+- include: mesos-follower.yml
+
+# /Mesos stack
+
+- include: cleanup.yml

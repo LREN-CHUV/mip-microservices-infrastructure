@@ -15,6 +15,9 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
+    - "{{ play_dir }}/vars/infrastructure/zookeeper.yml"
+    - "{{ play_dir }}/vars/infrastructure/mesos.yml"
 
   pre_tasks:
 
@@ -22,12 +25,13 @@
       set_fact:
         skipped_roles: []
       when: skipped_roles is not defined
+      tags: ['mesos', 'docker', 'os-tools', 'container-platforms', 'infra', 'infrastructure']
 
   roles:
 
     - role: docker
-      tags: ['os-tools', 'container-platforms', 'docker']
       when: "'docker' not in skipped_roles"
+      tags: ['docker', 'os-tools', 'container-platforms', 'infra', 'infrastructure']
 
 #    - role: docker-registry-slave
 #      tags: ['os-tools', 'container-platforms', 'docker', 'docker-registry-slave']
@@ -37,8 +41,8 @@
       zookeeper_hostnames: "{{ groups.zookeeper | join(',') }}"
       mesos_mode: "follower"
       mesos_leaders_group: "mesos-follower"
-      tags: ['mesos', 'container-platforms']
+      tags: ['mesos', 'container-platforms', 'infra', 'infrastructure']
 
     - role: audit-deployment
       installed_component: mesos-follower
-      tags: ['mesos', 'container-platforms']
+      tags: ['mesos', 'container-platforms', 'infra', 'infrastructure']

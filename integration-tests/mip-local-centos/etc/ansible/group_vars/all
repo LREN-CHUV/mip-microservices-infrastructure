@@ -1,9 +1,7 @@
 ---
 
+mesos_cluster: "my_cluster"
 docker_opts: "--dns=192.168.33.66"
-
-internal_mesos_url: "http://demo.local:{{ mesos_leader_port }}"
-internal_marathon_url: "http://demo.local:{{ marathon_port }}"
 
 python_location: '/usr/bin/python3'
 python_pip: '/usr/bin/pip3'

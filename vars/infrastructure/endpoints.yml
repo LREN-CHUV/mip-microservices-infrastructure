@@ -1,0 +1,22 @@
+---
+
+zookeeper_port: "2181"
+mesos_leader_port: "5050"
+mesos_follower_port: "5051"
+
+marathon_port: "5080"
+
+# TODO: use role=control ?
+zookeeper_server_group: 'zookeeper'
+mesos_leader_server_group: "mesos-leader"
+mesos_mixed_server_group: "mesos-mixed"
+
+mesos_leader_hostname_default: "
+  {%- set mesos_leaders = groups[mesos_leader_server_group] + groups[mesos_mixed_server_group] -%}
+  {{ hostvars[mesos_leaders[0]]['ansible_fqdn'] }}
+"
+mesos_leader_hostname: "{{ mesos_leader_hostname_override | default(mesos_leader_hostname_default|trim) }}"
+marathon_hostname: "{{ marathon_hostname_override | default(mesos_leader_hostname) }}"
+
+internal_mesos_url: "http://{{ mesos_leader_hostname }}:{{ mesos_leader_port }}"
+internal_marathon_url: "http://{{ marathon_hostname }}:{{ marathon_port }}"

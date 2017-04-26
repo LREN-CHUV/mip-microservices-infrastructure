@@ -15,9 +15,17 @@ demo
 [zookeeper]
 demo
 
+# Install Mesos leader and Marathon
+[mesos-leader]
+# none
+
 # Install the full Mesos stack, including Mesos master and agent, Docker and Marathon
 [mesos-mixed]
 demo
+
+# Install Mesos agent and Docker
+[mesos-follower]
+# none
 
 # Install Airflow master (databases + webserver)
 [airflow-master]

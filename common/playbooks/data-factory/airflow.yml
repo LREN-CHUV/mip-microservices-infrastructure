@@ -60,6 +60,7 @@
         shell: /bin/bash
         groups: docker
         append: yes
+      tags: ['airflow-slave', 'airflow', 'data-factory', 'marathon-app']
 
   roles:
 

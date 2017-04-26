@@ -17,6 +17,9 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
+    - "{{ play_dir }}/vars/infrastructure/zookeeper.yml"
+    - "{{ play_dir }}/vars/infrastructure/mesos.yml"
 
   pre_tasks:
 
@@ -24,31 +27,32 @@
       set_fact:
         skipped_roles: []
       when: skipped_roles is not defined
+      tags: ['mesos', 'container-platforms', 'infra', 'infrastructure']
 
   roles:
 
     - role: docker
-      tags: ['os-tools', 'container-platforms', 'docker']
       when: "'docker' not in skipped_roles"
+      tags: ['docker', 'os-tools', 'container-platforms', 'infra', 'infrastructure']
 
 #    - role: docker-registry-slave
 #      tags: ['os-tools', 'container-platforms', 'docker', 'docker-registry-slave']
 #      when: "'docker' not in skipped_roles and docker_registry_config_orig_dir is defined"
 
     - role: mesos
-      zookeeper_hostnames: "{{ groups.zookeeper | join(',') }}"
       mesos_mode: "mixed"
       mesos_leaders_group: "mesos-mixed"
-      tags: ['mesos', 'container-platforms']
+      tags: ['mesos', 'container-platforms', 'infra', 'infrastructure']
 
     # Java 8 is required for Marathon
     - role: openjdk
-      tags: ['mesos-frameworks', 'marathon', 'runtimes']
       when: "'marathon' not in skipped_roles"
+      tags: ['openjdk', 'marathon', 'mesos-frameworks', 'runtimes', 'infra', 'infrastructure']
 
+    # TODO: should install only Marathon on 1 server, or deal with HA config for Marathon
     - role: marathon
-      tags: ['mesos-frameworks', 'marathon']
       when: "'marathon' not in skipped_roles"
+      tags: ['marathon', 'mesos-frameworks', 'runtimes', 'infra', 'infrastructure']
 
     #- role: mesos-ui
     #  tags: ['mesos-frameworks', 'mesos-ui']
@@ -56,4 +60,4 @@
 
     - role: audit-deployment
       installed_component: mesos-mixed
-      tags: ['mesos', 'container-platforms']
+      tags: ['mesos', 'container-platforms', 'infra', 'infrastructure']

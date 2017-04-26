@@ -5,15 +5,16 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/infrastructure/base-system.yml"
 
   roles:
     - role: base-system
-      tags: ['infrastructure', 'runtimes']
+      tags: ['infra', 'infrastructure', 'runtimes']
 
     # Setup etckeeper and force it to use Git
     - role: etckeeper
-      tags: ['infrastructure', 'runtimes']
+      tags: ['infra', 'infrastructure', 'runtimes']
 
     - role: audit-deployment
       installed_component: base-system
-      tags: ['infrastructure', 'runtimes']
+      tags: ['infra', 'infrastructure', 'runtimes']

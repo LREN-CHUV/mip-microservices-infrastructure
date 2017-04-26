@@ -1,0 +1,91 @@
+# Configuration for infrastructure
+
+The infrastructure contains all the low-level components used to manage the installation of MIP on a Linux machine
+(Ubuntu or RedHat). It takes care of networking, process management, logging, security.
+
+It also sets up and configures the [Mesos](https://mesos.apache.org) stack for clustering machines together.
+
+## Hosts
+
+```ini
+
+  [managed]
+  demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
+
+  # Control node: one control node should be selected, not necessarily in the datacenter - it can be the local desktop -
+  # but it should satisfy the following requirements:
+  # - direct network access to all services on the datacenter, in particular the databases and Marathon
+  # - Docker available on the control node
+  # - Possibility to install required packages (docker-py, curl...) for proper function of the Ansible tasks
+  [control]
+  demo
+
+  # Install Zookeeper, required by Mesos
+  [zookeeper]
+  demo
+
+  # Install Mesos leader and Marathon
+  [mesos-leader]
+  # none
+
+  # Install the full Mesos stack, including Mesos master and agent, Docker and Marathon
+  [mesos-mixed]
+  demo
+
+  # Install Mesos agent and Docker
+  [mesos-follower]
+  # none
+
+```
+
+## Mandatory variables
+
+### ENV/etc/ansible/group_vars/all
+
+```yaml
+
+    mesos_cluster: "my_cluster"
+
+    mesos_leader_hostname: ""
+    marathon_hostname: ""
+
+```
+
+## Optional variables
+
+### ENV/etc/ansible/group_vars/all
+
+```yaml
+
+    use_host_domain: false
+    host_domain: novalocal
+
+    #apt_proxy_host:
+    apt_proxy_port: 3142
+    #apt_proxy_url:
+
+    mesos_leader_hostname_override:
+    marathon_hostname_override:
+
+```
+
+### ENV/etc/ansible/group_vars/mesos-leader or mesos-mixed
+
+```yaml
+
+    # authentication options for Mesos
+    zk_mesos_user:
+    zk_mesos_user_secret:
+
+    do_mesos_framework_auth: false
+    do_mesos_follower_auth: false
+    mesos_credentials: []
+    mesos_follower_secret: ""
+
+    # Additional configurations
+    mesos_additional_configs: []
+      # For example:
+      # - name: FOO
+      #   value: bar
+
+```

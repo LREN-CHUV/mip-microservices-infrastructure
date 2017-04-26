@@ -5,16 +5,18 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
+    - "{{ play_dir }}/vars/infrastructure/zookeeper.yml"
 
   roles:
 
     # Java 8 is required for Zookeeper
     - role: openjdk
-      tags: ['mesos-frameworks', 'marathon', 'runtimes']
+      tags: ['openjdk', 'zookeeper', 'mesos-frameworks', 'runtimes', 'infra', 'infrastructure']
 
     - role: zookeeper
-      tags: ['mesos']
+      tags: ['zookeeper', 'runtimes', 'infra', 'infrastructure']
 
     - role: audit-deployment
       installed_component: zookeeper
-      tags: ['mesos', 'container-platforms']
+      tags: ['zookeeper', 'runtimes', 'infra', 'infrastructure']

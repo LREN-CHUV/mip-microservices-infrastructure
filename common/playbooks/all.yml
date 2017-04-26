@@ -1,22 +1,6 @@
 ---
 
-- include: infrastructure/check-requirements.yml
-
-# Mesos stack
-
-- include: infrastructure/base-system.yml
-
-- include: infrastructure/zookeeper.yml
-
-- include: infrastructure/mesos-leader.yml
-
-- include: infrastructure/mesos-mixed.yml
-
-- include: infrastructure/mesos-follower.yml
-
-# /Mesos stack
-
-- include: infrastructure/cleanup.yml
+- include: infrastructure/setup.yml
 
 - include: mip-services.yml
 
@@ -46,13 +30,13 @@
 
 # Web Exploration and Analytics
 
-- include: portal/portal-database.yml
+- include: web-analytics/portal-database.yml
 
 - include: meta-database.yml
 
-- include: portal/portal-backend.yml
+- include: web-analytics/portal-backend.yml
 
-- include: portal/portal-frontend.yml
+- include: web-analytics/portal-frontend.yml
 
 # /Web Exploration and Analytics
 

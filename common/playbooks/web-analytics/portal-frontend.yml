@@ -10,8 +10,8 @@
   roles:
 
     - role: portal-frontend
-      tags: ['portal-frontend', 'portal', 'marathon-app']
+      tags: ['portal-frontend', 'portal', 'web-analytics', 'marathon-app']
 
     - role: audit-deployment
       installed_component: portal-frontend
-      tags: ['portal-frontend', 'portal', 'marathon-app']
+      tags: ['portal-frontend', 'portal', 'web-analytics', 'marathon-app']

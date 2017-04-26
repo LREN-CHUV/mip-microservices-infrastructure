@@ -1,0 +1,7 @@
+---
+
+chronos_port: 4400
+woken_http_port: 4090
+
+internal_chronos_url: "http://demo.local:{{ chronos_port }}"
+internal_woken_url: "http://{{ woken_hostname }}:{{ woken_http_port }}"
