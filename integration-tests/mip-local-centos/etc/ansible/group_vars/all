@@ -1,6 +1,5 @@
 ---
 
-mesos_cluster: "my_cluster"
 docker_opts: "--dns=192.168.33.66"
 
 python_location: '/usr/bin/python3'

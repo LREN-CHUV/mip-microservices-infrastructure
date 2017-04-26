@@ -7,7 +7,7 @@ demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant'
 # but it should satisfy the following requirements:
 # - direct network access to all services on the datacenter, in particular the databases and Marathon
 # - Docker available on the control node
-# - Possibility to install required packages (docker-py, curl...) for proper function of the Ansible tasks
+# - Install required packages (docker-py, curl...) for proper function of the Ansible tasks
 [control]
 demo
 

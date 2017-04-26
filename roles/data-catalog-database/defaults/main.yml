@@ -8,7 +8,7 @@ data_catalog_db_deploy: no
 data_catalog_db_marathon_id: /data-factory/airflow/data-catalog-db
 
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
-data_catalog_db_marathon_host: '{{ inventory_hostname }}'
+data_catalog_db_marathon_host: '{{ ansible_fqdn }}'
 
 # The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
 # TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
@@ -32,27 +32,24 @@ data_catalog_db_admin_user: postgres
 data_catalog_db_user: data_catalog
 # TO FILL - data_catalog_db_password: data_catalog
 
-# Hint in Marathon listing all the databases running in this Postgres server, used when data_catalog_db_deploy is true
+# Hint in Marathon listing all the databases running in this Postgres server,
+# used when data_catalog_db_deploy is true
 data_catalog_db_databases: "{{ data_catalog_db_name }}"
 
 data_catalog_db_data_dir: /srv/docker/data_catalog_db/data
 
-airflow_plugins_folder: '/usr/local/airflow/plugins'
+data_catalog_db_volumes:
+  - containerPath: "/var/lib/postgresql/data"
+    hostPath: "{{ data_catalog_db_data_dir }}"
+    mode: RW
+
+data_catalog_db_env:
+  POSTGRES_USER: "{{ data_catalog_db_admin_user }}"
+  POSTGRES_PASSWORD: "{{ data_catalog_db_admin_password }}"
+  POSTGRES_DB: '{{ data_catalog_db_name }}'
 
 # Force cleanup of the data_catalog database. Please never use that in production!
 data_catalog_db_cleanup: false
-
-data_catalog_db_sql_alchemy_conn: "postgresql://{{ data_catalog_db_user }}:{{ data_catalog_db_password }}@{{ data_catalog_db_host }}:{{ data_catalog_db_port }}/data_catalog"
-
-data_catalog_db_deb_packages:
-  - python-pip
-  - python-psycopg2
-  - curl
-
-data_catalog_db_yum_packages:
-  - python-pip
-  - python-psycopg2
-  - curl
 
 # path to lib_role
 data_catalog_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}"
@@ -60,4 +57,7 @@ data_catalog_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/ro
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
 
+data_catalog_db_sql_alchemy_conn: "postgresql://{{ data_catalog_db_user }}:{{ data_catalog_db_password }}@{{ data_catalog_db_host }}:{{ data_catalog_db_port }}/data_catalog"
+
 data_catalog_setup_image: 'hbpmip/data-catalog-setup'
+data_catalog_setup_version: '1.4.5'

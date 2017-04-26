@@ -1,90 +1,24 @@
 ---
 
-- name: Wait for Marathon
-  include: ../../marathon-app/tasks/wait-for-marathon.yml
-  vars:
-    uri: "{{ internal_marathon_url }}"
-  tags:
-    - launch
-
-- name: Remove old LDSM DB using Marathon
-  marathon_app:
-    uri: "{{ internal_marathon_url }}"
-    id: "{{ ldsm_db_marathon_id }}"
-    state: "absent"
-    wait_timeout: 600
-  async: 600
-  poll: 1
-  delegate_to: "{{ groups['control'][0] }}"
-  tags:
-    - launch
-
-- name: Optional cleanup
-  file: state=absent path={{ ldsm_db_data_dir }}
-  when: ldsm_db_cleanup
-
-# Postgres user in Docker appears as user 999 outside
-- name: Create LDSM DB storage directory
-  file: state=directory path={{ ldsm_db_data_dir }} mode=0700 owner={{ ldsm_db_docker_user }} group={{ ldsm_db_docker_user }}
-
-- name: Launch LDSM DB using Marathon
-  marathon_app:
-    uri: "{{ internal_marathon_url }}"
-    id: "{{ ldsm_db_marathon_id }}"
-    state: "present"
-    docker_image: "{{ ldsm_db_image }}:{{ ldsm_db_version }}"
-    docker_force_pull_image: true
-    docker_network: BRIDGE
-    docker_port_mappings:
-      - hostPort: '{{ ldsm_db_port }}'
-        containerPort: 5432
-        name: 'postgres'
-        protocol: 'tcp'
-    container_volumes: '{{ lsdm_db_volumes }}'
-    env: '{{ ldsm_db_env }}'
-    labels:
-      MARATHON_SINGLE_INSTANCE_APP: "true"
-      DATABASES: "{{ ldsm_db_databases }}"
-    instances: 1
-    cpus: '{{ ldsm_db_cpus }}'
-    mem: '{{ ldsm_db_mem }}'
-    ports: [] # defined in docker_port_mappings
-    require_ports: true
-    constraints: [["hostname", "CLUSTER", "{{ ldsm_db_marathon_host }}"]]
-    dependencies: []
-    executor: ""
-    health_checks:
-      - protocol: COMMAND
-        command:
-          value: "{{ ldsm_db_is_ready }} -U {{ ldsm_db_admin_user }}"
-        gracePeriodSeconds: 300
-        intervalSeconds: 20
-        timeoutSeconds: 10
-        maxConsecutiveFailures: 5
-    upgrade_strategy_minimum_health_capacity: 0.0
-    upgrade_strategy_maximum_over_capacity: 0.0
-    wait_timeout: 600
-  async: 600
-  poll: 1
-  delegate_to: "{{ groups['control'][0] }}"
-  tags:
-    - launch
-
-- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
-  apt: name={{ item }} state=present
-  with_items:
-    - python-psycopg2
-    - python-pip
-    - curl
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
+- include: marathon.yml
+  when: ldsm_db_deploy
 
 # run this task on the database host
-- name: Wait for the database to be up and running
+- name: Wait for the LDSM database to be up and running
   wait_for: >
     port="{{ ldsm_db_port }}"
     delay=2
+
+- name: Drop database with name "ldsm"
+  postgresql_db:
+    name: "{{ ldsm_db_name }}"
+    port: "{{ ldsm_db_port }}"
+    login_host: "{{ ldsm_db_host }}"
+    login_user: "{{ ldsm_db_admin_user }}"
+    login_password: "{{ ldsm_db_admin_password }}"
+    state: absent
+  delegate_to: "{{ groups['control'][0] }}"
+  when: (not ldsm_db_deploy) and ldsm_db_cleanup
 
 - name: Create a new database with name "ldsm"
   postgresql_db:
@@ -130,17 +64,6 @@
   with_fileglob:
    - "{{ ldsm_db_setup_scripts_dir }}/sql/*"
   when: in_vagrant
-
-# See https://github.com/anarcher/ansible-docker-registry/issues/1
-- name: Make sure pip upgraded
-  command: easy_install -U pip
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-- name: Install Python module for Docker (required by docker_container task)
-  pip: name=docker-py state=present
-  delegate_to: "{{ groups['control'][0] }}"
 
 - name: Run Flyway migration
   docker_container:

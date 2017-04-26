@@ -1,5 +1,5 @@
 ---
-
+# TODO: not used anymore, to replace by static site
 - hosts: mip-services
   become: yes
   vars_files:

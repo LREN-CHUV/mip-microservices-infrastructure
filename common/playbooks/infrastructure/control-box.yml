@@ -1,0 +1,47 @@
+---
+# Setup mandatory software on the control box
+
+- hosts: control
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
+
+  roles:
+
+    - role: docker
+      tags: ['docker', 'os-tools', 'control', 'infra', 'infrastructure']
+
+  post_tasks:
+
+    - name: (Ubuntu) Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl (required for marathon-app)
+      apt: name={{ item }} state=present
+      with_items:
+        - python-psycopg2
+        - python-pip
+        - curl
+      when: ansible_os_family == 'Debian'
+      tags: ['os-tools', 'control', 'infra', 'infrastructure']
+
+    - name: (RedHat) Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl (required for marathon-app)
+      yum: name={{ item }} state=present
+      with_items:
+        - python-pip
+        - curl
+      when: ansible_os_family == 'RedHat'
+      tags: ['os-tools', 'control', 'infra', 'infrastructure']
+
+    # See https://github.com/anarcher/ansible-docker-registry/issues/1
+    - name: Make sure pip upgraded
+      command: easy_install -U pip
+      when: ansible_os_family == 'Debian'
+      tags: ['os-tools', 'control', 'infra', 'infrastructure']
+
+    - name: Install Python module for Docker (required by docker_container task)
+      pip: name=docker-py state=present
+      tags: ['docker', 'os-tools', 'control', 'infra', 'infrastructure']
+
+    - name: (RedHat) Install Python psycopg2 module for Postgres (required by postgresql_db task)
+      pip: name=psycopg2 state=present
+      tags: ['os-tools', 'control', 'infra', 'infrastructure']

@@ -4,6 +4,8 @@
 
 - include: base-system.yml
 
+- include: control-box.yml
+
 # Mesos stack
 
 - include: zookeeper.yml

@@ -1,6 +1,7 @@
 ---
 # Invariants for the configuration of Mesos leader (aka master) and users of Mesos
 
+mesos_cluster: "{{ mesos_cluster_override | default('MIP')}}"
 mesos_containerizers: "docker,mesos"
 mesos_isolation: cgroups/cpu,cgroups/mem
 mesos_resources:

@@ -9,14 +9,15 @@ It also sets up and configures the [Mesos](https://mesos.apache.org) stack for c
 
 ```ini
 
+  # Managed hosts should contain all servers in the datacenter.
+  # Common software, configuration and security settings will be applied on them.
   [managed]
-  demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
+  demo
 
   # Control node: one control node should be selected, not necessarily in the datacenter - it can be the local desktop -
   # but it should satisfy the following requirements:
-  # - direct network access to all services on the datacenter, in particular the databases and Marathon
-  # - Docker available on the control node
-  # - Possibility to install required packages (docker-py, curl...) for proper function of the Ansible tasks
+  # - Direct network access to all services on the datacenter, in particular the databases and Marathon
+  # - Install required packages (docker-engine, docker-py, curl...) for proper function of the Ansible tasks
   [control]
   demo
 
@@ -81,6 +82,8 @@ It also sets up and configures the [Mesos](https://mesos.apache.org) stack for c
     do_mesos_follower_auth: false
     mesos_credentials: []
     mesos_follower_secret: ""
+
+    mesos_cluster_override:
 
     # Additional configurations
     mesos_additional_configs: []

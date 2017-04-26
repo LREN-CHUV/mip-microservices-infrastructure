@@ -5,7 +5,7 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
-    - "{{ play_dir }}/vars/airflow.yml"
+    - "{{ play_dir }}/vars/data-factory/airflow.yml"
 
   roles:
 
@@ -35,7 +35,7 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
-    - "{{ play_dir }}/vars/airflow.yml"
+    - "{{ play_dir }}/vars/data-factory/airflow.yml"
 
   pre_tasks:
 

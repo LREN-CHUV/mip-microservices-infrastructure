@@ -1,17 +1,21 @@
 ---
 
-ldsm_db_marathon_id: /hospital-database/ldsmdb
+# Deploy ldsm-db as an independant database. If false, then we assume that there is
+# a database already running and we add to it a new 'ldsm' schema
+ldsm_db_deploy: yes
+
+# Used when ldsm_db_deploy is true
+ldsm_db_marathon_id: /hospital-database/ldsm-db
 
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
-ldsm_db_marathon_host: '{{ marathon_hostname }}'
+ldsm_db_marathon_host: '{{ ansible_fqdn }}'
 
 # The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
 # TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
 ldsm_db_docker_user: '999'
 
-# postgresql
-postgres_version: "9.5.4"
 ldsm_db_image: 'postgres'
+postgres_version: "9.5.4"
 ldsm_db_version: "{{ postgres_version }}"
 postgres_is_ready: "/usr/local/bin/pg_isready"
 ldsm_db_is_ready: "{{ postgres_is_ready }}"
@@ -19,7 +23,7 @@ ldsm_db_is_ready: "{{ postgres_is_ready }}"
 ldsm_db_cpus: 0.5
 ldsm_db_mem: 128.0
 
-# Port exposed by Marathon, must be in the range [31000,32000[
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
 ldsm_db_port: 31432
 ldsm_db_host: '{{ ldsm_db_marathon_host }}'
 ldsm_db_name: ldsm
@@ -28,13 +32,11 @@ ldsm_db_admin_user: postgres
 ldsm_db_user: ldsm
 # TO FILL - ldsm_db_password:
 
-# Hint in Marathon listing all the databases running in this Postgres server
+# Hint in Marathon listing all the databases running in this Postgres server,
+# used when ldsm_db_deploy is true
 ldsm_db_databases: "{{ ldsm_db_name }}"
 
 ldsm_db_data_dir: /srv/docker/ldsmdb/data
-
-ldsm_db_setup_dir: /opt/ldsm-database/migration
-ldsm_db_setup_scripts_dir: demo
 
 lsdm_db_volumes:
   - containerPath: "/var/lib/postgresql/data"
@@ -49,9 +51,15 @@ ldsm_db_env:
 # Force cleanup of the LDSM database. Please never use that in production!
 ldsm_db_cleanup: false
 
-flyway_version: "4.0.3"
+# path to lib_role
+ldsm_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}"
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
+
+flyway_version: "4.0.3"
+
+ldsm_db_setup_dir: /opt/ldsm-database/migration
+ldsm_db_setup_scripts_dir: demo
 
 in_vagrant: false

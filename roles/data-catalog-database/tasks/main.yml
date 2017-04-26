@@ -3,20 +3,6 @@
 - include: marathon.yml
   when: data_catalog_db_deploy
 
-- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
-  apt: name={{ item }} state=present
-  with_items: '{{ data_catalog_db_deb_packages }}'
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
-  yum: name={{ item }} state=present
-  with_items: '{{ data_catalog_db_yum_packages }}'
-  when: ansible_os_family == 'RedHat'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
 # run this task on the database host
 - name: Wait for the Data Catalog database to be up and running
   wait_for: >
@@ -54,17 +40,6 @@
     name: "{{ data_catalog_db_user }}"
     password: "{{ data_catalog_db_password }}"
     role_attr_flags: "SUPERUSER"
-  delegate_to: "{{ groups['control'][0] }}"
-
-# See https://github.com/anarcher/ansible-docker-registry/issues/1
-- name: Make sure pip upgraded
-  command: easy_install -U pip
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-- name: Install Python module for Docker (required by docker_container task)
-  pip: name=docker-py state=present
   delegate_to: "{{ groups['control'][0] }}"
 
 - name: Run Alembic migration

@@ -6,14 +6,12 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
-
-  pre_tasks:
-
-    - name: Install curl on control node - required for marathon-app
-      apt: name=curl state=present
-      delegate_to: "{{ groups['control'][0] }}"
-      run_once: true
-      tags: ['woken-validation', 'woken', 'analytics', 'algorithm-factory', 'af', 'marathon-app']
+    - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
+    - "{{ play_dir }}/vars/infrastructure/zookeeper.yml"
+    - "{{ play_dir }}/vars/infrastructure/mesos.yml"
+    - "{{ play_dir }}/vars/algorithm-factory/endpoints.yml"
+    - "{{ play_dir }}/vars/algorithm-factory/chronos.yml"
+    - "{{ play_dir }}/vars/algorithm-factory/woken.yml"
 
   roles:
 

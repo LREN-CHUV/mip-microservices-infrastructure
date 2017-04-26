@@ -2,21 +2,19 @@
 
 - include: infrastructure/setup.yml
 
-- include: mip-services.yml
-
-# Databases
-
-- include: science-database.yml
-
-- include: ldsm-database.yml
-
-# / Databases
+- include: hospital-database/setup.yml
 
 # Data Factory
 
 - include: data-factory/airflow.yml
 
 # /Data Factory
+
+# Databases
+
+- include: science-database.yml
+
+# / Databases
 
 # Algorithm Factory
 

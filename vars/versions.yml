@@ -28,7 +28,7 @@ mariadb_version: "10.1.19"
 # Use latest NGinx from official repo
 nginx_official_repo: True
 
-flyway_version: "4.0.3"
+flyway_version: "4.1.2-1"
 
 # Versions of our Docker containers
 portal_frontend_version: "6806abc"
