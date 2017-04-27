@@ -27,8 +27,8 @@ demo
 [meta-db]
 demo
 
-# Install the science database
-[science-db]
+# Install the research database
+[research-db]
 demo
 
 # Install the Portal backend server

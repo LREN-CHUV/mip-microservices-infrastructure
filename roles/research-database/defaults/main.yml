@@ -1,0 +1,70 @@
+---
+
+# Deploy research-db as an independent database. If false, then we assume that there is
+# a database already running and we add to it a new 'ldsm' schema
+research_db_deploy: yes
+
+# Used when research_db_deploy is true
+research_db_marathon_id: /reference/research-db
+
+# Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
+research_db_marathon_host: '{{ ansible_fqdn }}'
+
+# The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
+# TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
+research_db_docker_user: '999'
+
+research_db_image: 'postgres'
+postgres_version: "9.5.4"
+research_db_version: "{{ postgres_version }}"
+postgres_is_ready: "/usr/local/bin/pg_isready"
+research_db_is_ready: "{{ postgres_is_ready }}"
+
+research_db_cpus: 0.5
+research_db_mem: 128.0
+
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
+research_db_port: 31433
+research_db_host: '{{ research_db_marathon_host }}'
+research_db_name: research
+research_db_admin_user: postgres
+# TO FILL - research_db_admin_password:
+research_db_user: research
+# TO FILL - research_db_password:
+
+# Hint in Marathon listing all the databases running in this Postgres server,
+# used when research_db_deploy is true
+research_db_databases: "{{ research_db_name }}"
+
+research_db_data_dir: /srv/docker/research-db/data
+research_db_csv_dir: /srv/docker/research-db/csv
+
+research_db_volumes:
+  - containerPath: "/var/lib/postgresql/data"
+    hostPath: "{{ research_db_data_dir }}"
+    mode: RW
+  # because /mnt is accessible to postgres user in the container
+  - containerPath: '/mnt/values.csv'
+    hostPath: "{{ research_db_csv_dir }}/values.csv"
+    mode: RO
+
+research_db_env:
+  POSTGRES_USER: "{{ research_db_admin_user }}"
+  POSTGRES_PASSWORD: "{{ research_db_admin_password }}"
+
+# Force cleanup of the Research DB. Please never use that in production!
+research_db_cleanup: false
+
+# path to lib_role
+research_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}"
+
+# URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
+internal_marathon_url: http://localhost:5080
+
+flyway_version: "4.0.3"
+
+research_db_fill: yes
+research_db_local_project_dir: /src/research-db
+research_db_setup_dir: /opt/research-database/migration
+
+in_vagrant: false

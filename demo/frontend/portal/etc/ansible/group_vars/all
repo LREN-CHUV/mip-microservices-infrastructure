@@ -36,11 +36,11 @@ meta_db_jdbc_url: "jdbc:postgresql://{{ meta_db_host }}:{{ meta_db_port }}/meta"
 meta_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/meta-db'
 meta_db_admin_user: "postgres"
 
-science_db_host: "demo.local"
-science_db_port: 31433
-science_db_jdbc_url: "jdbc:postgresql://{{ science_db_host }}:{{ science_db_port }}/science"
-science_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/science-db'
-science_db_admin_user: "postgres"
+research_db_host: "demo.local"
+research_db_port: 31433
+research_db_jdbc_url: "jdbc:postgresql://{{ research_db_host }}:{{ research_db_port }}/research"
+research_db_local_project_dir: '{{ play_dir}}/demo/frontend/portal/src/research-db'
+research_db_admin_user: "postgres"
 
 portal_backend_port: 4080
 portal_backend_akka_port: 4089

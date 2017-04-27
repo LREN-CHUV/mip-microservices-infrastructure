@@ -1,6 +1,6 @@
 ---
 
-# Deploy ldsm-db as an independant database. If false, then we assume that there is
+# Deploy ldsm-db as an independent database. If false, then we assume that there is
 # a database already running and we add to it a new 'ldsm' schema
 ldsm_db_deploy: yes
 
@@ -46,7 +46,6 @@ lsdm_db_volumes:
 ldsm_db_env:
   POSTGRES_USER: "{{ ldsm_db_admin_user }}"
   POSTGRES_PASSWORD: "{{ ldsm_db_admin_password }}"
-  POSTGRES_DB: '{{ ldsm_db_name }}'
 
 # Force cleanup of the LDSM database. Please never use that in production!
 ldsm_db_cleanup: false

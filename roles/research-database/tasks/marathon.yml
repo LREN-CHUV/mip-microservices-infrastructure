@@ -1,0 +1,85 @@
+---
+
+- name: Wait for Marathon
+  include: "{{ research_db_path_to_lib_role }}/marathon-app/tasks/wait-for-marathon.yml"
+  vars:
+    uri: "{{ internal_marathon_url }}"
+  tags:
+    - launch
+
+- name: Remove old research DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ research_db_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch
+
+- name: Optional cleanup
+  file: state=absent path={{ research_db_data_dir }}
+  when: research_db_cleanup
+
+# Postgres user in Docker appears as user 999 outside
+- name: Create research DB storage directory
+  file: state=directory path={{ research_db_data_dir }} mode=0700 owner={{ research_db_docker_user }} group={{ research_db_docker_user }}
+
+- name: Create research DB directory for initial data stored in CSV files
+  file: state=directory path={{ research_db_csv_dir }} mode=0744
+
+# CSV files should be copied to the database server and exposed inside the database server container in the path /mnt
+- name: Copy scientific data CSV file
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ research_db_csv_dir }}/{{ item.dest }}"
+    mode: 0744
+  with_items:
+    - src: "{{ research_db_local_project_dir }}/sql/values.csv"
+      dest: "values.csv"
+  when: research_db_fill
+
+- name: Launch research DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ research_db_marathon_id }}"
+    state: "present"
+    docker_image: "{{ research_db_image }}:{{ research_db_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ research_db_port }}'
+        containerPort: 5432
+        name: 'postgres'
+        protocol: 'tcp'
+    container_volumes: '{{ research_db_volumes }}'
+    env: '{{ research_db_env }}'
+    labels:
+      MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ research_db_databases }}"
+    instances: 1
+    cpus: '{{ research_db_cpus }}'
+    mem: '{{ research_db_mem }}'
+    ports: [] # defined in docker_port_mappings
+    require_ports: true
+    constraints: [["hostname", "CLUSTER", "{{ research_db_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "{{ research_db_is_ready }} -U {{ research_db_admin_user }} -p 5432"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch

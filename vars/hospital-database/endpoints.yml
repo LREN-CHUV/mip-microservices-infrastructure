@@ -11,6 +11,7 @@ ldsm_db_user: "ldsm"
 ldsm_db_jdbc_url_base: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}"
 ldsm_db_jdbc_url: "{{ ldsm_db_jdbc_url_base }}/{{ ldsm_db_name }}"
 
+# required by postgresraw-ui role
 ldsm_db_data_dir: "/srv/docker/ldsmdb/data"
 ldsm_db_raw_data_dir: "{{ ldsm_db_raw_data_dir_override | default('/data/ldsm') }}"
 

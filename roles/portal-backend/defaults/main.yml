@@ -46,13 +46,13 @@ meta_db_jdbc_url: "jdbc:postgresql://{{ meta_db_host }}:{{ meta_db_port }}/{{ me
 meta_db_jdbc_driver: "org.postgresql.Driver"
 meta_db_marathon_id: "/frontend/meta-db"
 
-science_db_port: 31433
-science_db_host: localhost
-science_db_user: science
-science_db_password: science-db
-science_db_jdbc_url: "jdbc:postgresql://{{ science_db_host }}:{{ science_db_port }}/{{ science_db_user }}"
-science_db_jdbc_driver: "org.postgresql.Driver"
-science_db_marathon_id: "/frontend/science-db"
+research_db_port: 31433
+research_db_host: localhost
+research_db_user: research
+research_db_password: research-db
+research_db_jdbc_url: "jdbc:postgresql://{{ research_db_host }}:{{ research_db_port }}/{{ research_db_user }}"
+research_db_jdbc_driver: "org.postgresql.Driver"
+research_db_marathon_id: "/frontend/research-db"
 
 portal_backend_security_enabled: false
 
@@ -78,11 +78,11 @@ portal_backend_env:
   META_DB_SCHEMA: "public"
   META_DB_USER: "{{ meta_db_user }}"
   META_DB_PASSWORD:  "{{ meta_db_password }}"
-  SCIENCE_DB_URL: "{{ science_db_jdbc_url }}"
+  SCIENCE_DB_URL: "{{ research_db_jdbc_url }}"
   SCIENCE_DB_SCHEMA: "public"
   SCIENCE_DB_MAIN_TABLE: "adni_merge"
-  SCIENCE_DB_USER: "{{ science_db_user }}"
-  SCIENCE_DB_PASSWORD: "{{ science_db_password }}"
+  SCIENCE_DB_USER: "{{ research_db_user }}"
+  SCIENCE_DB_PASSWORD: "{{ research_db_password }}"
   AUTHENTICATION: 0
   LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
   LOGGING_LEVEL_HIBERNATE: '{{ portal_backend_logging_level_hibernate }}'
@@ -105,11 +105,11 @@ portal_backend_env:
 #   META_DB_SCHEMA: "public"
 #   META_DB_USER: "{{ meta_db_user }}"
 #   META_DB_PASSWORD:  "{{ meta_db_password }}"
-#   SCIENCE_DB_URL: "{{ science_db_jdbc_url }}"
+#   SCIENCE_DB_URL: "{{ research_db_jdbc_url }}"
 #   SCIENCE_DB_SCHEMA: "public"
 #   SCIENCE_DB_MAIN_TABLE: "adni_merge"
-#   SCIENCE_DB_USER: "{{ science_db_user }}"
-#   SCIENCE_DB_PASSWORD: "{{ science_db_password }}"
+#   SCIENCE_DB_USER: "{{ research_db_user }}"
+#   SCIENCE_DB_PASSWORD: "{{ research_db_password }}"
 #   AUTHENTICATION: 1
 #   CLIENT_ID: '{{ portal_backend_hbp_client_id }}'
 #   CLIENT_SECRET: '{{ portal_backend_hbp_client_secret }}'

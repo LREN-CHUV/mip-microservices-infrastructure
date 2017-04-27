@@ -44,5 +44,5 @@
       tags: ['mesos', 'container-platforms', 'infra', 'infrastructure']
 
     - role: audit-deployment
-      installed_component: mesos-follower
+      installed_component: infrastructure-mesos-follower
       tags: ['mesos', 'container-platforms', 'infra', 'infrastructure']

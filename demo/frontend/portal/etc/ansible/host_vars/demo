@@ -13,5 +13,5 @@ portal_db_admin_password: "portalroot"
 meta_db_password: "meta-db"
 meta_db_admin_password: "{{ portal_db_admin_password }}"
 
-science_db_password: "science-db"
-science_db_admin_password: "scienceroot"
+research_db_password: "research-db"
+research_db_admin_password: "researchroot"

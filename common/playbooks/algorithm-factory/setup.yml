@@ -1,0 +1,7 @@
+---
+
+- include: woken-database.yml
+
+- include: woken.yml
+
+- include: woken-validation.yml

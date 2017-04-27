@@ -43,6 +43,9 @@ ldsm_db_raw_data_dir_override:
 ldsm_db_cpus: 0.2
 ldsm_db_mem: 128.0
 
+# Force cleanup of the LDSM database. Please never use that in production!
+ldsm_db_cleanup: false
+
 # Amount of CPU reserved for PostgresRAW UI
 postgresraw_ui_cpus: 0.2
 # Amount of memory in mb reserved for PostgresRAW UI

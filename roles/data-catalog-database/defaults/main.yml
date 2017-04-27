@@ -1,6 +1,6 @@
 ---
 
-# Deploy data-catalog-db as an independant database. If false, then we assume that there is
+# Deploy data-catalog-db as an independent database. If false, then we assume that there is
 # a database already running and we add to it a new 'data-catalog' schema
 data_catalog_db_deploy: no
 

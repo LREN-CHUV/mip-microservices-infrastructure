@@ -1,0 +1,13 @@
+---
+
+research_db_port: 31433
+research_db_host: "{{ ansible_fqdn }}"
+research_db_name: research
+research_db_admin_user: postgres
+research_db_user: research
+
+meta_db_port: '{% if meta_db_deploy %}31432{% else %}{{ research_db_port }}{% endif %}'
+meta_db_host: '{% if meta_db_deploy %}{{ ansible_fqdn }}{% else %}{{ research_db_host }}{% endif %}'
+meta_db_name: meta
+meta_db_admin_user: postgres
+meta_db_user: meta

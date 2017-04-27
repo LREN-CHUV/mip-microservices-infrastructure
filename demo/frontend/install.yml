@@ -21,7 +21,7 @@
 
 - include: ../../common/playbooks/meta-database.yml
 
-- include: ../../common/playbooks/science-database.yml
+- include: ../../common/playbooks/research-database.yml
 
 - include: ../../common/playbooks/portal/portal-backend.yml
 

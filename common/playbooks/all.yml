@@ -10,27 +10,13 @@
 
 # /Data Factory
 
-# Databases
+- include: reference/setup.yml
 
-- include: science-database.yml
-
-# / Databases
-
-# Algorithm Factory
-
-- include: algorithm-factory/woken-database.yml
-
-- include: algorithm-factory/woken.yml
-
-- include: algorithm-factory/woken-validation.yml
-
-# /Algorithm Factory
+- include: algorithm-factory/setup.yml
 
 # Web Exploration and Analytics
 
 - include: web-analytics/portal-database.yml
-
-- include: meta-database.yml
 
 - include: web-analytics/portal-backend.yml
 

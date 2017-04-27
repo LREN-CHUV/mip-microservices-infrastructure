@@ -48,5 +48,5 @@
     #  when: "'mesos-ui' not in skipped_roles"
 
     - role: audit-deployment
-      installed_component: mesos-leader
+      installed_component: infrastructure-mesos-leader
       tags: ['mesos', 'container-platforms', 'infra', 'infrastructure']

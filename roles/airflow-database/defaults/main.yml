@@ -1,6 +1,6 @@
 ---
 
-# Deploy airflow-db as an independant database. If false, then we assume that there is
+# Deploy airflow-db as an independent database. If false, then we assume that there is
 # a database already running and we add to it a new 'airflow' schema
 airflow_db_deploy: no
 

@@ -45,7 +45,7 @@
 - name: Create setup dir
   file:
     state: directory
-    path: "{{ldsm_db_setup_dir}}"
+    path: "{{ ldsm_db_setup_dir }}"
   delegate_to: "{{ groups['control'][0] }}"
 
 - name: Copy sql creation scripts
@@ -67,7 +67,7 @@
 
 - name: Run Flyway migration
   docker_container:
-    name: migrate_ldsm
+    name: setup_ldsm_db
     image: "lren/flyway:{{ flyway_version }}"
     command: migrate
     detach: no

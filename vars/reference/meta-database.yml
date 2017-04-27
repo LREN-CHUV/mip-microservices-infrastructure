@@ -1,0 +1,3 @@
+---
+
+meta_db_marathon_host: "{{ ansible_fqdn }}"

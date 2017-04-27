@@ -57,3 +57,16 @@ demo
 # Install Airflow agent (scheduler + scripts + related applications like SPM)
 [airflow-agent]
 #demo
+
+# Reference building block: define a 'reference' group encompassing the configuration of the groups defined below
+[reference:children]
+research-db
+meta-db
+
+# Install research-database
+[research-db]
+demo
+
+# Install meta-database
+[meta-db]
+demo

@@ -1,6 +1,6 @@
 ---
 
-# Deploy i2b2-db as an independant database. If false, then we assume that there is
+# Deploy i2b2-db as an independent database. If false, then we assume that there is
 # a database already running and we add to it a new 'i2b2' schema
 i2b2_db_deploy: no
 

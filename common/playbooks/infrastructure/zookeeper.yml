@@ -18,5 +18,5 @@
       tags: ['zookeeper', 'runtimes', 'infra', 'infrastructure']
 
     - role: audit-deployment
-      installed_component: zookeeper
+      installed_component: infrastructure-zookeeper
       tags: ['zookeeper', 'runtimes', 'infra', 'infrastructure']

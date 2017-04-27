@@ -23,3 +23,9 @@ slack_token: ''
 
 ldsm_db_password: "ldsm-db"
 ldsm_db_admin_password: "ldsmroot"
+
+research_db_password: "research-db"
+research_db_admin_password: "researchroot"
+
+meta_db_password: "meta-db"
+meta_db_admin_password: "metaroot"

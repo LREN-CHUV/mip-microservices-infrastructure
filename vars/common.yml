@@ -1,10 +1,6 @@
 ---
 
 private_ipv4: "{{ ip_address }}"
-# Please define skipped_roles variable in derived projects
-#skipped_roles: []
-
-etckeeper_vcs: 'git'
 
 # Blacklist the packages that cannot be automalically upgraded, either because we keep a close track of their version, or because of another reason.
 unattended_package_blacklist:
@@ -37,8 +33,7 @@ java_register_env: true
 use_openjdk_ppa: true
 
 woken_db_marathon_id: "/algorithm-factory/woken-db"
-denodo_marathon_id: /reference/denodo
-science_db_marathon_id: "/reference/science-db"
+research_db_marathon_id: "/reference/research-db"
 portal_db_marathon_id: "/portal/portal-db"
 meta_db_marathon_id: "{{ portal_db_marathon_id }}"
 portal_backend_marathon_id: /portal/portal-backend

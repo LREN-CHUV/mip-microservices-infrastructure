@@ -1,5 +1,7 @@
 ---
 
+etckeeper_vcs: 'git'
+
 etckeeper_gitignore:
   - 'tor/keys/'
   - '/ufw/user.rules'

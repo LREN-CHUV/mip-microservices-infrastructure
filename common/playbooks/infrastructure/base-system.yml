@@ -16,5 +16,5 @@
       tags: ['infra', 'infrastructure', 'runtimes']
 
     - role: audit-deployment
-      installed_component: base-system
+      installed_component: infrastructure-base-system
       tags: ['infra', 'infrastructure', 'runtimes']

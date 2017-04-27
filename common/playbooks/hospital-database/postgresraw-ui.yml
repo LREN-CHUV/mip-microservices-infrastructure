@@ -17,5 +17,5 @@
       tags: ['postgresraw-ui', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
 
     - role: audit-deployment
-      installed_component: postgresraw-ui
+      installed_component: hospital-database-postgresraw-ui
       tags: ['ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
