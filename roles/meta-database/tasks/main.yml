@@ -47,6 +47,7 @@
     state: directory
     path: "{{ meta_db_setup_dir }}"
   delegate_to: "{{ groups['control'][0] }}"
+  when: meta_db_fill
 
 - name: Copy sql creation scripts
   copy:
@@ -56,6 +57,7 @@
     - src: "{{ meta_db_local_project_dir }}/sql/create.sql"
       dest: "V1_0__Create.sql"
   delegate_to: "{{ groups['control'][0] }}"
+  when: meta_db_fill
 
 - name: Run Flyway migration on meta-db
   docker_container:
@@ -78,3 +80,4 @@
       FLYWAY_PASSWORD: '{{ meta_db_admin_password }}'
       FLYWAY_DRIVER: 'org.postgresql.Driver'
   delegate_to: "{{ groups['control'][0] }}"
+  when: meta_db_fill

@@ -5,10 +5,4 @@
 # Installs _the_ world
 #
 
-- include: "{{ play_dir }}/common/playbooks/infrastructure/setup.yml"
-
-- include: "{{ play_dir }}/common/playbooks/hospital-database/setup.yml"
-
-- include: "{{ play_dir }}/common/playbooks/data-factory/airflow.yml"
-
-- include: "{{ play_dir }}/common/playbooks/reference/setup.yml"
+- include: "{{ play_dir }}/common/playbooks/all.yml"

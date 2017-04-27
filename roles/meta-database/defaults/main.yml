@@ -58,5 +58,6 @@ internal_marathon_url: http://localhost:5080
 
 flyway_version: "4.0.3"
 
+meta_db_fill: yes
 meta_db_local_project_dir: /src/meta-db
 meta_db_setup_dir: /opt/meta-database/migration
