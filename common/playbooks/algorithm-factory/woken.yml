@@ -2,7 +2,7 @@
 
 - hosts: woken
   become: yes
-  gather_facts: no
+  gather_facts: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"

@@ -1,3 +1,5 @@
 ---
 
 - include: ldsm-database.yml
+
+- include: postgresraw-ui.yml

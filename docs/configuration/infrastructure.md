@@ -1,56 +1,54 @@
 # Configuration for infrastructure
 
-The infrastructure contains all the low-level components used to manage the installation of MIP on a Linux machine
-(Ubuntu or RedHat). It takes care of networking, process management, logging, security.
+The infrastructure contains all the low-level components used to manage the installation of MIP on a Linux machine (Ubuntu or RedHat). It takes care of networking, process management, logging, security.
 
-It also sets up and configures the [Mesos](https://mesos.apache.org) stack for clustering machines together.
+It also sets up and configures the [Mesos](https://mesos.apache.org) stack for clustering machines together and managing software services.
 
-## Hosts
+## ENV/etc/ansible/hosts
 
 ```ini
 
-  # Managed hosts should contain all servers in the datacenter.
-  # Common software, configuration and security settings will be applied on them.
-  [managed]
-  demo
+# Control node: one control node should be selected, not necessarily in the datacenter - it can be the local desktop -
+# but it should satisfy the following requirements:
+# - It has a direct network access to all services on the datacenter, in particular the databases and Marathon
+# - We can install the required packages (docker-engine, docker-py, curl...) for proper function of the Ansible tasks
+[control]
+demo
 
-  # Control node: one control node should be selected, not necessarily in the datacenter - it can be the local desktop -
-  # but it should satisfy the following requirements:
-  # - Direct network access to all services on the datacenter, in particular the databases and Marathon
-  # - Install required packages (docker-engine, docker-py, curl...) for proper function of the Ansible tasks
-  [control]
-  demo
+# Infrastructure building block: define a 'infrastructure' group encompassing the configuration of the groups defined below
+[infrastructure:children]
+managed
+zookeeper
+mesos-leader
+mesos-mixed
+mesos-follower
 
-  # Install Zookeeper, required by Mesos
-  [zookeeper]
-  demo
+# Managed hosts should contain all servers in the datacenter.
+# Common software, configuration and security settings will be applied on them.
+[managed]
+demo
 
-  # Install Mesos leader and Marathon
-  [mesos-leader]
-  # none
+# Install Zookeeper, required by Mesos
+[zookeeper]
+demo
 
-  # Install the full Mesos stack, including Mesos master and agent, Docker and Marathon
-  [mesos-mixed]
-  demo
+# Install Mesos leader and Marathon
+[mesos-leader]
+# none
 
-  # Install Mesos agent and Docker
-  [mesos-follower]
-  # none
+# Install the full Mesos stack, including Mesos master and agent, Docker and Marathon
+[mesos-mixed]
+demo
+
+# Install Mesos agent and Docker
+[mesos-follower]
+# none
 
 ```
 
 ## Mandatory variables
 
-### ENV/etc/ansible/group_vars/all
-
-```yaml
-
-    mesos_cluster: "my_cluster"
-
-    mesos_leader_hostname: ""
-    marathon_hostname: ""
-
-```
+None
 
 ## Optional variables
 
@@ -58,37 +56,41 @@ It also sets up and configures the [Mesos](https://mesos.apache.org) stack for c
 
 ```yaml
 
-    use_host_domain: false
-    host_domain: novalocal
-
-    #apt_proxy_host:
-    apt_proxy_port: 3142
-    #apt_proxy_url:
-
-    mesos_leader_hostname_override:
-    marathon_hostname_override:
+mesos_leader_hostname_override:
+marathon_hostname_override:
 
 ```
 
-### ENV/etc/ansible/group_vars/mesos-leader or mesos-mixed
+### ENV/etc/ansible/group_vars/infrastructure
 
 ```yaml
 
-    # authentication options for Mesos
-    zk_mesos_user:
-    zk_mesos_user_secret:
+use_host_domain: false
+host_domain: novalocal
 
-    do_mesos_framework_auth: false
-    do_mesos_follower_auth: false
-    mesos_credentials: []
-    mesos_follower_secret: ""
+#apt_proxy_host:
+apt_proxy_port: 3142
+#apt_proxy_url:
 
-    mesos_cluster_override:
+mesos_cluster_override:
 
-    # Additional configurations
-    mesos_additional_configs: []
-      # For example:
-      # - name: FOO
-      #   value: bar
+# authentication options for Mesos
+zk_mesos_user:
+zk_mesos_user_secret:
+
+do_mesos_framework_auth: false
+do_mesos_follower_auth: false
+mesos_credentials: []
+mesos_follower_secret: ""
+
+# Additional configurations
+mesos_additional_configs: []
+  # For example:
+  # - name: FOO
+  #   value: bar
+
+docker_listen_tcp: false
+docker_options: []
+docker_network_options: []
 
 ```

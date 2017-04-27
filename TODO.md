@@ -1,14 +1,16 @@
 TODO
 
-* portal-meta-database: copy the SQL scripts from a versioned source
 * mesos, other essential services: automatically restart service
   https://blog.codeship.com/running-node-js-linux-systemd/
 * watchtower role, to launch with Marathon
-* denodo: setup, upgrade, licenses
 * jenkins, dockerized, launch with Marathon
 * keep track of version for Docker in local facts
 * connect Chronos to Sentry (raven_dsn option)
 * connect Chronos to Graphite
+
+* https://github.com/holms/ansible-fqdn
+* overlay and custom DNS configuration for Docker
+* put back the setup for demo database for woken features
 
 LATER
 
@@ -20,4 +22,3 @@ LATER
 
 https://galaxy.ansible.com/ANXS/apt/
 https://github.com/knopki/ansible-locale
-https://github.com/holms/ansible-fqdn

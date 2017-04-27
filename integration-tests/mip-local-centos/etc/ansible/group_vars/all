@@ -1,7 +1,5 @@
 ---
 
-docker_opts: "--dns=192.168.33.66"
-
 python_location: '/usr/bin/python3'
 python_pip: '/usr/bin/pip3'
 
@@ -87,49 +85,3 @@ airflow_work_dirs:
   - '{{ main_data_neuro_morphometric_atlas_local_folder }}'
 
 spm_dir: "/opt/spm12"
-
-#############################################################################
-# LDSM
-ldsm_db_marathon_id: /hospital-database/ldsmdb
-
-ldsm_db_host: "demo.local"
-ldsm_db_marathon_host: "demo"
-ldsm_db_port: 31432
-ldsm_db_name: ldsm
-ldsm_db_admin_user: "postgres"
-ldsm_db_jdbc_url: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}/portal"
-
-ldsm_db_image: 'hbpmip/postgresraw'
-ldsm_db_version: 'latest'
-ldsm_db_is_ready: "/bin/true"
-
-ldsm_db_data_dir: '/srv/docker/ldsmdb/data'
-ldsm_db_raw_data_dir: "/data/ldsm"
-
-lsdm_db_volumes:
-  - containerPath: '/data'
-    hostPath: "{{ ldsm_db_data_dir }}"
-    mode: RW
-  - containerPath: '/datasets'
-    hostPath: "{{ ldsm_db_raw_data_dir }}"
-    mode: RO
-
-ldsm_db_env:
-  POSTGRES_USER: "{{ ldsm_db_admin_user }}"
-  POSTGRES_PASSWORD: "{{ ldsm_db_admin_password }}"
-  POSTGRES_DB: "{{ ldsm_db_name }}"
-  PGDATA: '/data/pgdata'
-
-# Few resources available in Vagrant box
-ldsm_db_cpus: 0.2
-ldsm_db_mem: 128.0
-
-postgresraw_ui_admin_port: 31555
-
-# Few resources available in Vagrant box
-postgresraw_ui_cpus: 0.2
-postgresraw_ui_mem: 100.0
-
-postgresraw_ui_docker_parameters:
-  - key: 'add-host'
-    value: "demo.local:192.168.23.33"

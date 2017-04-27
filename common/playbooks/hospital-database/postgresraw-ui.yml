@@ -1,6 +1,6 @@
 ---
 
-- hosts: ldsm-db
+- hosts: postgresraw-ui
   become: yes
   gather_facts: yes
   vars_files:
@@ -9,13 +9,13 @@
     - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
     - "{{ play_dir }}/vars/infrastructure/mesos.yml"
     - "{{ play_dir }}/vars/hospital-database/endpoints.yml"
-    - "{{ play_dir }}/vars/hospital-database/ldsm-database.yml"
+    - "{{ play_dir }}/vars/hospital-database/postgresraw-ui.yml"
 
   roles:
 
-    - role: ldsm-database
-      tags: ['database', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
+    - role: postgresraw-ui
+      tags: ['postgresraw-ui', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
 
     - role: audit-deployment
-      installed_component: ldsm-database
+      installed_component: postgresraw-ui
       tags: ['ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
