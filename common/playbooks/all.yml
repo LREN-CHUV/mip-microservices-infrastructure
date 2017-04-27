@@ -23,5 +23,3 @@
 - include: web-analytics/portal-frontend.yml
 
 # /Web Exploration and Analytics
-
-- include: dev.yml
