@@ -1,3 +1,7 @@
+[submodule "roles/mesos"]
+	path = roles/mesos
+	url = https://github.com/LREN-CHUV/ansible-mesos.git
+	branch = master
 [submodule "roles/marathon"]
 	path = roles/marathon
 	url = https://github.com/LREN-CHUV/ansible-marathon.git
