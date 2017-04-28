@@ -39,7 +39,7 @@
       CHRONOS_HTTP_PORT: 4400
       CHRONOS_MASTER: "{{ chronos_zk_mesos_master }}"
       CHRONOS_ZK_HOSTS: "{{ chronos_zk_hosts }}"
-      CHRONOS_WEBUI_URL: "http://{{ chronos_marathon_host }}:{{ chronos_port }}/"
+      CHRONOS_WEBUI_URL: "{{ chronos_web_url }}"
       CHRONOS_HOSTNAME: "{{ chronos_marathon_host }}"
       CHRONOS_FAILURE_RETRY: "{{ chronos_failure_retry }}"
       CHRONOS_DISABLE_AFTER_FAILURES: "{{ chronos_disable_after_failures }}"

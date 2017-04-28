@@ -1,4 +1,4 @@
 ---
 
 research_db_marathon_host: "{{ ansible_fqdn }}"
-research_db_databases: "{{ ([research_db_name] + research_db_companion_bases) | join(',') }}"
+research_db_databases: "{{ ([research_db_name] + research_db_companion_bases) | join(',') | replace('-db','') }}"

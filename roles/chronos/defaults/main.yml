@@ -4,6 +4,8 @@ chronos_marathon_id: /algorithm-factory/chronos
 chronos_marathon_host: '{{ ansible_fqdn }}'
 
 chronos_port: 4400
+chronos_web_url: "http://{{ chronos_marathon_host }}:{{ chronos_port }}/"
+
 chronos_docker_image_basename: mesoscloud/chronos
 chronos_docker_image: "{{ chronos_docker_image_basename }}:{{ chronos_version }}"
 

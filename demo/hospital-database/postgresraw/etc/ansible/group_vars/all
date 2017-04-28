@@ -25,7 +25,7 @@ ldsm_db_is_ready: "/bin/true"
 ldsm_db_data_dir: '/srv/docker/ldsmdb/data'
 ldsm_db_raw_data_dir: '/dataset'
 
-lsdm_db_volumes:
+ldsm_db_volumes:
   - containerPath: '/data'
     hostPath: "{{ ldsm_db_data_dir }}"
     mode: RW

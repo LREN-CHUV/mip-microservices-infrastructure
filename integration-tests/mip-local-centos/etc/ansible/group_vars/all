@@ -1,7 +1,14 @@
 ---
 
-woken_docker_network: BRIDGE
+vagrant_box_ip_address: "192.168.23.33"
+ip_address: "{{ vagrant_box_ip_address }}"
+
 woken_features_from: 'ldsm-db'
+
+research_db_companion_bases:
+  - meta-db
+  - woken-db
+  - portal-db
 
 python_location: '/usr/bin/python3'
 python_pip: '/usr/bin/pip3'

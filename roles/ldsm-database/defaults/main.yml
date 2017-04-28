@@ -38,7 +38,7 @@ ldsm_db_databases: "{{ ldsm_db_name }}"
 
 ldsm_db_data_dir: /srv/docker/ldsmdb/data
 
-lsdm_db_volumes:
+ldsm_db_volumes:
   - containerPath: "/var/lib/postgresql/data"
     hostPath: "{{ ldsm_db_data_dir }}"
     mode: RW

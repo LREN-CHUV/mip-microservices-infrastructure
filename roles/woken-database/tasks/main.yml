@@ -1,7 +1,11 @@
 ---
 
+- name: Should woken-db be deployed in its own Postgres server?
+  set_fact:
+    do_woken_db_deploy: "{{ woken_db_deploy | bool }}"
+
 - include: marathon.yml
-  when: woken_db_deploy
+  when: do_woken_db_deploy
 
 # run this task on the database host
 - name: Wait for the database to be up and running
@@ -18,7 +22,7 @@
     login_password: "{{ woken_db_admin_password }}"
     state: absent
   delegate_to: "{{ groups['control'][0] }}"
-  when: (not woken_db_deploy) and woken_db_cleanup
+  when: (not do_woken_db_deploy) and woken_db_cleanup
 
 - name: Create a new database with name "woken"
   postgresql_db:

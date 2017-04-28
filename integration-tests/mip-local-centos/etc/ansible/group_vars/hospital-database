@@ -11,4 +11,6 @@ postgresraw_ui_mem: 100.0
 
 postgresraw_ui_docker_parameters:
   - key: 'add-host'
-    value: "demo.local:192.168.23.33"
+    value: "demo:{{ vagrant_box_ip_address }}"
+  - key: 'add-host'
+    value: "demo.local:{{ vagrant_box_ip_address }}"

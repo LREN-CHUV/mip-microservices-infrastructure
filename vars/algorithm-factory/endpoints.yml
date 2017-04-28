@@ -39,6 +39,7 @@ woken_marathon_id: /algorithm-factory/woken
 
 woken_hostname: "{{ ansible_fqdn }}"
 
+woken_docker_network: HOST
 # Port to use to expose woken to other services in the cluster.
 # Ignored if woken_docker_network == HOST, in this case woken can be reached under port 8087
 # Default to 8087 when using host networking, 31087 otherwise

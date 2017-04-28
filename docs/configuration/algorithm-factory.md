@@ -34,7 +34,8 @@ demo
 
 ```
 
-woken_docker_network: BRIDGE
+# TODO: not working yet
+#woken_docker_network: BRIDGE
 
 woken_features_from: 'ldsm-db'
 
