@@ -1,13 +1,37 @@
 ---
 
+research_db_marathon_id: /reference/research-db
+
+# research_db_companion_bases: []
+
 research_db_port: 31433
 research_db_host: "{{ ansible_fqdn }}"
 research_db_name: research
 research_db_admin_user: postgres
 research_db_user: research
+research_db_jdbc_url_base: "jdbc:postgresql://{{ research_db_host }}:{{ research_db_port }}"
+research_db_jdbc_url: "{{ research_db_jdbc_url_base }}/{{ research_db_name }}"
+research_db_jdbc_driver: "org.postgresql.Driver"
+research_db_jdbc_jar: "postgresql-9.4-1201.jdbc41.jar"
 
-meta_db_port: '{% if meta_db_deploy %}31432{% else %}{{ research_db_port }}{% endif %}'
-meta_db_host: '{% if meta_db_deploy %}{{ ansible_fqdn }}{% else %}{{ research_db_host }}{% endif %}'
+meta_db_port: "
+  {%- if 'meta-db' in research_db_companion_bases -%}
+    {{ research_db_port }}
+  {%- else -%}
+    31432
+  {%- endif -%}
+"
+meta_db_host: "
+  {%- if 'meta-db' in research_db_companion_bases -%}
+    {{ research_db_host }}
+  {%- else -%}
+    {{ ansible_fqdn }}
+  {%- endif -%}
+"
 meta_db_name: meta
 meta_db_admin_user: postgres
 meta_db_user: meta
+meta_db_jdbc_url_base: "jdbc:postgresql://{{ meta_db_host }}:{{ meta_db_port }}"
+meta_db_jdbc_url: "{{ meta_db_jdbc_url_base }}/{{ meta_db_name }}"
+meta_db_jdbc_driver: "org.postgresql.Driver"
+meta_db_jdbc_jar: "postgresql-9.4-1201.jdbc41.jar"

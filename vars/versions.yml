@@ -23,9 +23,6 @@ postgres_version: "9.6.2-alpine"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar
 ldsm_db_version: 'latest'
 
-mysql_version: "5.7.12"
-mariadb_version: "10.1.19"
-
 # Use latest NGinx from official repo
 nginx_official_repo: True
 

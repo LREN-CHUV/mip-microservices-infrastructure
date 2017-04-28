@@ -16,6 +16,7 @@ meta-db
 demo
 
 # Install meta-database
+# It must be on the same host as research-db if meta-db is installed as a companion base collocated with research-db
 [meta-db]
 demo
 
@@ -23,7 +24,15 @@ demo
 
 ## Mandatory variables
 
-None
+### ENV/etc/ansible/group_vars/all
+
+```
+
+research_db_companion_bases:
+  - 'meta-db'
+  - 'woken-db'
+
+```
 
 ## Optional variables
 
@@ -32,12 +41,8 @@ None
 ```
 
 # Deploy research-db as an independent database. If false, then we assume that there is
-# a database already running and we add to it a new 'ldsm' schema
+# a database already running and we add to it a new 'research' schema
 research_db_deploy: yes
-
-# Hint in Marathon listing all the databases running in this Postgres server,
-# used when research_db_deploy is true
-research_db_databases: "{{ research_db_name }}"
 
 # Force cleanup of the Research DB. Please never use that in production!
 research_db_cleanup: false
@@ -45,11 +50,7 @@ research_db_cleanup: false
 research_db_cpus: 0.5
 research_db_mem: 128.0
 
-# Deploy meta-db as an independent database. If false, then we assume that there is
-# a database already running and we add to it a new 'meta' schema
-meta_db_deploy: no
-
-# when meta_db_deploy is true
+# when meta-db is deployed as an independent database
 meta_db_cpus: 0.5
 meta_db_mem: 128.0
 

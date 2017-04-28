@@ -7,7 +7,17 @@
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
     - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
+    - "{{ play_dir }}/vars/reference/endpoints.yml"
     - "{{ play_dir }}/vars/algorithm-factory/endpoints.yml"
+    - "{{ play_dir }}/vars/algorithm-factory/woken-database.yml"
+
+  pre_tasks:
+
+    - name: Use research-db admin password if woken-db is collocated with it
+      set_fact:
+        woken_db_admin_password: '{{ research_db_admin_password }}'
+      when: "'woken-db' in research_db_companion_bases"
+      tags: ['woken-database', 'woken-db', 'database', 'analytics', 'algorithm-factory', 'af', 'marathon-app']
 
   roles:
 

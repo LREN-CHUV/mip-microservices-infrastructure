@@ -10,6 +10,8 @@ ldsm_db_name: "ldsm"
 ldsm_db_user: "ldsm"
 ldsm_db_jdbc_url_base: "jdbc:postgresql://{{ ldsm_db_host }}:{{ ldsm_db_port }}"
 ldsm_db_jdbc_url: "{{ ldsm_db_jdbc_url_base }}/{{ ldsm_db_name }}"
+ldsm_db_jdbc_driver: "org.postgresql.Driver"
+ldsm_db_jdbc_jar: "postgresql-9.4-1201.jdbc41.jar"
 
 # required by postgresraw-ui role
 ldsm_db_data_dir: "/srv/docker/ldsmdb/data"

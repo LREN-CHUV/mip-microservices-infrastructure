@@ -9,10 +9,10 @@ woken_validation_marathon_id: /algorithm-factory/woken-validation
 # Location of the configuration directory
 woken_validation_config_dir: /srv/docker/woken-validation/config
 
-# Port to use to expose woken valiudation to other services in the cluster.
+# Port to use to expose woken validation to other services in the cluster.
 # Default to 4082 when using host networking, 31082 otherwise
 woken_validation_akka_port: "{% if woken_validation_docker_network == 'BRIDGE' %}31082{% else %}4082{% endif %}"
-# Amount of CPU reserved for woken
+# Amount of CPU reserved for woken validation
 woken_validation_cpus: 0.5
 # Amount of memory in mb reserved for woken validation
 woken_validation_mem: 1024.0
@@ -25,7 +25,7 @@ woken_validation_docker_image_basename: hbpmip/woken-validation
 woken_validation_docker_image: "{{ woken_validation_docker_image_basename }}:{{ woken_validation_version }}"
 
 # Attach woken validation application to a particular host. The hostname should be the name known by Marathon / Mesos
-woken_validation_marathon_host: "{{ marathon_hostname }}"
+woken_validation_marathon_host: "{{ ansible_fqdn }}"
 # Set of constraints to use to place woken on some particular host(s)
 woken_validation_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_validation_marathon_host }}"]]
 

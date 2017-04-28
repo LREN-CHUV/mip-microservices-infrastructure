@@ -70,3 +70,21 @@ demo
 # Install meta-database
 [meta-db]
 demo
+
+# Algorithm Factory building block: define an 'algorithm-factory' group encompassing the configuration of the groups defined below
+[algorithm-factory:children]
+woken-db
+woken
+woken-validation
+
+# Install woken-database
+[woken-db]
+demo
+
+# Install woken
+[woken]
+demo
+
+# Install woken-validation
+[woken-validation]
+demo

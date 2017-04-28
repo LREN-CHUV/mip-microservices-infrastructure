@@ -1,5 +1,8 @@
 ---
 
+woken_docker_network: BRIDGE
+woken_features_from: 'ldsm-db'
+
 python_location: '/usr/bin/python3'
 python_pip: '/usr/bin/pip3'
 

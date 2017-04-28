@@ -1,0 +1,11 @@
+---
+
+# Use the features data from LDSM database
+
+woken_data_db_port: '{{ ldsm_db_port }}'
+woken_data_db_host: '{{ ldsm_db_host }}'
+woken_data_db_user: '{{ ldsm_db_user }}'
+woken_data_db_password: '{{ ldsm_db_password }}'
+woken_data_db_jdbc_url: '{{ ldsm_db_jdbc_url }}'
+woken_data_db_jdbc_driver: '{{ ldsm_db_jdbc_driver }}'
+woken_data_db_jdbc_jar: '/usr/lib/R/libraries/{{ ldsm_db_jdbc_jar }}'

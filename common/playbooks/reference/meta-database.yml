@@ -2,7 +2,7 @@
 
 - hosts: meta-db,meta-database
   become: yes
-  gather_facts: no
+  gather_facts: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
@@ -11,6 +11,14 @@
     - "{{ play_dir }}/vars/reference/endpoints.yml"
     - "{{ play_dir }}/vars/reference/research-database.yml"
     - "{{ play_dir }}/vars/reference/meta-database.yml"
+
+  pre_tasks:
+
+    - name: Use research-db admin password if meta-db is collocated with it
+      set_fact:
+        meta_db_admin_password: '{{ research_db_admin_password }}'
+      when: "'meta-db' in research_db_companion_bases"
+      tags: ['meta-database', 'meta-db', 'database', 'reference', 'marathon-app']
 
   roles:
 

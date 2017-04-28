@@ -1,7 +1,53 @@
 ---
 
-chronos_port: 4400
-woken_http_port: 4090
+woken_db_marathon_id: "
+  {%- if 'woken-db' in research_db_companion_bases -%}
+    {{ research_db_marathon_id }}
+  {%- else -%}
+    /algorithm-factory/woken-db
+  {%- endif -%}
+"
+woken_db_port: "
+  {%- if 'woken-db' in research_db_companion_bases -%}
+    {{ research_db_port }}
+  {%- else -%}
+    31437
+  {%- endif -%}
+"
+woken_db_host: "
+  {%- if 'woken-db' in research_db_companion_bases -%}
+    {{ research_db_host }}
+  {%- else -%}
+    {{ ansible_fqdn }}
+  {%- endif -%}
+"
+woken_db_name: woken
+woken_db_admin_user: postgres
+woken_db_user: woken
 
-internal_chronos_url: "http://demo.local:{{ chronos_port }}"
+woken_db_jdbc_url: "jdbc:postgresql://{{ woken_db_host }}:{{ woken_db_port }}/{{ woken_db_name }}"
+woken_db_jdbc_driver: "org.postgresql.Driver"
+woken_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
+
+chronos_marathon_id: /algorithm-factory/chronos
+
+# TODO: allow Chronos to be deployed on another machine
+chronos_port: 4400
+internal_chronos_url: "http://{{ woken_hostname }}:{{ chronos_port }}"
+
+woken_marathon_id: /algorithm-factory/woken
+
+woken_hostname: "{{ ansible_fqdn }}"
+
+# Port to use to expose woken to other services in the cluster.
+# Ignored if woken_docker_network == HOST, in this case woken can be reached under port 8087
+# Default to 8087 when using host networking, 31087 otherwise
+woken_http_port: "{% if woken_docker_network == 'BRIDGE' %}31087{% else %}8087{% endif %}"
+# Port used by Akka cluster
+woken_akka_port: "{% if woken_docker_network == 'BRIDGE' %}31088{% else %}4090{% endif %}"
+
 internal_woken_url: "http://{{ woken_hostname }}:{{ woken_http_port }}"
+
+# Port to use to expose woken validation to other services in the cluster.
+# Default to 4082 when using host networking, 31082 otherwise
+woken_validation_akka_port: "{% if woken_docker_network == 'BRIDGE' %}31082{% else %}4082{% endif %}"

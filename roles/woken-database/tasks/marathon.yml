@@ -1,0 +1,71 @@
+---
+
+- name: Wait for Marathon
+  include: "{{ woken_db_path_to_lib_role }}/marathon-app/tasks/wait-for-marathon.yml"
+  vars:
+    uri: "{{ internal_marathon_url }}"
+  tags:
+    - launch
+
+- name: Remove old Woken DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ woken_db_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch
+
+- name: Optional cleanup
+  file: state=absent path={{ woken_db_data_dir }}
+  when: woken_db_cleanup
+
+# Postgres user in Docker appears as user 999 outside
+- name: Create Woken DB persistent storage directory
+  file: state=directory path={{ woken_db_data_dir }} mode=0700 owner={{ woken_db_docker_user }} group={{ woken_db_docker_user }}
+
+- name: Launch Woken DB using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ woken_db_marathon_id }}"
+    state: "present"
+    docker_image: "{{ woken_db_image }}:{{ woken_db_version }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ woken_db_port }}'
+        containerPort: 5432
+        name: 'postgres'
+        protocol: 'tcp'
+    container_volumes: '{{ lsdm_db_volumes }}'
+    env: '{{ woken_db_env }}'
+    labels:
+      MARATHON_SINGLE_INSTANCE_APP: "true"
+      DATABASES: "{{ woken_db_databases }}"
+    instances: 1
+    cpus: '{{ woken_db_cpus }}'
+    mem: '{{ woken_db_mem }}'
+    ports: [] # defined in docker_port_mappings
+    require_ports: true
+    constraints: [["hostname", "CLUSTER", "{{ woken_db_marathon_host }}"]]
+    dependencies: []
+    executor: ""
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "{{ woken_db_is_ready }} -U {{ woken_db_admin_user }} -p 5432"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  tags:
+    - launch
