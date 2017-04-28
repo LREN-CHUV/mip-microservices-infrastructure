@@ -2,10 +2,18 @@
 
 - hosts: portal-backend
   become: yes
-  gather_facts: no
+  gather_facts: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
+    - "{{ play_dir }}/vars/hospital-database/endpoints.yml"
+    - "{{ play_dir }}/vars/reference/endpoints.yml"
+    - "{{ play_dir }}/vars/algorithm-factory/endpoints.yml"
+    - "{{ play_dir }}/vars/web-analytics/endpoints.yml"
+    - "{{ play_dir }}/vars/web-analytics/features-from-{{ portal_backend_features_from }}.yml"
+    - "{{ play_dir }}/vars/web-analytics/security-{{ 'en' if portal_backend_security_enabled else 'dis' }}abled.yml"
+    - "{{ play_dir }}/vars/web-analytics/portal-backend.yml"
 
   roles:
 
@@ -13,5 +21,5 @@
       tags: ['portal-backend', 'portal', 'web-analytics', 'marathon-app']
 
     - role: audit-deployment
-      installed_component: portal-backend
+      installed_component: web-analytics-portal-backend
       tags: ['portal-backend', 'portal', 'web-analytics', 'marathon-app']

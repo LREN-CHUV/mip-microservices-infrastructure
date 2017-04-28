@@ -1,0 +1,44 @@
+---
+
+# Attach the portal application to a particular host. The hostname should be the name known by Marathon / Mesos
+portal_backend_marathon_host: "{{ ansible_fqdn }}"
+
+woken_path: '/user/entrypoint'
+
+portal_backend_dependencies: "
+  {%- if 'portal-db' in research_db_companion_bases -%}
+    []
+  {%- else -%}
+    [ '{{ portal_db_marathon_id }}' ]
+  {%- endif -%}
+"
+
+portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'
+
+portal_backend_db_env:
+  PORTAL_DB_URL: "{{ portal_db_jdbc_url }}"
+  PORTAL_DB_SCHEMA: "public"
+  PORTAL_DB_USER: "{{ portal_db_user }}"
+  PORTAL_DB_PASSWORD: "{{ portal_db_password }}"
+
+portal_backend_db_meta_env:
+  META_DB_URL: "{{ meta_db_jdbc_url }}"
+  META_DB_SCHEMA: "public"
+  META_DB_USER: "{{ meta_db_user }}"
+  META_DB_PASSWORD:  "{{ meta_db_password }}"
+
+portal_backend_woken_env:
+  WOKEN_URL: '{{ internal_woken_url }}'
+  WOKEN_HOST: '{{ woken_host }}'
+  WOKEN_PORT: '{{ woken_port }}'
+  WOKEN_PATH: '{{ woken_path }}'
+
+portal_backend_other_env:
+  LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
+  LOGGING_LEVEL_HIBERNATE: '{{ portal_backend_logging_level_hibernate }}'
+  CONTEXT_PATH: '{{ portal_backend_context_path }}'
+  SESSION_TIMEOUT: '{{ portal_backend_session_timeout }}'
+  FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
+  EXAREME_URL: '{{ portal_backend_exareme_url }}'
+
+portal_backend_env: "{{ portal_backend_db_env | combine(portal_backend_db_meta_env, portal_backend_features_env, portal_backend_woken_env, portal_backend_security_env) }}"

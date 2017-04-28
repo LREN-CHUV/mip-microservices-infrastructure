@@ -1,0 +1,7 @@
+---
+
+- include: portal-database.yml
+
+- include: portal-backend.yml
+
+- include: portal-frontend.yml

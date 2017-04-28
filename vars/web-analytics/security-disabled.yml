@@ -1,0 +1,4 @@
+---
+
+portal_backend_security_env:
+  AUTHENTICATION: 0

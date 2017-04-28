@@ -1,0 +1,34 @@
+---
+
+portal_db_marathon_id: "
+  {%- if 'portal-db' in research_db_companion_bases -%}
+    {{ research_db_marathon_id }}
+  {%- else -%}
+    /web-analytics/portal-db
+  {%- endif -%}
+"
+portal_db_port: "
+  {%- if 'portal-db' in research_db_companion_bases -%}
+    {{ research_db_port }}
+  {%- else -%}
+    31437
+  {%- endif -%}
+"
+portal_db_host: "
+  {%- if 'portal-db' in research_db_companion_bases -%}
+    {{ research_db_host }}
+  {%- else -%}
+    {{ ansible_fqdn }}
+  {%- endif -%}
+"
+portal_db_name: portal
+portal_db_admin_user: postgres
+portal_db_user: portal
+
+portal_db_jdbc_url: "jdbc:postgresql://{{ portal_db_host }}:{{ portal_db_port }}/{{ portal_db_name }}"
+
+# Port to use to expose Portal backend to other services in the cluster.
+portal_backend_port: 4080
+portal_backend_akka_port: 4089
+# Prefix path for all services provided by Portal backend
+portal_backend_context_path: ""

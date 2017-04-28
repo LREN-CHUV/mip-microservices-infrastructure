@@ -5,7 +5,8 @@
 # is safe to store secrets such as passwords in it and then commit the file in a
 # Git repository
 
-ip_address: '192.168.23.33'
+vagrant_box_ip_address: "192.168.23.33"
+ip_address: "{{ vagrant_box_ip_address }}"
 
 airflow_db_admin_password: 'MySecretPassword'
 airflow_db_password: 'airflowdb'
@@ -29,3 +30,4 @@ research_db_admin_password: "researchroot"
 
 meta_db_password: "meta-db"
 woken_db_password: "woken-db"
+portal_db_password: "portal-db"

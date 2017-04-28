@@ -47,7 +47,14 @@
     dependencies: '{{ woken_validation_dependencies }}'
     executor: ""
     wait_timeout: 600
-    health_checks: []
+    health_checks:
+      - protocol: COMMAND
+        command:
+          value: "/bin/true"
+        gracePeriodSeconds: 300
+        intervalSeconds: 20
+        timeoutSeconds: 10
+        maxConsecutiveFailures: 5
     # TODO: temporarly disabled
     #  - protocol: TCP
     #    port: "{{ woken_validation_akka_port }}"

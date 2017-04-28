@@ -2,10 +2,22 @@
 
 - hosts: portal-db
   become: yes
-  gather_facts: no
+  gather_facts: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
+    - "{{ play_dir }}/vars/reference/endpoints.yml"
+    - "{{ play_dir }}/vars/web-analytics/endpoints.yml"
+    - "{{ play_dir }}/vars/web-analytics/portal-database.yml"
+
+  pre_tasks:
+
+    - name: Use research-db admin password if portal-db is collocated with it
+      set_fact:
+        portal_db_admin_password: '{{ research_db_admin_password }}'
+      when: "'portal-db' in research_db_companion_bases"
+      tags: ['portal-database', 'portal-db', 'database', 'portal', 'web-analytics', 'marathon-app']
 
   roles:
 
@@ -13,5 +25,5 @@
       tags: ['portal-database', 'portal-db', 'database', 'portal', 'web-analytics', 'marathon-app']
 
     - role: audit-deployment
-      installed_component: portal-database
+      installed_component: web-analytics-portal-database
       tags: ['portal-database', 'portal-db', 'database', 'portal', 'web-analytics', 'marathon-app']

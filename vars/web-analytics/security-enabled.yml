@@ -1,0 +1,13 @@
+---
+
+portal_backend_hbp_access_token_uri: "https://services.humanbrainproject.eu/oidc/token"
+portal_backend_hbp_user_authorization_uri: "https://services.humanbrainproject.eu/oidc/authorize"
+portal_backend_hbp_user_info_uri: "https://services.humanbrainproject.eu/oidc/userinfo"
+
+portal_backend_security_env:
+  AUTHENTICATION: 1
+  CLIENT_ID: '{{ portal_backend_hbp_client_id }}'
+  CLIENT_SECRET: '{{ portal_backend_hbp_client_secret }}'
+  TOKEN_URI: '{{ portal_backend_hbp_access_token_uri }}'
+  AUTH_URI: '{{ portal_backend_hbp_user_authorization_uri }}'
+  USER_INFO_URI: '{{ portal_backend_hbp_user_info_uri }}'

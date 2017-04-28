@@ -14,12 +14,4 @@
 
 - include: algorithm-factory/setup.yml
 
-# Web Exploration and Analytics
-
-- include: web-analytics/portal-database.yml
-
-- include: web-analytics/portal-backend.yml
-
-- include: web-analytics/portal-frontend.yml
-
-# /Web Exploration and Analytics
+- include: web-analytics/setup.yml

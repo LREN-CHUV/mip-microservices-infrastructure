@@ -30,7 +30,24 @@ demo
 
 ## Mandatory variables
 
-None
+### ENV/etc/ansible/host_vars/[control node] (crypted)
+
+```
+
+# Required when ldsm-db is deployed as an independent database
+ldsm_db_admin_password:
+
+```
+
+### ENV/etc/ansible/host_vars/[ldsm-db host] (crypted)
+
+```
+
+ldsm_db_password:
+# Required when ldsm-db is deployed as an independent database
+ldsm_db_admin_password:
+
+```
 
 ## Optional variables
 

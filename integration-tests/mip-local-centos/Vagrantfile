@@ -88,7 +88,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.limit = 'all'
       ansible.verbose = "v"
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
-      ansible.tags = ['algorithm-factory']
+      ansible.tags = ['web-analytics']
       ansible.skip_tags = ['mesos-ui', 'matlab']
       # Use this to override ansible playbook variables
       ansible.extra_vars = {

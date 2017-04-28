@@ -13,7 +13,7 @@
     - "{{ play_dir }}/vars/reference/endpoints.yml"
     - "{{ play_dir }}/vars/algorithm-factory/endpoints.yml"
     - "{{ play_dir }}/vars/algorithm-factory/chronos.yml"
-    - "{{ play_dir }}/vars/algorithm-factory/woken_features_from_{{ woken_features_from | replace('-','_') }}.yml"
+    - "{{ play_dir }}/vars/algorithm-factory/features-from-{{ woken_features_from }}.yml"
     - "{{ play_dir }}/vars/algorithm-factory/woken.yml"
 
   roles:

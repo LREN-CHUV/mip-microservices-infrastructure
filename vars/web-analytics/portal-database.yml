@@ -1,0 +1,6 @@
+---
+
+portal_db_deploy: "{{ not ('portal-db' in research_db_companion_bases) }}"
+
+# Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
+portal_db_marathon_host: '{{ ansible_fqdn }}'

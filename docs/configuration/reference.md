@@ -34,6 +34,33 @@ research_db_companion_bases:
 
 ```
 
+### ENV/etc/ansible/host_vars/[control node] (crypted)
+
+```
+
+# Required when research-db is deployed as an independent database
+research_db_admin_password:
+
+# Required when meta-db is deployed as an independent database
+meta_db_admin_password:
+
+```
+
+### ENV/etc/ansible/host_vars/[woken-db host] (crypted)
+
+```
+
+research_db_password:
+# Required when research-db is deployed as an independent database
+research_db_admin_password:
+
+meta_db_password:
+# Required when meta-db is deployed as an independent database
+meta_db_admin_password:
+
+```
+
+
 ## Optional variables
 
 ### ENV/etc/ansible/group_vars/reference

@@ -1,17 +1,21 @@
 ---
 
-portal_db_marathon_id: /portal/portal-db
+# Deploy portal-db as an independent database. If false, then we assume that there is
+# a database already running and we add to it a new 'portal' schema
+portal_db_deploy: no
+
+# Used when portal_db_deploy is true
+portal_db_marathon_id: /web-analytics/portal-db
 
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
-portal_db_marathon_host: '{{ marathon_hostname }}'
+portal_db_marathon_host: '{{ ansible_fqdn }}'
 
 # The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
 # TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
 portal_db_docker_user: '999'
 
-# postgresql
-postgres_version: "9.5.4"
 portal_db_image: 'postgres'
+postgres_version: "9.5.4"
 portal_db_version: "{{ postgres_version }}"
 postgres_is_ready: "/usr/local/bin/pg_isready"
 portal_db_is_ready: "{{ postgres_is_ready }}"
@@ -19,7 +23,7 @@ portal_db_is_ready: "{{ postgres_is_ready }}"
 portal_db_cpus: 0.5
 portal_db_mem: 128.0
 
-# Port exposed by Marathon, must be in the range [31000,32000[
+# Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
 portal_db_port: 31532
 portal_db_host: '{{ portal_db_marathon_host }}'
 portal_db_name: portal
@@ -28,17 +32,26 @@ portal_db_admin_user: postgres
 portal_db_user: portal
 # TO FILL - portal_db_password:
 
-# Hint in Marathon listing all the databases running in this Postgres server
+# Hint in Marathon listing all the databases running in this Postgres server,
+# used when portal_db_deploy is true
 portal_db_databases: "{{ portal_db_name }}"
 
 portal_db_data_dir: /srv/docker/portal-db/data
 
-portal_db_setup_dir: /opt/portal-database/migration
+portal_db_volumes:
+  - containerPath: "/var/lib/postgresql/data"
+    hostPath: "{{ portal_db_data_dir }}"
+    mode: RW
+
+portal_db_env:
+  POSTGRES_USER: "{{ portal_db_admin_user }}"
+  POSTGRES_PASSWORD: "{{ portal_db_admin_password }}"
 
 # Force cleanup of the Portal DB. Please never use that in production!
 portal_db_cleanup: false
 
-flyway_version: "4.0.3"
+# path to lib_role
+portal_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}"
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080

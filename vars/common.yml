@@ -31,10 +31,3 @@ firewall_fail2ban_jails: []
 java_register_alternative: "{{ ansible_os_family == 'Debian' }}"
 java_register_env: true
 use_openjdk_ppa: true
-
-woken_db_marathon_id: "/algorithm-factory/woken-db"
-research_db_marathon_id: "/reference/research-db"
-portal_db_marathon_id: "/portal/portal-db"
-meta_db_marathon_id: "{{ portal_db_marathon_id }}"
-portal_backend_marathon_id: /portal/portal-backend
-portal_frontend_marathon_id: /portal/portal-frontend

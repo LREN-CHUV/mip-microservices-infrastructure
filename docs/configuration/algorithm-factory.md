@@ -49,6 +49,25 @@ woken_main_table: adni_merge
 
 ```
 
+### ENV/etc/ansible/host_vars/[control node] (crypted)
+
+```
+
+# Required when woken-db is deployed as an independent database
+woken_db_admin_password:
+
+```
+
+### ENV/etc/ansible/host_vars/[woken-db host] (crypted)
+
+```
+
+woken_db_password:
+# Required when woken-db is deployed as an independent database
+woken_db_admin_password:
+
+```
+
 ## Optional variables
 
 ### ENV/etc/ansible/group_vars/algorithm-factory
