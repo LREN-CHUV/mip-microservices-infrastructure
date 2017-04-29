@@ -27,6 +27,8 @@ mesos-follower
 # Common software, configuration and security settings will be applied on them.
 [managed]
 demo
+# demo fqdn="demo.mydomain.com"
+
 
 # Install Zookeeper, required by Mesos
 [zookeeper]
@@ -65,8 +67,8 @@ marathon_hostname_override:
 
 ```yaml
 
-use_host_domain: false
 host_domain: novalocal
+do_hosts_cleanup: false
 
 #apt_proxy_host:
 apt_proxy_port: 3142
@@ -92,5 +94,10 @@ mesos_additional_configs: []
 docker_listen_tcp: false
 docker_options: []
 docker_network_options: []
+
+# If setup, the configuration for the proxy will be added to the managed systems
+proxy_http: http://proxy.tld:8080
+proxy_ftp: "{{ proxy_http }}"
+proxy_https: "{{ proxy_http }}"
 
 ```

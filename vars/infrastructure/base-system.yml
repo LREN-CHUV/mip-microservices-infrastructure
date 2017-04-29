@@ -5,3 +5,11 @@ etckeeper_vcs: 'git'
 etckeeper_gitignore:
   - 'tor/keys/'
   - '/ufw/user.rules'
+
+proxy_package_manager: yes
+
+proxy_no_proxy:
+  - 127.0.0.1
+  - localhost
+  - "{{ inventory_hostname }}"
+  - "{{ ansible_fqdn }}"

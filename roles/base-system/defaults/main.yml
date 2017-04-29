@@ -1,6 +1,6 @@
 ---
-use_host_domain: false
-host_domain: novalocal
+# host_domain: novalocal
+do_hosts_cleanup: true
 
 #apt_proxy_host:
 apt_proxy_port: 3142

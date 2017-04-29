@@ -8,7 +8,7 @@ TODO
 * connect Chronos to Sentry (raven_dsn option)
 * connect Chronos to Graphite
 
-* https://github.com/holms/ansible-fqdn
+* DNSMasq, to use to allow Docker containers to access other machines
 * overlay and custom DNS configuration for Docker
 * put back the setup for demo database for woken features
 
@@ -22,3 +22,16 @@ LATER
 
 https://galaxy.ansible.com/ANXS/apt/
 https://github.com/knopki/ansible-locale
+https://github.com/Stouts/Stouts.locale
+
+https://github.com/Stouts/Stouts.notify
+  Could be used to send notifications to Slack
+
+Alternatives:
+https://github.com/Stouts/Stouts.apt
+
+Security:
+https://github.com/Stouts/Stouts.openssh
+https://github.com/zenzire/ansible-bootstrap-ubuntu
+https://github.com/Stouts/Stouts.postfix
+https://github.com/Stouts/Stouts.openvpn

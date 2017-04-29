@@ -8,11 +8,20 @@
     - "{{ play_dir }}/vars/infrastructure/base-system.yml"
 
   roles:
-    - role: base-system
+
+    - role: fqdn
+      when: fqdn is defined or hostname is defined
+      tags: ['infra', 'infrastructure', 'runtimes']
+
+    - role: proxy
+      when: proxy_http is defined
       tags: ['infra', 'infrastructure', 'runtimes']
 
     # Setup etckeeper and force it to use Git
     - role: etckeeper
+      tags: ['infra', 'infrastructure', 'runtimes']
+
+    - role: base-system
       tags: ['infra', 'infrastructure', 'runtimes']
 
     - role: audit-deployment

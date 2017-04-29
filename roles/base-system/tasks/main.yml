@@ -13,8 +13,8 @@
   become: yes
   lineinfile:
     dest: /etc/hosts
-    regexp: "^{{ hostvars[item].private_ipv4 }} {{ item }}{% if use_host_domain %} {{ item }}.{{ host_domain }}{% endif %}$"
-    line: "{{ hostvars[item].private_ipv4 }} {{ item }}{% if use_host_domain %} {{ item }}.{{ host_domain}}{% endif %}"
+    regexp: "^{{ hostvars[item].private_ipv4 }} {{ item }}{% if host_domain is defined %} {{ item }}.{{ host_domain }}{% endif %}$"
+    line: "{{ hostvars[item].private_ipv4 }} {{ item }}{% if host_domain is defined %} {{ item }}.{{ host_domain}}{% endif %}"
     state: present
   when: hostvars[item].private_ipv4 is defined
   with_items: "{{ groups['all'] }}"
@@ -28,6 +28,7 @@
   with_items:
     - '^127\.0\.\d+\.\d+(\s+)(?i){{ inventory_hostname }}.*'
     - '^::1(\s+)(?i){{ inventory_hostname }}.*'
+  when: do_hosts_cleanup
 
 - name: Ping APT proxy
   wait_for:
