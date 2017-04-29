@@ -74,3 +74,6 @@
 [submodule "roles/proxy"]
 	path = roles/proxy
 	url = https://github.com/betacloud/ansible-proxy.git
+[submodule "roles/fqdn"]
+	path = roles/fqdn
+	url = https://github.com/holms/ansible-fqdn.git

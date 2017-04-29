@@ -38,7 +38,9 @@ portal_backend_other_env:
   LOGGING_LEVEL_HIBERNATE: '{{ portal_backend_logging_level_hibernate }}'
   CONTEXT_PATH: '{{ portal_backend_context_path }}'
   SESSION_TIMEOUT: '{{ portal_backend_session_timeout }}'
+  FRONTEND_LOGIN_URL: '{{ portal_backend_frontend_login_url }}'
   FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
+  FRONTEND_AFTER_LOGOUT_URL: '{{ portal_backend_frontend_after_logout_url }}'
   EXAREME_URL: '{{ portal_backend_exareme_url }}'
 
-portal_backend_env: "{{ portal_backend_db_env | combine(portal_backend_db_meta_env, portal_backend_features_env, portal_backend_woken_env, portal_backend_security_env) }}"
+portal_backend_env: "{{ portal_backend_db_env | combine(portal_backend_db_meta_env, portal_backend_features_env, portal_backend_woken_env, portal_backend_security_env, portal_backend_other_env) }}"

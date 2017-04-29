@@ -9,6 +9,8 @@ research_db_companion_bases:
   - woken-db
   - portal-db
 
+portal_frontend_base_url: "http://{{ portal_frontend_virtual_host }}"
+
 python_location: '/usr/bin/python3'
 python_pip: '/usr/bin/pip3'
 

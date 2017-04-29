@@ -35,6 +35,8 @@ demo
 portal_backend_features_from: 'ldsm-db'
 portal_backend_security_enabled: true
 
+portal_frontend_base_url: "http://{{ portal_frontend_virtual_host }}"
+
 ```
 
 ### ENV/etc/ansible/group_vars/web-analytics
