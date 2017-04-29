@@ -18,3 +18,9 @@
     content="{{ this_repo_version.stdout}}\n{{ this_repo_status.stdout }}"
     dest="/etc/mip/{{ installed_component }}-version"
   become: yes
+
+- name: Commit the changes with etckeeper
+  command: >
+    etckeeper commit "MIP installed {{ installed_component }}"
+  failed_when: False
+  changed_when: False
