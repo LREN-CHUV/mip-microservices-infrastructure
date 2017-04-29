@@ -71,3 +71,6 @@
 [submodule "roles/airflow"]
 	path = roles/airflow
 	url = https://github.com/LREN-CHUV/ansible-airflow.git
+[submodule "roles/proxy"]
+	path = roles/proxy
+	url = https://github.com/betacloud/ansible-proxy.git

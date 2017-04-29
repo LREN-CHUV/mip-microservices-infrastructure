@@ -68,6 +68,15 @@ portal_db_admin_password:
 
 ```
 
+### ENV/etc/ansible/host_vars/[portal-frontend host] (crypted)
+
+```
+
+# Required when Google Analytics is used
+portal_frontend_tracker_id: 'UA-FILL-ME'
+
+```
+
 ## Optional variables
 
 ### ENV/etc/ansible/group_vars/web-analytics
@@ -97,8 +106,11 @@ portal_backend_frontend_after_login_url: 'http://{{ portal_backend_marathon_host
 portal_backend_security_enabled: false
 
 # Amount of CPU reserved for Portal frontend
-portal_frontend_cpus: 0.5
+portal_frontend_cpus: 1.0
 # Amount of memory in mb reserved for Portal frontend
-portal_frontend_mem: 128.0
+portal_frontend_mem: 10.0
+
+# Enable Google Analytics
+portal_frontend_google_analytics: false
 
 ```

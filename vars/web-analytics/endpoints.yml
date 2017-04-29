@@ -32,3 +32,7 @@ portal_backend_port: 4080
 portal_backend_akka_port: 4089
 # Prefix path for all services provided by Portal backend
 portal_backend_context_path: ""
+
+internal_portal_backend_server: '{{ ansible_fqdn }}:{{ portal_backend_port }}'
+
+portal_frontend_virtual_host: '{{ ansible_fqdn }}'
