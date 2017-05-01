@@ -32,7 +32,7 @@
     ports: []
     require_ports: false
     constraints: '{{ portal_frontend_marathon_constraints }}'
-    dependencies: ["{{ portal_db_marathon_id }}"]
+    dependencies: ["{{ portal_backend_marathon_id }}"]
     executor: ""
     wait_timeout: 600
     health_checks:
