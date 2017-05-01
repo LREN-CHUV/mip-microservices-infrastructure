@@ -66,8 +66,8 @@ portal_backend_hbp_user_authorization_uri: "https://services.humanbrainproject.e
 portal_backend_hbp_user_info_uri: "https://services.humanbrainproject.eu/oidc/userinfo"
 
 woken_host: 'localhost'
-woken_port: '8088'
-woken_path: '/user/entrypoint'
+woken_akka_port: '8088'
+woken_akka_path: '/user/entrypoint'
 internal_woken_url: 'http://localhost:8087'
 
 portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'
@@ -81,11 +81,11 @@ portal_backend_env:
   META_DB_SCHEMA: "public"
   META_DB_USER: "{{ meta_db_user }}"
   META_DB_PASSWORD:  "{{ meta_db_password }}"
-  SCIENCE_DB_URL: "{{ research_db_jdbc_url }}"
-  SCIENCE_DB_SCHEMA: "public"
-  SCIENCE_DB_MAIN_TABLE: "adni_merge"
-  SCIENCE_DB_USER: "{{ research_db_user }}"
-  SCIENCE_DB_PASSWORD: "{{ research_db_password }}"
+  FEATURES_DB_URL: "{{ research_db_jdbc_url }}"
+  FEATURES_DB_SCHEMA: "public"
+  FEATURES_DB_MAIN_TABLE: "adni_merge"
+  FEATURES_DB_USER: "{{ research_db_user }}"
+  FEATURES_DB_PASSWORD: "{{ research_db_password }}"
   AUTHENTICATION: 0
   LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
   LOGGING_LEVEL_HIBERNATE: '{{ portal_backend_logging_level_hibernate }}'
@@ -97,8 +97,8 @@ portal_backend_env:
   FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
   FRONTEND_AFTER_LOGOUT_URL: '{{ portal_backend_frontend_after_logout_url }}'
   WOKEN_HOST: '{{ woken_host }}'
-  WOKEN_PORT: '{{ woken_port }}'
-  WOKEN_PATH: '{{ woken_path }}'
+  WOKEN_AKKA_PORT: '{{ woken_akka_port }}'
+  WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
 
 # Production settings, with authentication and security turned on
 # portal_backend_env:
@@ -110,11 +110,11 @@ portal_backend_env:
 #   META_DB_SCHEMA: "public"
 #   META_DB_USER: "{{ meta_db_user }}"
 #   META_DB_PASSWORD:  "{{ meta_db_password }}"
-#   SCIENCE_DB_URL: "{{ research_db_jdbc_url }}"
-#   SCIENCE_DB_SCHEMA: "public"
-#   SCIENCE_DB_MAIN_TABLE: "adni_merge"
-#   SCIENCE_DB_USER: "{{ research_db_user }}"
-#   SCIENCE_DB_PASSWORD: "{{ research_db_password }}"
+#   FEATURES_DB_URL: "{{ research_db_jdbc_url }}"
+#   FEATURES_DB_SCHEMA: "public"
+#   FEATURES_DB_MAIN_TABLE: "adni_merge"
+#   FEATURES_DB_USER: "{{ research_db_user }}"
+#   FEATURES_DB_PASSWORD: "{{ research_db_password }}"
 #   AUTHENTICATION: 1
 #   CLIENT_ID: '{{ portal_backend_hbp_client_id }}'
 #   CLIENT_SECRET: '{{ portal_backend_hbp_client_secret }}'

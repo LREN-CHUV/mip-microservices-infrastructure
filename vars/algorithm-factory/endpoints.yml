@@ -33,11 +33,12 @@ chronos_marathon_id: /algorithm-factory/chronos
 
 # TODO: allow Chronos to be deployed on another machine
 chronos_port: 4400
-internal_chronos_url: "http://{{ woken_hostname }}:{{ chronos_port }}"
+internal_chronos_url: "http://{{ woken_host }}:{{ chronos_port }}"
 
 woken_marathon_id: /algorithm-factory/woken
 
-woken_hostname: "{{ ansible_fqdn }}"
+woken_host: "{{ ansible_fqdn }}"
+woken_ip_address: "{{ private_ipv4 }}"
 
 woken_docker_network: HOST
 # Port to use to expose woken to other services in the cluster.
@@ -47,7 +48,7 @@ woken_http_port: "{% if woken_docker_network == 'BRIDGE' %}31087{% else %}8087{%
 # Port used by Akka cluster
 woken_akka_port: "{% if woken_docker_network == 'BRIDGE' %}31088{% else %}4090{% endif %}"
 
-internal_woken_url: "http://{{ woken_hostname }}:{{ woken_http_port }}"
+internal_woken_url: "http://{{ woken_host }}:{{ woken_http_port }}"
 
 # Port to use to expose woken validation to other services in the cluster.
 # Default to 4082 when using host networking, 31082 otherwise

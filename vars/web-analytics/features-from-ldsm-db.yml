@@ -3,8 +3,8 @@
 # Use the features data from LDSM database
 
 portal_backend_features_env:
-  SCIENCE_DB_URL: "{{ ldsm_db_jdbc_url }}"
-  SCIENCE_DB_SCHEMA: "public"
-  SCIENCE_DB_MAIN_TABLE: "{{ portal_backend_features_table }}"
-  SCIENCE_DB_USER: "{{ ldsm_db_user }}"
-  SCIENCE_DB_PASSWORD: "{{ ldsm_db_password }}"
+  FEATURES_DB_URL: "{{ ldsm_db_jdbc_url }}"
+  FEATURES_DB_SCHEMA: "public"
+  FEATURES_DB_MAIN_TABLE: "{{ portal_backend_features_table }}"
+  FEATURES_DB_USER: "{{ ldsm_db_user }}"
+  FEATURES_DB_PASSWORD: "{{ ldsm_db_password }}"

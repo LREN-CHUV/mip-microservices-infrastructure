@@ -3,7 +3,7 @@
 # Attach the portal application to a particular host. The hostname should be the name known by Marathon / Mesos
 portal_backend_marathon_host: "{{ ansible_fqdn }}"
 
-woken_path: '/user/entrypoint'
+woken_akka_path: '/user/entrypoint'
 
 portal_backend_dependencies: "
   {%- if 'portal-db' in research_db_companion_bases -%}
@@ -30,8 +30,8 @@ portal_backend_db_meta_env:
 portal_backend_woken_env:
   WOKEN_URL: '{{ internal_woken_url }}'
   WOKEN_HOST: '{{ woken_host }}'
-  WOKEN_PORT: '{{ woken_port }}'
-  WOKEN_PATH: '{{ woken_path }}'
+  WOKEN_AKKA_PORT: '{{ woken_akka_port }}'
+  WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
 
 portal_backend_other_env:
   LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
