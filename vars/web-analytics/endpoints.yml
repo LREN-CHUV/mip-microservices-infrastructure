@@ -35,6 +35,9 @@ portal_backend_context_path: ""
 
 internal_portal_backend_server: '{{ ansible_fqdn }}:{{ portal_backend_port }}'
 
+# required by portal-frontend
+portal_backend_marathon_id: /web-analytics/portal-backend
+
 portal_frontend_virtual_host: '{{ ansible_fqdn }}'
 
 portal_backend_frontend_login_url: "{{ portal_frontend_base_url }}/home"
