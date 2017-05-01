@@ -24,9 +24,10 @@ akka {
       bind-hostname = localhost     # internal (bind) hostname
       bind-port = 8088              # internal (bind) port
 {% else %}
-      bind-hostname = "{{ woken_host }}"
-      bind-port = {{ woken_akka_port }} # Network interface will be bound to the woken_akka_port port,
-                     # and remoting protocol will expect messages sent to the bound port
+      bind-hostname = "0.0.0.0"
+      # Network interface will be bound to the woken_akka_port port,
+      # and remoting protocol will expect messages sent to the bound port
+      bind-port = ""
 {% endif %}
 
       message-frame-size =  10000000b
