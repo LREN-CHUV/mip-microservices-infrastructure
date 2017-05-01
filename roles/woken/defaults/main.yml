@@ -88,7 +88,7 @@ woken_nodes: []
 woken_main_table: adni_merge
 woken_functions:
   - name: histograms
-    docker_image: "hbpmip/python-histograms:7be184a"
+    docker_image: "hbpmip/python-histograms:latest"
     predictive: false
   - name: statisticsSummary
     docker_image: "hbpmip/r-summary-stats:latest"
