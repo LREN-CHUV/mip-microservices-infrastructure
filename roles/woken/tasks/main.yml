@@ -1,7 +1,7 @@
 ---
 
 # Default user in Docker appears as user 999 outside
-- name: Create directory
+- name: Create woken configuration directory
   file: state=directory path={{ woken_config_dir }} mode=0700 owner=999 group=999
   become: True
 

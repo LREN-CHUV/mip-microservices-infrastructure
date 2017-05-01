@@ -39,7 +39,7 @@ akka {
   }
   cluster {
     seed-nodes = [
-      "akka.tcp://woken@{{ woken_marathon_host }}:{{ woken_akka_port }}"
+      "akka.tcp://woken@{{ woken_host }}:{{ woken_akka_port }}"
     ]
 
     roles = ["validation"]

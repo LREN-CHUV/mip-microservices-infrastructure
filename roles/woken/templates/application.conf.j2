@@ -16,7 +16,7 @@ akka {
     maximum-payload-bytes = 10000000 bytes
     enabled-transports = ["akka.remote.netty.tcp"]
     netty.tcp {
-      hostname = {{ woken_marathon_host }} # external (logical) hostname
+      hostname = {{ woken_host }} # external (logical) hostname
       port = {{ woken_akka_port }} # external (logical) port
 
 {% if woken_docker_network == 'BRIDGE' %}
@@ -24,7 +24,7 @@ akka {
       bind-hostname = localhost     # internal (bind) hostname
       bind-port = 8088              # internal (bind) port
 {% else %}
-      bind-hostname = "{{ woken_marathon_host }}"
+      bind-hostname = "{{ woken_host }}"
       bind-port = {{ woken_akka_port }} # Network interface will be bound to the woken_akka_port port,
                      # and remoting protocol will expect messages sent to the bound port
 {% endif %}
@@ -42,7 +42,7 @@ akka {
       # With bridge networking, bind to localhost, then let Docker do the NAT translation
       "akka.tcp://woken@localhost:8088"
 {% else %}
-      "akka.tcp://woken@{{ woken_marathon_host }}:{{ woken_akka_port }}"
+      "akka.tcp://woken@{{ woken_host }}:{{ woken_akka_port }}"
 {% endif %}
     ]
 
