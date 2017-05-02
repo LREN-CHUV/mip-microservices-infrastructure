@@ -39,6 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Create a forwarded port mapping which allows access to a specific port
     # within the machine from a port on the host machine.
+    demo.vm.network :forwarded_port, guest: 80, host: 10080 # Web frontend
     demo.vm.network :forwarded_port, guest: 4080, host: 14080 # Airflow
     #demo.vm.network :forwarded_port, guest: 5050, host: 15050 # mesos - not working due to restricted ip listen
     demo.vm.network :forwarded_port, guest: 5080, host: 15080 # marathon
