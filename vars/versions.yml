@@ -29,7 +29,7 @@ nginx_official_repo: True
 flyway_version: "4.1.2-1"
 
 # Versions of our Docker containers
-portal_frontend_version: "6806abc"
+portal_frontend_version: "2.1.2"
 portal_backend_version: "2.1.0"
 woken_version: "695ad47"
 woken_functions:

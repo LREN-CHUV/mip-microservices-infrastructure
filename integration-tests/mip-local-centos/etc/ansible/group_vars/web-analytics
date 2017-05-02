@@ -13,7 +13,7 @@ portal_backend_docker_parameters:
 portal_backend_features_table: demo
 
 portal_frontend_cpus: 0.2
-portal_frontend_mem: 128.0
+portal_frontend_mem: 20.0
 
 portal_frontend_docker_parameters:
   - key: 'add-host'
