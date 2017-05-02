@@ -36,7 +36,7 @@ woken_db_user: woken
 # used when woken_db_deploy is true
 woken_db_databases: "{{ woken_db_name }}"
 
-woken_db_data_dir: /srv/docker/wokendb/data
+woken_db_data_dir: /srv/docker/woken_db/data
 
 woken_db_volumes:
   - containerPath: "/var/lib/postgresql/data"
@@ -56,5 +56,6 @@ woken_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
 
+woken_db_setup_image_base: 'hbpmip/woken-db-setup'
 woken_db_setup_version: '1.0.0'
-woken_db_setup_image: 'hbpmip/woken-db-setup:{{ woken_db_setup_version }}'
+woken_db_setup_image: '{{ woken_db_setup_image_base }}:{{ woken_db_setup_version }}'

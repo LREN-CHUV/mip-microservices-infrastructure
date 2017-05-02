@@ -1,7 +1,7 @@
 ---
 
 - name: Wait for Marathon
-  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  include: "{{ i2b2_db_path_to_lib_role }}/marathon-app/tasks/wait-for-marathon.yml"
   vars:
     uri: "{{ internal_marathon_url }}"
   tags:

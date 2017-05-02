@@ -2,3 +2,4 @@
 
 dependencies:
   - role: marathon-app
+    when: ldsm_db_deploy

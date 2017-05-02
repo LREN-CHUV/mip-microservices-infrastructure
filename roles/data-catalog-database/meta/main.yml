@@ -2,3 +2,4 @@
 
 dependencies:
   - role: marathon-app
+    when: data_catalog_db_deploy

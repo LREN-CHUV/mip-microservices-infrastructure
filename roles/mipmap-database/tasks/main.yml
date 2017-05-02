@@ -1,25 +1,11 @@
 ---
 
+- name: Should mipmap-db be deployed in its own Postgres server?
+  set_fact:
+    do_mipmap_db_deploy: "{{ mipmap_db_deploy | bool }}"
+
 - include: marathon.yml
-  when: mipmap_db_deploy
-
-- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
-  apt: name={{ item }} state=present
-  with_items: '{{ mipmap_db_deb_packages }}'
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-# See https://github.com/anarcher/ansible-docker-registry/issues/1
-- name: Make sure pip upgraded
-  command: easy_install -U pip
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-- name: Install Python module for Docker (required by docker_container task)
-  pip: name=docker-py state=present
-  delegate_to: "{{ groups['control'][0] }}"
+  when: do_mipmap_db_deploy
 
 # run this task on the database host
 - name: Wait for the mipmap database to be up and running
@@ -36,7 +22,7 @@
     login_password: "{{ mipmap_db_admin_password }}"
     state: absent
   delegate_to: "{{ groups['control'][0] }}"
-  when: (not mipmap_db_deploy) and mipmap_db_cleanup
+  when: (not do_mipmap_db_deploy) and mipmap_db_cleanup
 
 - name: Create a new database with name "mipmap"
   postgresql_db:
@@ -59,23 +45,6 @@
     password: "{{ mipmap_db_password }}"
     role_attr_flags: "SUPERUSER"
   delegate_to: "{{ groups['control'][0] }}"
-
-- name: Create group for Airflow
-  group:
-    name: '{{ airflow_group }}'
-    state: present
-
-- name: Create user for Airflow
-  user:
-    name: '{{ airflow_user }}'
-    group: '{{ airflow_group }}'
-    home: '{{ airflow_home }}'
-
-- name: Create airflow home
-  file:
-    path: '{{ airflow_home}}'
-    state: directory
-    owner: '{{ airflow_user }}'
 
 - name: Create configuration folder for MipMap
   file:

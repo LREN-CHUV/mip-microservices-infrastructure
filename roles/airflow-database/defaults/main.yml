@@ -8,7 +8,7 @@ airflow_db_deploy: no
 airflow_db_marathon_id: /data-factory/airflow/airflow-db
 
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
-airflow_db_marathon_host: '{{ inventory_hostname }}'
+airflow_db_marathon_host: '{{ ansible_fqdn }}'
 
 # The user running the Docker container for Postgres, default to '999' (postgres user in the Postgres docker container)
 # TODO: use user remapping when this functionality will be available per run (not possible today with Docker 1.12)
@@ -32,23 +32,23 @@ airflow_db_admin_user: postgres
 airflow_db_user: airflow
 # TO FILL - airflow_db_password: airflow
 
-# Hint in Marathon listing all the databases running in this Postgres server, used when airflow_db_deploy is true
+# Hint in Marathon listing all the databases running in this Postgres server,
+# used when airflow_db_deploy is true
 airflow_db_databases: "{{ airflow_db_name }}"
 
 airflow_db_data_dir: /srv/docker/airflow_db/data
 
+airflow_db_volumes:
+  - containerPath: "/var/lib/postgresql/data"
+    hostPath: "{{ airflow_db_data_dir }}"
+    mode: RW
+
+airflow_db_env:
+  POSTGRES_USER: "{{ airflow_db_admin_user }}"
+  POSTGRES_PASSWORD: "{{ airflow_db_admin_password }}"
+
 # Force cleanup of the Airflow database. Please never use that in production!
 airflow_db_cleanup: false
-
-airflow_db_deb_packages:
-  - python-pip
-  - python-psycopg2
-  - curl
-
-airflow_db_yum_packages:
-  - python-pip
-  - python-psycopg2
-  - curl
 
 # path to lib_role
 airflow_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}"

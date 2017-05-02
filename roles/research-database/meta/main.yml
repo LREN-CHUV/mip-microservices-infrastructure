@@ -2,3 +2,4 @@
 
 dependencies:
   - role: marathon-app
+    when: research_db_deploy

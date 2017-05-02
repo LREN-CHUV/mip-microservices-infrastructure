@@ -2,3 +2,4 @@
 
 dependencies:
   - role: marathon-app
+    when: airflow_db_deploy

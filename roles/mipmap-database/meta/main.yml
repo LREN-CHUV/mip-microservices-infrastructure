@@ -2,3 +2,4 @@
 
 dependencies:
   - role: marathon-app
+    when: mipmap_db_deploy

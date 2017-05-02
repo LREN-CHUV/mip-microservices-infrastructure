@@ -46,15 +46,18 @@ i2b2_db_volumes:
 i2b2_db_env:
   POSTGRES_USER: "{{ i2b2_db_admin_user }}"
   POSTGRES_PASSWORD: "{{ i2b2_db_admin_password }}"
-  POSTGRES_DB: '{{ i2b2_db_name }}'
 
 # Force cleanup of the i2b2 DB. Please never use that in production!
 i2b2_db_cleanup: false
 
-i2b2_db_sql_alchemy_conn: "postgresql://{{ i2b2_db_user }}:{{ i2b2_db_password }}@{{ i2b2_db_host }}:{{ i2b2_db_port }}/i2b2"
+# path to lib_role
+i2b2_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}"
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
 
-i2b2_setup_image: 'hbpmip/i2b2-setup'
+i2b2_db_sql_alchemy_conn: "postgresql://{{ i2b2_db_user }}:{{ i2b2_db_password }}@{{ i2b2_db_host }}:{{ i2b2_db_port }}/i2b2"
+
+i2b2_setup_image_base: 'hbpmip/i2b2-setup'
 i2b2_setup_version: '1.4.6'
+i2b2_db_setup_image: '{{ i2b2_db_setup_image_base }}:{{ i2b2_db_setup_version }}'

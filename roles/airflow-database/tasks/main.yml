@@ -1,21 +1,11 @@
 ---
 
+- name: Should airflow-db be deployed in its own Postgres server?
+  set_fact:
+    do_airflow_db_deploy: "{{ airflow_db_deploy | bool }}"
+
 - include: marathon.yml
-  when: airflow_db_deploy
-
-- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
-  apt: name={{ item }} state=present
-  with_items: '{{ airflow_db_deb_packages }}'
-  when: ansible_os_family == 'Debian'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
-
-- name: Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl
-  yum: name={{ item }} state=present
-  with_items: '{{ airflow_db_yum_packages }}'
-  when: ansible_os_family == 'RedHat'
-  delegate_to: "{{ groups['control'][0] }}"
-  become: True
+  when: do_airflow_db_deploy
 
 # run this task on the database host
 - name: Wait for the database to be up and running
@@ -32,7 +22,7 @@
     login_password: "{{ data_catalog_db_admin_password }}"
     state: absent
   delegate_to: "{{ groups['control'][0] }}"
-  when: (not data_catalog_db_deploy) and data_catalog_db_cleanup
+  when: (not do_data_catalog_db_deploy) and data_catalog_db_cleanup
 
 - name: Create a new database with name "airflow"
   postgresql_db:

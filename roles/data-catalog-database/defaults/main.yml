@@ -46,7 +46,6 @@ data_catalog_db_volumes:
 data_catalog_db_env:
   POSTGRES_USER: "{{ data_catalog_db_admin_user }}"
   POSTGRES_PASSWORD: "{{ data_catalog_db_admin_password }}"
-  POSTGRES_DB: '{{ data_catalog_db_name }}'
 
 # Force cleanup of the data_catalog database. Please never use that in production!
 data_catalog_db_cleanup: false
@@ -59,5 +58,6 @@ internal_marathon_url: http://localhost:5080
 
 data_catalog_db_sql_alchemy_conn: "postgresql://{{ data_catalog_db_user }}:{{ data_catalog_db_password }}@{{ data_catalog_db_host }}:{{ data_catalog_db_port }}/data_catalog"
 
-data_catalog_setup_image: 'hbpmip/data-catalog-setup'
+data_catalog_setup_image_base: 'hbpmip/data-catalog-setup'
 data_catalog_setup_version: '1.4.5'
+data_catalog_db_setup_image: '{{ data_catalog_db_setup_image_base }}:{{ data_catalog_db_setup_version }}'

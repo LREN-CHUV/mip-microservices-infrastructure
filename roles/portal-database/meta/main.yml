@@ -2,3 +2,4 @@
 
 dependencies:
   - role: marathon-app
+    when: portal_db_deploy

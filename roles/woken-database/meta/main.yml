@@ -2,3 +2,4 @@
 
 dependencies:
   - role: marathon-app
+    when: woken_db_deploy

@@ -1,7 +1,7 @@
 ---
 
 - name: Wait for Marathon
-  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  include: "{{ mipmap_db_path_to_lib_role }}/marathon-app/tasks/wait-for-marathon.yml"
   vars:
     uri: "{{ internal_marathon_url }}"
   tags:
@@ -23,7 +23,7 @@
   file: state=absent path={{ mipmap_db_data_dir }}
   when: mipmap_db_cleanup
 
-# Postgresql user in Docker appears as user 999 outside
+# Postgres user in Docker appears as user 999 outside
 - name: Create MipMap database storage directory
   file: state=directory path={{ mipmap_db_data_dir }} mode=0700 owner={{ mipmap_db_docker_user }} group={{ mipmap_db_docker_user }}
 
@@ -40,13 +40,8 @@
         containerPort: 5432
         name: 'postgres'
         protocol: 'tcp'
-    container_volumes:
-      - containerPath: "/var/lib/postgresql/data"
-        hostPath: "{{ mipmap_db_data_dir }}"
-        mode: RW
-    env:
-      POSTGRES_USER: "{{ mipmap_db_admin_user }}"
-      POSTGRES_PASSWORD: "{{ mipmap_db_admin_password }}"
+    container_volumes: '{{ mipmap_db_volumes }}'
+    env: '{{ mipmap_db_env }}'
     labels:
       MARATHON_SINGLE_INSTANCE_APP: "true"
       DATABASES: "{{ mipmap_db_databases }}"

@@ -2,3 +2,4 @@
 
 dependencies:
   - role: marathon-app
+    when: meta_db_deploy
