@@ -4,13 +4,9 @@
 
 - include: hospital-database/setup.yml
 
-# Data Factory
-
-- include: data-factory/airflow.yml
-
-# /Data Factory
-
 - include: reference/setup.yml
+
+- include: data-factory/setup.yml
 
 - include: algorithm-factory/setup.yml
 

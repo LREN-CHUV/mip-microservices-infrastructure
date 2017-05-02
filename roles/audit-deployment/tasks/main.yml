@@ -3,12 +3,16 @@
   register: this_repo_version
   become: no
   changed_when: False
+  tags:
+  - skip_ansible_lint
 
 - name: Get current version of the repository
   local_action: command git status --porcelain
   register: this_repo_status
   become: no
   changed_when: False
+  tags:
+  - skip_ansible_lint
 
 - name: Create a folder for MIP
   file: path=/etc/mip state=directory mode=0755 owner=root group=root

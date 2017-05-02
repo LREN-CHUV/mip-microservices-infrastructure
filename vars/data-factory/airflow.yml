@@ -3,19 +3,6 @@
 airflow_python_local_dist_packages: '/usr/local/lib/python3.5/dist-packages'
 airflow_python_libraries_path: '/usr/lib/python3/dist/packages/:/usr/local/lib/python3.5/dist-packages/'
 
-# We assume that MRI database is deployed under the same Postgres instance as airflow database
-# Identifier must be under /data-factory/airflow namespace to be able to use dependencies on scheduler and webserver
-airflow_db_marathon_id: '/data-factory/airflow/airflow-db'
-
-airflow_scheduler_marathon_id: '/data-factory/airflow/scheduler'
-airflow_scheduler_marathon_dependencies:
-  - "{{ airflow_db_marathon_id }}"
-
-airflow_webserver_marathon_id: '/data-factory/airflow/webserver'
-airflow_webserver_marathon_dependencies:
-  - "{{ airflow_db_marathon_id }}"
-  - "{{ airflow_scheduler_marathon_id }}"
-
 # TODO airflow_executor: 'MesosExecutor'
 
 # Need both Python2 version of the Postgres library for ansible and Python 3 version for Airflow

@@ -2,4 +2,4 @@
 
 dependencies:
   - role: marathon-app
-    when: i2b2_db_deploy
+    when: i2b2_capture_db_deploy

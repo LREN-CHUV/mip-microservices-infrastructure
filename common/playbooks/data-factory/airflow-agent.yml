@@ -1,0 +1,47 @@
+---
+
+- hosts: airflow-agent
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/data-factory/airflow.yml"
+
+  pre_tasks:
+
+    - name: Define user in .gitconfig
+      ini_file:
+        dest: '{{ airflow_home }}/.gitconfig'
+        section: user
+        option: '{{ item.option }}'
+        value: '{{ item.value }}'
+        owner: airflow
+        group: airflow
+        mode: 0644
+        backup: yes
+      with_items:
+        - { option: 'email', value: "airflow@{{ ansible_fqdn }}" }
+        - { option: 'name', value: 'Airflow' }
+      tags: ['airflow-agent', 'airflow', 'data-factory', 'marathon-app']
+
+    - name: Allow Airflow to run Docker containers
+      user:
+        name: airflow
+        shell: /bin/bash
+        groups: docker
+        append: yes
+      tags: ['airflow-agent', 'airflow', 'data-factory', 'marathon-app']
+
+  roles:
+
+    - role: spm
+      tags: ['spm', 'airflow-agent', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: airflow
+      airflow_install_master: false
+      airflow_install_agent: true
+      tags: ['airflow-agent', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: data-factory-airflow-agent
+      tags: ['airflow', 'data-factory', 'marathon-app']

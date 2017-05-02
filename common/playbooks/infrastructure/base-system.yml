@@ -9,16 +9,16 @@
 
   roles:
 
+    # Setup etckeeper and force it to use Git
+    - role: etckeeper
+      tags: ['infra', 'infrastructure', 'runtimes']
+
     - role: fqdn
       when: fqdn is defined or hostname is defined
       tags: ['infra', 'infrastructure', 'runtimes']
 
     - role: proxy
       when: proxy_http is defined
-      tags: ['infra', 'infrastructure', 'runtimes']
-
-    # Setup etckeeper and force it to use Git
-    - role: etckeeper
       tags: ['infra', 'infrastructure', 'runtimes']
 
     - role: base-system

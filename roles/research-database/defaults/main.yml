@@ -24,7 +24,7 @@ research_db_cpus: 0.5
 research_db_mem: 128.0
 
 # Port exposed by Marathon, must be in the range [4000, 5000[, [31000,32000[
-research_db_port: 31433
+research_db_port: 31432
 research_db_host: '{{ research_db_marathon_host }}'
 research_db_name: research
 research_db_admin_user: postgres

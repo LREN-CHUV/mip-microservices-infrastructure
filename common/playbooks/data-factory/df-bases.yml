@@ -1,0 +1,29 @@
+---
+
+- hosts: df-bases
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/data-factory/airflow.yml"
+
+  roles:
+
+    - role: airflow-database
+      tags: ['airflow-database', 'airflow-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: data-catalog-database
+      tags: ['data-catalog-database', 'data-catalog-db', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: i2b2-capture-database
+      tags: ['i2b2-capture-database', 'i2b2-capture-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: i2b2-mip-database
+      tags: ['i2b2-mip-database', 'i2b2-mip-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: mipmap-database
+      tags: ['mipmap-database', 'mipmap-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+
+    - role: audit-deployment
+      installed_component: data-factory-bases
+      tags: ['airflow', 'data-factory', 'marathon-app']
