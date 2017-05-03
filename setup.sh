@@ -24,9 +24,23 @@ if test "$count" -gt 0; then
   fi
 fi
 
+[ -d roles/mesos/tasks ] || ./after-git-clone.sh
+./after-update.sh
+
 ./common/scripts/bootstrap.sh
+
 ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
         -e play_dir="$(pwd)" \
         -e lib_roles_path="$(pwd)/roles" \
         -e datacenter="$DATACENTER" "$@" \
         install.yml
+
+[ -f slack.json ] && (
+  # shellcheck disable=SC2086
+  : ${SLACK_USER_NAME:=$USER}
+
+  source ./common/lib/slack-helper.sh
+  source ./common/lib/ansible-to-human.sh "$@"
+  sed "s/USER/$SLACK_USER_NAME/" slack.json | sed "s/COMPONENTS/$PLAYBOOK_COMPONENTS/" \
+       | sed "s/HOSTS/$PLAYBOOK_HOSTS/" | post-to-slack
+)

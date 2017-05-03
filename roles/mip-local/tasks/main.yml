@@ -33,3 +33,13 @@
   template:
     src: "host_vars.j2"
     dest: "{{ play_dir }}/envs/mip-local/etc/ansible/host_vars/{{ target_server }}"
+
+- name: Protect the variables in host_vars/ directory with git-crypt
+  template:
+    src: gitattributes.j2
+    dest: "{{ play_dir }}/envs/mip-local/etc/ansible/.gitattributes"
+
+- name: Generate Slack notification
+  template:
+    src: slack.json.j2
+    dest: "{{ play_dir }}/slack.json"
