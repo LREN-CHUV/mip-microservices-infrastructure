@@ -123,3 +123,7 @@ ansible-playbook $ANSIBLE_OPTS \
         common/playbooks/generate-mip-local-config.yml
 
 echo "DATACENTER=mip-local" > .environment
+
+mkdir -p .not-used
+
+[ -f circle.yml ] && git mv circle.yml .not-used/
