@@ -1,12 +1,29 @@
+{% if mip_install=='local' %}
 [all]
-demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
+{{ target_server }} ansible_connection=local
+
+# Managed hosts should contain all servers in the datacenter.
+# Common software, configuration and security settings will be applied on them.
+[managed]
+{{ target_server }}
+
+{% else %}
+[all]
+{{ target_server }} ansible_connection=ssh ansible_ssh_user={{ server_user }} ansible_ssh_host={{ server_dns }} ansible_ssh_port=22
+
+# Managed hosts should contain all servers in the datacenter.
+# Common software, configuration and security settings will be applied on them.
+[managed]
+{{ target_server }}
+
+{% endif %}
 
 # Control node: one control node should be selected, not necessarily in the datacenter - it can be the local desktop -
 # but it should satisfy the following requirements:
 # - It has a direct network access to all services on the datacenter, in particular the databases and Marathon
 # - We can install the required packages (docker-engine, docker-py, curl...) for proper function of the Ansible tasks
 [control]
-demo
+{{ target_server }}
 
 # Infrastructure building block: define an 'infrastructure' group encompassing the configuration of the groups defined below
 [infrastructure:children]
@@ -16,14 +33,9 @@ mesos-leader
 mesos-mixed
 mesos-follower
 
-# Managed hosts should contain all servers in the datacenter.
-# Common software, configuration and security settings will be applied on them.
-[managed]
-demo
-
 # Install Zookeeper, required by Mesos
 [zookeeper]
-demo
+{{ target_server }}
 
 # Install Mesos leader and Marathon
 [mesos-leader]
@@ -31,7 +43,7 @@ demo
 
 # Install the full Mesos stack, including Mesos master and agent, Docker and Marathon
 [mesos-mixed]
-demo
+{{ target_server }}
 
 # Install Mesos agent and Docker
 [mesos-follower]
@@ -44,19 +56,11 @@ postgresraw-ui
 
 # Install PostgresRAW
 [ldsm-db]
-demo
+{{ target_server }}
 
 # Install PostgresRAW-UI
 [postgresraw-ui]
-demo
-
-# Install Airflow master (databases + webserver)
-[airflow-master]
-#demo
-
-# Install Airflow agent (scheduler + scripts + related applications like SPM)
-[airflow-agent]
-#demo
+{{ target_server }}
 
 # Reference building block: define a 'reference' group encompassing the configuration of the groups defined below
 [reference:children]
@@ -65,11 +69,11 @@ meta-db
 
 # Install research-database
 [research-db]
-demo
+{{ target_server }}
 
 # Install meta-database
 [meta-db]
-demo
+{{ target_server }}
 
 # Algorithm Factory building block: define an 'algorithm-factory' group encompassing the configuration of the groups defined below
 [algorithm-factory:children]
@@ -79,15 +83,15 @@ woken-validation
 
 # Install woken-database
 [woken-db]
-demo
+{{ target_server }}
 
 # Install woken
 [woken]
-demo
+{{ target_server }}
 
 # Install woken-validation
 [woken-validation]
-demo
+{{ target_server }}
 
 # Web Analytics building block: define an 'web-analytics' group encompassing the configuration of the groups defined below
 [web-analytics:children]
@@ -97,12 +101,12 @@ portal-frontend
 
 # Install portal-database
 [portal-db]
-demo
+{{ target_server }}
 
 # Install portal-backend
 [portal-backend]
-demo
+{{ target_server }}
 
 # Install portal-frontend
 [portal-frontend]
-demo
+{{ target_server }}

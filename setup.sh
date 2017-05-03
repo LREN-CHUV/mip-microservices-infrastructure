@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[ -f .environment ] && source .environment
+
+# shellcheck disable=SC2086
 : ${DATACENTER:=federation}
 
 force=false
@@ -22,7 +25,7 @@ if test "$count" -gt 0; then
 fi
 
 ./common/scripts/bootstrap.sh
-ansible-playbook --ask-become-pass -i envs/$DATACENTER/etc/ansible/ \
+ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
         -e play_dir="$(pwd)" \
         -e lib_roles_path="$(pwd)/roles" \
         -e datacenter="$DATACENTER" "$@" \

@@ -1,0 +1,14 @@
+---
+
+woken_features_from: 'ldsm-db'
+portal_backend_features_from: 'ldsm-db'
+portal_backend_security_enabled: no
+
+research_db_companion_bases:
+  - meta-db
+  - woken-db
+  - portal-db
+
+{% raw -%}
+portal_frontend_base_url: "http://{{ portal_frontend_virtual_host }}"
+{%- endraw %}

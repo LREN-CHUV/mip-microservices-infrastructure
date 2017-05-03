@@ -1,0 +1,16 @@
+---
+
+chronos_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
+chronos_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
+
+# Amount of CPU reserved for woken
+woken_cpus: {{ (target_cpus|float / 8.0) | round(1, 'floor') }}
+# Amount of memory in mb reserved for woken
+woken_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
+
+woken_main_table: demo
+
+# Amount of CPU reserved for woken validation
+woken_validation_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
+# Amount of memory in mb reserved for woken validation
+woken_validation_mem: {{ (target_mem_mb|float / 8.0) | round(0, 'floor') }}

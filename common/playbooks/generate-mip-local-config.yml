@@ -1,0 +1,57 @@
+---
+
+- hosts: managed
+  become: yes
+
+  tasks:
+
+    - name: Gather information from target server
+      setup:
+
+    - name: Suggested target server hostname
+      debug: var=ansible_hostname
+
+    - name: Suggested target server DNS
+      debug: var=ansible_fqdn
+
+    - name: Suggested target server IP address
+      debug:
+        msg: "{{ ansible_default_ipv4.address }}"
+
+- hosts: localhost
+  become: no
+  vars_prompt:
+    - name: "server_hostname"
+      prompt: "Target server hostname"
+      private: no
+    - name: "server_dns"
+      prompt: "Target server DNS"
+      private: no
+    - name: "server_ip_address"
+      prompt: "Target server IP address"
+      private: no
+    - name: "ldsm_db_admin_password"
+      prompt: "LDSM database admin password"
+      private: yes
+    - name: "ldsm_db_password"
+      prompt: "LDSM database user password"
+      private: yes
+    - name: "research_db_admin_password"
+      prompt: "Research database admin password"
+      private: yes
+    - name: "research_db_password"
+      prompt: "Research database user password"
+      private: yes
+    - name: "meta_db_password"
+      prompt: "Meta database user password"
+      private: yes
+    - name: "woken_db_password"
+      prompt: "Woken database user password"
+      private: yes
+    - name: "portal_db_password"
+      prompt: "Portal database user password"
+      private: yes
+
+  roles:
+
+    - role: mip-local
