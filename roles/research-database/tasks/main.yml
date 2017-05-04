@@ -74,7 +74,7 @@
 - name: Run Flyway migration
   docker_container:
     name: setup_research_db
-    image: "lren/flyway:{{ flyway_version }}"
+    image: "hbpmip/flyway:{{ flyway_version }}"
     command: migrate
     detach: no
     network_mode: host

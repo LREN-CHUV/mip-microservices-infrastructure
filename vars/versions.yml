@@ -26,7 +26,7 @@ ldsm_db_version: 'latest'
 # Use latest NGinx from official repo
 nginx_official_repo: True
 
-flyway_version: "4.1.2-1"
+flyway_version: "4.1.2-2"
 
 # Versions of our Docker containers
 portal_frontend_version: "2.1.2"
