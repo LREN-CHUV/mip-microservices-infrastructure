@@ -18,7 +18,7 @@
       tags: ['infra', 'infrastructure', 'runtimes']
 
     - role: proxy
-      when: proxy_http is defined
+      when: proxy_http is defined and proxy_http != 'http://proxy.tld:8080'
       tags: ['infra', 'infrastructure', 'runtimes']
 
     - role: base-system
