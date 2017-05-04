@@ -77,3 +77,6 @@
 [submodule "roles/fqdn"]
 	path = roles/fqdn
 	url = https://github.com/holms/ansible-fqdn.git
+[submodule "roles/ubuntu-locales"]
+	path = roles/ubuntu-locales
+	url = https://github.com/Oefenweb/ansible-locales.git

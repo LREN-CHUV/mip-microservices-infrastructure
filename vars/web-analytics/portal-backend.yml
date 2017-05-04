@@ -6,11 +6,11 @@ portal_backend_marathon_host: "{{ ansible_fqdn }}"
 woken_akka_path: '/user/entrypoint'
 
 portal_backend_dependencies: "
-  {%- if 'portal-db' in research_db_companion_bases -%}
-    []
-  {%- else -%}
-    [ '{{ portal_db_marathon_id }}' ]
+  {%- set portal_deps = [] -%}
+  {%- if 'portal-db' not in research_db_companion_bases -%}
+    {%- set portal_deps = [portal_db_marathon_id] -%}
   {%- endif -%}
+  {{ portal_deps }}
 "
 
 portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'

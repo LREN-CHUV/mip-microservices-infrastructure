@@ -4,11 +4,11 @@
 woken_marathon_host: "{{ ansible_fqdn }}"
 
 woken_dependencies: "
+  {%- set woken_deps = [chronos_marathon_id] -%}
   {%- if 'woken-db' in research_db_companion_bases -%}
-    ''{{ chronos_marathon_id }}'' | list
-  {% else %}
-    ['{{ chronos_marathon_id }}', {{ woken_db_marathon_id }}]
-  {% endif %}
+    {%- set woken_deps = woken_deps + [woken_db_marathon_id] -%}
+  {%- endif -%}
+  {{ woken_deps }}
 "
 
 # Roles are mip_node or mip_federation

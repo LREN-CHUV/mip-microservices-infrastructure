@@ -83,7 +83,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "../install.yml"
       ansible.inventory_path = "etc/ansible/hosts"
       ansible.limit = 'all'
-      ansible.verbose = "vvvv"
+      ansible.verbose = ""
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
       ansible.skip_tags = ['mesos-ui']
       # Use this to override ansible playbook variables
@@ -91,6 +91,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         play_dir: Dir.pwd + '/../../..',
         lib_roles_path: Dir.pwd + '/../../../roles',
         datacenter: 'federation',
+        vagrant_box_ip_address: '192.168.21.66',
         in_vagrant: true
       }
   end

@@ -13,6 +13,10 @@
     - role: etckeeper
       tags: ['infra', 'infrastructure', 'runtimes']
 
+    - role: ubuntu-locales
+      tags: ['locales', 'infrastructure', 'runtimes']
+      when: ansible_lsb.id == 'Ubuntu'
+
     - role: fqdn
       when: fqdn is defined or hostname is defined
       tags: ['infra', 'infrastructure', 'runtimes']
