@@ -6,8 +6,8 @@
     # Change concurrently with the required ansible version in requirements.txt
     - name: check for compatible Ansible version
       when: >
-        ansible_version["string"] | version_compare("2.1", "<")
-        or ansible_version["string"] | version_compare("2.2", ">=")
+        ansible_version["string"] | version_compare("2.2", "<")
+        or ansible_version["string"] | version_compare("2.4", ">=")
       fail:
         msg: >
           Your version of Ansible doesn't match the required version. Please
@@ -18,7 +18,7 @@
   gather_facts: yes
   tasks:
     - name: check for accurate date
-      when: "{{ (ansible_date_time['year']|int) < 2016 }}"
+      when: "{{ (ansible_date_time['year']|int) < 2017 }}"
       fail:
         msg: >
           Your machines have a misconfigured date. Please run
