@@ -22,6 +22,15 @@ Prepare the configuration for installation.
 
 ```
 
+* Generate a PGP key if you do not have one. Select the default values. See also the [Gnupg manual](https://www.gnupg.org/gph/en/manual/c14.html):
+
+```
+# Optional installation of haveged to generate entropy for GPG key
+sudo apt-get install haveged
+gpg --gen-key
+sudo apt-get remove haveged
+```
+
 Store the configuration in Git, encrypt the passwords and confidential information associated to the host(s).
 
 ```
