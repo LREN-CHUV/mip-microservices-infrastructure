@@ -26,6 +26,8 @@
     - all
     - infrastructure
     - hospital-database
+    - reference
+    - data-factory
     - algorithm-factory
     - web-analytics
 
