@@ -59,7 +59,7 @@
   with_fileglob:
    - "{{ ldsm_db_setup_scripts_dir }}/sql/*"
   delegate_to: "{{ groups['control'][0] }}"
-  when: not in_vagrant
+  when: ldsm_db_fill and not in_vagrant
 
 - name: Copy sql creation scripts (Vagrant)
   copy:
@@ -67,7 +67,7 @@
     dest: "{{ldsm_db_setup_dir}}/{{ item | basename }}"
   with_fileglob:
    - "{{ ldsm_db_setup_scripts_dir }}/sql/*"
-  when: in_vagrant
+  when: ldsm_db_fill and in_vagrant
 
 - name: Run Flyway migration
   docker_container:
@@ -90,3 +90,4 @@
       FLYWAY_PASSWORD: '{{ ldsm_db_admin_password }}'
       FLYWAY_DRIVER: 'org.postgresql.Driver'
   delegate_to: "{{ groups['control'][0] }}"
+  when: ldsm_db_fill
