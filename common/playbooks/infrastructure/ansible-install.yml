@@ -5,6 +5,9 @@
 - hosts: localhost
   become: yes
 
+  vars:
+    git_crypt_rhel_download_url: "https://drive.switch.ch/index.php/s/Y2u46cPUartTGp8/download"
+
   tasks:
 
     # Install git-crypt
@@ -15,3 +18,19 @@
     - name: "Install git-crypt, required to read protected configuration files in this Ansible project"
       apt: name=git-crypt state=present
       when: ansible_distribution == "Ubuntu"
+
+    - name: "Install git-crypt, required to read protected configuration files in this Ansible project"
+      apt: name=git-crypt state=present
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Download Git-crypt excutable for RedHat
+      get_url:
+        url: "{{ git_crypt_rhel_download_url }}"
+        dest: /tmp/git-crypt-RHEL.tar.xz
+      when: ansible_distribution == "RedHat"
+
+    - name: Unzip Git crypt
+      unarchive:
+        src: /tmp/git-crypt-RHEL.tar.xz
+        dest: /usr/local/bin/
+      when: ansible_distribution == "RedHat"
