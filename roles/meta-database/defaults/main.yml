@@ -60,7 +60,7 @@ flyway_version: "4.0.3"
 
 meta_db_docker_registries: []
 # - url: registry.gitlab.com
-#   login: myuser
+#   username: myuser
 #   password: mypassword
 
 meta_db_docker_setup: []
