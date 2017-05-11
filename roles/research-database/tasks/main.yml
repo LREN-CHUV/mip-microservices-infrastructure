@@ -52,6 +52,7 @@
     password: '{{ item.password }}'
     registry_url: '{{ item.url }}'
   with_items: "{{ research_db_docker_registries }}"
+  no_log: true
 
 - name: Setup Research database
   docker_container:
