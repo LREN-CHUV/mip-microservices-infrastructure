@@ -55,6 +55,7 @@
   lineinfile:
     path: "{{ item }}"
     regexp: "^pre-commit.*"
+    state: absent
   with_items:
     - "{{ play_dir}}/after-git-clone.sh"
     - "{{ play_dir}}/after-update.sh"

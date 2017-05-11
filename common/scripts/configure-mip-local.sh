@@ -133,7 +133,7 @@ mkdir -p .not-used
 
 [ -f circle.yml ] && git mv circle.yml .not-used/
 
-which gpg || (
+which gpg > /dev/null || (
   echo "Installing gnupg..."
   if [ -x /usr/bin/apt-get ]; then
     sudo apt-get -y install gnupg
@@ -162,6 +162,8 @@ which gpg || (
 git-crypt init
 
 git add .
-git commit -m "Configuration for MIP Local"
+
+echo "Run this command first after checking the configuration"
+echo "git commit -m 'Configuration for MIP Local'"
 
 echo "Run ./setup.sh to start the installation"
