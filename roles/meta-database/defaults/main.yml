@@ -58,6 +58,20 @@ internal_marathon_url: http://localhost:5080
 
 flyway_version: "4.0.3"
 
-meta_db_fill: yes
-meta_db_local_project_dir: /src/meta-db
-meta_db_setup_dir: /opt/meta-database/migration
+meta_db_docker_registries: []
+# - url: registry.gitlab.com
+#   login: myuser
+#   password: mypassword
+
+meta_db_docker_setup: []
+#  - image: registry.gitlab.com/hbpmip_private/adni-merge-meta-db-setup:1.0.0
+#    command: migrate
+#    env:
+#      FLYWAY_DBMS: postgresql
+#      FLYWAY_HOST: '{{ meta_db_host }}'
+#      FLYWAY_PORT: '{{ meta_db_port }}'
+#      FLYWAY_DATABASE_NAME: '{{ meta_db_name }}'
+#      FLYWAY_SCHEMAS: "public"
+#      FLYWAY_USER: '{{ meta_db_admin_user }}'
+#      FLYWAY_PASSWORD: '{{ meta_db_admin_password }}'
+#      FLYWAY_DRIVER: 'org.postgresql.Driver'

@@ -3,6 +3,28 @@
 research_db_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 research_db_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
 
-research_db_fill: no
+research_db_docker_setup:
+  - image: registry.gitlab.com/hbpmip_private/adni-merge-db-setup:1.0.1
+    command: migrate
+    env:
+      FLYWAY_DBMS: postgresql
+      FLYWAY_HOST: '{{ research_db_host }}'
+      FLYWAY_PORT: '{{ research_db_port }}'
+      FLYWAY_DATABASE_NAME: '{{ research_db_name }}'
+      FLYWAY_SCHEMAS: "public"
+      FLYWAY_USER: '{{ research_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ research_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'
 
-meta_db_fill: no
+meta_db_docker_setup:
+  - image: registry.gitlab.com/hbpmip_private/adni-merge-meta-db-setup:1.0.0
+    command: migrate
+    env:
+      FLYWAY_DBMS: postgresql
+      FLYWAY_HOST: '{{ meta_db_host }}'
+      FLYWAY_PORT: '{{ meta_db_port }}'
+      FLYWAY_DATABASE_NAME: '{{ meta_db_name }}'
+      FLYWAY_SCHEMAS: "public"
+      FLYWAY_USER: '{{ meta_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ meta_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'

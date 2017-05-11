@@ -46,50 +46,22 @@
     role_attr_flags: "SUPERUSER"
   delegate_to: "{{ groups['control'][0] }}"
 
-- name: Create setup dir for the research database
-  file:
-    state: directory
-    path: "{{ research_db_setup_dir }}"
-  delegate_to: "{{ groups['control'][0] }}"
-  when: research_db_fill
+- name: Log into private Docker registries
+  docker_login:
+    username: '{{ item.username }}'
+    password: '{{ item.password }}'
+    registry_url: '{{ item.url }}'
+  with_items: "{{ research_db_docker_registries }}"
 
-- name: Copy sql creation scripts
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ research_db_setup_dir }}/{{ item.dest }}"
-  with_items:
-    - src: "{{ research_db_local_project_dir }}/sql/create.sql"
-      dest: "V1_0__Create.sql"
-  delegate_to: "{{ groups['control'][0] }}"
-  when: research_db_fill
-
-- name: Fix sql creation scripts
-  replace:
-    dest: "{{ research_db_setup_dir }}/V1_0__Create.sql"
-    regexp: "/docker-entrypoint-initdb.d"
-    replace: "/mnt"
-  delegate_to: "{{ groups['control'][0] }}"
-  when: research_db_fill
-
-- name: Run Flyway migration
+- name: Setup Research database
   docker_container:
     name: setup_research_db
-    image: "hbpmip/flyway:{{ flyway_version }}"
-    command: migrate
+    image: "{{ item.image }}"
+    command: "{{ item.command | default(ommit) }}"
+    env: "{{ item.env }}"
     detach: no
     network_mode: host
     interactive: yes
-    # cleanup: yes
-    volumes:
-      - '{{ research_db_setup_dir }}:/flyway/sql'
-    env:
-      FLYWAY_DBMS: postgresql
-      FLYWAY_HOST: '{{ research_db_host }}'
-      FLYWAY_PORT: '{{ research_db_port }}'
-      FLYWAY_DATABASE_NAME: '{{ research_db_name }}'
-      FLYWAY_SCHEMAS: "public"
-      FLYWAY_USER: '{{ research_db_admin_user }}'
-      FLYWAY_PASSWORD: '{{ research_db_admin_password }}'
-      FLYWAY_DRIVER: 'org.postgresql.Driver'
+    cleanup: yes
+  with_items: "{{ research_db_docker_setup }}"
   delegate_to: "{{ groups['control'][0] }}"
-  when: research_db_fill

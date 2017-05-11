@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 get_script_dir () {
      SOURCE="${BASH_SOURCE[0]}"
 
@@ -15,6 +17,8 @@ get_script_dir () {
 
 ROOT=$(get_script_dir)
 cd "$ROOT/../.."
+
+which ansible > /dev/null || ./common/scripts/bootstrap.sh
 
 ANSIBLE_OPTS=""
 target=""
@@ -45,11 +49,12 @@ EOF
           echo "Use ssh-copy-id to add your public key to the remote server"
           read -p "Server DNS > " server_dns
           read -p "Server login user > " server_user
+          read -p "Server SSH port (usually 22) > " server_ssh_port
           ANSIBLE_OPTS="-e mip_install=remote -e target_server=$server_dns -e server_user=$server_user"
           target="$server_dns"
           cat <<EOF > envs/mip-local/etc/ansible/hosts
 [all]
-$server_dns ansible_connection=ssh ansible_ssh_host=$server_dns ansible_ssh_user=$server_user
+$server_dns ansible_connection=ssh ansible_ssh_host=$server_dns ansible_ssh_user=$server_user ansible_ssh_port=$server_ssh_port
 
 [managed]
 $server_dns
@@ -127,3 +132,36 @@ echo "DATACENTER=mip-local" > .environment
 mkdir -p .not-used
 
 [ -f circle.yml ] && git mv circle.yml .not-used/
+
+which gpg || (
+  echo "Installing gnupg..."
+  if [ -x /usr/bin/apt-get ]; then
+    sudo apt-get -y install gnupg
+  else
+    sudo yum -y install gnupg
+  fi
+)
+
+[ -f ~/.gnupg/pubring.gpg ] || (
+  echo "Installing haveged..."
+  if [ -x /usr/bin/apt-get ]; then
+    sudo apt-get -y install haveged
+  else
+    sudo yum -y install haveged
+  fi
+  echo "Generate the PGP key for this user..."
+  gpg --gen-key
+  echo "Uninstall haveged..."
+  if [ -x /usr/bin/apt-get ]; then
+    sudo apt-get -y remove haveged
+  else
+    sudo yum -y uninstall haveged
+  fi
+)
+
+git-crypt init
+
+git add .
+git commit -m "Configuration for MIP Local"
+
+echo "Run ./setup.sh to start the installation"

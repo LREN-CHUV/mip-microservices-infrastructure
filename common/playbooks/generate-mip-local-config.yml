@@ -25,11 +25,17 @@
       prompt: "Target server hostname"
       private: no
     - name: "server_dns"
-      prompt: "Target server DNS"
+      prompt: "Target server DNS. You can use the IP address if DNS is not setup for this server"
       private: no
     - name: "server_ip_address"
       prompt: "Target server IP address"
       private: no
+    - name: "gitlab_com_login"
+      prompt: "Username on Gitlab to download private Docker images"
+      private: no
+    - name: "gitlab_com_password"
+      prompt: "Password on Gitlab to download private Docker images"
+      private: yes
     - name: "ldsm_db_admin_password"
       prompt: "LDSM database admin password"
       private: yes

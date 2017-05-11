@@ -45,3 +45,17 @@
   template:
     src: slack.json.j2
     dest: "{{ play_dir }}/slack.json"
+
+- name: Check for pre-commit
+  stat:
+    path: /usr/local/bin/pre-commit
+  register: pre_commit_exe
+
+- name: Remove pre-commit from after scripts if necessary
+  lineinfile:
+    path: "{{ item }}"
+    regexp: "^pre-commit.*"
+  with_items:
+    - "{{ play_dir}}/after-git-clone.sh"
+    - "{{ play_dir}}/after-update.sh"
+  when: pre_commit_exe.stat.exists == False
