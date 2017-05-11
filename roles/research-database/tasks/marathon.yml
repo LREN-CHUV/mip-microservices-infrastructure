@@ -27,20 +27,6 @@
 - name: Create research DB storage directory
   file: state=directory path={{ research_db_data_dir }} mode=0700 owner={{ research_db_docker_user }} group={{ research_db_docker_user }}
 
-- name: Create research DB directory for initial data stored in CSV files
-  file: state=directory path={{ research_db_csv_dir }} mode=0744
-
-# CSV files should be copied to the database server and exposed inside the database server container in the path /mnt
-- name: Copy scientific data CSV file
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ research_db_csv_dir }}/{{ item.dest }}"
-    mode: 0744
-  with_items:
-    - src: "{{ research_db_local_project_dir }}/sql/values.csv"
-      dest: "values.csv"
-  when: research_db_fill
-
 - name: Launch research DB using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
