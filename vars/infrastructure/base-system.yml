@@ -12,7 +12,7 @@ proxy_no_proxy:
   - 127.0.0.1
   - localhost
   - "{{ inventory_hostname }}"
-  - "{{ ansible_fqdn }}"
+  - "{{ fqdn | default(ansible_fqdn) }}"
 
 locales_present:
   - en_US.UTF-8

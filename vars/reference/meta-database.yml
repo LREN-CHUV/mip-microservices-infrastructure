@@ -1,4 +1,4 @@
 ---
 
 meta_db_deploy: "{{ not ('meta-db' in research_db_companion_bases) }}"
-meta_db_marathon_host: "{{ ansible_fqdn }}"
+meta_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"

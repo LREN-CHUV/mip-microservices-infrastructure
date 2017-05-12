@@ -18,7 +18,7 @@ woken_db_host: "
   {%- if 'woken-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-    {{ ansible_fqdn }}
+    {{ fqdn | default(ansible_fqdn) }}
   {%- endif -%}
 "
 woken_db_name: woken
@@ -37,7 +37,7 @@ internal_chronos_url: "http://{{ woken_host }}:{{ chronos_port }}"
 
 woken_marathon_id: /algorithm-factory/woken
 
-woken_host: "{{ ansible_fqdn }}"
+woken_host: "{{ fqdn | default(ansible_fqdn) }}"
 woken_ip_address: "{{ private_ipv4 }}"
 
 woken_docker_network: HOST

@@ -1,6 +1,6 @@
 ---
 
-research_db_marathon_host: "{{ ansible_fqdn }}"
+research_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
 research_db_databases: "
   {%- set names = [research_db_name] + research_db_companion_bases -%}
   {{ names | join(',') | replace('-db','') }}

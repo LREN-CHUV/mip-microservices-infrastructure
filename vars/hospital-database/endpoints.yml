@@ -3,7 +3,7 @@
 # required by postgresraw-ui role
 ldsm_db_marathon_id: /hospital-database/ldsm-db
 
-ldsm_db_host: "{{ ansible_fqdn }}"
+ldsm_db_host: "{{ fqdn | default(ansible_fqdn) }}"
 ldsm_db_port: 31432
 ldsm_db_admin_user: "postgres"
 ldsm_db_name: "ldsm"

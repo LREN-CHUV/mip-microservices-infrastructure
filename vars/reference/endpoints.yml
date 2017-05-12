@@ -5,7 +5,7 @@ research_db_marathon_id: /reference/research-db
 # research_db_companion_bases: []
 
 research_db_port: 31433
-research_db_host: "{{ ansible_fqdn }}"
+research_db_host: "{{ fqdn | default(ansible_fqdn) }}"
 research_db_name: research
 research_db_admin_user: postgres
 research_db_user: research
@@ -25,7 +25,7 @@ meta_db_host: "
   {%- if 'meta-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-    {{ ansible_fqdn }}
+    {{ fqdn | default(ansible_fqdn) }}
   {%- endif -%}
 "
 meta_db_name: meta

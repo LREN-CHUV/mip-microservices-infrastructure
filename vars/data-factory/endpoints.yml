@@ -15,7 +15,7 @@ airflow_db_host: "
   {%- if 'airflow-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-    {{ ansible_fqdn }}
+    {{ fqdn | default(ansible_fqdn) }}
   {%- endif -%}
 "
 

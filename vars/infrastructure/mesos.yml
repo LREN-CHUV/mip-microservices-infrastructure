@@ -8,7 +8,7 @@ mesos_resources:
   - "ports(*):[4000-5000, 31000-32000]"
 
 mesos_zk_auth: "{% if zk_mesos_user_secret is defined %}{{ zk_mesos_user }}:{{ zk_mesos_user_secret }}@{% endif %}"
-mesos_zk_dns: "{% for host in groups[zookeeper_server_group] %}{{ hostvars[host]['ansible_fqdn'] }}{% if not loop.last %},{% endif %}{% endfor %}"
+mesos_zk_dns: "{% for host in groups[zookeeper_server_group] %}{{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}{% if not loop.last %},{% endif %}{% endfor %}"
 mesos_zk_chroot: mesos
 mesos_zk_base: "zk://{{ mesos_zk_auth }}{{ mesos_zk_hosts }}"
 mesos_zk: "{{ mesos_zk_base }}/{{ mesos_zk_chroot }}"
