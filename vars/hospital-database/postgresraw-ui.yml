@@ -1,5 +1,7 @@
 ---
 
+postgresraw_ui_marathon_host: '{{ fqdn | default(ansible_fqdn) }}'
+
 postgresraw_ui_postgres_host: '{{ ldsm_db_host }}'
 postgresraw_ui_postgres_port: '{{ ldsm_db_port }}'
 postgresraw_ui_postgres_user: '{{ ldsm_db_user }}'
