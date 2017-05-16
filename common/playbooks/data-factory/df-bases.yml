@@ -5,25 +5,83 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
-    - "{{ play_dir }}/vars/data-factory/airflow.yml"
+    - "{{ play_dir }}/vars/reference/endpoints.yml"
+    - "{{ play_dir }}/vars/data-factory/endpoints.yml"
+    - "{{ play_dir }}/vars/data-factory/df-bases.yml"
+
+  pre_tasks:
+
+    - name: Use research-db admin password if airflow-db is collocated with it
+      set_fact:
+        airflow_db_admin_password: '{{ research_db_admin_password }}'
+      when: "'airflow-db' in research_db_companion_bases"
+      tags: ['airflow-database', 'airflow-db', 'database', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
+
+    - name: Use research-db admin password if data-catalog-db is collocated with it
+      set_fact:
+        data_catalog_db_admin_password: '{{ research_db_admin_password }}'
+      when: "'data-catalog-db' in research_db_companion_bases"
+      tags: ['data-catalog-database', 'data-catalog-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
+
+    - name: Use airflow-db admin password if data-catalog-db is collocated with it
+      set_fact:
+        data_catalog_db_admin_password: '{{ airflow_db_admin_password }}'
+      when: "'data-catalog-db' in airflow_db_companion_bases"
+      tags: ['data-catalog-database', 'data-catalog-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
+
+    - name: Use research-db admin password if i2b2-capture-db is collocated with it
+      set_fact:
+        i2b2_capture_db_admin_password: '{{ research_db_admin_password }}'
+      when: "'i2b2-capture-db' in research_db_companion_bases"
+      tags: ['i2b2-capture-database', 'i2b2-capture-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
+
+    - name: Use airflow-db admin password if i2b2-capture-db is collocated with it
+      set_fact:
+        i2b2_capture_db_admin_password: '{{ airflow_db_admin_password }}'
+      when: "'i2b2-capture-db' in airflow_db_companion_bases"
+      tags: ['i2b2-capture-database', 'i2b2-capture-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
+
+    - name: Use research-db admin password if i2b2-mip-db is collocated with it
+      set_fact:
+        i2b2_mip_db_admin_password: '{{ research_db_admin_password }}'
+      when: "'i2b2-mip-db' in research_db_companion_bases"
+      tags: ['i2b2-mip-database', 'i2b2-mip-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
+
+    - name: Use airflow-db admin password if i2b2-mip-db is collocated with it
+      set_fact:
+        i2b2_mip_db_admin_password: '{{ airflow_db_admin_password }}'
+      when: "'i2b2-mip-db' in airflow_db_companion_bases"
+      tags: ['i2b2-mip-database', 'i2b2-mip-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
+
+    - name: Use research-db admin password if mipmap-db is collocated with it
+      set_fact:
+        mipmap_db_admin_password: '{{ research_db_admin_password }}'
+      when: "'mipmap-db' in research_db_companion_bases"
+      tags: ['mipmap-database', 'mipmap-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
+
+    - name: Use airflow-db admin password if mipmap-db is collocated with it
+      set_fact:
+        i2b2_mip_db_admin_password: '{{ airflow_db_admin_password }}'
+      when: "'mipmap-db' in airflow_db_companion_bases"
+      tags: ['mipmap-database', 'mipmap-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
 
   roles:
 
     - role: airflow-database
-      tags: ['airflow-database', 'airflow-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+      tags: ['airflow-database', 'airflow-db', 'database', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
 
     - role: data-catalog-database
-      tags: ['data-catalog-database', 'data-catalog-db', 'airflow', 'data-factory', 'marathon-app']
+      tags: ['data-catalog-database', 'data-catalog-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
 
     - role: i2b2-capture-database
-      tags: ['i2b2-capture-database', 'i2b2-capture-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+      tags: ['i2b2-capture-database', 'i2b2-capture-db', 'database', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
 
     - role: i2b2-mip-database
-      tags: ['i2b2-mip-database', 'i2b2-mip-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+      tags: ['i2b2-mip-database', 'i2b2-mip-db', 'database', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
 
     - role: mipmap-database
-      tags: ['mipmap-database', 'mipmap-db', 'database', 'airflow', 'data-factory', 'marathon-app']
+      tags: ['mipmap-database', 'mipmap-db', 'database', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
 
     - role: audit-deployment
       installed_component: data-factory-bases
-      tags: ['airflow', 'data-factory', 'marathon-app']
+      tags: ['data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']

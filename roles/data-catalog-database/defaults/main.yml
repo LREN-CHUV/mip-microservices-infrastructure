@@ -5,7 +5,7 @@
 data_catalog_db_deploy: no
 
 # Used when data_catalog_db_deploy is true
-data_catalog_db_marathon_id: /data-factory/airflow/data-catalog-db
+data_catalog_db_marathon_id: /data-factory/data-catalog-db
 
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
 data_catalog_db_marathon_host: '{{ ansible_fqdn }}'
@@ -58,6 +58,6 @@ internal_marathon_url: http://localhost:5080
 
 data_catalog_db_sql_alchemy_conn: "postgresql://{{ data_catalog_db_user }}:{{ data_catalog_db_password }}@{{ data_catalog_db_host }}:{{ data_catalog_db_port }}/data_catalog"
 
-data_catalog_setup_image_base: 'hbpmip/data-catalog-setup'
-data_catalog_setup_version: '1.4.5'
+data_catalog_db_setup_image_base: 'hbpmip/data-catalog-setup'
+data_catalog_db_setup_version: '1.4.5'
 data_catalog_db_setup_image: '{{ data_catalog_db_setup_image_base }}:{{ data_catalog_db_setup_version }}'

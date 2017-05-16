@@ -11,16 +11,23 @@ ip_address: "{{ server_ip_address }}"
 
 slack_token: ''
 
-ldsm_db_password: "{{ ldsm_db_password }}"
-ldsm_db_admin_password: "{{ ldsm_db_admin_password }}"
+ldsm_db_password: "{{ lookup('password', '/dev/null length=15) }}"
+ldsm_db_admin_password: "{{ lookup('password', '/dev/null length=15) }}"
 
-research_db_password: "{{ research_db_password }}"
-research_db_admin_password: "{{ research_db_admin_password }}"
+research_db_password: "{{ lookup('password', '/dev/null length=15) }}"
+research_db_admin_password: "{{ lookup('password', '/dev/null length=15) }}"
 
-meta_db_password: "{{ meta_db_password }}"
-woken_db_password: "{{ woken_db_password }}"
-portal_db_password: "{{ portal_db_password }}"
+meta_db_password: "{{ lookup('password', '/dev/null length=15) }}"
+woken_db_password: "{{ lookup('password', '/dev/null length=15) }}"
+portal_db_password: "{{ lookup('password', '/dev/null length=15) }}"
 
+airflow_db_password: "{{ lookup('password', '/dev/null length=15) }}"
+data_catalog_db_password: "{{ lookup('password', '/dev/null length=15) }}"
+i2b2_capture_db_password: "{{ lookup('password', '/dev/null length=15) }}"
+i2b2_mip_db_password: "{{ lookup('password', '/dev/null length=15) }}"
+mipmap_db_password: "{{ lookup('password', '/dev/null length=15) }}"
+
+{% if gitlab_com_login and gitlab_com_password %}
 meta_db_docker_registries:
   - url: registry.gitlab.com
     username: "{{ gitlab_com_login }}"
@@ -30,3 +37,4 @@ research_db_docker_registries:
   - url: registry.gitlab.com
     username: "{{ gitlab_com_login }}"
     password: "{{ gitlab_com_password }}"
+{% endif %}

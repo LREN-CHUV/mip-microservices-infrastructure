@@ -3,6 +3,7 @@
 research_db_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 research_db_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
 
+{% if gitlab_com_login and gitlab_com_password %}
 {% raw %}
 research_db_docker_setup:
   - image: registry.gitlab.com/hbpmip_private/adni-merge-db-setup:1.0.1
@@ -30,3 +31,4 @@ meta_db_docker_setup:
       FLYWAY_PASSWORD: '{{ meta_db_admin_password }}'
       FLYWAY_DRIVER: 'org.postgresql.Driver'
 {% endraw %}
+{% endif %}

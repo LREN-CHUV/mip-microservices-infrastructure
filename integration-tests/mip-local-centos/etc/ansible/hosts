@@ -50,13 +50,23 @@ demo
 [postgresraw-ui]
 demo
 
+# Data Factory building block: define an 'data-factory' group encompassing the configuration of the groups defined below
+[data-factory:children]
+airflow-master
+airflow-agent
+df-bases
+
 # Install Airflow master (databases + webserver)
 [airflow-master]
-#demo
+demo
 
 # Install Airflow agent (scheduler + scripts + related applications like SPM)
 [airflow-agent]
 #demo
+
+# Install the databases for Data Factory
+[df-bases]
+demo
 
 # Reference building block: define a 'reference' group encompassing the configuration of the groups defined below
 [reference:children]

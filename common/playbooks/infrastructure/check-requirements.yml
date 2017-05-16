@@ -18,7 +18,7 @@
   gather_facts: yes
   tasks:
     - name: check for accurate date
-      when: "{{ (ansible_date_time['year']|int) < 2017 }}"
+      when: (ansible_date_time['year'] | int) < 2017
       fail:
         msg: >
           Your machines have a misconfigured date. Please run

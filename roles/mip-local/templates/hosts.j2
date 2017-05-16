@@ -75,6 +75,27 @@ meta-db
 [meta-db]
 {{ target_server }}
 
+{% if mip_building_blocks == 'all' %}
+# Data Factory building block: define an 'data-factory' group encompassing the configuration of the groups defined below
+[data-factory:children]
+airflow-master
+airflow-agent
+df-bases
+
+# Install Airflow master (databases + webserver)
+[airflow-master]
+{{ target_server }}
+
+# Install Airflow agent (scheduler + scripts + related applications like SPM)
+[airflow-agent]
+{{ target_server }}
+
+# Install the databases for Data Factory
+[df-bases]
+{{ target_server }}
+
+{% endif %}
+
 # Algorithm Factory building block: define an 'algorithm-factory' group encompassing the configuration of the groups defined below
 [algorithm-factory:children]
 woken-db

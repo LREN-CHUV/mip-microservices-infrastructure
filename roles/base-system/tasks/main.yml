@@ -30,6 +30,33 @@
     - '^::1(\s+)(?i){{ inventory_hostname }}.*'
   when: do_hosts_cleanup
 
+- name: Add localhost to hosts file
+  become: yes
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^127\.0\.0\.1.*$'
+    line: "127.0.0.1 localhost {{ inventory_hostname_short }}"
+    state: present
+  when: always_add_localhost
+
+- name: Add ip6 localhost to hosts file
+  become: yes
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^::1(\s+).*$'
+    line: "::1 ip6-localhost ip6-loopback"
+    state: present
+  when: always_add_localhost
+
+- name: Add inventory hostname to hosts file
+  become: yes
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^127\.0\.1\.1(\s+).*$'
+    line: "127.0.1.1 {{ inventory_hostname_short }}"
+    state: present
+  when: always_add_localhost
+
 - name: Ping APT proxy
   wait_for:
     host: "{{ apt_proxy_host}}"

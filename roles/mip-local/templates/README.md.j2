@@ -1,0 +1,83 @@
+# MIP Local installation
+
+This project contains the installation scripts and the configuration for MIP Local.
+
+## Security configuration
+
+Sensitive data stored in this repository is protected with Git-crypt and PGP.
+
+To unlock this repository, follow those steps:
+
+* Generate a PGP key if you do not have one. Select the default values. See also the [Gnupg manual](https://www.gnupg.org/gph/en/manual/c14.html):
+  ```
+  gpg --gen-key
+  ```
+* For real users:
+  * export the PGP key to a keystore,
+  * request the owner of this repository to sign your key with his PGP key
+    ```
+    gpg --recv-keys <YOUR-KEY-ID>
+    gpg --sign-key <YOUR-KEY-ID>
+    ```
+  * request the owner of this repository to trust your key for this repository
+    ```
+    git-crypt add-gpg-user <YOUR-KEY-ID>
+    git push
+    ```
+  * Fetch the latest code then unlock the repository
+    ```
+    git-crypt unlock
+    ```
+* For other users created to deploy the software on a machine:
+  * gpg -v --fingerprint
+  * Give pubring.gpg and the fingerprint to the repository owner
+  * The repository owner does gpg --import pubring.gpg
+  * The repository owner does git-crypt add-gpg-user --trusted [fingerprint]
+
+## Installation procedure
+
+{% if mip_install=='local' %}
+### From localhost
+{% else %}
+### From your deployment machine
+{% endif %}
+
+* git pull
+* ./after-update.sh
+* git status
+  * check that everything is clean
+* ./setup.sh
+
+### Some useful shortcuts
+
+Deploy only the base infrastructure
+
+```
+  ./setup.sh --tags infrastructure
+```
+
+Deploy all except the base infrastructure
+
+```
+  ./setup.sh --skip-tags infrastructure
+```
+
+Deploy one or several building block
+
+```
+  ./setup.sh --tags [infrastructure,data-factory,algorithm-factory,hospital-database,web-analytics]
+```
+
+## Security hardening
+
+{% if mip_install=='local' %}
+### From localhost
+{% else %}
+### From your deployment machine
+{% endif %}
+
+* git pull
+* ./after-update.sh
+* git status
+  * check that everything is clean
+* ./harden.sh

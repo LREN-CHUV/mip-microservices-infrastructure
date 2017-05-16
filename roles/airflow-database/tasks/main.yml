@@ -13,16 +13,16 @@
     port="{{ airflow_db_port }}"
     delay=2
 
-- name: Drop database with name "data_catalog"
+- name: Drop database with name "airflow"
   postgresql_db:
-    name: "{{ data_catalog_db_name }}"
-    port: "{{ data_catalog_db_port }}"
-    login_host: "{{ data_catalog_db_host }}"
-    login_user: "{{ data_catalog_db_admin_user }}"
-    login_password: "{{ data_catalog_db_admin_password }}"
+    name: "{{ airflow_db_name }}"
+    port: "{{ airflow_db_port }}"
+    login_host: "{{ airflow_db_host }}"
+    login_user: "{{ airflow_db_admin_user }}"
+    login_password: "{{ airflow_db_admin_password }}"
     state: absent
   delegate_to: "{{ groups['control'][0] }}"
-  when: (not do_data_catalog_db_deploy) and data_catalog_db_cleanup
+  when: (not do_airflow_db_deploy) and airflow_db_cleanup
 
 - name: Create a new database with name "airflow"
   postgresql_db:

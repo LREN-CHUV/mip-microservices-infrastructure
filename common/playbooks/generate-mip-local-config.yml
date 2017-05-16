@@ -31,31 +31,10 @@
       prompt: "Target server IP address"
       private: no
     - name: "gitlab_com_login"
-      prompt: "Username on Gitlab to download private Docker images"
+      prompt: "Username on Gitlab to download private Docker images. Leave blank if you do not have access to this information"
       private: no
     - name: "gitlab_com_password"
-      prompt: "Password on Gitlab to download private Docker images"
-      private: yes
-    - name: "ldsm_db_admin_password"
-      prompt: "LDSM database admin password"
-      private: yes
-    - name: "ldsm_db_password"
-      prompt: "LDSM database user password"
-      private: yes
-    - name: "research_db_admin_password"
-      prompt: "Research database admin password"
-      private: yes
-    - name: "research_db_password"
-      prompt: "Research database user password"
-      private: yes
-    - name: "meta_db_password"
-      prompt: "Meta database user password"
-      private: yes
-    - name: "woken_db_password"
-      prompt: "Woken database user password"
-      private: yes
-    - name: "portal_db_password"
-      prompt: "Portal database user password"
+      prompt: "Password on Gitlab to download private Docker images. Leave blank if you do not have access to this information"
       private: yes
 
   roles:

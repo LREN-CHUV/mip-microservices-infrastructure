@@ -49,7 +49,7 @@
 - name: Setup i2b2 capture database using Alembic migration
   docker_container:
     name: setup_i2b2_capture_db
-    image: "{{ i2b2_capture_setup_image }}"
+    image: "{{ i2b2_capture_db_setup_image }}"
     command: upgrade head
     detach: no
     network_mode: host

@@ -5,7 +5,7 @@
 i2b2_mip_db_deploy: no
 
 # Used when i2b2_mip_db_deploy is true
-i2b2_mip_db_marathon_id: /data-factory/airflow/i2b2-mip-db
+i2b2_mip_db_marathon_id: /data-factory/i2b2-mip-db
 
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
 i2b2_mip_db_marathon_host: '{{ ansible_fqdn }}'
@@ -29,7 +29,7 @@ i2b2_mip_db_host: '{{ i2b2_mip_db_marathon_host }}'
 i2b2_mip_db_name: i2b2_mip
 i2b2_mip_db_admin_user: postgres
 # TO FILL - i2b2_mip_db_admin_password:
-i2b2_mip_db_user: i2b2
+i2b2_mip_db_user: i2b2_mip
 # TO FILL - i2b2_mip_db_password: i2b2
 
 # Hint in Marathon listing all the databases running in this Postgres server,
@@ -56,8 +56,8 @@ i2b2_mip_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles'
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
 
-i2b2_mip_db_sql_alchemy_conn: "postgresql://{{ i2b2_mip_db_user }}:{{ i2b2_mip_db_password }}@{{ i2b2_mip_db_host }}:{{ i2b2_mip_db_port }}/i2b2"
+i2b2_mip_db_sql_alchemy_conn: "postgresql://{{ i2b2_mip_db_user }}:{{ i2b2_mip_db_password }}@{{ i2b2_mip_db_host }}:{{ i2b2_mip_db_port }}/{{ i2b2_mip_db_name }}"
 
-i2b2_mip_setup_image_base: 'hbpmip/i2b2-setup'
-i2b2_mip_setup_version: '1.4.6'
+i2b2_mip_db_setup_image_base: 'hbpmip/i2b2-setup'
+i2b2_mip_db_setup_version: '1.4.6'
 i2b2_mip_db_setup_image: '{{ i2b2_mip_db_setup_image_base }}:{{ i2b2_mip_db_setup_version }}'

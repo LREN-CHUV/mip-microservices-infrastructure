@@ -60,16 +60,14 @@ woken_db_setup_version: '1.0.0'
 matlab_version: "R2016b"
 spm_version: 12
 spm_revision: r6906
-spm_vbq_version: '1.0-svn166'
-# TODO: delete
-spm_smartdep_version: '20131016'
 spm_mri_templates_version: '20050329'
 spm_mri_tpm_version: '20151218'
 data_tracking_version: '1.5.6'
-data_catalog_setup_version: '1.4.5'
+data_catalog_db_setup_version: '1.5.21'
 mri_preprocessing_pipeline_version: '1.2.8'
 i2b2_import_version: '1.5.7'
-i2b2_setup_version: '1.4.6'
+i2b2_capture_db_setup_version: '1.4.7'
+i2b2_mip_db_setup_version: '{{ i2b2_capture_db_setup_version }}'
 slackclient_py_version: '1.0.5'
 docker_py_version: '1.10.6'
 hierarchizer_version: '1.2.0'

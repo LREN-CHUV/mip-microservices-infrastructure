@@ -69,6 +69,7 @@ marathon_hostname_override:
 
 host_domain: novalocal
 do_hosts_cleanup: false
+always_add_localhost: false
 
 #apt_proxy_host:
 apt_proxy_port: 3142

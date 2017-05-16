@@ -1,6 +1,7 @@
 ---
 # host_domain: novalocal
-do_hosts_cleanup: true
+do_hosts_cleanup: false
+always_add_localhost: true
 
 #apt_proxy_host:
 apt_proxy_port: 3142

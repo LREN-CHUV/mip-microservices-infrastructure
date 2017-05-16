@@ -49,7 +49,7 @@
 - name: Setup Data catalog database using Alembic migration
   docker_container:
     name: setup_data_catalog_db
-    image: "{{ data_catalog_setup_image }}"
+    image: "{{ data_catalog_db_setup_image }}"
     command: upgrade head
     detach: no
     network_mode: host

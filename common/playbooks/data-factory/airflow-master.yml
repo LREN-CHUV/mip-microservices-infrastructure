@@ -5,6 +5,7 @@
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/data-factory/endpoints.yml"
     - "{{ play_dir }}/vars/data-factory/airflow.yml"
 
   roles:

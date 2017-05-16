@@ -2,10 +2,10 @@
 
 # Deploy airflow-db as an independent database. If false, then we assume that there is
 # a database already running and we add to it a new 'airflow' schema
-airflow_db_deploy: no
+airflow_db_deploy: yes
 
 # Used when airflow_db_deploy is true
-airflow_db_marathon_id: /data-factory/airflow/airflow-db
+airflow_db_marathon_id: /data-factory/airflow-db
 
 # Pin the database to a particular host as it needs to store its files in a known place. The hostname should be the name known by Marathon / Mesos
 airflow_db_marathon_host: '{{ ansible_fqdn }}'

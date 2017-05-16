@@ -27,9 +27,16 @@
     - infrastructure
     - hospital-database
     - reference
-    - data-factory
     - algorithm-factory
     - web-analytics
+
+- name: Generate group_vars files for data-factory
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ play_dir }}/envs/mip-local/etc/ansible/group_vars/{{ item }}"
+  with_items:
+    - data-factory
+  when: mip_building_blocks == 'all'
 
 - name: Generate host_vars file
   template:
@@ -45,6 +52,11 @@
   template:
     src: slack.json.j2
     dest: "{{ play_dir }}/slack.json"
+
+- name: Generate README
+  template:
+    src: README.md.j2
+    dest: "{{ play_dir }}/README.md"
 
 - name: Check for pre-commit
   stat:
