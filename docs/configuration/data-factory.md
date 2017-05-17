@@ -34,19 +34,29 @@ demo
 
 ```
 
+airflow_web_base_url: "http://demo:14080"
+
 airflow_db_companion_bases:
   - data-catalog-db
   - i2b2-capture-db
   - i2b2-mip-db
   - mipmap-db
 
-# or add airflow-db and all the bases above to research_db_companion_bases
+# or add airflow-db and all the bases above to research_db_companion_bases,
+# and use this setting:
+#
+# airflow_db_companion_bases: []
+#
 
 ```
 
 ### ENV/etc/ansible/group_vars/data-factory
 
 ```
+
+airflow_pool_io_intensive: 12
+airflow_pool_remote_file_copy: 2
+airflow_pool_image_preprocessing: '{{ ansible_processor_vcpus - airflow_pool_io_intensive - 1 }}'
 
 ```
 
@@ -68,6 +78,12 @@ airflow_db_companion_bases:
 ### ENV/etc/ansible/group_vars/data-factory
 
 ```
+
+airflow_scheduler_cpus: 0.2
+airflow_scheduler_mem: 2560.0
+
+airflow_webserver_cpus: 0.2
+airflow_webserver_mem: 512.0
 
 
 ```

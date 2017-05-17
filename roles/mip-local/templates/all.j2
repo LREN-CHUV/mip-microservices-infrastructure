@@ -16,4 +16,5 @@ research_db_companion_bases:
 
 {% raw -%}
 portal_frontend_base_url: "http://{{ portal_frontend_virtual_host }}"
+airflow_web_base_url: "http://{{ fqdn | default(ansible_fqdn) }}:{{ airflow_web_port }}"
 {%- endraw %}

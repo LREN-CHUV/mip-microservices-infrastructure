@@ -1,3 +1,22 @@
 ---
 
 airflow_db_companion_bases: []
+
+airflow_pool_io_intensive: 1
+airflow_pool_remote_file_copy: 1
+airflow_pool_image_preprocessing: 1
+
+airflow_extra_settings: "
+  {%- set settings = airflow_extra_common_settings + airflow_extra_main_dataset_settings -%}
+  {{ settings }}
+"
+
+# Configuration for MRI preprocessing pipeline running in Airflow
+data_factory_datasets: 'main'
+data_factory_email_errors_to: ''
+data_factory_slack_channel: '#data'
+data_factory_slack_channel_user: 'Airflow'
+
+main_dataset_label: 'Demo'
+main_data_preprocessing_scanners: 'flat'
+main_data_preprocessing_pipelines: 'dicom_to_nifti,neuro_morphometric_atlas'

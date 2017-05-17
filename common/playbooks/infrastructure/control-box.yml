@@ -28,6 +28,7 @@
       yum: name={{ item }} state=present
       with_items:
         - python-pip
+        - python-devel
         - curl
       when: ansible_os_family == 'RedHat'
       tags: ['os-tools', 'control', 'infra', 'infrastructure']
@@ -43,5 +44,11 @@
       tags: ['docker', 'os-tools', 'control', 'infra', 'infrastructure']
 
     - name: (RedHat) Install Python psycopg2 module for Postgres (required by postgresql_db task)
-      pip: name=psycopg2 state=present
+      pip:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - psycopg2
+        - cryptography
+      when: ansible_os_family == 'RedHat'
       tags: ['os-tools', 'control', 'infra', 'infrastructure']

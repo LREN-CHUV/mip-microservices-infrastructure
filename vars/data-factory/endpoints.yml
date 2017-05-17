@@ -19,11 +19,83 @@ airflow_db_host: "
   {%- endif -%}
 "
 
-airflow_scheduler_marathon_id: '/data-factory/airflow-scheduler'
-airflow_scheduler_marathon_dependencies:
-  - "{{ airflow_db_marathon_id }}"
+airflow_sql_alchemy_conn: "postgresql://airflow:{{ airflow_db_password }}@{{ airflow_db_host }}:{{ airflow_db_port }}/airflow"
 
+airflow_scheduler_marathon_id: '/data-factory/airflow-scheduler'
 airflow_webserver_marathon_id: '/data-factory/airflow-webserver'
-airflow_webserver_marathon_dependencies:
-  - "{{ airflow_db_marathon_id }}"
-  - "{{ airflow_scheduler_marathon_id }}"
+
+airflow_web_server_port: 4080
+
+i2b2_capture_db_user: 'i2b2_capture'
+i2b2_capture_db_name: 'i2b2_capture'
+
+i2b2_capture_db_port: "
+  {%- if 'i2b2-capture-db' in research_db_companion_bases -%}
+    {{ research_db_port }}
+  {%- elif 'i2b2-capture-db' in airflow_db_companion_bases -%}
+    {{ airflow_db_port }}
+  {%- else -%}
+    4307
+  {%- endif -%}
+"
+i2b2_capture_db_host: "
+  {%- if 'i2b2-capture-db' in research_db_companion_bases -%}
+    {{ research_db_host }}
+  {%- elif 'i2b2-capture-db' in airflow_db_companion_bases -%}
+    {{ airflow_db_host }}
+  {%- else -%}
+    {{ fqdn | default(ansible_fqdn) }}
+  {%- endif -%}
+"
+
+i2b2_capture_db_sql_alchemy_conn: "postgresql://{{ i2b2_capture_db_user }}:{{ i2b2_capture_db_password }}@{{ i2b2_capture_db_host }}:{{ i2b2_capture_db_port }}/{{ i2b2_capture_db_name }}"
+
+i2b2_mip_db_user: 'i2b2_mip'
+i2b2_mip_db_name: 'i2b2_mip'
+
+i2b2_mip_db_port: "
+  {%- if 'i2b2-mip-db' in research_db_companion_bases -%}
+    {{ research_db_port }}
+  {%- elif 'i2b2-mip-db' in airflow_db_companion_bases -%}
+    {{ airflow_db_port }}
+  {%- else -%}
+    4308
+  {%- endif -%}
+"
+i2b2_mip_db_host: "
+  {%- if 'i2b2-mip-db' in research_db_companion_bases -%}
+    {{ research_db_host }}
+  {%- elif 'i2b2-mip-db' in airflow_db_companion_bases -%}
+    {{ airflow_db_host }}
+  {%- else -%}
+    {{ fqdn | default(ansible_fqdn) }}
+  {%- endif -%}
+"
+
+i2b2_mip_db_sql_alchemy_conn: "postgresql://{{ i2b2_mip_db_user }}:{{ i2b2_mip_db_password }}@{{ i2b2_mip_db_host }}:{{ i2b2_mip_db_port }}/{{ i2b2_mip_db_name }}"
+
+data_catalog_db_user: 'data_catalog'
+data_catalog_db_name: 'data_catalog'
+
+data_catalog_db_port: "
+  {%- if 'data-catalog-db' in research_db_companion_bases -%}
+    {{ research_db_port }}
+  {%- elif 'data-catalog-db' in airflow_db_companion_bases -%}
+    {{ airflow_db_port }}
+  {%- else -%}
+    4307
+  {%- endif -%}
+"
+data_catalog_db_host: "
+  {%- if 'data-catalog-db' in research_db_companion_bases -%}
+    {{ research_db_host }}
+  {%- elif 'data-catalog-db' in airflow_db_companion_bases -%}
+    {{ airflow_db_host }}
+  {%- else -%}
+    {{ fqdn | default(ansible_fqdn) }}
+  {%- endif -%}
+"
+
+data_catalog_db_sql_alchemy_conn: "postgresql://{{ data_catalog_db_user }}:{{ data_catalog_db_password }}@{{ data_catalog_db_host }}:{{ data_catalog_db_port }}/{{ data_catalog_db_name }}"
+
+mipmap_db_config_file: '/etc/mipmap/postgresdb.properties'

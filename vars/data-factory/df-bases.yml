@@ -7,6 +7,7 @@ airflow_db_databases: "
   {{ names | join(',') | replace('-db','') }}
 "
 
+data_catalog_db_deploy: no
 data_catalog_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
 
 data_catalog_db_port: "
@@ -28,6 +29,7 @@ data_catalog_db_host: "
   {%- endif -%}
 "
 
+i2b2_capture_db_deploy: no
 i2b2_capture_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
 
 i2b2_capture_db_port: "
@@ -49,6 +51,7 @@ i2b2_capture_db_host: "
   {%- endif -%}
 "
 
+i2b2_mip_db_deploy: no
 i2b2_mip_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
 
 i2b2_mip_db_port: "
@@ -70,6 +73,7 @@ i2b2_mip_db_host: "
   {%- endif -%}
 "
 
+mipmap_db_deploy: no
 mipmap_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
 
 mipmap_db_port: "

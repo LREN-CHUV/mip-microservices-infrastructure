@@ -2,12 +2,8 @@
 
 set -e
 
-if pgrep -lf sshuttle > /dev/null ; then
-  echo "sshuttle detected. Please close this program as it messes with networking and prevents builds inside Docker to work"
-  exit 1
-fi
-
 count=$(git status --porcelain | wc -l)
+
 # shellcheck disable=SC2086
 if test $count -gt 0; then
   git status

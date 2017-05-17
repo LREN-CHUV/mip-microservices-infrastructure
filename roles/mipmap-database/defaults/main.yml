@@ -55,3 +55,5 @@ mipmap_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') 
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
+
+mipmap_db_config_file: '/etc/mipmap/postgresdb.properties'

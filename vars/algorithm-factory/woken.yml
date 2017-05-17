@@ -5,7 +5,7 @@ woken_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
 
 woken_dependencies: "
   {%- set woken_deps = [chronos_marathon_id] -%}
-  {%- if 'woken-db' in research_db_companion_bases -%}
+  {%- if 'woken-db' not in research_db_companion_bases -%}
     {%- set woken_deps = woken_deps + [woken_db_marathon_id] -%}
   {%- endif -%}
   {{ woken_deps }}

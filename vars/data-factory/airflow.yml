@@ -40,6 +40,14 @@ airflow_deb_packages:
   - libffi-dev
   - libssl-dev
 
+airflow_yum_packages:
+  - curl
+  - python34-pip
+  - python34-devel
+  - gcc
+  - libffi-devel
+  - openssl-devel
+
 airflow_pip_packages:
   - "pytz==2015.7"
   - pyOpenSSL
@@ -56,22 +64,31 @@ airflow_pip_packages:
 airflow_plugins:
   - name: mesos
     required_debs: []
+    required_yums: []
     required_pips: []
   - name: postgresql
     required_debs:
       - postgresql-client
       - python3-psycopg2
+    required_yums:
+      - postgresql
+      - python-psycopg2
     required_pips: []
   - name: crypto
     required_debs:
       - libssl-dev
       - python-cryptography
       - python3-cryptography
+    required_yums:
+      - openssl-devel
     required_pips: []
   - name: ldap
     required_debs:
       - libkrb5-dev
       - libsasl2-dev
+    required_yums:
+      - krb5-devel
+      - libgsasl-devel
     required_pips: []
 
 #airflow_pool_io_intensive: 12
@@ -102,129 +119,147 @@ airflow_scripts:
     verify_commit: false
     dest: '{{ airflow_scripts_root }}/data-factory-airflow-dags'
 
-airflow_dags_folder: "{{ airflow_scripts_root }}/data-factory-airflow-dags"
+airflow_load_examples: false
 
-# Configuration for Data factory pipelines (MRI preprocessing and ETL) running in Airflow
-#data_factory_datasets
-#data_factory_local_drive
-#data_factory_email_errors_to
-#data_factory_slack_channel
-#data_factory_slack_channel_user
-#data_factory_mipmap_db_confile_file: ''
+airflow_scripts_root: '/opt/airflow-scripts'
+airflow_scripts_verify_commit: false
+airflow_dags_folder: "{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags"
+airflow_plugins_folder: '{{ airflow_scripts_root }}/airflow-imaging-plugins'
 
-#main_dataset_label: "LREN"
-#main_preprocessing_input_folder: "/mnt/filearc/CRN/LREN/IRMMP16/prisma"
-#main_preprocessing_input_config: 'boost,session_id_by_patient,visit_id_in_patient_id'
-#main_preprocessing_max_active_runs: 1
-#main_preprocessing_scanners: "daily,continuous"
-#main_preprocessing_pipelines: 'dicom_to_nifti,mpm_maps,neuro_morphometric_atlas'
-#main_preprocessing_min_free_space
-#main_preprocessing_copy_to_local_output_folder: "/data/incoming"
-#main_preprocessing_dicom_organiser_output_folder: None
-#main_preprocessing_dicom_organiser_docker_image: 'hbpmip/hierarchizer'
-#main_preprocessing_dicom_organiser_version: '{{ hierarchizer_version }}'
-#main_preprocessing_dicom_organiser_dataset_type: 'DICOM'
-#main_preprocessing_dicom_organiser_data_structure: 'PatientID:AcquisitionDate:SeriesDescription:SeriesDate'
-#main_preprocessing_dicom_organiser_docker_input_folder: None
-#main_preprocessing_dicom_organiser_docker_output_folder: None
-#main_preprocessing_dicom_selection_output_folder: None
-#main_preprocessing_dicom_select_t1_output_folder: None
-#main_preprocessing_dicom_to_nifti_output_folder: "/data/Nifti_Data_MPMs"
-#main_preprocessing_dicom_to_nifti_backup_folder: "/mnt/filerc/LREN/SHARE/AIR_VBQ_Output_All/DataNifti_All"
-#main_preprocessing_dicom_to_nifti_protocols_definition_file: None
-#main_preprocessing_mpm_maps_local_folder: "/data/MPMs_All"
-#main_preprocessing_mpm_maps_server_folder: "/mnt/filerc/LREN/SHARE/AIR_VBQ_Output_All"
-#main_preprocessing_neuro_morphometric_atlas_local_folder: "/data/Neuromorphics_Atlasing"
-#main_preprocessing_neuro_morphometric_atlas_server_folder: "/mnt/filerc/LREN/SHARE/AIR_Neuromorphics_Atlasing"
-#main_preprocessing_neuro_morphometric_atlas_TPM_template: "{{ spm_dir }}/tpm/nwTPM_sl3.nii"
-#main_preprocessing_pipelines_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines"
-#main_preprocessing_misc_library_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Miscellaneous&Others"
-#main_preprocessing_protocols_definition_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
-#main_preprocessing_ehr_scanners
-#main_ehr_input_folder
-#main_ehr_input_folder_depth
-#main_ehr_min_free_space: '{{ main_preprocessing_min_free_space }}'
-#main_ehr_scanners
-#main_ehr_pipelines
-#main_ehr_map_ehr_to_i2b2_docker_image
-#main_ehr_map_ehr_to_i2b2_version
-#main_ehr_version_incoming_ehr_output_folder
+airflow_user: 'airflow'
+airflow_group: 'airflow'
+airflow_home: '/usr/local/airflow'
+airflow_startup: 'marathon'
+airflow_mesos_master: '{{ mesos_leader_hostname }}:{{ mesos_leader_port }}'
 
-#spm_dir: /opt/spm12
+airflow_scheduler_marathon_dependencies: "
+  {%- set deps = [] -%}
+  {%- if 'airflow-db' not in research_db_companion_bases -%}
+    {%- set deps = deps + [airflow_db_marathon_id] -%}
+  {%- endif -%}
+  {{ deps }}
+"
 
-airflow_extra_settings:
+airflow_webserver_marathon_dependencies: "
+  {%- set deps = [airflow_scheduler_marathon_id] -%}
+  {%- if 'airflow-db' not in research_db_companion_bases -%}
+    {%- set deps = deps + [airflow_db_marathon_id] -%}
+  {%- endif -%}
+  {{ deps }}
+"
+
+# Listen to all incoming requests
+airflow_web_server_host: '0.0.0.0'
+
+spm_dir: "/opt/spm12"
+
+airflow_extra_common_settings:
   - section: mesos_env
     parameters:
       PYTHONPATH: '{{ airflow_python_libraries_path }}'
   - section: spm
     parameters:
-      spm_dir: '{{ spm_dir }}'
+      spm_dir: "{{ spm_dir }}"
   - section: mipmap
     parameters:
-      db_config_file: "{{ data_factory_mipmap_db_config_file | default('/dev/null') }}"
+      db_config_file: "{{ mipmap_db_config_file }}"
   - section: "data-factory"
     parameters:
       data_catalog_sql_alchemy_conn: '{{ data_catalog_db_sql_alchemy_conn }}'
-      i2b2_sql_alchemy_conn: '{{ i2b2_db_sql_alchemy_conn }}'
+      i2b2_sql_alchemy_conn: '{{ i2b2_capture_db_sql_alchemy_conn }}'
       datasets: '{{ data_factory_datasets }}'
       email_errors_to: '{{ data_factory_email_errors_to }}'
       slack_token: '{{ data_factory_slack_token | default(slack_token) }}'
       slack_channel: "{{ data_factory_slack_channel | default('#general') }}"
       slack_channel_user: "{{ data_factory_slack_channel_user | default('Airflow') }}"
+
+# Configuration for Data factory pipelines (MRI preprocessing and ETL) running in Airflow
+#data_factory_datasets
+#data_factory_email_errors_to
+#data_factory_slack_channel
+#data_factory_slack_channel_user
+
+#main_dataset_label: "Demo"
+#main_data_preprocessing_input_config: 'boost,session_id_by_patient,visit_id_in_patient_id'
+#main_data_preprocessing_scanners: "daily,continuous"
+#main_data_preprocessing_pipelines: 'dicom_to_nifti,mpm_maps,neuro_morphometric_atlas'
+#main_ehr_input_folder_depth
+#main_ehr_scanners
+#main_ehr_pipelines
+#main_ehr_map_ehr_to_i2b2_docker_image
+#main_reorganisation_pipelines
+
+main_data_preprocessing_input_folder: "/data/main/preprocessing/input"
+main_data_preprocessing_copy_to_local_output_folder: "/data/main/preprocessing/local_copy"
+main_data_preprocessing_dicom_to_nifti_output_folder: "/data/main/preprocessing/nifti"
+main_data_preprocessing_neuro_morphometric_atlas_output_folder: "/data/main/preprocessing/neuro_morphometric_atlas"
+main_ehr_input_folder: "/data/main/ehr/input"
+main_ehr_version_incoming_ehr_output_folder: "/data/main/ehr/versioned"
+main_reorganisation_input_folder: "/data/main/reorganisation/input"
+main_reorganisation_copy_all_to_local_output_folder: "/data/main/reorganisation/local_copy"
+main_reorganisation_dicom_reorganise_output_folder: "/data/main/reorganisation/dicom"
+main_reorganisation_nifti_reorganise_output_folder: "/data/main/reorganisation/nifti"
+
+__airflow_extra_main_default_settings:
+  misc_library_path: "{{ main_data_misc_library_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Miscellaneous&Others') }}"
+  pipelines_path: "{{ main_data_pipelines_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Pipelines') }}"
+  protocols_definition_file: "{{ main_data_protocols_definition_file | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Pipelines/Protocols_definition.txt') }}"
+
+airflow_extra_main_dataset_settings:
   - section: "data-factory:main"
     parameters:
       dataset_label: '{{ main_dataset_label }}'
   - section: "data-factory:main:preprocessing"
     parameters:
-      input_folder: '{{ main_preprocessing_input_folder | default(None) }}'
-      input_config: "{{ main_preprocessing_input_config | default('') }}"
-      max_active_runs: '{{ main_preprocessing_max_active_runs | default(30) }}'
-      min_free_space: '{{ main_preprocessing_min_free_space | default(0.3) }}'
-      misc_library_path: "{{ main_preprocessing_misc_library_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Miscellaneous&Others') }}"
-      pipelines_path: "{{ main_preprocessing_pipelines_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Pipelines') }}"
-      protocols_definition_file: '{{ main_preprocessing_protocols_definition_file }}'
-      scanners: '{{ main_preprocessing_scanners }}'
-      pipelines: '{{ main_preprocessing_pipelines }}'
+      input_folder: '{{ main_data_preprocessing_input_folder | default(None) }}'
+      input_config: "{{ main_data_preprocessing_input_config | default('') }}"
+      max_active_runs: '{{ main_data_preprocessing_max_active_runs | default(30) }}'
+      min_free_space: '{{ main_data_preprocessing_min_free_space | default(0.3) }}'
+      pipelines_path: "{{ __airflow_extra_main_default_settings.pipelines_path }}"
+      misc_library_path: "{{ __airflow_extra_main_default_settings.misc_library_path }}"
+      protocols_definition_file: "{{ __airflow_extra_main_default_settings.protocols_definition_file }}"
+      scanners: '{{ main_data_preprocessing_scanners }}'
+      pipelines: '{{ main_data_preprocessing_pipelines }}'
   - section: "data-factory:main:preprocessing:copy_to_local"
     parameters:
-      output_folder: "{{ main_preprocessing_copy_to_local_output_folder | default(None) }}"
+      output_folder: "{{ main_data_preprocessing_copy_to_local_output_folder | default(None) }}"
   - section: "data-factory:main:preprocessing:dicom_to_nifti"
     parameters:
-      output_folder: "{{ main_preprocessing_dicom_to_nifti_output_folder | default(None) }}"
-      backup_folder: "{{ main_preprocessing_dicom_to_nifti_backup_folder | default(None) }}"
-      spm_function: "{{ main_preprocessing_dicom_to_nifti_spm_function | default('DCM2NII_LREN') }}"
-      pipeline_path: "{{ main_preprocessing_dicom_to_nifti_pipeline_path | default(main_preprocessing_pipelines_path + '/Nifti_Conversion_Pipeline') }}"
-      misc_library_path: "{{ main_preprocessing_dicom_to_nifti_misc_library_path | default(main_preprocessing_misc_library_path) }}"
-      protocols_definition_file: "{{ main_preprocessing_dicom_to_nifti_protocols_definition_file | default(main_preprocessing_protocols_definition_file) }}"
-      dcm2nii_program: "{{ main_preprocessing_dicom_to_nifti_dcm2nii_program | default(main_preprocessing_pipelines_path + '/Nifti_Conversion_Pipeline/dcm2nii') }}"
+      output_folder: "{{ main_data_preprocessing_dicom_to_nifti_output_folder | default(None) }}"
+      backup_folder: "{{ main_data_preprocessing_dicom_to_nifti_backup_folder | default(None) }}"
+      spm_function: "{{ main_data_preprocessing_dicom_to_nifti_spm_function | default('DCM2NII_LREN') }}"
+      pipelines_path: "{{ __airflow_extra_main_default_settings.pipelines_path }}"
+      misc_library_path: "{{ __airflow_extra_main_default_settings.misc_library_path }}"
+      protocols_definition_file: "{{ __airflow_extra_main_default_settings.protocols_definition_file }}"
+      dcm2nii_program: "{{ main_data_preprocessing_dicom_to_nifti_dcm2nii_program | default(__airflow_extra_main_default_settings.pipelines_path + '/Nifti_Conversion_Pipeline/dcm2nii') }}"
   - section: "data-factory:main:preprocessing:mpm_maps"
     parameters:
-      output_folder: "{{ main_preprocessing_mpm_maps_output_folder | default(None) }}"
-      backup_folder: "{{ main_preprocessing_mpm_maps_backup_folder | default(None) }}"
-      spm_function: "{{ main_preprocessing_mpm_maps_spm_function | default('Preproc_mpm_maps') }}"
-      pipeline_path: "{{ main_preprocessing_mpm_maps_pipeline_path | default(main_preprocessing_pipelines_path + '/MPMs_Pipeline') }}"
-      misc_library_path: "{{ main_preprocessing_mpm_maps_misc_library_path | default(main_preprocessing_misc_library_path) }}"
-      protocols_definition_file: "{{ main_preprocessing_mpm_maps_protocols_definition_file | default(main_preprocessing_protocols_definition_file) }}"
+      output_folder: "{{ main_data_preprocessing_mpm_maps_output_folder | default(None) }}"
+      backup_folder: "{{ main_data_preprocessing_mpm_maps_backup_folder | default(None) }}"
+      spm_function: "{{ main_data_preprocessing_mpm_maps_spm_function | default('Preproc_mpm_maps') }}"
+      pipelines_path: "{{ __airflow_extra_main_default_settings.pipelines_path }}"
+      misc_library_path: "{{ __airflow_extra_main_default_settings.misc_library_path }}"
+      protocols_definition_file: "{{ __airflow_extra_main_default_settings.protocols_definition_file }}"
   - section: "data-factory:main:preprocessing:neuro_morphometric_atlas"
     parameters:
-      output_folder: "{{ main_preprocessing_neuro_morphometric_atlas_output_folder | default(None) }}"
-      backup_folder: "{{ main_preprocessing_neuro_morphometric_atlas_backup_folder | default(None) }}"
-      spm_function: "{{ main_preprocessing_neuro_morphometric_atlas_spm_function | default('NeuroMorphometric_pipeline') }}"
-      pipeline_path: "{{ main_preprocessing_neuro_morphometric_atlas_pipeline_path | default(main_preprocessing_pipelines_path + '/NeuroMorphometric_Pipeline/NeuroMorphometric_tbx/label') }}"
-      misc_library_path: "{{ main_preprocessing_neuro_morphometric_atlas_misc_library_path | default(main_preprocessing_misc_library_path) }}"
-      protocols_definition_file: "{{ main_preprocessing_neuro_morphometric_atlas_protocols_definition_file | default(main_preprocessing_protocols_definition_file) }}"
-      tpm_template: "{{ main_preprocessing_neuro_morphometric_atlas_tpm_template | default(spm_dir + '/tpm/nwTPM_sl3.nii') }}"
+      output_folder: "{{ main_data_preprocessing_neuro_morphometric_atlas_output_folder | default(None) }}"
+      backup_folder: "{{ main_data_preprocessing_neuro_morphometric_atlas_backup_folder | default(None) }}"
+      spm_function: "{{ main_data_preprocessing_neuro_morphometric_atlas_spm_function | default('NeuroMorphometric_pipeline') }}"
+      pipelines_path: "{{ __airflow_extra_main_default_settings.pipelines_path }}"
+      misc_library_path: "{{ __airflow_extra_main_default_settings.misc_library_path }}"
+      protocols_definition_file: "{{ __airflow_extra_main_default_settings.protocols_definition_file }}"
+      tpm_template: "{{ main_data_preprocessing_neuro_morphometric_atlas_tpm_template | default(spm_dir + '/tpm/TPM.nii') }}"
   - section: "data-factory:main:ehr"
     parameters:
       input_folder: "{{ main_ehr_input_folder | default(None) }}"
       input_folder_depth: "{{ main_ehr_input_folder_depth | default(0) }}"
       min_free_space: "{{ main_ehr_min_free_space | default(0.3) }}"
       max_active_runs: '{{ main_ehr_max_active_runs | default(30) }}'
-      scanners: "{{ main_ehr_scanners }}"
-      pipelines: "{{ main_ehr_pipelines }}"
+      scanners: "{{ main_ehr_scanners | default('') }}"
+      pipelines: "{{ main_ehr_pipelines | default('') }}"
   - section: "data-factory:main:ehr:map_ehr_to_i2b2"
     parameters:
-      docker_image: "{{ main_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2') }}:{{ main_ehr_map_ehr_to_i2b2_version | default('latest') }}"
+      docker_image: "{{ main_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2:latest') }}"
   - section: "data-factory:main:ehr:version_incoming_ehr"
     parameters:
       output_folder: "{{ main_ehr_version_incoming_ehr_output_folder | default(None) }}"
@@ -234,7 +269,7 @@ airflow_extra_settings:
       input_config: "{{ main_reorganisation_input_config | default('') }}"
       min_free_space: "{{ main_reorganisation_min_free_space | default(0.3) }}"
       max_active_runs: '{{ main_reorganisation_max_active_runs | default(30) }}'
-      pipelines: '{{ main_reorganisation_pipelines }}'
+      pipelines: "{{ main_reorganisation_pipelines | default('') }}"
   - section: "data-factory:main:reorganisation:copy_all_to_local"
     parameters:
       output_folder: "{{ main_reorganisation_copy_all_to_local_output_folder | default(None) }}"
@@ -254,22 +289,19 @@ airflow_extra_settings:
       docker_output_dir: "{{ main_reorganisation_nifti_reorganise_docker_output_folder | default('/output_folder') }}"
   - section: "data-factory:main:reorganisation:trigger_preprocessing"
     parameters:
-      depth: "{{ main_reorganisation_trigger_preprocessing_depth | default('1') }}"
+      depth: "{{ main_reorganisation_trigger_preprocessing_depth | default(1) }}"
   - section: "data-factory:main:reorganisation:trigger_ehr"
     parameters:
-      depth: "{{ main_reorganisation_trigger_ehr_depth | default('0') }}"
+      depth: "{{ main_reorganisation_trigger_ehr_depth | default(0) }}"
 
 airflow_work_dirs: "{{ [
-    main_preprocessing_copy_to_local_output_folder,
-    main_preprocessing_dicom_selection_output_folder,
-    main_preprocessing_dicom_organiser_output_folder,
-    main_preprocessing_dicom_select_t1_output_folder,
-    main_preprocessing_dicom_to_nifti_output_folder,
-    main_preprocessing_nifti_organiser_output_folder,
-    main_preprocessing_nifti_selection_output_folder,
-    main_preprocessing_mpm_maps_output_folder,
-    main_preprocessing_neuro_morphometric_atlas_output_folder,
+    main_data_preprocessing_input_folder,
+    main_data_preprocessing_copy_to_local_output_folder,
+    main_data_preprocessing_dicom_to_nifti_output_folder,
+    main_data_preprocessing_neuro_morphometric_atlas_output_folder,
+    main_ehr_input_folder,
     main_ehr_version_incoming_ehr_output_folder,
+    main_reorganisation_input_folder,
     main_reorganisation_copy_all_to_local_output_folder,
     main_reorganisation_dicom_reorganise_output_folder,
     main_reorganisation_nifti_reorganise_output_folder

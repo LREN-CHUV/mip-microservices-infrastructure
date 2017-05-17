@@ -90,6 +90,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.verbose = "v"
       ansible.raw_ssh_args = ['-o ForwardAgent=yes']
       ansible.skip_tags = ['matlab']
+      ansible.tags = ['data-factory']
       # Use this to override ansible playbook variables
       ansible.extra_vars = {
         play_dir: Dir.pwd + '/../..',

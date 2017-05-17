@@ -54,4 +54,4 @@
 - name: Store the configuration for MipMap
   template:
     src: 'postgresdb.properties.j2'
-    dest: '/etc/mipmap/postgresdb.properties'
+    dest: '{{ mipmap_db_config_file }}'

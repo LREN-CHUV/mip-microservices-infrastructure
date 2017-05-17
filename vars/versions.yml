@@ -13,7 +13,7 @@ marathon_version: "1.4.2"
 marathon_package_version: "1.0.647"
 chronos_version: "2.4.0-centos-7"
 
-airflow_version: '1.8.0'
+airflow_version: '1.8.1'
 airflow_db_image: "postgres"
 airflow_db_version: "{{ postgres_version }}"
 mri_db_image: "postgres"
@@ -62,17 +62,17 @@ spm_version: 12
 spm_revision: r6906
 spm_mri_templates_version: '20050329'
 spm_mri_tpm_version: '20151218'
-data_tracking_version: '1.5.6'
-data_catalog_db_setup_version: '1.5.21'
-mri_preprocessing_pipeline_version: '1.2.8'
-i2b2_import_version: '1.5.7'
+data_tracking_version: '1.6.0'
+data_catalog_db_setup_version: '1.5.22'
+mri_preprocessing_pipeline_version: '1.2.12'
+i2b2_import_version: '1.6.0'
 i2b2_capture_db_setup_version: '1.4.7'
 i2b2_mip_db_setup_version: '{{ i2b2_capture_db_setup_version }}'
 slackclient_py_version: '1.0.5'
 docker_py_version: '1.10.6'
-hierarchizer_version: '1.2.0'
-airflow_imaging_plugins_version: '2.2.11'
-data_factory_airflow_dags_version: '0.8.19'
+hierarchizer_version: '1.2.6'
+airflow_imaging_plugins_version: '2.3.0'
+data_factory_airflow_dags_version: '0.8.36'
 map_ehr_to_i2b2_version: '0.1'
 
 # QA environment
