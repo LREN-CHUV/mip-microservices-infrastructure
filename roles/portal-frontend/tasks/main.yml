@@ -37,7 +37,7 @@
     wait_timeout: 600
     health_checks:
       - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_HTTP{% else %}HTTP{% endif %}"
-        port: 80
+        port: '{{ portal_frontend_port }}'
         path: '/'
         gracePeriodSeconds: 300
         intervalSeconds: 60
