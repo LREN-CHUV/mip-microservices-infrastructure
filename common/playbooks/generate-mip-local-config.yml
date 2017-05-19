@@ -11,7 +11,7 @@
     - name: Suggested target server hostname
       debug: var=ansible_hostname
 
-    - name: Suggested target server DNS
+    - name: Suggested target server FQDN
       debug: var=ansible_fqdn
 
     - name: Suggested target server IP address
@@ -22,10 +22,10 @@
   become: no
   vars_prompt:
     - name: "server_hostname"
-      prompt: "Target server hostname"
+      prompt: "Target server hostname, e.g. myserver . Use ansible_hostname value if you agree with it."
       private: no
     - name: "server_dns"
-      prompt: "Target server DNS. You can use the IP address if DNS is not setup for this server"
+      prompt: "Target server FQDN, e.g. myserver.myorg.com . You can use the IP address if the full server name cannot be reached by DNS (ping myserver.myorg.com fails)"
       private: no
     - name: "server_ip_address"
       prompt: "Target server IP address"

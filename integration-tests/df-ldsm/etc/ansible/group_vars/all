@@ -25,7 +25,7 @@ airflow_sql_alchemy_conn: "postgresql://airflow:{{ airflow_db_password }}@{{ air
 
 airflow_scripts_root: '/opt/airflow-scripts'
 airflow_scripts_verify_commit: false
-airflow_dags_folder: "{{ airflow_scripts_root }}/airflow-mri-preprocessing-dags"
+airflow_dags_folder: "{{ airflow_scripts_root }}/data-factory-airflow-dags"
 airflow_plugins_folder: '{{ airflow_scripts_root }}/airflow-imaging-plugins'
 
 airflow_load_examples: true
@@ -68,7 +68,7 @@ main_data_dicom_select_T1_protocols_file: "{{ airflow_scripts_root }}/mri-prepro
 main_data_nifti_local_folder: "/data/nifti"
 main_data_mpm_maps_local_folder: "/data/mpm_maps"
 main_data_neuro_morphometric_atlas_local_folder: "/data/neuro_morphometric_atlas"
-main_data_pipelines_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines"
+main_data_pipeline_path: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines"
 main_data_protocols_file: "{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt"
 
 airflow_work_dirs:

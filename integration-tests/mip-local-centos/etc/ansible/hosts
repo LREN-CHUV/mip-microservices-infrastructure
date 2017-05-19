@@ -62,7 +62,7 @@ demo
 
 # Install Airflow agent (scheduler + scripts + related applications like SPM)
 [airflow-agent]
-#demo
+demo
 
 # Install the databases for Data Factory
 [df-bases]

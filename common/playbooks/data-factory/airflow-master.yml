@@ -12,6 +12,9 @@
 
   roles:
 
+    - role: spm
+      tags: ['spm', 'airflow-master', 'airflow', 'data-factory', 'marathon-app']
+
     - role: airflow
       airflow_install_master: true
       airflow_install_agent: false

@@ -7,10 +7,10 @@ docker_registry_version: "2.3.1"
 
 zookeeper_version: 3.4.10
 mesos_version: "1.2.0"
-mesos_package_version: "2.0.2"
+mesos_package_version: "2.0.6"
 mesos_ui_version: "standalone-0.1.4"
-marathon_version: "1.4.2"
-marathon_package_version: "1.0.647"
+marathon_version: "1.4.3"
+marathon_package_version: "1.0.649"
 chronos_version: "2.4.0-centos-7"
 
 airflow_version: '1.8.1'
@@ -25,8 +25,6 @@ ldsm_db_version: 'latest'
 
 # Use latest NGinx from official repo
 nginx_official_repo: True
-
-flyway_version: "4.1.2-2"
 
 # Versions of our Docker containers
 portal_frontend_version: "2.1.2"
@@ -64,16 +62,16 @@ spm_mri_templates_version: '20050329'
 spm_mri_tpm_version: '20151218'
 data_tracking_version: '1.6.0'
 data_catalog_db_setup_version: '1.5.22'
-mri_preprocessing_pipeline_version: '1.2.12'
+mri_preprocessing_pipeline_version: '1.2.13'
 i2b2_import_version: '1.6.0'
 i2b2_capture_db_setup_version: '1.4.7'
 i2b2_mip_db_setup_version: '{{ i2b2_capture_db_setup_version }}'
 slackclient_py_version: '1.0.5'
 docker_py_version: '1.10.6'
-hierarchizer_version: '1.2.6'
+hierarchizer_version: '1.2.8'
 airflow_imaging_plugins_version: '2.3.0'
 data_factory_airflow_dags_version: '0.8.36'
-map_ehr_to_i2b2_version: '0.1'
+map_ehr_to_i2b2_version: '0.1.5'
 
 # QA environment
 

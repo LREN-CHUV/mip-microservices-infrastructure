@@ -14,7 +14,7 @@ research_db_companion_bases:
   - i2b2-mip-db
   - mipmap-db
 
-portal_frontend_base_url: "http://{{ portal_frontend_virtual_host }}"
+portal_frontend_base_url: "http://demo:10080"
 airflow_web_base_url: "http://demo:14080"
 
 python_location: '/usr/bin/python3'

@@ -55,11 +55,3 @@ ldsm_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
-
-flyway_version: "4.0.3"
-
-ldsm_db_fill: yes
-ldsm_db_setup_dir: /opt/ldsm-database/migration
-ldsm_db_setup_scripts_dir: demo
-
-in_vagrant: false

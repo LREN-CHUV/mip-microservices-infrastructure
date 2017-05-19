@@ -2,6 +2,6 @@
 
 - include: df-bases.yml
 
-- include: airflow-master.yml
-
 - include: airflow-agent.yml
+
+- include: airflow-master.yml
