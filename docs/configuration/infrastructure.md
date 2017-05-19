@@ -67,7 +67,6 @@ marathon_hostname_override:
 
 ```yaml
 
-host_domain: novalocal
 do_hosts_cleanup: false
 always_add_localhost: false
 

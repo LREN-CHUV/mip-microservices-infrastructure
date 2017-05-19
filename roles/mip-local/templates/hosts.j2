@@ -9,7 +9,7 @@
 
 {% else %}
 [all]
-{{ target_server }} ansible_connection=ssh ansible_ssh_user={{ server_user }} ansible_ssh_host={{ server_dns }} ansible_ssh_port=22
+{{ target_server }} ansible_connection=ssh ansible_ssh_user={{ server_user }} ansible_ssh_host={{ server_fqdn }} ansible_ssh_port=22
 
 # Managed hosts should contain all servers in the datacenter.
 # Common software, configuration and security settings will be applied on them.

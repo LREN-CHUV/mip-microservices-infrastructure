@@ -13,8 +13,8 @@
   become: yes
   lineinfile:
     dest: /etc/hosts
-    regexp: "^{{ hostvars[item].private_ipv4 }} {{ item }}{% if host_domain is defined %} {{ item }}.{{ host_domain }}{% endif %}$"
-    line: "{{ hostvars[item].private_ipv4 }} {{ item }}{% if host_domain is defined %} {{ item }}.{{ host_domain}}{% endif %}"
+    regexp: "^{{ hostvars[item].private_ipv4 }} {{ hostvars[item].hostname }} {{ hostvars[item].fqdn | default(hostvars[item].ansible_fqdn) }}$"
+    line: "{{ hostvars[item].private_ipv4 }} {{ hostvars[item].hostname }} {{ hostvars[item].fqdn | default(hostvars[item].ansible_fqdn) }}"
     state: present
   when: hostvars[item].private_ipv4 is defined
   with_items: "{{ groups['all'] }}"

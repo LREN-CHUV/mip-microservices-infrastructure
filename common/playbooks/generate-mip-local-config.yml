@@ -8,6 +8,16 @@
     - name: Gather information from target server
       setup:
 
+    - name: Check minimum CPU requirements
+      fail:
+        msg: "You need at least 2 vCPUs available, found {{ ansible_processor_vcpus }}"
+      when: ansible_processor_vcpus < 2
+
+    - name: Check minimum memory requirements
+      fail:
+        msg: "You need at least 8 Gb of memory available, found {{ ansible_memtotal_mb / 1024 }} Gb"
+      when: ansible_memtotal_mb < 8000
+
     - name: Suggested target server hostname
       debug: var=ansible_hostname
 
@@ -24,11 +34,14 @@
     - name: "server_hostname"
       prompt: "Target server hostname, e.g. myserver . Use ansible_hostname value if you agree with it."
       private: no
-    - name: "server_dns"
+    - name: "server_fqdn"
       prompt: "Target server FQDN, e.g. myserver.myorg.com . You can use the IP address if the full server name cannot be reached by DNS (ping myserver.myorg.com fails)"
       private: no
     - name: "server_ip_address"
       prompt: "Target server IP address"
+      private: no
+    - name: "portal_frontend_base_url"
+      prompt: "Base URL for the frontend, for example http://myserver.myorg.com:7000"
       private: no
     - name: "gitlab_com_login"
       prompt: "Username on Gitlab to download private Docker images. Leave blank if you do not have access to this information"

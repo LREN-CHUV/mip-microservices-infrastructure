@@ -1,5 +1,9 @@
 ---
 
+- name: Check that the server FQDN is reachable
+  command: >
+     ping -c 1 {{ server_fqdn }}
+
 - name: Gather CPU and memory from target server
   set_fact:
     target_cpus: "{{ hostvars[target_server]['ansible_processor_vcpus'] }}"
