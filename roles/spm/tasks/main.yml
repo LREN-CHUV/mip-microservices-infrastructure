@@ -24,7 +24,7 @@
     dest: '/usr/local/MATLAB/{{ matlab_version }}/sys/os/glnxa64/libstdc++.so.6'
     state: link
     force: yes
-  when: matlab_python_api and (ansible_lsb.id == 'Ubuntu') and (ansible_lsb.release == '16.04')
+  when: matlab_python_api and (ansible_distribution == 'Ubuntu') and (ansible_lsb.release == '16.04')
   tags: matlab
 
 - name: Check that Matlab Python API is running
