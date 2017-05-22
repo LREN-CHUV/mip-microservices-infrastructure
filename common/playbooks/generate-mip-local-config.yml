@@ -35,7 +35,7 @@
       prompt: "Target server hostname, e.g. myserver . Use ansible_hostname value if you agree with it."
       private: no
     - name: "server_fqdn"
-      prompt: "Target server FQDN, e.g. myserver.myorg.com . You can use the IP address if the full server name cannot be reached by DNS (ping myserver.myorg.com fails)"
+      prompt: "Target server FQDN, e.g. myserver.myorg.com . If the full server name cannot be reached by DNS (ping myserver.myorg.com fails), you can use the IP address instead"
       private: no
     - name: "server_ip_address"
       prompt: "Target server IP address"

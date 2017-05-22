@@ -159,7 +159,7 @@ which gpg > /dev/null || (
   fi
 )
 
-git-crypt init
+[ -d .git/git-crypt ] || git-crypt init
 
 git add .
 

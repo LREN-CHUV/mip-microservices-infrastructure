@@ -29,6 +29,7 @@
       with_items:
         - python-pip
         - python-devel
+        - gcc
         - curl
       when: ansible_os_family == 'RedHat'
       tags: ['os-tools', 'control', 'infra', 'infrastructure']
