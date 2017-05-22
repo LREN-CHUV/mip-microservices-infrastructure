@@ -190,16 +190,17 @@ airflow_extra_common_settings:
 #main_ehr_map_ehr_to_i2b2_docker_image
 #main_reorganisation_pipelines
 
-main_data_preprocessing_input_folder: "/data/main/preprocessing/input"
-main_data_preprocessing_copy_to_local_output_folder: "/data/main/preprocessing/local_copy"
-main_data_preprocessing_dicom_to_nifti_output_folder: "/data/main/preprocessing/nifti"
-main_data_preprocessing_neuro_morphometric_atlas_output_folder: "/data/main/preprocessing/neuro_morphometric_atlas"
-main_ehr_input_folder: "/data/main/ehr/input"
-main_ehr_version_incoming_ehr_output_folder: "/data/main/ehr/versioned"
-main_reorganisation_input_folder: "/data/main/reorganisation/input"
-main_reorganisation_copy_all_to_local_output_folder: "/data/main/reorganisation/local_copy"
-main_reorganisation_dicom_reorganise_output_folder: "/data/main/reorganisation/dicom"
-main_reorganisation_nifti_reorganise_output_folder: "/data/main/reorganisation/nifti"
+main_data_folder: "{{ main_data_input_folder_override | default('/data/main') }}"
+main_data_preprocessing_input_folder: "{{ main_data_preprocessing_input_folder_override | default(main_data_folder + '/preprocessing/input') }}"
+main_data_preprocessing_copy_to_local_output_folder: "{{ main_data_folder }}/preprocessing/local_copy"
+main_data_preprocessing_dicom_to_nifti_output_folder: "{{ main_data_folder }}/preprocessing/nifti"
+main_data_preprocessing_neuro_morphometric_atlas_output_folder: "{{ main_data_folder }}/preprocessing/neuro_morphometric_atlas"
+main_ehr_input_folder: "{{ main_data_folder }}/ehr/input"
+main_ehr_version_incoming_ehr_output_folder: "{{ main_data_folder }}/ehr/versioned"
+main_reorganisation_input_folder: "{{ main_data_folder }}/reorganisation/input"
+main_reorganisation_copy_all_to_local_output_folder: "{{ main_data_folder }}/reorganisation/local_copy"
+main_reorganisation_dicom_reorganise_output_folder: "{{ main_data_folder }}/reorganisation/dicom"
+main_reorganisation_nifti_reorganise_output_folder: "{{ main_data_folder }}/reorganisation/nifti"
 
 __airflow_extra_main_default_settings:
   misc_library_path: "{{ main_data_misc_library_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Miscellaneous&Others') }}"
