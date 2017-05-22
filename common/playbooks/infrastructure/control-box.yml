@@ -30,6 +30,7 @@
         - python-pip
         - python-devel
         - gcc
+        - openssl-devel
         - curl
       when: ansible_os_family == 'RedHat'
       tags: ['os-tools', 'control', 'infra', 'infrastructure']
@@ -44,7 +45,7 @@
       pip: name=docker-py state=present
       tags: ['docker', 'os-tools', 'control', 'infra', 'infrastructure']
 
-    - name: (RedHat) Install Python psycopg2 module for Postgres (required by postgresql_db task)
+    - name: (RedHat) Install Python psycopg2 module for Postgres (required by postgresql_db task) and cryptography (required by airflow role)
       pip:
         name: "{{ item }}"
         state: present
