@@ -12,21 +12,6 @@
 
   pre_tasks:
 
-    - name: Define user in .gitconfig
-      ini_file:
-        dest: '{{ airflow_home }}/.gitconfig'
-        section: user
-        option: '{{ item.option }}'
-        value: '{{ item.value }}'
-        owner: airflow
-        group: airflow
-        mode: 0644
-        backup: yes
-      with_items:
-        - { option: 'email', value: "airflow@{{ ansible_fqdn }}" }
-        - { option: 'name', value: 'Airflow' }
-      tags: ['airflow-agent', 'airflow', 'data-factory', 'marathon-app']
-
     - name: Allow Airflow to run Docker containers
       user:
         name: airflow
