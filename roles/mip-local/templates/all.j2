@@ -17,5 +17,6 @@ research_db_companion_bases:
 portal_frontend_base_url: "{{ portal_frontend_base_url }}"
 portal_frontend_virtual_host: "{{ portal_frontend_base_url | regex_replace('^.*://(.*)([:/].*)?$', '\\1') }}"
 {% raw -%}
+airflow_web_port: 4080
 airflow_web_base_url: "http://{{ fqdn | default(ansible_fqdn) }}:{{ airflow_web_port }}"
 {%- endraw %}
