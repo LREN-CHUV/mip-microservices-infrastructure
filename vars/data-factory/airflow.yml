@@ -194,7 +194,7 @@ airflow_extra_common_settings:
 #main_ehr_map_ehr_to_i2b2_docker_image
 #main_reorganisation_pipelines
 
-main_data_folder: "{{ main_data_input_folder_override | default('/data/main') }}"
+main_data_folder: "{{ main_data_folder_override | default('/data/main') }}"
 main_data_preprocessing_input_folder: "{{ main_data_preprocessing_input_folder_override | default(main_data_folder + '/preprocessing/input') }}"
 main_data_preprocessing_copy_to_local_output_folder: "{{ main_data_folder }}/preprocessing/local_copy"
 main_data_preprocessing_dicom_to_nifti_output_folder: "{{ main_data_folder }}/preprocessing/nifti"
