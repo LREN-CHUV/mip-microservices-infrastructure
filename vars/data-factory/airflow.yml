@@ -2,8 +2,8 @@
 
 airflow_python_local_dist_packages: '/usr/local/lib/python3.5/dist-packages'
 airflow_python_libraries_path: '/usr/lib/python3/dist/packages/:/usr/local/lib/python3.5/dist-packages/'
-airflow_python: "{{ python_location | default('/usr/bin/python3') }}"
-airflow_pip: "{{ python_pip | default('/usr/bin/pip3') }}"
+airflow_python: "{{ airflow_python_override | default('/usr/bin/python3') }}"
+airflow_pip: "{{ airflow_pip_override | default('/usr/bin/pip3') }}"
 
 # TODO airflow_executor: 'MesosExecutor'
 
