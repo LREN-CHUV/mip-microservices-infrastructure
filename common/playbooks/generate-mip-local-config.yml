@@ -16,7 +16,7 @@
     - name: Check minimum memory requirements
       fail:
         msg: "You need at least 8 Gb of memory available, found {{ ansible_memtotal_mb / 1024 }} Gb"
-      when: ansible_memtotal_mb < 8000
+      when: ansible_memtotal_mb < 7500
 
     - name: Suggested target server hostname
       debug: var=ansible_hostname
