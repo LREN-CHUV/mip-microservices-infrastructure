@@ -28,8 +28,8 @@ portal_db_user: portal
 portal_db_jdbc_url: "jdbc:postgresql://{{ portal_db_host }}:{{ portal_db_port }}/{{ portal_db_name }}"
 
 # Port to use to expose Portal backend to other services in the cluster.
-portal_backend_port: 4080
-portal_backend_akka_port: 4089
+portal_backend_port: 4480
+portal_backend_akka_port: 4489
 # Prefix path for all services provided by Portal backend
 portal_backend_context_path: ""
 
