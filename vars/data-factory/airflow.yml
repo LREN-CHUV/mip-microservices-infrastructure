@@ -201,7 +201,7 @@ airflow_extra_main_dataset_settings:
       min_free_space: "{{ main_data_preprocessing_min_free_space | default(0.3) }}"
       pipelines_path: "{{ main_data_preprocessing_pipelines_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Pipelines') }}"
       misc_library_path: "{{ main_data_preprocessing_misc_library_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Miscellaneous&Others') }}"
-      protocols_definition_file: "{{ main_data_preprocessing_protocols_definition_file | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Pipelines/Protocols_definition.txt') }}"
+      protocols_definition_file: "{{ main_data_preprocessing_protocols_definition_file | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Protocols_definition.txt') }}"
       scanners: "{{ main_data_preprocessing_scanners | default('flat') }}"
       pipelines: "{{ main_data_preprocessing_pipelines | default('neuro_morphometric_atlas,export_features,catalog_to_i2b2') }}"
   - section: "data-factory:main:preprocessing:copy_to_local"
