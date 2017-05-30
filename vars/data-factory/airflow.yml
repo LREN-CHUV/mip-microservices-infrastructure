@@ -5,36 +5,18 @@ airflow_python_libraries_path: "{{ airflow_python_libraries_path_override | defa
 airflow_python: "{{ airflow_python_override | default('/usr/bin/python3') }}"
 airflow_pip: "{{ airflow_pip_override | default('/usr/bin/pip3') }}"
 
+matlab_python: "{{ airflow_python }}"
+# The path that will contain the installed Python library for Matlab
+matlab_python_library_path: "{{ airflow_python_local_dist_packages }}"
+
 # TODO airflow_executor: 'MesosExecutor'
-
-# Need both Python2 version of the Postgres library for ansible and Python 3 version for Airflow
-airflow_db_deb_packages:
-  - python-pip
-  - python-psycopg2
-  - python3-pip
-  - python3-psycopg2
-  - python3-numpy
-  - curl
-
-# Need both Python2 version of the Postgres library for ansible and Python 3 version for Airflow
-airflow_db_yum_packages:
-  - python-pip
-  - python-psycopg2
-  - python3-pip
-  - python3-psycopg2
-  - python3-numpy
-  - curl
-
-mri_db_deb_packages:
-  - python3-pip
-  - python3-psycopg2
-  - curl
 
 airflow_deb_packages:
   - netcat
   - curl
   - python3-pip
   - python3-dev
+  - python3-numpy
   - python3-psycopg2
   - libffi-dev
   - build-essential
@@ -46,6 +28,7 @@ airflow_yum_packages:
   - curl
   - python34-pip
   - python34-devel
+  - python34-numpy
   - gcc
   - libffi-devel
   - openssl-devel
