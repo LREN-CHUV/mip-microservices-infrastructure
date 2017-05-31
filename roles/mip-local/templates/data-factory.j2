@@ -1,5 +1,8 @@
 ---
 
+airflow_user_id: 1011
+airflow_group_id: 1011
+
 airflow_db_companion_bases: []
 
 airflow_scheduler_cpus: {{ (target_cpus|float / 4.0) | round(1, 'floor') }}

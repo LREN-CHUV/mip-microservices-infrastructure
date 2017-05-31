@@ -54,6 +54,9 @@ airflow_db_companion_bases:
 
 ```
 
+airflow_user_id: 1011
+airflow_group_id: 1011
+
 airflow_pool_io_intensive: 12
 airflow_pool_remote_file_copy: 2
 airflow_pool_image_preprocessing: '{{ ansible_processor_vcpus - airflow_pool_io_intensive - 1 }}'

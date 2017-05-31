@@ -96,11 +96,10 @@ airflow_slot_pools:
 
 # airflow_scripts_verify_commit
 airflow_scripts:
-  - url: https://github.com/LREN-CHUV/mri-preprocessing-pipeline-light.git
+  - url: https://github.com/HBPMedical/mri-preprocessing-pipeline.git
     version: '{{ mri_preprocessing_pipeline_version }}'
     verify_commit: '{{ airflow_scripts_verify_commit | default(False) }}'
     dest: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline'
-    post_installation_script: './after-update.sh'
   - url: https://github.com/HBPMedical/data-factory-airflow-dags.git
     version: '{{data_factory_airflow_dags_version }}'
     # TODO set to true
@@ -171,23 +170,25 @@ airflow_extra_common_settings:
 #main_data_preprocessing_input_config: 'boost,session_id_by_patient,visit_id_in_patient_id'
 #main_data_preprocessing_scanners: "daily,continuous"
 #main_data_preprocessing_pipelines: 'dicom_to_nifti,mpm_maps,neuro_morphometric_atlas'
-#main_ehr_input_folder_depth
-#main_ehr_scanners
-#main_ehr_pipelines
-#main_ehr_map_ehr_to_i2b2_docker_image
-#main_reorganisation_pipelines
+#main_data_ehr_input_folder_depth
+#main_data_ehr_scanners
+#main_data_ehr_pipelines
+#main_data_ehr_map_ehr_to_i2b2_docker_image
+#main_data_reorganisation_pipelines
 
 main_data_folder: "{{ main_data_folder_override | default('/data/main') }}"
 main_data_preprocessing_input_folder: "{{ main_data_preprocessing_input_folder_override | default(main_data_folder + '/preprocessing/input') }}"
 main_data_preprocessing_copy_to_local_output_folder: "{{ main_data_folder }}/preprocessing/local_copy"
 main_data_preprocessing_dicom_to_nifti_output_folder: "{{ main_data_folder }}/preprocessing/nifti"
 main_data_preprocessing_neuro_morphometric_atlas_output_folder: "{{ main_data_folder }}/preprocessing/neuro_morphometric_atlas"
-main_ehr_input_folder: "{{ main_data_folder }}/ehr/input"
-main_ehr_version_incoming_ehr_output_folder: "{{ main_data_folder }}/ehr/versioned"
-main_reorganisation_input_folder: "{{ main_data_folder }}/reorganisation/input"
-main_reorganisation_copy_all_to_local_output_folder: "{{ main_data_folder }}/reorganisation/local_copy"
-main_reorganisation_dicom_reorganise_output_folder: "{{ main_data_folder }}/reorganisation/dicom"
-main_reorganisation_nifti_reorganise_output_folder: "{{ main_data_folder }}/reorganisation/nifti"
+main_data_ehr_input_folder: "{{ main_data_folder }}/ehr/input"
+main_data_ehr_version_incoming_ehr_output_folder: "{{ main_data_folder }}/ehr/versioned"
+main_data_reorganisation_input_folder: "{{ main_data_reorganisation_input_folder_override | default(main_data_folder + '/reorganisation/input') }}"
+main_data_reorganisation_copy_all_to_local_output_folder: "{{ main_data_folder }}/reorganisation/local_copy"
+main_data_reorganisation_dicom_reorganise_output_folder: "{{ main_data_folder }}/reorganisation/dicom"
+main_data_reorganisation_dicom_reorganise_version: "{{ hierarchizer_version }}"
+main_data_reorganisation_nifti_reorganise_output_folder: "{{ main_data_folder }}/reorganisation/nifti"
+main_data_reorganisation_nifti_reorganise_version: "{{ hierarchizer_version }}"
 
 airflow_extra_main_dataset_settings:
   - section: "data-factory:main"
@@ -235,71 +236,71 @@ airflow_extra_main_dataset_settings:
       tpm_template: "{{ main_data_preprocessing_neuro_morphometric_atlas_tpm_template | default(spm_dir + '/tpm/TPM.nii') }}"
   - section: "data-factory:main:ehr"
     parameters:
-      input_folder: "{{ main_ehr_input_folder | default(None) }}"
-      input_folder_depth: "{{ main_ehr_input_folder_depth | default(0) }}"
-      min_free_space: "{{ main_ehr_min_free_space | default(0.3) }}"
-      max_active_runs: "{{ main_ehr_max_active_runs | default(30) }}"
-      scanners: "{{ main_ehr_scanners | default('') }}"
-      pipelines: "{{ main_ehr_pipelines | default('') }}"
+      input_folder: "{{ main_data_ehr_input_folder | default(None) }}"
+      input_folder_depth: "{{ main_data_ehr_input_folder_depth | default(0) }}"
+      min_free_space: "{{ main_data_ehr_min_free_space | default(0.3) }}"
+      max_active_runs: "{{ main_data_ehr_max_active_runs | default(30) }}"
+      scanners: "{{ main_data_ehr_scanners | default('') }}"
+      pipelines: "{{ main_data_ehr_pipelines | default('') }}"
   - section: "data-factory:main:ehr:map_ehr_to_i2b2"
     parameters:
-      docker_image: "{{ main_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2:latest') }}"
+      docker_image: "{{ main_data_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2:latest') }}"
   - section: "data-factory:main:ehr:version_incoming_ehr"
     parameters:
-      output_folder: "{{ main_ehr_version_incoming_ehr_output_folder | default(None) }}"
+      output_folder: "{{ main_data_ehr_version_incoming_ehr_output_folder | default(None) }}"
   - section: "data-factory:main:reorganisation"
     parameters:
-      input_folder: "{{ main_reorganisation_input_folder | default(None) }}"
-      input_config: "{{ main_reorganisation_input_config | default('') }}"
-      min_free_space: "{{ main_reorganisation_min_free_space | default(0.3) }}"
-      max_active_runs: "{{ main_reorganisation_max_active_runs | default(30) }}"
-      folder_filter: "{{ main_reorganisation_folder_filter | default('.*') }}"
-      pipelines: "{{ main_reorganisation_pipelines | default('') }}"
+      input_folder: "{{ main_data_reorganisation_input_folder | default(None) }}"
+      input_config: "{{ main_data_reorganisation_input_config | default('') }}"
+      min_free_space: "{{ main_data_reorganisation_min_free_space | default(0.3) }}"
+      max_active_runs: "{{ main_data_reorganisation_max_active_runs | default(30) }}"
+      folder_filter: "{{ main_data_reorganisation_folder_filter | default('.*') }}"
+      pipelines: "{{ main_data_reorganisation_pipelines | default('') }}"
   - section: "data-factory:main:reorganisation:copy_all_to_local"
     parameters:
-      output_folder: "{{ main_reorganisation_copy_all_to_local_output_folder | default(None) }}"
+      output_folder: "{{ main_data_reorganisation_copy_all_to_local_output_folder | default(None) }}"
   - section: "data-factory:main:reorganisation:dicom_reorganise"
     parameters:
-      output_folder: "{{ main_reorganisation_dicom_reorganise_output_folder | default(None) }}"
-      output_folder_structure: "{{ main_reorganisation_dicom_reorganise_output_folder_structure | default(None) }}"
-      meta_output_folder: "{{ main_reorganisation_dicom_reorganise_meta_output_folder | default(None) }}"
-      docker_image: "{{ main_reorganisation_dicom_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_reorganisation_dicom_reorganise_version | default('latest') }}"
-      docker_input_dir: "{{ main_reorganisation_dicom_reorganise_docker_input_folder | default('/input_folder') }}"
-      docker_output_dir: "{{ main_reorganisation_dicom_reorganise_docker_output_folder | default('/output_folder') }}"
-      docker_user: "{{ main_reorganisation_dicom_reorganise_docker_user | default('root') }}"
+      output_folder: "{{ main_data_reorganisation_dicom_reorganise_output_folder | default(None) }}"
+      output_folder_structure: "{{ main_data_reorganisation_dicom_reorganise_output_folder_structure | default(None) }}"
+      meta_output_folder: "{{ main_data_reorganisation_dicom_reorganise_meta_output_folder | default(None) }}"
+      docker_image: "{{ main_data_reorganisation_dicom_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_data_reorganisation_dicom_reorganise_version | default('latest') }}"
+      docker_input_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_input_folder | default('/input_folder') }}"
+      docker_output_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_output_folder | default('/output_folder') }}"
+      docker_user: "{{ main_data_reorganisation_dicom_reorganise_docker_user | default(airflow_user_id + ':' + airflow_group_id) }}"
   - section: "data-factory:main:reorganisation:nifti_reorganise"
     parameters:
-      output_folder: "{{ main_reorganisation_nifti_reorganise_output_folder | default(None) }}"
-      output_folder_structure: "{{ main_reorganisation_nifti_reorganise_output_folder_structure | default(None) }}"
-      meta_output_folder: "{{ main_reorganisation_nifti_reorganise_meta_output_folder | default(None) }}"
-      docker_image: "{{ main_reorganisation_nifti_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_reorganisation_nifti_reorganise_version | default('latest') }}"
-      docker_input_dir: "{{ main_reorganisation_nifti_reorganise_docker_input_folder | default('/input_folder') }}"
-      docker_output_dir: "{{ main_reorganisation_nifti_reorganise_docker_output_folder | default('/output_folder') }}"
-      docker_user: "{{ main_reorganisation_nifti_reorganise_docker_user | default('root') }}"
+      output_folder: "{{ main_data_reorganisation_nifti_reorganise_output_folder | default(None) }}"
+      output_folder_structure: "{{ main_data_reorganisation_nifti_reorganise_output_folder_structure | default(None) }}"
+      meta_output_folder: "{{ main_data_reorganisation_nifti_reorganise_meta_output_folder | default(None) }}"
+      docker_image: "{{ main_data_reorganisation_nifti_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_data_reorganisation_nifti_reorganise_version | default('latest') }}"
+      docker_input_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_input_folder | default('/input_folder') }}"
+      docker_output_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_output_folder | default('/output_folder') }}"
+      docker_user: "{{ main_data_reorganisation_nifti_reorganise_docker_user | default(airflow_user_id + ':' + airflow_group_id) }}"
   - section: "data-factory:main:reorganisation:trigger_preprocessing"
     parameters:
-      depth: "{{ main_reorganisation_trigger_preprocessing_depth | default(1) }}"
+      depth: "{{ main_data_reorganisation_trigger_preprocessing_depth | default(1) }}"
   - section: "data-factory:main:reorganisation:trigger_metadata"
     parameters:
-      depth: "{{ main_reorganisation_trigger_metadata_depth | default(0) }}"
+      depth: "{{ main_data_reorganisation_trigger_metadata_depth | default(0) }}"
   - section: "data-factory:main:reorganisation:trigger_ehr"
     parameters:
-      depth: "{{ main_reorganisation_trigger_ehr_depth | default(0) }}"
+      depth: "{{ main_data_reorganisation_trigger_ehr_depth | default(0) }}"
   - section: "data-factory:main:metadata"
     parameters:
-      input_folder: "{{ main_metadata_input_folder | default(None) }}"
-      max_active_runs: "{{ main_metadata_max_active_runs | default(30) }}"
+      input_folder: "{{ main_data_metadata_input_folder | default(None) }}"
+      max_active_runs: "{{ main_data_metadata_max_active_runs | default(30) }}"
 
 airflow_work_dirs: "{{ [
     main_data_preprocessing_input_folder,
     main_data_preprocessing_copy_to_local_output_folder,
     main_data_preprocessing_dicom_to_nifti_output_folder,
     main_data_preprocessing_neuro_morphometric_atlas_output_folder,
-    main_ehr_input_folder,
-    main_ehr_version_incoming_ehr_output_folder,
-    main_reorganisation_input_folder,
-    main_reorganisation_copy_all_to_local_output_folder,
-    main_reorganisation_dicom_reorganise_output_folder,
-    main_reorganisation_nifti_reorganise_output_folder
+    main_data_ehr_input_folder,
+    main_data_ehr_version_incoming_ehr_output_folder,
+    main_data_reorganisation_input_folder,
+    main_data_reorganisation_copy_all_to_local_output_folder,
+    main_data_reorganisation_dicom_reorganise_output_folder,
+    main_data_reorganisation_nifti_reorganise_output_folder
   ] | defined_vars_to_list }}
 "
