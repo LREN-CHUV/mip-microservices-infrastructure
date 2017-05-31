@@ -267,7 +267,7 @@ airflow_extra_main_dataset_settings:
       docker_image: "{{ main_data_reorganisation_dicom_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_data_reorganisation_dicom_reorganise_version | default('latest') }}"
       docker_input_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_output_folder | default('/output_folder') }}"
-      docker_user: "{{ main_data_reorganisation_dicom_reorganise_docker_user | default(airflow_user_id + ':' + airflow_group_id) }}"
+      docker_user: "{{ main_data_reorganisation_dicom_reorganise_docker_user | default(airflow_user_id|string + ':' + airflow_group_id|string) }}"
   - section: "data-factory:main:reorganisation:nifti_reorganise"
     parameters:
       output_folder: "{{ main_data_reorganisation_nifti_reorganise_output_folder | default(None) }}"
@@ -276,7 +276,7 @@ airflow_extra_main_dataset_settings:
       docker_image: "{{ main_data_reorganisation_nifti_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_data_reorganisation_nifti_reorganise_version | default('latest') }}"
       docker_input_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_output_folder | default('/output_folder') }}"
-      docker_user: "{{ main_data_reorganisation_nifti_reorganise_docker_user | default(airflow_user_id + ':' + airflow_group_id) }}"
+      docker_user: "{{ main_data_reorganisation_nifti_reorganise_docker_user | default(airflow_user_id|string + ':' + airflow_group_id|string) }}"
   - section: "data-factory:main:reorganisation:trigger_preprocessing"
     parameters:
       depth: "{{ main_data_reorganisation_trigger_preprocessing_depth | default(1) }}"
