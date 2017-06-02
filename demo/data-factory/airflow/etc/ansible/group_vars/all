@@ -73,7 +73,7 @@ main_preprocessing_min_free_space: 0.3
 main_preprocessing_misc_library_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Miscellaneous&Others'
 main_preprocessing_pipeline_path: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Pipelines'
 main_preprocessing_protocols_definition_file: '{{ airflow_scripts_root }}/mri-preprocessing-pipeline/Protocols_definition.txt'
-main_preprocessing_scanners: 'flat'
+main_preprocessing_scanners: 'once'
 main_preprocessing_pipelines: 'dicom_to_nifti,mpm_maps,neuro_morphometric_atlas,export_features,catalog_to_i2b2'
 main_preprocessing_copy_to_local_output_folder: '/data/incoming'
 main_preprocessing_dicom_to_nifti_output_folder: '/data/nifti'
@@ -97,7 +97,7 @@ main_preprocessing_neuro_morphometric_atlas_tpm_template: '{{ spm_dir }}/tpm/nwT
 main_ehr_input_folder: '/data/ehr_demo'
 main_ehr_input_folder_depth: 0
 main_ehr_min_free_space: 0.3
-main_ehr_scanners: 'flat'
+main_ehr_scanners: 'once'
 main_ehr_pipelines: ''
 main_ehr_map_ehr_to_i2b2_docker_image: 'hbpmip/mipmap-demo-ehr-to-i2b2'
 main_ehr_map_ehr_to_i2b2_version: "{{ map_ehr_to_i2b2_version }}"
