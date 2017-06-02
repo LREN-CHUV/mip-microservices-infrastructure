@@ -21,6 +21,7 @@ cd "$ROOT/../.."
 which ansible > /dev/null || ./common/scripts/bootstrap.sh
 
 ANSIBLE_OPTS=""
+SETUP_ANSIBLE_OPTS=""
 target=""
 
 mkdir -p envs/mip-local/etc/ansible/
@@ -109,6 +110,34 @@ do
   break
 done
 
+if [[ "$location" == "This machine" && "$building_blocks" == "All" && ! -d /usr/local/MATLAB/2016b ]]; then
+    echo "Is Matlab 2016b installed on this machine?"
+    PS3="> "
+    options=("yes" "no")
+    select matlab_installed in "${options[@]}";
+    do
+      case "$matlab_installed" in
+          "yes")
+              echo "Enter the root of Matlab installation, e.g. /opt/MATLAB/2016b :"
+              read -p "path > " matlab_root
+              ANSIBLE_OPTS="$ANSIBLE_OPTS -e matlab_root=$matlab_root"
+              ;;
+          "no")
+              SETUP_ANSIBLE_OPTS="$SETUP_ANSIBLE_OPTS --skip-tags=spm"
+              echo "The Data Factory will be installed but image pre-processing will not be functional."
+              echo "When Matlab is available, please run again the installation to setup Matlab and SPM using:"
+              echo "  ./setup.sh --tags=data-factory"
+              echo
+              ;;
+            *)
+              echo invalid option
+              exit 1
+              ;;
+      esac
+      break
+    done
+fi
+
 echo
 echo "Generating the configuration for MIP Local..."
 echo "Additional informations will be asked, including a long list of passwords for the databases."
@@ -166,4 +195,4 @@ git add .
 echo "Run this command first after checking the configuration"
 echo "git commit -m 'Configuration for MIP Local'"
 
-echo "Run ./setup.sh to start the installation"
+echo "Run ./setup.sh $SETUP_ANSIBLE_OPTS to start the installation"

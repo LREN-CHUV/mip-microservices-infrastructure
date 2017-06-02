@@ -22,6 +22,10 @@ airflow_extra_settings: "
 "
 {% endraw %}
 
+{% if matlab_root is defined %}
+matlab_root: '{{ matlab_root }}'
+{% endif %}
+
 # Configuration for MRI preprocessing pipeline running in Airflow
 data_factory_datasets: 'main'
 data_factory_email_errors_to: ''
