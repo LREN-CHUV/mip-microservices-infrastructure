@@ -21,7 +21,7 @@
 - name: Fix stdc library used by Matlab
   file:
     src: '/usr/lib/x86_64-linux-gnu/libstdc++.so.6'
-    dest: '/usr/local/MATLAB/{{ matlab_version }}/sys/os/glnxa64/libstdc++.so.6'
+    dest: '{{ matlab_root }}/sys/os/glnxa64/libstdc++.so.6'
     state: link
     force: yes
   when: matlab_python_api and (ansible_distribution == 'Ubuntu') and (ansible_lsb.release == '16.04')
