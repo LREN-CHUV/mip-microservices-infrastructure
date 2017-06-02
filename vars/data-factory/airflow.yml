@@ -178,13 +178,14 @@ airflow_extra_common_settings:
 
 airflow_extra_main_data_folder: "{{ main_data_folder | default('/data/main') }}"
 airflow_extra_main_data_preprocessing_pipelines: "{{ main_data_preprocessing_pipelines | default('neuro_morphometric_atlas,export_features,catalog_to_i2b2') }}"
+airflow_extra_main_data_reorganisation_pipelines: "{{ main_data_reorganisation_pipelines | default('dicom_reorganise,trigger_preprocessing') }}"
 
-airflow_extra_main_dataset_main_settings:
+airflow_extra_main_dataset_section_settings:
   - section: "data-factory:main"
     parameters:
       dataset_label: "{{ main_dataset_label | default('main') }}"
 
-airflow_extra_main_dataset_main_preprocessing_all_settings:
+airflow_extra_main_dataset_preprocessing_all_settings:
   - section: "data-factory:main:preprocessing"
     parameters:
       input_folder: "{{ main_data_preprocessing_input_folder | default(airflow_extra_main_data_folder + '/preprocessing/input') }}"
@@ -194,7 +195,7 @@ airflow_extra_main_dataset_main_preprocessing_all_settings:
       pipelines_path: "{{ main_data_preprocessing_pipelines_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Pipelines') }}"
       misc_library_path: "{{ main_data_preprocessing_misc_library_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Miscellaneous&Others') }}"
       protocols_definition_file: "{{ main_data_preprocessing_protocols_definition_file | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Protocols_definition.txt') }}"
-      scanners: "{{ main_data_preprocessing_scanners | default('flat') }}"
+      scanners: "{{ main_data_preprocessing_scanners | default('once') }}"
       pipelines: "{{ airflow_extra_main_data_preprocessing_pipelines }}"
   - section: "data-factory:main:preprocessing:copy_to_local"
     parameters:
@@ -226,23 +227,25 @@ airflow_extra_main_dataset_main_preprocessing_all_settings:
       protocols_definition_file: "{{ main_data_preprocessing_neuro_morphometric_atlas_protocols_definition_file | default('omit') }}"
       tpm_template: "{{ main_data_preprocessing_neuro_morphometric_atlas_tpm_template | default(spm_dir + '/tpm/TPM.nii') }}"
 
-airflow_extra_main_dataset_main_preprocessing_settings: "{{ airflow_extra_main_dataset_main_preprocessing_all_settings|json_query('[?parameters.input_folder || parameters.output_folder!=``]') }}"
+airflow_extra_main_dataset_preprocessing_settings: "{{ airflow_extra_main_dataset_preprocessing_all_settings|json_query('[?parameters.input_folder || parameters.output_folder!=``]') }}"
 
-airflow_extra_main_dataset_main_ehr_settings:
+airflow_extra_main_dataset_ehr_settings:
   - section: "data-factory:main:ehr"
     parameters:
       input_folder: "{{ main_data_ehr_input_folder | default(None) }}"
       input_folder_depth: "{{ main_data_ehr_input_folder_depth | default(0) }}"
       min_free_space: "{{ main_data_ehr_min_free_space | default(0.3) }}"
       max_active_runs: "{{ main_data_ehr_max_active_runs | default(30) }}"
-      scanners: "{{ main_data_ehr_scanners | default('') }}"
-      pipelines: "{{ main_data_ehr_pipelines | default('') }}"
+      scanners: "{{ main_data_ehr_scanners | default('once') }}"
+      pipelines: "{{ main_data_ehr_pipelines | default('version_incoming_ehr,map_ehr_to_i2b2') }}"
+  - section: "data-factory:main:ehr:version_incoming_ehr"
+    parameters:
+      output_folder: "{{ airflow_extra_main_data_folder }}/ehr/versioned"
   - section: "data-factory:main:ehr:map_ehr_to_i2b2"
     parameters:
       docker_image: "{{ main_data_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2:latest') }}"
-  - section: "data-factory:main:ehr:version_incoming_ehr"
-    parameters:
-      output_folder: "{{ main_data_ehr_version_incoming_ehr_output_folder | default(None) }}"
+
+airflow_extra_main_dataset_reorganisation_all_settings:
   - section: "data-factory:main:reorganisation"
     parameters:
       input_folder: "{{ main_data_reorganisation_input_folder | default(None) }}"
@@ -253,43 +256,59 @@ airflow_extra_main_dataset_main_ehr_settings:
       pipelines: "{{ main_data_reorganisation_pipelines | default('') }}"
   - section: "data-factory:main:reorganisation:copy_all_to_local"
     parameters:
-      output_folder: "{{ main_data_reorganisation_copy_all_to_local_output_folder | default(None) }}"
+      output_folder: "{% if 'copy_to_local' in airflow_extra_main_data_reorganisation_pipelines %}{{ airflow_extra_main_data_folder }}/reorganisation/local_copy{% else %}{% endif %}"
   - section: "data-factory:main:reorganisation:dicom_reorganise"
     parameters:
-      output_folder: "{{ main_data_reorganisation_dicom_reorganise_output_folder | default(None) }}"
+      output_folder: "{% if 'dicom_reorganise' in airflow_extra_main_data_reorganisation_pipelines %}{{ airflow_extra_main_data_folder }}/reorganisation/dicom{% else %}{% endif %}"
       output_folder_structure: "{{ main_data_reorganisation_dicom_reorganise_output_folder_structure | default(None) }}"
-      meta_output_folder: "{{ main_data_reorganisation_dicom_reorganise_meta_output_folder | default(None) }}"
+      meta_output_folder: "{{ airflow_extra_main_data_folder }}/reorganisation/meta"
       docker_image: "{{ main_data_reorganisation_dicom_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_data_reorganisation_dicom_reorganise_version | default('latest') }}"
       docker_input_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_output_folder | default('/output_folder') }}"
       docker_user: "{{ main_data_reorganisation_dicom_reorganise_docker_user | default(airflow_user_id|string + ':' + airflow_group_id|string) }}"
   - section: "data-factory:main:reorganisation:nifti_reorganise"
     parameters:
-      output_folder: "{{ main_data_reorganisation_nifti_reorganise_output_folder | default(None) }}"
+      output_folder: "{% if 'nifti_reorganise' in airflow_extra_main_data_reorganisation_pipelines %}{{ airflow_extra_main_data_folder }}/reorganisation/nifti{% else %}{% endif %}"
       output_folder_structure: "{{ main_data_reorganisation_nifti_reorganise_output_folder_structure | default(None) }}"
-      meta_output_folder: "{{ main_data_reorganisation_nifti_reorganise_meta_output_folder | default(None) }}"
+      meta_output_folder: "{{ airflow_extra_main_data_folder }}/reorganisation/meta"
       docker_image: "{{ main_data_reorganisation_nifti_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_data_reorganisation_nifti_reorganise_version | default('latest') }}"
       docker_input_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_output_folder | default('/output_folder') }}"
       docker_user: "{{ main_data_reorganisation_nifti_reorganise_docker_user | default(airflow_user_id|string + ':' + airflow_group_id|string) }}"
   - section: "data-factory:main:reorganisation:trigger_preprocessing"
     parameters:
+      __keep: "{% if 'trigger_preprocessing' in airflow_extra_main_data_reorganisation_pipelines %}omit{% else %}{% endif %}"
       depth: "{{ main_data_reorganisation_trigger_preprocessing_depth | default(1) }}"
   - section: "data-factory:main:reorganisation:trigger_metadata"
     parameters:
+      __keep: "{% if 'trigger_metadata' in airflow_extra_main_data_reorganisation_pipelines %}omit{% else %}{% endif %}"
       depth: "{{ main_data_reorganisation_trigger_metadata_depth | default(0) }}"
   - section: "data-factory:main:reorganisation:trigger_ehr"
     parameters:
+      __keep: "{% if 'trigger_ehr' in airflow_extra_main_data_reorganisation_pipelines %}omit{% else %}{% endif %}"
       depth: "{{ main_data_reorganisation_trigger_ehr_depth | default(0) }}"
 
-airflow_extra_main_dataset_main_metadata_settings:
+# __keep is a marker indicating that we want to keep the section. Its value is 'omit' to ignore it when Airflow configuration is generated
+
+airflow_extra_main_dataset_reorganisation_settings: "{{ airflow_extra_main_dataset_reorganisation_all_settings|json_query('[?parameters.input_folder || (parameters.output_folder && parameters.output_folder!=``) || (parameters.__keep && parameters.__keep!=``)]') }}"
+
+airflow_extra_main_dataset_metadata_settings:
   - section: "data-factory:main:metadata"
     parameters:
       input_folder: "{{ main_data_metadata_input_folder | default(None) }}"
       max_active_runs: "{{ main_data_metadata_max_active_runs | default(30) }}"
 
 airflow_extra_main_dataset_settings: "
-  {%- set settings = airflow_extra_main_dataset_main_settings + airflow_extra_main_dataset_main_preprocessing_settings -%}
+  {%- set settings = airflow_extra_main_dataset_section_settings + airflow_extra_main_dataset_preprocessing_settings -%}
+  {%- if main_data_ehr_pipelines is defined and main_data_ehr_pipelines -%}
+    {%- set settings = settings + airflow_extra_main_dataset_ehr_settings -%}
+  {%- endif -%}
+  {%- if main_data_reorganisation_input_folder is defined and main_data_reorganisation_input_folder -%}
+    {%- set settings = settings + airflow_extra_main_dataset_reorganisation_settings -%}
+  {%- endif -%}
+  {%- if main_data_metadata_input_folder is defined and main_data_metadata_input_folder -%}
+    {%- set settings = settings + airflow_extra_main_dataset_metadata_settings -%}
+  {%- endif -%}
   {{ settings }}
 "
 
