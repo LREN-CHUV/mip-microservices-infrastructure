@@ -29,7 +29,7 @@ nginx_official_repo: True
 # Versions of our Docker containers
 portal_frontend_version: "2.1.2"
 portal_backend_version: "2.1.0"
-woken_version: "695ad47"
+woken_version: "db755a5"
 woken_functions:
   - name: histograms
     docker_image: "hbpmip/python-histograms:7be184a"
