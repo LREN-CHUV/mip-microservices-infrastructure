@@ -176,27 +176,18 @@ airflow_extra_common_settings:
 #main_data_ehr_map_ehr_to_i2b2_docker_image
 #main_data_reorganisation_pipelines
 
-main_data_folder: "{{ main_data_folder_override | default('/data/main') }}"
-main_data_preprocessing_input_folder: "{{ main_data_preprocessing_input_folder_override | default(main_data_folder + '/preprocessing/input') }}"
-main_data_preprocessing_copy_to_local_output_folder: "{{ main_data_folder }}/preprocessing/local_copy"
-main_data_preprocessing_dicom_to_nifti_output_folder: "{{ main_data_folder }}/preprocessing/nifti"
-main_data_preprocessing_neuro_morphometric_atlas_output_folder: "{{ main_data_folder }}/preprocessing/neuro_morphometric_atlas"
-main_data_ehr_input_folder: "{{ main_data_folder }}/ehr/input"
-main_data_ehr_version_incoming_ehr_output_folder: "{{ main_data_folder }}/ehr/versioned"
-main_data_reorganisation_input_folder: "{{ main_data_reorganisation_input_folder_override | default(main_data_folder + '/reorganisation/input') }}"
-main_data_reorganisation_copy_all_to_local_output_folder: "{{ main_data_folder }}/reorganisation/local_copy"
-main_data_reorganisation_dicom_reorganise_output_folder: "{{ main_data_folder }}/reorganisation/dicom"
-main_data_reorganisation_dicom_reorganise_version: "{{ hierarchizer_version }}"
-main_data_reorganisation_nifti_reorganise_output_folder: "{{ main_data_folder }}/reorganisation/nifti"
-main_data_reorganisation_nifti_reorganise_version: "{{ hierarchizer_version }}"
+airflow_extra_main_data_folder: "{{ main_data_folder | default('/data/main') }}"
+airflow_extra_main_data_preprocessing_pipelines: "{{ main_data_preprocessing_pipelines | default('neuro_morphometric_atlas,export_features,catalog_to_i2b2') }}"
 
-airflow_extra_main_dataset_settings:
+airflow_extra_main_dataset_main_settings:
   - section: "data-factory:main"
     parameters:
       dataset_label: "{{ main_dataset_label | default('main') }}"
+
+airflow_extra_main_dataset_main_preprocessing_all_settings:
   - section: "data-factory:main:preprocessing"
     parameters:
-      input_folder: "{{ main_data_preprocessing_input_folder | default(None) }}"
+      input_folder: "{{ main_data_preprocessing_input_folder | default(airflow_extra_main_data_folder + '/preprocessing/input') }}"
       input_config: "{{ main_data_preprocessing_input_config | default('') }}"
       max_active_runs: "{{ main_data_preprocessing_max_active_runs | default(30) }}"
       min_free_space: "{{ main_data_preprocessing_min_free_space | default(0.3) }}"
@@ -204,13 +195,13 @@ airflow_extra_main_dataset_settings:
       misc_library_path: "{{ main_data_preprocessing_misc_library_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Miscellaneous&Others') }}"
       protocols_definition_file: "{{ main_data_preprocessing_protocols_definition_file | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Protocols_definition.txt') }}"
       scanners: "{{ main_data_preprocessing_scanners | default('flat') }}"
-      pipelines: "{{ main_data_preprocessing_pipelines | default('neuro_morphometric_atlas,export_features,catalog_to_i2b2') }}"
+      pipelines: "{{ airflow_extra_main_data_preprocessing_pipelines }}"
   - section: "data-factory:main:preprocessing:copy_to_local"
     parameters:
-      output_folder: "{{ main_data_preprocessing_copy_to_local_output_folder | default(None) }}"
+      output_folder: "{% if 'copy_to_local' in airflow_extra_main_data_preprocessing_pipelines %}{{ airflow_extra_main_data_folder }}/preprocessing/local_copy{% else %}{% endif %}"
   - section: "data-factory:main:preprocessing:dicom_to_nifti"
     parameters:
-      output_folder: "{{ main_data_preprocessing_dicom_to_nifti_output_folder | default(None) }}"
+      output_folder: "{% if 'dicom_to_nifti' in airflow_extra_main_data_preprocessing_pipelines %}{{ airflow_extra_main_data_folder }}/preprocessing/nifti{% else %}{% endif %}"
       backup_folder: "{{ main_data_preprocessing_dicom_to_nifti_backup_folder | default(None) }}"
       spm_function: "{{ main_data_preprocessing_dicom_to_nifti_spm_function | default('DCM2NII_LREN') }}"
       pipeline_path: "{{ main_data_preprocessing_dicom_to_nifti_pipeline_path | default('omit') }}"
@@ -219,7 +210,7 @@ airflow_extra_main_dataset_settings:
       dcm2nii_program: "{{ main_data_preprocessing_dicom_to_nifti_dcm2nii_program | default('omit') }}"
   - section: "data-factory:main:preprocessing:mpm_maps"
     parameters:
-      output_folder: "{{ main_data_preprocessing_mpm_maps_output_folder | default(None) }}"
+      output_folder: "{% if 'mpm_maps' in airflow_extra_main_data_preprocessing_pipelines %}{{ airflow_extra_main_data_folder }}/preprocessing/mpm_maps{% else %}{% endif %}"
       backup_folder: "{{ main_data_preprocessing_mpm_maps_backup_folder | default(None) }}"
       spm_function: "{{ main_data_preprocessing_mpm_maps_spm_function | default('Preproc_mpm_maps') }}"
       pipeline_path: "{{ main_data_preprocessing_mpm_maps_pipeline_path | default('omit') }}"
@@ -227,13 +218,17 @@ airflow_extra_main_dataset_settings:
       protocols_definition_file: "{{ main_data_preprocessing_mpm_maps_protocols_definition_file | default('omit') }}"
   - section: "data-factory:main:preprocessing:neuro_morphometric_atlas"
     parameters:
-      output_folder: "{{ main_data_preprocessing_neuro_morphometric_atlas_output_folder | default(None) }}"
+      output_folder: "{% if 'neuro_morphometric_atlas' in airflow_extra_main_data_preprocessing_pipelines %}{{ airflow_extra_main_data_folder }}/preprocessing/neuro_morphometric_atlas{% else %}{% endif %}"
       backup_folder: "{{ main_data_preprocessing_neuro_morphometric_atlas_backup_folder | default(None) }}"
       spm_function: "{{ main_data_preprocessing_neuro_morphometric_atlas_spm_function | default('NeuroMorphometric_pipeline') }}"
       pipeline_path: "{{ main_data_preprocessing_neuro_morphometric_atlas_pipeline_path | default('omit') }}"
       misc_library_path: "{{ main_data_preprocessing_neuro_morphometric_atlas_misc_library_path | default('omit') }}"
       protocols_definition_file: "{{ main_data_preprocessing_neuro_morphometric_atlas_protocols_definition_file | default('omit') }}"
       tpm_template: "{{ main_data_preprocessing_neuro_morphometric_atlas_tpm_template | default(spm_dir + '/tpm/TPM.nii') }}"
+
+airflow_extra_main_dataset_main_preprocessing_settings: "{{ airflow_extra_main_dataset_main_preprocessing_all_settings|json_query('[?parameters.input_folder || parameters.output_folder!=``]') }}"
+
+airflow_extra_main_dataset_main_ehr_settings:
   - section: "data-factory:main:ehr"
     parameters:
       input_folder: "{{ main_data_ehr_input_folder | default(None) }}"
@@ -286,21 +281,21 @@ airflow_extra_main_dataset_settings:
   - section: "data-factory:main:reorganisation:trigger_ehr"
     parameters:
       depth: "{{ main_data_reorganisation_trigger_ehr_depth | default(0) }}"
+
+airflow_extra_main_dataset_main_metadata_settings:
   - section: "data-factory:main:metadata"
     parameters:
       input_folder: "{{ main_data_metadata_input_folder | default(None) }}"
       max_active_runs: "{{ main_data_metadata_max_active_runs | default(30) }}"
 
-airflow_work_dirs: "{{ [
-    main_data_preprocessing_input_folder,
-    main_data_preprocessing_copy_to_local_output_folder,
-    main_data_preprocessing_dicom_to_nifti_output_folder,
-    main_data_preprocessing_neuro_morphometric_atlas_output_folder,
-    main_data_ehr_input_folder,
-    main_data_ehr_version_incoming_ehr_output_folder,
-    main_data_reorganisation_input_folder,
-    main_data_reorganisation_copy_all_to_local_output_folder,
-    main_data_reorganisation_dicom_reorganise_output_folder,
-    main_data_reorganisation_nifti_reorganise_output_folder
-  ] | defined_vars_to_list }}
+airflow_extra_main_dataset_settings: "
+  {%- set settings = airflow_extra_main_dataset_main_settings + airflow_extra_main_dataset_main_preprocessing_settings -%}
+  {{ settings }}
+"
+
+airflow_work_output_dirs: "{{ airflow_extra_settings|map(attribute='parameters')|selectattr('output_folder', 'defined')|map(attribute='output_folder')|list }}"
+airflow_work_meta_output_dirs: "{{ airflow_extra_settings|map(attribute='parameters')|selectattr('meta_output_folder', 'defined')|map(attribute='meta_output_folder')|list }}"
+airflow_work_dirs: "
+  {%- set dirs = airflow_work_output_dirs + airflow_work_meta_output_dirs -%}
+  {{ dirs }}
 "

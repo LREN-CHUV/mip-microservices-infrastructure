@@ -45,6 +45,10 @@
       pip: name=docker-py state=present
       tags: ['docker', 'os-tools', 'control', 'infra', 'infrastructure']
 
+    - name: Install Python module jmespath (required by Data factory tasks)
+      pip: name='jmespath==0.9.3' state=present
+      tags: ['data-factory', 'os-tools', 'control', 'infra', 'infrastructure']
+
     - name: (RedHat) Install Python psycopg2 module for Postgres (required by postgresql_db task) and cryptography (required by airflow role)
       pip:
         name: "{{ item }}"
