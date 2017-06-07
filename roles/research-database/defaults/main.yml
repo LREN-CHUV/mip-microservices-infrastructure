@@ -37,16 +37,11 @@ research_db_user: research
 research_db_databases: "{{ research_db_name }}"
 
 research_db_data_dir: /srv/docker/research-db/data
-research_db_csv_dir: /srv/docker/research-db/csv
 
 research_db_volumes:
   - containerPath: "/var/lib/postgresql/data"
     hostPath: "{{ research_db_data_dir }}"
     mode: RW
-  # because /mnt is accessible to postgres user in the container
-  - containerPath: '/mnt/values.csv'
-    hostPath: "{{ research_db_csv_dir }}/values.csv"
-    mode: RO
 
 research_db_env:
   POSTGRES_USER: "{{ research_db_admin_user }}"
