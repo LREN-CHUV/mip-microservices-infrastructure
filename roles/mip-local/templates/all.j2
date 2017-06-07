@@ -1,7 +1,7 @@
 ---
 
-woken_features_from: 'ldsm-db'
-portal_backend_features_from: 'ldsm-db'
+woken_features_from: '{% if mip_building_blocks == 'all' %}ldsm-db{% else %}research-db{% endif %}'
+portal_backend_features_from: '{% if mip_building_blocks == 'all' %}ldsm-db{% else %}research-db{% endif %}'
 portal_backend_security_enabled: no
 
 research_db_companion_bases:
