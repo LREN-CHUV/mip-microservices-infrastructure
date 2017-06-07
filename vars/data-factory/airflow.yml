@@ -225,7 +225,7 @@ airflow_extra_main_dataset_preprocessing_all_settings:
       pipeline_path: "{{ main_data_preprocessing_neuro_morphometric_atlas_pipeline_path | default('omit') }}"
       misc_library_path: "{{ main_data_preprocessing_neuro_morphometric_atlas_misc_library_path | default('omit') }}"
       protocols_definition_file: "{{ main_data_preprocessing_neuro_morphometric_atlas_protocols_definition_file | default('omit') }}"
-      tpm_template: "{{ main_data_preprocessing_neuro_morphometric_atlas_tpm_template | default(spm_dir + '/tpm/TPM.nii') }}"
+      tpm_template: "{{ main_data_preprocessing_neuro_morphometric_atlas_tpm_template | default('TPM.nii') }}"
 
 airflow_extra_main_dataset_preprocessing_settings: "{{ airflow_extra_main_dataset_preprocessing_all_settings|json_query('[?parameters.input_folder || parameters.output_folder!=``]') }}"
 
