@@ -60,7 +60,7 @@ spm_version: 12
 spm_revision: r6906
 spm_mri_templates_version: '20050329'
 spm_mri_tpm_version: '20151218'
-data_tracking_version: '1.6.0'
+data_tracking_version: '1.6.1'
 data_catalog_db_setup_version: '1.5.22'
 mri_preprocessing_pipeline_version: '1.2.14'
 i2b2_import_version: '1.6.0'
