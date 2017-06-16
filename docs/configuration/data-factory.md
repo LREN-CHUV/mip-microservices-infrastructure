@@ -88,5 +88,7 @@ airflow_scheduler_mem: 2560.0
 airflow_webserver_cpus: 0.2
 airflow_webserver_mem: 512.0
 
+main_dataset_id: "demo"
+main_dataset_label: "Demo"
 
 ```

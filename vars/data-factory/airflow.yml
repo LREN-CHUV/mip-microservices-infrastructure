@@ -171,6 +171,7 @@ airflow_extra_common_settings:
 #data_factory_slack_channel
 #data_factory_slack_channel_user
 
+#main_dataset_id: "demo"
 #main_dataset_label: "Demo"
 #main_data_preprocessing_input_config: 'boost,session_id_by_patient,visit_id_in_patient_id'
 #main_data_preprocessing_scanners: "daily,continuous"
@@ -186,12 +187,12 @@ airflow_extra_main_data_preprocessing_pipelines: "{{ main_data_preprocessing_pip
 airflow_extra_main_data_reorganisation_pipelines: "{{ main_data_reorganisation_pipelines | default('dicom_reorganise,trigger_preprocessing') }}"
 
 airflow_extra_main_dataset_section_settings:
-  - section: "data-factory:main"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}"
     parameters:
       dataset_label: "{{ main_dataset_label | default('main') }}"
 
 airflow_extra_main_dataset_preprocessing_all_settings:
-  - section: "data-factory:main:preprocessing"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:preprocessing"
     parameters:
       input_folder: "{{ main_data_preprocessing_input_folder | default(airflow_extra_main_data_folder + '/preprocessing/input') }}"
       input_config: "{{ main_data_preprocessing_input_config | default('') }}"
@@ -202,10 +203,10 @@ airflow_extra_main_dataset_preprocessing_all_settings:
       protocols_definition_file: "{{ main_data_preprocessing_protocols_definition_file | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Protocols_definition.txt') }}"
       scanners: "{{ main_data_preprocessing_scanners | default('once') }}"
       pipelines: "{{ airflow_extra_main_data_preprocessing_pipelines }}"
-  - section: "data-factory:main:preprocessing:copy_to_local"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:preprocessing:copy_to_local"
     parameters:
       output_folder: "{% if 'copy_to_local' in airflow_extra_main_data_preprocessing_pipelines %}{{ airflow_extra_main_data_folder }}/preprocessing/local_copy{% else %}{% endif %}"
-  - section: "data-factory:main:preprocessing:dicom_to_nifti"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:preprocessing:dicom_to_nifti"
     parameters:
       output_folder: "{% if 'dicom_to_nifti' in airflow_extra_main_data_preprocessing_pipelines %}{{ airflow_extra_main_data_folder }}/preprocessing/nifti{% else %}{% endif %}"
       backup_folder: "{{ main_data_preprocessing_dicom_to_nifti_backup_folder | default(None) }}"
@@ -214,7 +215,7 @@ airflow_extra_main_dataset_preprocessing_all_settings:
       misc_library_path: "{{ main_data_preprocessing_dicom_to_nifti_misc_library_path | default('omit') }}"
       protocols_definition_file: "{{ main_data_preprocessing_dicom_to_nifti_protocols_definition_file | default('omit') }}"
       dcm2nii_program: "{{ main_data_preprocessing_dicom_to_nifti_dcm2nii_program | default('omit') }}"
-  - section: "data-factory:main:preprocessing:mpm_maps"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:preprocessing:mpm_maps"
     parameters:
       output_folder: "{% if 'mpm_maps' in airflow_extra_main_data_preprocessing_pipelines %}{{ airflow_extra_main_data_folder }}/preprocessing/mpm_maps{% else %}{% endif %}"
       backup_folder: "{{ main_data_preprocessing_mpm_maps_backup_folder | default(None) }}"
@@ -222,7 +223,7 @@ airflow_extra_main_dataset_preprocessing_all_settings:
       pipeline_path: "{{ main_data_preprocessing_mpm_maps_pipeline_path | default('omit') }}"
       misc_library_path: "{{ main_data_preprocessing_mpm_maps_misc_library_path | default('omit') }}"
       protocols_definition_file: "{{ main_data_preprocessing_mpm_maps_protocols_definition_file | default('omit') }}"
-  - section: "data-factory:main:preprocessing:neuro_morphometric_atlas"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:preprocessing:neuro_morphometric_atlas"
     parameters:
       output_folder: "{% if 'neuro_morphometric_atlas' in airflow_extra_main_data_preprocessing_pipelines %}{{ airflow_extra_main_data_folder }}/preprocessing/neuro_morphometric_atlas{% else %}{% endif %}"
       backup_folder: "{{ main_data_preprocessing_neuro_morphometric_atlas_backup_folder | default(None) }}"
@@ -235,7 +236,7 @@ airflow_extra_main_dataset_preprocessing_all_settings:
 airflow_extra_main_dataset_preprocessing_settings: "{{ airflow_extra_main_dataset_preprocessing_all_settings|json_query('[?parameters.input_folder || parameters.output_folder!=``]') }}"
 
 airflow_extra_main_dataset_ehr_settings:
-  - section: "data-factory:main:ehr"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:ehr"
     parameters:
       input_folder: "{{ main_data_ehr_input_folder | default(None) }}"
       input_folder_depth: "{{ main_data_ehr_input_folder_depth | default(0) }}"
@@ -243,15 +244,15 @@ airflow_extra_main_dataset_ehr_settings:
       max_active_runs: "{{ main_data_ehr_max_active_runs | default(30) }}"
       scanners: "{{ main_data_ehr_scanners | default('once') }}"
       pipelines: "{{ main_data_ehr_pipelines | default('version_incoming_ehr,map_ehr_to_i2b2') }}"
-  - section: "data-factory:main:ehr:version_incoming_ehr"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:ehr:version_incoming_ehr"
     parameters:
       output_folder: "{{ airflow_extra_main_data_folder }}/ehr/versioned"
-  - section: "data-factory:main:ehr:map_ehr_to_i2b2"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:ehr:map_ehr_to_i2b2"
     parameters:
       docker_image: "{{ main_data_ehr_map_ehr_to_i2b2_docker_image | default('hbpmip/mipmap-demo-ehr-to-i2b2:latest') }}"
 
 airflow_extra_main_dataset_reorganisation_all_settings:
-  - section: "data-factory:main:reorganisation"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:reorganisation"
     parameters:
       input_folder: "{{ main_data_reorganisation_input_folder | default(None) }}"
       input_config: "{{ main_data_reorganisation_input_config | default('') }}"
@@ -259,10 +260,10 @@ airflow_extra_main_dataset_reorganisation_all_settings:
       max_active_runs: "{{ main_data_reorganisation_max_active_runs | default(30) }}"
       folder_filter: "{{ main_data_reorganisation_folder_filter | default('.*') }}"
       pipelines: "{{ main_data_reorganisation_pipelines | default('') }}"
-  - section: "data-factory:main:reorganisation:copy_to_local"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:reorganisation:copy_to_local"
     parameters:
       output_folder: "{% if 'copy_to_local' in airflow_extra_main_data_reorganisation_pipelines %}{{ airflow_extra_main_data_folder }}/reorganisation/local_copy{% else %}{% endif %}"
-  - section: "data-factory:main:reorganisation:dicom_reorganise"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:reorganisation:dicom_reorganise"
     parameters:
       output_folder: "{% if 'dicom_reorganise' in airflow_extra_main_data_reorganisation_pipelines %}{{ airflow_extra_main_data_folder }}/reorganisation/dicom{% else %}{% endif %}"
       output_folder_structure: "{{ main_data_reorganisation_dicom_reorganise_output_folder_structure | default(None) }}"
@@ -271,7 +272,7 @@ airflow_extra_main_dataset_reorganisation_all_settings:
       docker_input_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_output_folder | default('/output_folder') }}"
       docker_user: "{{ main_data_reorganisation_dicom_reorganise_docker_user | default(airflow_docker_user) }}"
-  - section: "data-factory:main:reorganisation:nifti_reorganise"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:reorganisation:nifti_reorganise"
     parameters:
       output_folder: "{% if 'nifti_reorganise' in airflow_extra_main_data_reorganisation_pipelines %}{{ airflow_extra_main_data_folder }}/reorganisation/nifti{% else %}{% endif %}"
       output_folder_structure: "{{ main_data_reorganisation_nifti_reorganise_output_folder_structure | default(None) }}"
@@ -280,15 +281,15 @@ airflow_extra_main_dataset_reorganisation_all_settings:
       docker_input_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_output_folder | default('/output_folder') }}"
       docker_user: "{{ main_data_reorganisation_nifti_reorganise_docker_user | default(airflow_docker_user) }}"
-  - section: "data-factory:main:reorganisation:trigger_preprocessing"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:reorganisation:trigger_preprocessing"
     parameters:
       __keep: "{% if 'trigger_preprocessing' in airflow_extra_main_data_reorganisation_pipelines %}omit{% else %}{% endif %}"
       depth: "{{ main_data_reorganisation_trigger_preprocessing_depth | default(1) }}"
-  - section: "data-factory:main:reorganisation:trigger_metadata"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:reorganisation:trigger_metadata"
     parameters:
       __keep: "{% if 'trigger_metadata' in airflow_extra_main_data_reorganisation_pipelines %}omit{% else %}{% endif %}"
       depth: "{{ main_data_reorganisation_trigger_metadata_depth | default(0) }}"
-  - section: "data-factory:main:reorganisation:trigger_ehr"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:reorganisation:trigger_ehr"
     parameters:
       __keep: "{% if 'trigger_ehr' in airflow_extra_main_data_reorganisation_pipelines %}omit{% else %}{% endif %}"
       depth: "{{ main_data_reorganisation_trigger_ehr_depth | default(0) }}"
@@ -298,7 +299,7 @@ airflow_extra_main_dataset_reorganisation_all_settings:
 airflow_extra_main_dataset_reorganisation_settings: "{{ airflow_extra_main_dataset_reorganisation_all_settings|json_query('[?parameters.input_folder || (parameters.output_folder && parameters.output_folder!=``) || (parameters.__keep && parameters.__keep!=``)]') }}"
 
 airflow_extra_main_dataset_metadata_settings:
-  - section: "data-factory:main:metadata"
+  - section: "data-factory:{{ main_dataset_id | default('main') }}:metadata"
     parameters:
       input_folder: "{{ main_data_metadata_input_folder | default(None) }}"
       max_active_runs: "{{ main_data_metadata_max_active_runs | default(30) }}"
