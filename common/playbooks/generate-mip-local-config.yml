@@ -1,5 +1,19 @@
 ---
 
+- hosts: localhost
+  become: no
+
+  tasks:
+
+    - name: Check for compatible Ansible version
+      when: >
+        ansible_version["string"] | version_compare("2.2", "<")
+        or ansible_version["string"] | version_compare("2.4", ">=")
+      fail:
+        msg: >
+          Your version of Ansible doesn't match the required version. Please
+          install ansible-playbook with `pip install -r requirements.txt`.
+
 - hosts: managed
   become: yes
 
