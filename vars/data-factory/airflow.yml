@@ -43,7 +43,7 @@ airflow_required_pip_packages:
 
 airflow_additional_pip_packages:
   - "slackclient=={{ slackclient_py_version }}"
-  - "docker-py=={{ docker_py_version }}"
+  - "docker=={{ docker_py_version }}"
   - "data-tracking=={{ data_tracking_version }}"
   - "i2b2-import=={{ i2b2_import_version }}"
   - "airflow-imaging-plugins=={{ airflow_imaging_plugins_version }}"
@@ -118,6 +118,7 @@ airflow_group: 'airflow'
 airflow_home: '/usr/local/airflow'
 airflow_startup: 'marathon'
 airflow_mesos_master: '{{ mesos_leader_hostname }}:{{ mesos_leader_port }}'
+airflow_docker_user: "{{ airflow_user_id|string + ':' + airflow_group_id|string}}"
 
 airflow_scheduler_marathon_dependencies: "
   {%- set deps = [] -%}
@@ -137,6 +138,10 @@ airflow_webserver_marathon_dependencies: "
 
 # Listen to all incoming requests
 airflow_web_server_host: '0.0.0.0'
+
+airflow_scheduler_expected_activity_period: '2 hours'
+airflow_job_heartbeat_sec: 10
+airflow_scheduler_heartbeat_sec: 10
 
 spm_dir: "/opt/spm12"
 
@@ -254,7 +259,7 @@ airflow_extra_main_dataset_reorganisation_all_settings:
       max_active_runs: "{{ main_data_reorganisation_max_active_runs | default(30) }}"
       folder_filter: "{{ main_data_reorganisation_folder_filter | default('.*') }}"
       pipelines: "{{ main_data_reorganisation_pipelines | default('') }}"
-  - section: "data-factory:main:reorganisation:copy_all_to_local"
+  - section: "data-factory:main:reorganisation:copy_to_local"
     parameters:
       output_folder: "{% if 'copy_to_local' in airflow_extra_main_data_reorganisation_pipelines %}{{ airflow_extra_main_data_folder }}/reorganisation/local_copy{% else %}{% endif %}"
   - section: "data-factory:main:reorganisation:dicom_reorganise"
@@ -265,7 +270,7 @@ airflow_extra_main_dataset_reorganisation_all_settings:
       docker_image: "{{ main_data_reorganisation_dicom_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_data_reorganisation_dicom_reorganise_version | default(hierarchizer_version) }}"
       docker_input_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_output_folder | default('/output_folder') }}"
-      docker_user: "{{ main_data_reorganisation_dicom_reorganise_docker_user | default(airflow_user_id|string + ':' + airflow_group_id|string) }}"
+      docker_user: "{{ main_data_reorganisation_dicom_reorganise_docker_user | default(airflow_docker_user) }}"
   - section: "data-factory:main:reorganisation:nifti_reorganise"
     parameters:
       output_folder: "{% if 'nifti_reorganise' in airflow_extra_main_data_reorganisation_pipelines %}{{ airflow_extra_main_data_folder }}/reorganisation/nifti{% else %}{% endif %}"
@@ -274,7 +279,7 @@ airflow_extra_main_dataset_reorganisation_all_settings:
       docker_image: "{{ main_data_reorganisation_nifti_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_data_reorganisation_nifti_reorganise_version | default(hierarchizer_version) }}"
       docker_input_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_data_reorganisation_nifti_reorganise_docker_output_folder | default('/output_folder') }}"
-      docker_user: "{{ main_data_reorganisation_nifti_reorganise_docker_user | default(airflow_user_id|string + ':' + airflow_group_id|string) }}"
+      docker_user: "{{ main_data_reorganisation_nifti_reorganise_docker_user | default(airflow_docker_user) }}"
   - section: "data-factory:main:reorganisation:trigger_preprocessing"
     parameters:
       __keep: "{% if 'trigger_preprocessing' in airflow_extra_main_data_reorganisation_pipelines %}omit{% else %}{% endif %}"

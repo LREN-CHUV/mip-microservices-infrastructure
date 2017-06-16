@@ -1,7 +1,7 @@
 ---
 
 java_version: 8
-docker_version: "17.03.1~ce"
+docker_version: "17.05.1~ce"
 docker_package_version: "0"
 docker_registry_version: "2.3.1"
 
@@ -9,8 +9,8 @@ zookeeper_version: 3.4.10
 mesos_version: "1.2.0"
 mesos_package_version: "2.0.6"
 mesos_ui_version: "standalone-0.1.4"
-marathon_version: "1.4.3"
-marathon_package_version: "1.0.649"
+marathon_version: "1.4.4"
+marathon_package_version: "1.0.653"
 chronos_version: "2.4.0-centos-7"
 
 airflow_version: '1.8.1'
@@ -67,7 +67,7 @@ i2b2_import_version: '1.6.3'
 i2b2_capture_db_setup_version: '1.4.7'
 i2b2_mip_db_setup_version: '{{ i2b2_capture_db_setup_version }}'
 slackclient_py_version: '1.0.5'
-docker_py_version: '1.10.6'
+docker_py_version: '2.3.0'
 hierarchizer_version: '1.2.10'
 airflow_imaging_plugins_version: '2.4.0'
 data_factory_airflow_dags_version: '0.9.0'
