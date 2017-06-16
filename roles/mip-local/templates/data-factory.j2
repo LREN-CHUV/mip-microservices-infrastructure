@@ -27,11 +27,14 @@ matlab_root: '{{ matlab_root }}'
 {% endif %}
 
 # Configuration for MRI preprocessing pipeline running in Airflow
-data_factory_datasets: 'main'
+{% raw %}
+data_factory_datasets: '{{ main_dataset_id }}'
+{% endraw %}
 data_factory_email_errors_to: ''
 data_factory_slack_channel: '#data'
 data_factory_slack_channel_user: 'Airflow'
 
+main_dataset_id: 'demo'
 main_dataset_label: 'Demo'
 main_data_preprocessing_scanners: 'once'
 main_data_preprocessing_pipelines: 'dicom_to_nifti,neuro_morphometric_atlas'
