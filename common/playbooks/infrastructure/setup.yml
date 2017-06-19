@@ -2,6 +2,8 @@
 
 - include: check-requirements.yml
 
+- include: cleanup.yml
+
 - include: base-system.yml
 
 - include: control-box.yml
@@ -17,5 +19,3 @@
 - include: mesos-follower.yml
 
 # /Mesos stack
-
-- include: cleanup.yml

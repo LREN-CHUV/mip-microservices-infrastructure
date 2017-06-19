@@ -11,15 +11,39 @@ demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant'
 [control]
 demo
 
+[infrastructure:children]
+managed
+zookeeper
+mesos-leader
+mesos-mixed
+mesos-follower
+
 # Install Zookeeper, required by Mesos
 [zookeeper]
 demo
+
+# Install Mesos leader and Marathon
+[mesos-leader]
+# none
 
 # Install the full Mesos stack, including Mesos master and agent, Docker and Marathon
 [mesos-mixed]
 demo
 
-# Install Airflow master (databases + webserver)
+# Install Mesos agent and Docker
+[mesos-follower]
+# none
+
+[data-factory:children]
+airflow-master
+airflow-agent
+df-bases
+
+# Install the databases for Data Factory
+[df-bases]
+demo
+
+# Install Airflow master (webserver)
 [airflow-master]
 demo
 

@@ -62,7 +62,7 @@
 
     - name: Use airflow-db admin password if mipmap-db is collocated with it
       set_fact:
-        i2b2_mip_db_admin_password: '{{ airflow_db_admin_password }}'
+        mipmap_db_admin_password: '{{ airflow_db_admin_password }}'
       when: "'mipmap-db' in airflow_db_companion_bases"
       tags: ['mipmap-database', 'mipmap-db', 'data-factory-bases', 'df-bases', 'data-factory', 'marathon-app']
 

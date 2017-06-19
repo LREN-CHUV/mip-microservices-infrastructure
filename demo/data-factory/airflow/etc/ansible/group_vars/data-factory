@@ -1,0 +1,42 @@
+---
+
+airflow_user_id: 1011
+airflow_group_id: 1011
+airflow_docker_user: "{{ airflow_user_id|string + ':' + airflow_group_id|string}}"
+
+airflow_db_companion_bases:
+  - data-catalog-db
+  - i2b2-capture-db
+  - i2b2-mip-db
+  - mipmap-db
+
+airflow_scheduler_cpus: 0.2
+airflow_scheduler_mem: 2560.0
+
+airflow_webserver_cpus: 0.2
+airflow_webserver_mem: 512.0
+
+airflow_pool_io_intensive: 1
+airflow_pool_remote_file_copy: 1
+airflow_pool_image_preprocessing: 1
+
+airflow_extra_settings: "
+  {%- set settings = airflow_extra_common_settings + airflow_extra_main_dataset_settings -%}
+  {{ settings }}
+"
+
+# Configuration for MRI preprocessing pipeline running in Airflow
+data_factory_datasets: '{{ main_dataset_id }}'
+data_factory_email_errors_to: ''
+data_factory_slack_channel: '#data'
+data_factory_slack_channel_user: 'Airflow'
+
+main_dataset_id: 'demo'
+main_dataset_label: 'Demo'
+main_data_reorganisation_input_folder: '/data/input/demo'
+main_data_reorganisation_pipelines: 'dicom_reorganise,trigger_preprocessing'
+main_data_reorganisation_input_config: 'boost'
+main_data_reorganisation_dicom_reorganise_output_folder_structure: '#PatientID/#StudyID/#SeriesDescription/#SeriesDate'
+main_data_preprocessing_scanners: 'once'
+main_data_preprocessing_pipelines: 'dicom_to_nifti,neuro_morphometric_atlas,export_features,catalog_to_i2b2'
+main_data_folder: '/data/process/demo'

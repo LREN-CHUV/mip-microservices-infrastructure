@@ -82,16 +82,16 @@ airflow-master
 airflow-agent
 df-bases
 
-# Install Airflow master (databases + webserver)
+# Install the databases for Data Factory
+[df-bases]
+{{ target_server }}
+
+# Install Airflow master (webserver)
 [airflow-master]
 {{ target_server }}
 
 # Install Airflow agent (scheduler + scripts + related applications like SPM)
 [airflow-agent]
-{{ target_server }}
-
-# Install the databases for Data Factory
-[df-bases]
 {{ target_server }}
 
 {% endif %}

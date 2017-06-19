@@ -5,24 +5,17 @@
 # Installs _the_ world
 #
 
-- include: ../../common/playbooks/infrastructure/base-system.yml
+- include: ../../common/playbooks/infrastructure/setup.yml
 
-- include: ../../common/playbooks/infrastructure/zookeeper.yml
-
-- include: ../../common/playbooks/infrastructure/mesos-leader.yml
-
-- include: ../../common/playbooks/infrastructure/mesos-mixed.yml
-
-- include: ../../common/playbooks/infrastructure/mesos-follower.yml
-
-- include: ../../common/playbooks/data-factory/airflow.yml
+- include: ../../common/playbooks/data-factory/setup.yml
 
 - hosts: airflow-agent
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
     - "{{ play_dir }}/vars/versions.yml"
-    - "{{ play_dir }}/vars/airflow.yml"
+    - "{{ play_dir }}/vars/data-factory/endpoints.yml"
+    - "{{ play_dir }}/vars/data-factory/airflow.yml"
 
   tasks:
 
@@ -44,8 +37,8 @@
     - name: Create folders for data and scripts
       file: path='{{ item }}' state=directory owner=airflow
       with_items:
-        - /data/demo
-        - /data/ehr_demo
+        - /data/input/demo
+        - /data/input/ehr_demo
       tags:
         - demo
 
@@ -53,7 +46,7 @@
       git:
         repo: https://github.com/dcunited001/mri-scans.git
         version: master
-        dest: /data/demo
+        dest: /data/input/demo
         depth: 1
       tags:
         - demo
@@ -62,7 +55,7 @@
       git:
         repo: https://github.com/HBPMedical/MIPMap-demo-ehr-to-i2b2.git
         version: master
-        dest: /data/MIPMap-demo-ehr-to-i2b2
+        dest: /tmp/MIPMap-demo-ehr-to-i2b2
         depth: 1
       tags:
         - demo
@@ -70,7 +63,7 @@
     # Using rsync as synchronise seems to have trouble with Vagrant
     - name: Put the demo EHR data into the input folder
       command: >
-        rsync -av /data/MIPMap-demo-ehr-to-i2b2/source/ /data/ehr_demo/
+        rsync -av /tmp/MIPMap-demo-ehr-to-i2b2/source/ /data/ehr_demo/
       tags:
         - demo
         - skip_ansible_lint

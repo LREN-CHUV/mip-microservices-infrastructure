@@ -11,12 +11,8 @@ airflow_db_admin_password: 'MySecretPassword'
 airflow_db_password: 'airflowdb'
 
 data_catalog_db_password: 'datacatalogpwd'
-data_catalog_db_admin_password: "{{ airflow_db_admin_password }}"
-
-i2b2_db_password: 'i2b2pwd'
-i2b2_db_admin_password: "{{ airflow_db_admin_password }}"
-
+i2b2_capture_db_password: 'i2b2pwd'
+i2b2_mip_db_password: 'i2b2pwd'
 mipmap_db_password: 'mipmappwd'
-mipmap_db_admin_password: "{{ airflow_db_admin_password }}"
 
 slack_token: ''
