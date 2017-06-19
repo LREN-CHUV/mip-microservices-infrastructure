@@ -47,6 +47,7 @@ woken_docker_network: HOST
 woken_http_port: "{% if woken_docker_network == 'BRIDGE' %}31087{% else %}8087{% endif %}"
 # Port used by Akka cluster
 woken_akka_port: "{% if woken_docker_network == 'BRIDGE' %}31088{% else %}4090{% endif %}"
+woken_akka_path: '/user/entrypoint'
 
 internal_woken_url: "http://{{ woken_host }}:{{ woken_http_port }}"
 

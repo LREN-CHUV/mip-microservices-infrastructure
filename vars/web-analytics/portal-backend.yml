@@ -3,8 +3,6 @@
 # Attach the portal application to a particular host. The hostname should be the name known by Marathon / Mesos
 portal_backend_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
 
-woken_akka_path: '/user/entrypoint'
-
 portal_backend_dependencies: "
   {%- set portal_deps = [] -%}
   {%- if 'portal-db' not in research_db_companion_bases -%}

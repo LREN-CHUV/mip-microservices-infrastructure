@@ -63,8 +63,8 @@
 	path = roles/activator
 	url = https://github.com/ludovicc/ansible-typesafe-activator.git
 [submodule "roles/etckeeper"]
-  path = roles/etckeeper
-  url = https://github.com/ludovicc/ansible-etckeeper
+        path = roles/etckeeper
+        url = https://github.com/ludovicc/ansible-etckeeper
 [submodule "roles/openjdk"]
 	path = roles/openjdk
 	url = https://github.com/LREN-CHUV/ansible-java.git
