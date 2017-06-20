@@ -43,7 +43,7 @@ airflow_required_pip_packages:
 
 airflow_additional_pip_packages:
   - "slackclient=={{ slackclient_py_version }}"
-  - "docker=={{ docker_py_version }}"
+  - "docker-py=={{ docker_py_version }}"
   - "data-tracking=={{ data_tracking_version }}"
   - "i2b2-import=={{ i2b2_import_version }}"
   - "airflow-imaging-plugins=={{ airflow_imaging_plugins_version }}"
