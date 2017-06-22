@@ -40,6 +40,6 @@ portal_backend_marathon_id: /web-analytics/portal-backend
 
 portal_frontend_virtual_host: '{{ fqdn | default(ansible_fqdn) }}'
 
-portal_backend_frontend_login_url: "{{ portal_frontend_base_url }}/home"
-portal_backend_frontend_after_login_url: "{{ portal_frontend_base_url }}/services/login/hbp"
+portal_backend_frontend_login_url: "{{ portal_frontend_base_url }}/services/login/hbp"
+portal_backend_frontend_after_login_url: "{{ portal_frontend_base_url }}/home"
 portal_backend_frontend_after_logout_url: "{{ portal_frontend_base_url }}/services/login/hbp"
