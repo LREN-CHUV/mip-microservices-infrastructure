@@ -255,6 +255,7 @@ airflow_extra_main_dataset_reorganisation_all_settings:
   - section: "data-factory:{{ main_dataset_id | default('main') }}:reorganisation"
     parameters:
       input_folder: "{{ main_data_reorganisation_input_folder | default(None) }}"
+      input_folder_depth: "{{ main_data_reorganisation_input_folder_depth | default(0) }}"
       input_config: "{{ main_data_reorganisation_input_config | default('') }}"
       min_free_space: "{{ main_data_reorganisation_min_free_space | default(0.3) }}"
       max_active_runs: "{{ main_data_reorganisation_max_active_runs | default(30) }}"
@@ -268,6 +269,7 @@ airflow_extra_main_dataset_reorganisation_all_settings:
       output_folder: "{% if 'dicom_reorganise' in airflow_extra_main_data_reorganisation_pipelines %}{{ airflow_extra_main_data_folder }}/reorganisation/dicom{% else %}{% endif %}"
       output_folder_structure: "{{ main_data_reorganisation_dicom_reorganise_output_folder_structure | default(None) }}"
       meta_output_folder: "{{ airflow_extra_main_data_folder }}/reorganisation/meta"
+      allowed_field_values: "{{ main_data_reorganisation_dicom_reorganise_allowed_field_values | default(None) }}"
       docker_image: "{{ main_data_reorganisation_dicom_reorganise_docker_image | default('hbpmip/hierarchizer') }}:{{ main_data_reorganisation_dicom_reorganise_version | default(hierarchizer_version) }}"
       docker_input_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_input_folder | default('/input_folder') }}"
       docker_output_dir: "{{ main_data_reorganisation_dicom_reorganise_docker_output_folder | default('/output_folder') }}"
