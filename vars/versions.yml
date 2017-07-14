@@ -1,7 +1,7 @@
 ---
 
 java_version: 8
-docker_version: "17.03.1"
+docker_version: "17.06.0"
 docker_debian_package_version: "ce-0"
 docker_redhat_package_version: "ce"
 docker_registry_version: "2.3.1"
@@ -91,19 +91,19 @@ sonarqube_version: "6.0-alpine"
 
 ansible_cmdb_version: 1.17
 
-maven_version: "3.3.9"
+maven_version: "3.5.0"
 
 nodejs_version: "4.6"
 
 captain_version: "1.1.0"
-docker_compose_version: "1.11.2"
+docker_compose_version: "1.14.0"
 
 virtualbox_version: "5.1"
 vagrant_version: "1.9.3"
 
 # IDEs
 sublimetext_build: "3114"
-intellij_version: "2017.1.2"
+intellij_version: "2017.1.4"
 yed_version: "3.16.2.1"
 soapui_version: "5.2.1"
-atom_ver: '1.13.0'
+atom_ver: '1.17.2'

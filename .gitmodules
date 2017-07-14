@@ -12,7 +12,7 @@
 	branch = master
 [submodule "roles/maven"]
 	path = roles/maven
-	url = https://github.com/silpion/ansible-maven.git
+	url = https://github.com/ludovicc/ansible-maven.git
 	branch = master
 [submodule "roles/silpion.util"]
 	path = roles/silpion.util
