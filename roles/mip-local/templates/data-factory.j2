@@ -11,9 +11,9 @@ airflow_scheduler_mem: {{ (target_mem_mb|float / 4.0) | round(0, 'floor') }}
 airflow_webserver_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 airflow_webserver_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
 
-airflow_pool_io_intensive: {{ (target_cpus|float / 2.0) | round(1, 'floor') }}
+airflow_pool_io_intensive: {{ (target_cpus|float / 2.0) | round(1, 'floor') | int }}
 airflow_pool_remote_file_copy: 2
-airflow_pool_image_preprocessing: {{ (target_cpus|float / 1.1) | round(1, 'floor') }}
+airflow_pool_image_preprocessing: {{ (target_cpus|float / 1.1) | round(1, 'floor') | int }}
 
 {% raw %}
 airflow_extra_settings: "
