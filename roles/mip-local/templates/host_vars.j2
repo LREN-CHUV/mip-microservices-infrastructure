@@ -28,13 +28,6 @@ i2b2_mip_db_password: "{{ lookup('password', '/dev/null length=15') }}"
 mipmap_db_password: "{{ lookup('password', '/dev/null length=15') }}"
 
 {% if gitlab_com_login and gitlab_com_password %}
-meta_db_docker_registries:
-  - url: registry.gitlab.com
-    username: "{{ gitlab_com_login }}"
-    password: "{{ gitlab_com_password }}"
-
-research_db_docker_registries:
-  - url: registry.gitlab.com
-    username: "{{ gitlab_com_login }}"
-    password: "{{ gitlab_com_password }}"
+gitlab_com_login: "{{ gitlab_com_login }}"
+gitlab_com_password: "{{ gitlab_com_password }}"
 {% endif %}

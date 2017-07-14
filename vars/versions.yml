@@ -28,12 +28,12 @@ ldsm_db_version: 'latest'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "2.2.1"
-portal_backend_version: "2.2.2"
-woken_version: "db755a5"
+portal_frontend_version: "b13f2d4"
+portal_backend_version: "2.2.5"
+woken_version: "e980425"
 woken_functions:
   - name: histograms
-    docker_image: "hbpmip/python-histograms:66a9e47"
+    docker_image: "hbpmip/python-histograms:4cb93ea"
     predictive: false
   - name: statisticsSummary
     docker_image: "hbpmip/r-summary-stats:v1.0-Florence"
@@ -45,14 +45,22 @@ woken_functions:
     docker_image: "hbpmip/r-linear-regression:v1.0-Florence"
     predictive: false
   - name: knn
-    docker_image: "hbpmip/java-rapidminer-knn:v1.0-Florence"
+    docker_image: "hbpmip/java-rapidminer-knn:a10d808"
     predictive: true
   - name: naiveBayes
-    docker_image: "hbpmip/java-rapidminer-naivebayes:v1.0-Florence"
+    docker_image: "hbpmip/java-rapidminer-naivebayes:a10d808"
     predictive: true
 
-woken_validation_version: "7ec4b81"
+woken_validation_version: "e980425"
 woken_db_setup_version: '1.0.0'
+
+# Reference data
+
+mip_cde_meta_db_setup_version: '0.2.6'
+
+adni_merge_db_setup_version: '1.1.5'
+edsd_data_db_setup_version: '0.2.4'
+ppmi_data_db_setup_version: '0.1.6'
 
 # Data factory
 
@@ -63,7 +71,7 @@ spm_mri_templates_version: '20050329'
 spm_mri_tpm_version: '20151218'
 data_tracking_version: '1.7.1'
 data_catalog_db_setup_version: '1.5.22'
-mri_preprocessing_pipeline_version: '1.2.14'
+mri_preprocessing_pipeline_version: '1.2.15'
 i2b2_import_version: '1.6.3'
 i2b2_capture_db_setup_version: '1.4.9'
 i2b2_mip_db_setup_version: '{{ i2b2_capture_db_setup_version }}'

@@ -62,7 +62,7 @@ research_db_docker_registries: []
 #   password: mypassword
 
 research_db_docker_setup: []
-#  - image: registry.gitlab.com/hbpmip_private/adni-merge-db-setup:1.0.1
+#  - image: "registry.gitlab.com/hbpmip_private/adni-merge-db-setup:{{ adni_merge_db_setup_version }}"
 #    command: migrate
 #    env:
 #      FLYWAY_DBMS: postgresql
