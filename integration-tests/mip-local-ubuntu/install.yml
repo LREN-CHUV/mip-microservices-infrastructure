@@ -1,0 +1,8 @@
+---
+#
+# Master Install
+#
+# Installs _the_ world
+#
+
+- include: "{{ play_dir }}/common/playbooks/all.yml"

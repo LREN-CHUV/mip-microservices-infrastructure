@@ -1,0 +1,15 @@
+---
+
+# Few resources available in Vagrant box
+ldsm_db_cpus: 0.2
+ldsm_db_mem: 128.0
+
+# Few resources available in Vagrant box
+postgresraw_ui_cpus: 0.2
+postgresraw_ui_mem: 100.0
+
+postgresraw_ui_docker_parameters:
+  - key: 'add-host'
+    value: "demo:{{ vagrant_box_ip_address }}"
+  - key: 'add-host'
+    value: "demo.local:{{ vagrant_box_ip_address }}"

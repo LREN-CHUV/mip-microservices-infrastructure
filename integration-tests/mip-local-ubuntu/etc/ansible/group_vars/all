@@ -1,0 +1,21 @@
+---
+
+woken_features_from: 'ldsm-db'
+portal_backend_features_from: 'ldsm-db'
+portal_backend_security_enabled: no
+
+research_db_companion_bases:
+  - meta-db
+  - woken-db
+  - portal-db
+  - airflow-db
+  - data-catalog-db
+  - i2b2-capture-db
+  - i2b2-mip-db
+  - mipmap-db
+
+portal_frontend_base_url: "http://demo:10080"
+airflow_web_base_url: "http://demo:14080"
+
+python_location: '/usr/bin/python3'
+python_pip: '/usr/bin/pip3'

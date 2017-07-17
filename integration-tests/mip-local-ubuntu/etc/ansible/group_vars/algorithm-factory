@@ -1,0 +1,34 @@
+---
+
+chronos_cpus: 0.2
+chronos_mem: 512.0
+
+chronos_docker_parameters:
+  - key: 'add-host'
+    value: "demo:{{ vagrant_box_ip_address }}"
+  - key: 'add-host'
+    value: "demo.local:{{ vagrant_box_ip_address }}"
+
+# Amount of CPU reserved for woken
+woken_cpus: 0.2
+# Amount of memory in mb reserved for woken
+woken_mem: 256.0
+
+woken_main_table: demo
+
+woken_docker_parameters:
+  - key: 'add-host'
+    value: "demo:{{ vagrant_box_ip_address }}"
+  - key: 'add-host'
+    value: "demo.local:{{ vagrant_box_ip_address }}"
+
+# Amount of CPU reserved for woken validation
+woken_validation_cpus: 0.2
+# Amount of memory in mb reserved for woken validation
+woken_validation_mem: 256.0
+
+woken_validation_docker_parameters:
+  - key: 'add-host'
+    value: "demo:{{ vagrant_box_ip_address }}"
+  - key: 'add-host'
+    value: "demo.local:{{ vagrant_box_ip_address }}"
