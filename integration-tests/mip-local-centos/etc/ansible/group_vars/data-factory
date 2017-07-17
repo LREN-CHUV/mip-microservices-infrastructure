@@ -1,5 +1,8 @@
 ---
 
+airflow_user_id: 1011
+airflow_group_id: 1011
+
 airflow_db_companion_bases: []
 
 airflow_pool_io_intensive: 1

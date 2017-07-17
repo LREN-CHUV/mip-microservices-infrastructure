@@ -1,12 +1,12 @@
 ---
 
-# Default user in Docker appears as user 999 outside
+# Default user/group in Docker appears as user 999 outside, woken user has an id of 1000
 - name: Create woken validation directory
-  file: state=directory path={{ woken_validation_config_dir }} mode=0700 owner=999 group=999
+  file: state=directory path={{ woken_validation_config_dir }} mode=0700 owner=1000 group=999
   become: True
 
 - name: Setup configuration for the woken validation application
-  template: src=application.conf.j2 dest={{ woken_validation_config_dir }}/application.conf mode=0700 owner=999 group=999
+  template: src=application.conf.j2 dest={{ woken_validation_config_dir }}/application.conf mode=0700 owner=1000 group=999
   become: True
 
 - name: Wait for Marathon
