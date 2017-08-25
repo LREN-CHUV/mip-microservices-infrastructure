@@ -1,0 +1,41 @@
+---
+
+research_db_docker_registries:
+  - url: registry.gitlab.com
+    username: "{{ gitlab_com_login }}"
+    password: "{{ gitlab_com_password }}"
+
+research_db_docker_setup:
+  - image: "registry.gitlab.com/hbpmip_private/adni-merge-db-setup:{{ adni_merge_db_setup_version }}"
+    command: migrate
+    env:
+      FLYWAY_DBMS: postgresql
+      FLYWAY_HOST: '{{ research_db_host }}'
+      FLYWAY_PORT: '{{ research_db_port }}'
+      FLYWAY_DATABASE_NAME: '{{ research_db_name }}'
+      FLYWAY_SCHEMAS: "public"
+      FLYWAY_USER: '{{ research_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ research_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'
+  - image: "registry.gitlab.com/hbpmip_private/edsd-data-db-setup:{{ edsd_data_db_setup_version }}"
+    command: migrate
+    env:
+      FLYWAY_DBMS: postgresql
+      FLYWAY_HOST: '{{ research_db_host }}'
+      FLYWAY_PORT: '{{ research_db_port }}'
+      FLYWAY_DATABASE_NAME: '{{ research_db_name }}'
+      FLYWAY_SCHEMAS: "public"
+      FLYWAY_USER: '{{ research_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ research_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'
+  - image: "registry.gitlab.com/hbpmip_private/ppmi-data-db-setup:{{ ppmi_data_db_setup_version }}"
+    command: migrate
+    env:
+      FLYWAY_DBMS: postgresql
+      FLYWAY_HOST: '{{ research_db_host }}'
+      FLYWAY_PORT: '{{ research_db_port }}'
+      FLYWAY_DATABASE_NAME: '{{ research_db_name }}'
+      FLYWAY_SCHEMAS: "public"
+      FLYWAY_USER: '{{ research_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ research_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'
