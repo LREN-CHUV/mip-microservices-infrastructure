@@ -14,6 +14,13 @@ research_db_companion_bases:
   - i2b2-mip-db
   - mipmap-db
 
+{% if gitlab_com_login and gitlab_com_password %}
+# Setup the standard research datasets
+setup_standard_research_datasets: yes
+{% endif %}
+# Setup the standard metadata
+setup_standard_metadata: yes
+
 portal_frontend_base_url: "{{ portal_frontend_base_url }}"
 portal_frontend_virtual_host: "{{ portal_frontend_base_url | regex_replace('^.*://(.*)([:/].*)?$', '\\1') }}"
 {% raw -%}

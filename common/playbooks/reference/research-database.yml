@@ -11,6 +11,19 @@
     - "{{ play_dir }}/vars/reference/endpoints.yml"
     - "{{ play_dir }}/vars/reference/research-database.yml"
 
+  pre_tasks:
+
+  - name: Setup standard research datasets
+    include: "{{ play_dir }}/vars/reference/standard-research-datasets.yml"
+    when: setup_standard_research_datasets | default(false)
+    tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
+
+  - name: Add standard research datasets to research database setup
+    set_fact:
+      research_db_docker_setup: "{{ standard_research_db_docker_setup | union(research_db_docker_setup | default([])) }}"
+    when: setup_standard_research_datasets | default(false)
+    tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
+
   roles:
 
     - role: research-database

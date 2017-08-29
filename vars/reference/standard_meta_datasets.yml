@@ -1,0 +1,19 @@
+---
+
+# Setup the meta database with standard datasets
+# This  includes the following:
+#
+# * MIP CDE: collection of standard variables for MIP
+
+standard_meta_db_docker_setup:
+  - image: "hbpmip/mip-cde-meta-db-setup:{{ mip_cde_meta_db_setup_version }}"
+    command: migrate
+    env:
+      FLYWAY_DBMS: postgresql
+      FLYWAY_HOST: '{{ meta_db_host }}'
+      FLYWAY_PORT: '{{ meta_db_port }}'
+      FLYWAY_DATABASE_NAME: '{{ meta_db_name }}'
+      FLYWAY_SCHEMAS: "public"
+      FLYWAY_USER: '{{ meta_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ meta_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'

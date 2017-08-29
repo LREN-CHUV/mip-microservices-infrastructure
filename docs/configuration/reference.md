@@ -32,6 +32,11 @@ research_db_companion_bases:
   - 'meta-db'
   - 'woken-db'
 
+# Setup the standard research datasets
+setup_standard_research_datasets: yes
+# Setup the standard metadata
+setup_standard_metadata: yes
+
 ```
 
 ### ENV/etc/ansible/host_vars/[control node] (crypted)

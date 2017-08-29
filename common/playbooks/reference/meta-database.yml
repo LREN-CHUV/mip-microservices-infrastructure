@@ -20,6 +20,17 @@
       when: "'meta-db' in research_db_companion_bases"
       tags: ['meta-database', 'meta-db', 'database', 'reference', 'marathon-app']
 
+    - name: Setup standard metadata
+      include: "{{ play_dir }}/vars/reference/standard-meta-datasets.yml"
+      when: setup_standard_metadata | default(false)
+      tags: ['meta-database', 'meta-db', 'database', 'reference', 'marathon-app']
+
+    - name: Add standard metadata to metadata setup
+      set_fact:
+        meta_db_docker_setup: "{{ standard_meta_db_docker_setup | union(meta_db_docker_setup | default([])) }}"
+      when: setup_standard_metadata | default(false)
+      tags: ['meta-database', 'meta-db', 'database', 'reference', 'marathon-app']
+
   roles:
 
     - role: meta-database

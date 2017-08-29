@@ -1,11 +1,18 @@
 ---
 
+# Setup the standard research databases
+# This  includes the following reseatch datasets:
+#
+# * ADNI-merge
+# * EDSD
+# * PPMI
+
 research_db_docker_registries:
   - url: registry.gitlab.com
     username: "{{ gitlab_com_login }}"
     password: "{{ gitlab_com_password }}"
 
-research_db_docker_setup:
+standard_research_db_docker_setup:
   - image: "registry.gitlab.com/hbpmip_private/adni-merge-db-setup:{{ adni_merge_db_setup_version }}"
     command: migrate
     env:
