@@ -14,7 +14,7 @@
   pre_tasks:
 
   - name: Setup standard research datasets
-    include: "{{ play_dir }}/vars/reference/standard-research-datasets.yml"
+    include_vars: "{{ play_dir }}/vars/reference/standard-research-datasets.yml"
     when: setup_standard_research_datasets | default(false)
     tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
 

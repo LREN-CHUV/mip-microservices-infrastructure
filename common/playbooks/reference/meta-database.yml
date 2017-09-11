@@ -21,7 +21,7 @@
       tags: ['meta-database', 'meta-db', 'database', 'reference', 'marathon-app']
 
     - name: Setup standard metadata
-      include: "{{ play_dir }}/vars/reference/standard-meta-datasets.yml"
+      include_vars: "{{ play_dir }}/vars/reference/standard-meta-datasets.yml"
       when: setup_standard_metadata | default(false)
       tags: ['meta-database', 'meta-db', 'database', 'reference', 'marathon-app']
 
