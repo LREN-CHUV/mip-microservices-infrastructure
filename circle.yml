@@ -23,6 +23,3 @@ test:
   override:
     - pre-commit install
     - pre-commit run --all-files
-notify:
-  webhooks:
-  - url: 'https://webhook.atomist.com/atomist/circle'
