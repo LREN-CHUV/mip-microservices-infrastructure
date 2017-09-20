@@ -45,7 +45,7 @@ woken_features_from: 'ldsm-db'
 
 ```
 
-woken_main_table: adni_merge
+woken_main_table: mip_cde_features
 
 ```
 

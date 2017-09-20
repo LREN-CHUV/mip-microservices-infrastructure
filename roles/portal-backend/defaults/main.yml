@@ -83,7 +83,7 @@ portal_backend_env:
   META_DB_PASSWORD:  "{{ meta_db_password }}"
   FEATURES_DB_URL: "{{ research_db_jdbc_url }}"
   FEATURES_DB_SCHEMA: "public"
-  FEATURES_DB_MAIN_TABLE: "adni_merge"
+  FEATURES_DB_MAIN_TABLE: "mip_cde_features"
   FEATURES_DB_USER: "{{ research_db_user }}"
   FEATURES_DB_PASSWORD: "{{ research_db_password }}"
   AUTHENTICATION: 0
@@ -112,7 +112,7 @@ portal_backend_env:
 #   META_DB_PASSWORD:  "{{ meta_db_password }}"
 #   FEATURES_DB_URL: "{{ research_db_jdbc_url }}"
 #   FEATURES_DB_SCHEMA: "public"
-#   FEATURES_DB_MAIN_TABLE: "adni_merge"
+#   FEATURES_DB_MAIN_TABLE: "mip_cde_features"
 #   FEATURES_DB_USER: "{{ research_db_user }}"
 #   FEATURES_DB_PASSWORD: "{{ research_db_password }}"
 #   AUTHENTICATION: 1

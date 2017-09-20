@@ -3,7 +3,7 @@
 portal_backend_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 portal_backend_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
 
-portal_backend_features_table: adni_merge
+portal_backend_features_table: mip_cde_features
 
 portal_frontend_cpus: {{ (target_cpus|float / 32.0) | round(1, 'floor') }}
 portal_frontend_mem: {{ (target_mem_mb|float / 32.0) | round(0, 'floor') }}
