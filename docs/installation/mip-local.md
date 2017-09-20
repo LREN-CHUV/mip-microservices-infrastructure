@@ -45,3 +45,30 @@ Perform the installation of MIP Local
 ```
   DATACENTER=mip-local ./setup.sh
 ```
+
+# Upgrade of MIP Local
+
+## Preparation
+
+Link your project to mip-microservices-infrastructure template project:
+
+```
+  git remote add mmsi git@github.com:HBPMedical/mip-microservices-infrastructure.git
+  # or if you do not have ssh access to github.com:HBPMedical
+  git remote add mmsi https://github.com/LREN-CHUV/mip-microservices-infrastructure.git
+```
+
+Then update your infrastructure project with the desired VERSION of mip-microservices-infrastructure:
+
+```
+  git pull mmsi master
+  git merge mmsi/VERSION
+```
+
+where VERSION can be master or a specific version tag.
+
+Finally, run again the setup scripts. The infrastructure will be upgraded automatically in most cases.
+
+```
+  ./setup.sh
+```
