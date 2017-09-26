@@ -37,6 +37,7 @@ demo
 # TODO: not working yet
 #woken_docker_network: BRIDGE
 
+# Select where data features are coming from: ldms-db or research-db
 woken_features_from: 'ldsm-db'
 
 ```

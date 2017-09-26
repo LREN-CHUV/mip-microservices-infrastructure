@@ -32,6 +32,7 @@ demo
 
 ```
 
+# Select where data features are coming from: ldms-db or research-db
 portal_backend_features_from: 'ldsm-db'
 portal_backend_security_enabled: true
 
