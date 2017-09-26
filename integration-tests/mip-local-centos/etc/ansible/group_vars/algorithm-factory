@@ -14,7 +14,7 @@ woken_cpus: 0.2
 # Amount of memory in mb reserved for woken
 woken_mem: 256.0
 
-woken_main_table: demo
+woken_features_table: demo
 
 woken_docker_parameters:
   - key: 'add-host'

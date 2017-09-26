@@ -85,7 +85,7 @@ woken_role: mip_node
 # list of name, url values. Used to connect to woken workers when woken_role == mip_federation
 woken_nodes: []
 
-woken_main_table: mip_cde_features
+woken_features_table: mip_cde_features
 woken_functions:
   - name: histograms
     docker_image: "hbpmip/python-histograms:latest"

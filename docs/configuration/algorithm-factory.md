@@ -45,7 +45,7 @@ woken_features_from: 'ldsm-db'
 
 ```
 
-woken_main_table: mip_cde_features
+woken_features_table: mip_cde_features
 
 ```
 
