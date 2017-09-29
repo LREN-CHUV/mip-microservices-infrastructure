@@ -1,26 +1,26 @@
 ---
 
 java_version: 8
-docker_version: "{% if ansible_os_family == 'RedHat' %}17.03.2{% else %}17.06.1{% endif %}"
+docker_version: "{% if ansible_os_family == 'RedHat' %}17.03.2{% else %}17.09.0{% endif %}"
 docker_debian_package_version: "ce-0"
 docker_redhat_package_version: "ce"
 docker_registry_version: "2.3.1"
 
 zookeeper_version: 3.4.10
-mesos_version: "1.3.0"
-mesos_package_version: "2.0.3"
+mesos_version: "1.4.0"
+mesos_package_version: "2.0.1"
 mesos_ui_version: "standalone-0.1.4"
-marathon_version: "1.4.7"
-marathon_package_version: "1.0.657"
+marathon_version: "1.4.8"
+marathon_package_version: "1.0.660"
 chronos_version: "2.4.0-centos-7"
 
-airflow_version: '1.8.1'
+airflow_version: '1.8.2'
 airflow_db_image: "postgres"
 airflow_db_version: "{{ postgres_version }}"
 mri_db_image: "postgres"
 mri_db_version: "{{ postgres_version }}"
 
-postgres_version: "9.6.2-alpine"
+postgres_version: "9.6.5-alpine"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar
 ldsm_db_version: 'latest'
 
@@ -103,7 +103,7 @@ vagrant_version: "1.9.3"
 
 # IDEs
 sublimetext_build: "3114"
-intellij_version: "2017.1.4"
+intellij_version: "2017.2.5"
 yed_version: "3.16.2.1"
 soapui_version: "5.2.1"
 atom_ver: '1.17.2'
