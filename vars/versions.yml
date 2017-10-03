@@ -58,9 +58,9 @@ woken_db_setup_version: '1.0.0'
 
 mip_cde_meta_db_setup_version: '1.0.0'
 
-adni_merge_db_setup_version: '1.4.0'
-edsd_data_db_setup_version: '1.3.0'
-ppmi_data_db_setup_version: '1.0.0'
+adni_merge_db_setup_version: '1.4.2'
+edsd_data_db_setup_version: '1.3.2'
+ppmi_data_db_setup_version: '1.0.2'
 
 # Data factory
 
