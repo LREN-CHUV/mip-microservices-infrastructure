@@ -44,7 +44,8 @@ portal_frontend_base_url: "http://{{ portal_frontend_virtual_host }}"
 
 ```
 
-portal_backend_features_table: mip_cde_features
+# Use mip_cde_features to see only research data, otherwise use mip_local_features
+portal_backend_features_table: mip_local_features
 
 ```
 

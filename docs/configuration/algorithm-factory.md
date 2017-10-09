@@ -46,7 +46,8 @@ woken_features_from: 'ldsm-db'
 
 ```
 
-woken_features_table: mip_cde_features
+# Use mip_cde_features to see only research data, otherwise use mip_local_features
+woken_features_table: mip_local_features
 
 ```
 
