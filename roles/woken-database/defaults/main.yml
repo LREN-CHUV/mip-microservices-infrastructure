@@ -57,5 +57,5 @@ woken_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }
 internal_marathon_url: http://localhost:5080
 
 woken_db_setup_image_base: 'hbpmip/woken-db-setup'
-woken_db_setup_version: '1.0.0'
+woken_db_setup_version: '1.0.1'
 woken_db_setup_image: '{{ woken_db_setup_image_base }}:{{ woken_db_setup_version }}'
