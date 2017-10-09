@@ -28,9 +28,9 @@ ldsm_db_version: 'latest'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "b13f2d4"
-portal_backend_version: "2.2.5"
-woken_version: "e980425"
+portal_frontend_version: "bb94373"
+portal_backend_version: "2.3.2"
+woken_version: "9750bdc"
 woken_functions:
   - name: histograms
     docker_image: "hbpmip/python-histograms:4cb93ea"
@@ -51,8 +51,8 @@ woken_functions:
     docker_image: "hbpmip/java-rapidminer-naivebayes:0.2.0"
     predictive: true
 
-woken_validation_version: "e980425"
-woken_db_setup_version: '1.0.0'
+woken_validation_version: "9750bdc"
+woken_db_setup_version: '1.0.1'
 
 # Reference data
 
