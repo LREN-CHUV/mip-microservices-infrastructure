@@ -12,8 +12,8 @@ portal_frontend_cpus: {{ (target_cpus|float / 32.0) | round(1, 'floor') }}
 portal_frontend_mem: {{ (target_mem_mb|float / 32.0) | round(0, 'floor') }}
 
 {% if portal_frontend_google_tracker_id %}
-# Tracker id is defined in the host_vars as this is private information #}
+# Tracker id is defined in the host_vars as this is private information
 portal_frontend_google_analytics: true
 {% endif %}
 
-portal_backend_security_enabled: {{ portal_backend_hbp_client_id is defined }}
+portal_backend_security_enabled: {{ portal_backend_hbp_client_id is defined | lower }}

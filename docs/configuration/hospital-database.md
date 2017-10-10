@@ -30,6 +30,15 @@ demo
 
 ## Mandatory variables
 
+### ENV/etc/ansible/group_vars/all
+
+```
+
+# Setup the standard research datasets into ldsm-db. Other options: 'research-db' or 'none'
+setup_standard_research_datasets: 'ldsm-db'
+
+```
+
 ### ENV/etc/ansible/host_vars/[control node] (crypted)
 
 ```

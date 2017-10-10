@@ -45,3 +45,24 @@
     password: "{{ ldsm_db_password }}"
     role_attr_flags: "SUPERUSER"
   delegate_to: "{{ groups['control'][0] }}"
+
+- name: Log into private Docker registries
+  docker_login:
+    username: '{{ item.username }}'
+    password: '{{ item.password }}'
+    registry_url: '{{ item.url }}'
+  with_items: "{{ ldsm_db_docker_registries }}"
+  no_log: true
+
+- name: Setup LDSM database
+  docker_container:
+    name: setup_ldsm_db
+    image: "{{ item.image }}"
+    command: "{{ item.command | default(ommit) }}"
+    env: "{{ item.env }}"
+    detach: no
+    network_mode: host
+    interactive: yes
+    cleanup: yes
+  with_items: "{{ ldsm_db_docker_setup }}"
+  delegate_to: "{{ groups['control'][0] }}"

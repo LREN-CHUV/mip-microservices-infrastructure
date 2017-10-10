@@ -6,12 +6,12 @@ features_table: 'mip_local_features'
 
 {% endif %}
 {% if 'af' in mip_building_blocks %}
-woken_features_from: '{% if mip_building_blocks == 'all' %}ldsm-db{% else %}research-db{% endif %}'
+woken_features_from: '{{ features_from }}'
 
 {% endif %}
 {% if 'wa' in mip_building_blocks %}
-portal_backend_features_from: '{% if mip_building_blocks == 'all' %}ldsm-db{% else %}research-db{% endif %}'
-portal_backend_security_enabled: no
+portal_backend_features_from: '{{ features_from }}'
+portal_backend_security_enabled: {% if portal_backend_hbp_client_id %}yes{% else %}no{% endif %}
 
 portal_frontend_base_url: "{{ portal_frontend_base_url }}"
 portal_frontend_virtual_host: "{{ portal_frontend_base_url | regex_replace('^.*://(.*)([:/].*)?$', '\\1') }}"
@@ -37,10 +37,10 @@ research_db_companion_bases:
 
 {% if gitlab_com_login and gitlab_com_password %}
 # Setup the standard research datasets
-setup_standard_research_datasets: yes
+setup_standard_research_datasets: '{{ features_from }}'
 {% endif %}
 # Setup the standard metadata
-setup_standard_metadata: {{ 'wa' in mip_building_blocks or 'af' in mip_building_blocks }}
+setup_standard_metadata: {% if 'wa' in mip_building_blocks or 'af' in mip_building_blocks %}yes{% else %}no{% endif %}
 
 {% elif 'df' in mip_building_blocks %}
 research_db_companion_bases: []

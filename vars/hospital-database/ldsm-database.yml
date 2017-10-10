@@ -17,3 +17,5 @@ ldsm_db_env:
   POSTGRES_USER: "{{ ldsm_db_admin_user }}"
   POSTGRES_PASSWORD: "{{ ldsm_db_admin_password }}"
   PGDATA: '/data/pgdata'
+
+ldsm_db_docker_registries: '{{ research_db_docker_registries}}'

@@ -25,8 +25,8 @@ cd "$ROOT/../.."
 
 which ansible > /dev/null || ./common/scripts/bootstrap.sh
 
-ANSIBLE_OPTS=""
-SETUP_ANSIBLE_OPTS=""
+ANSIBLE_OPTS=()
+SETUP_ANSIBLE_OPTS=()
 target=""
 
 mkdir -p envs/mip-local/etc/ansible/
@@ -38,7 +38,8 @@ select location in "${options[@]}";
 do
   case "$location" in
       "This machine")
-          ANSIBLE_OPTS="-e mip_install=local -e target_server=localhost"
+          ANSIBLE_OPTS+=("-e mip_install=local")
+          ANSIBLE_OPTS+=("-e target_server=localhost")
           target="this machine"
           cat <<EOF > envs/mip-local/etc/ansible/hosts
 [all]
@@ -56,7 +57,9 @@ EOF
           read -p "Server DNS > " server_dns
           read -p "Server login user > " server_user
           read -p "Server SSH port (usually 22) > " server_ssh_port
-          ANSIBLE_OPTS="-e mip_install=remote -e target_server=$server_dns -e server_user=$server_user"
+          ANSIBLE_OPTS+=("-e mip_install=remote")
+          ANSIBLE_OPTS+=("-e target_server=$server_dns")
+          ANSIBLE_OPTS+=("-e server_user=$server_user")
           target="$server_dns"
           cat <<EOF > envs/mip-local/etc/ansible/hosts
 [all]
@@ -81,10 +84,11 @@ select sudo_pwd in "${options[@]}";
 do
   case "$sudo_pwd" in
       "yes")
-          ANSIBLE_OPTS="$ANSIBLE_OPTS --become --ask-become-pass"
+          ANSIBLE_OPTS+=("--become")
+          ANSIBLE_OPTS+=("--ask-become-pass")
           ;;
       "no")
-          ANSIBLE_OPTS="$ANSIBLE_OPTS --become"
+          ANSIBLE_OPTS+=("--become")
           ;;
         *)
           echo invalid option
@@ -142,11 +146,11 @@ if [[ "${mip_building_blocks['hdb']}" == "true" ]]; then
   do
     case "$building_blocks" in
       "CSV files")
-          ANSIBLE_OPTS="$ANSIBLE_OPTS -e features_from=ldsm-db"
+          ANSIBLE_OPTS+=("-e features_from=ldsm-db")
           ;;
       "Relational database")
           unset mip_building_blocks['hdb']
-          ANSIBLE_OPTS="$ANSIBLE_OPTS -e features_from=research-db"
+          ANSIBLE_OPTS+=("-e features_from=research-db")
           ;;
       *)
           echo invalid option
@@ -162,7 +166,8 @@ if [[ "${mip_building_blocks['df']}" == "true" ]]; then
   echo "Please enter an id for the main dataset to process, e.g. 'demo' and a readable label for it, e.g. 'Demo data'"
   read -p "Id for the main dataset > " main_dataset_id
   read -p "Label for the main dataset > " main_dataset_label
-  ANSIBLE_OPTS="$ANSIBLE_OPTS -e main_dataset_id=${main_dataset_id:-demo} -e main_dataset_label=${main_dataset_label:-demo}"
+  ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
+  ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
 
   if [[ "$location" == "This machine" && ! -d /usr/local/MATLAB/2016b ]]; then
       echo "Is Matlab 2016b installed on this machine?"
@@ -174,10 +179,10 @@ if [[ "${mip_building_blocks['df']}" == "true" ]]; then
             "yes")
                 echo "Enter the root of Matlab installation, e.g. /opt/MATLAB/2016b :"
                 read -p "path > " matlab_root
-                ANSIBLE_OPTS="$ANSIBLE_OPTS -e matlab_root=$matlab_root"
+                ANSIBLE_OPTS+=("-e matlab_root=$matlab_root")
                 ;;
             "no")
-                SETUP_ANSIBLE_OPTS="$SETUP_ANSIBLE_OPTS --skip-tags=spm"
+                SETUP_ANSIBLE_OPTS+=("--skip-tags=spm")
                 echo "The Data Factory will be installed but image pre-processing will not be functional."
                 echo "When Matlab is available, please run again the installation to setup Matlab and SPM using:"
                 echo "  ./setup.sh --tags=data-factory"
@@ -203,7 +208,8 @@ if [[ "${mip_building_blocks['df']}" == "true" ]]; then
             read -p "Slack channel, e.g. #data > " slack_channel
             read -p "Slack API token > " slack_token
             if [[ -n "$slack_channel" && -n "$slack_token" ]]; then
-              ANSIBLE_OPTS="$ANSIBLE_OPTS -e slack_channel=$slack_channel -e slack_token=$slack_token"
+              ANSIBLE_OPTS+=("-e slack_channel='$slack_channel'")
+              ANSIBLE_OPTS+=("-e slack_token='$slack_token'")
             else
               echo "You did not filled all required information. Slack notifications are disabled"
             fi
@@ -232,7 +238,8 @@ if [[ "${mip_building_blocks['wa']}" == "true" ]]; then
             read -p "HBP Client ID > " hbp_client_id
             read -p "HBP Client secret > " hbp_client_secret
             if [[ -n "$hbp_client_id" && -n "$hbp_client_secret" ]]; then
-              ANSIBLE_OPTS="$ANSIBLE_OPTS -e portal_backend_hbp_client_id=$hbp_client_id -e portal_backend_hbp_client_secret=$hbp_client_secret"
+              ANSIBLE_OPTS+=("-e portal_backend_hbp_client_id=$hbp_client_id")
+              ANSIBLE_OPTS+=("-e portal_backend_hbp_client_secret=$hbp_client_secret")
             else
               echo "You did not filled all required information. Security is disabled"
             fi
@@ -249,10 +256,10 @@ if [[ "${mip_building_blocks['wa']}" == "true" ]]; then
 
   echo "To enable Google analytics, please enter the Google tracker ID or leave this blank to disable it"
   read -p "Google tracker ID > " google_tracker_id
-  ANSIBLE_OPTS="$ANSIBLE_OPTS -e portal_frontend_google_tracker_id=$google_tracker_id"
+  ANSIBLE_OPTS+=("-e portal_frontend_google_tracker_id=$google_tracker_id")
 fi
 
-ANSIBLE_OPTS="$ANSIBLE_OPTS -e mip_building_blocks=$(echo "${!mip_building_blocks[@]}" | tr ' ' ',')"
+ANSIBLE_OPTS+=("-e mip_building_blocks=$(echo "${!mip_building_blocks[@]}" | tr ' ' ',')")
 
 echo
 echo "Generating the configuration for MIP Local..."
@@ -266,8 +273,7 @@ if [ "$debug" == "true" ]; then
   set -x
 fi
 
-# shellcheck disable=SC2086
-ansible-playbook $ANSIBLE_OPTS \
+ansible-playbook "${ANSIBLE_OPTS[@]}" \
         -i envs/mip-local/etc/ansible \
         -e play_dir="$(pwd)" \
         -e lib_roles_path="$(pwd)/roles" \
@@ -315,4 +321,4 @@ git add .
 echo "Run this command first after checking the configuration"
 echo "git commit -m 'Configuration for MIP Local'"
 
-echo "Run ./setup.sh $SETUP_ANSIBLE_OPTS to start the installation"
+echo "Run ./setup.sh ${SETUP_ANSIBLE_OPTS[*]} to start the installation"

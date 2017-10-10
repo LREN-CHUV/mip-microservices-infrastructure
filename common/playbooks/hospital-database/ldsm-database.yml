@@ -11,6 +11,19 @@
     - "{{ play_dir }}/vars/hospital-database/endpoints.yml"
     - "{{ play_dir }}/vars/hospital-database/ldsm-database.yml"
 
+  pre_tasks:
+
+    - name: Setup standard research datasets into LDSM
+      include_vars: "{{ play_dir }}/vars/reference/standard-research-datasets.yml"
+      when: setup_standard_research_datasets is defined and setup_standard_research_datasets == 'ldsm-db'
+      tags: ['ldsm-database', 'research-db', 'database', 'reference', 'marathon-app']
+
+    - name: Add standard research datasets to research database setup
+      set_fact:
+        ldsm_db_docker_setup: "{{ standard_research_db_docker_setup | union(ldsm_db_docker_setup | default([])) }}"
+      when: setup_standard_research_datasets is defined and setup_standard_research_datasets == 'ldsm-db'
+      tags: ['ldsm-database', 'research-db', 'database', 'reference', 'marathon-app']
+
   roles:
 
     - role: ldsm-database

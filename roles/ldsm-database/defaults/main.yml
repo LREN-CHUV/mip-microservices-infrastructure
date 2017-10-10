@@ -55,3 +55,21 @@ ldsm_db_path_to_lib_role: "{{ lib_roles_path|default(playbook_dir + '/roles') }}
 
 # URL to marathon master internal to the current cluster. You need to ensure that Ansible can reach that URL.
 internal_marathon_url: http://localhost:5080
+
+ldsm_db_docker_registries: []
+# - url: registry.gitlab.com
+#   username: myuser
+#   password: mypassword
+
+ldsm_db_docker_setup: []
+#  - image: "registry.gitlab.com/hbpmip_private/adni-merge-db-setup:{{ adni_merge_db_setup_version }}"
+#    command: migrate
+#    env:
+#      FLYWAY_DBMS: postgresql
+#      FLYWAY_HOST: '{{ research_db_host }}'
+#      FLYWAY_PORT: '{{ research_db_port }}'
+#      FLYWAY_DATABASE_NAME: '{{ research_db_name }}'
+#      FLYWAY_SCHEMAS: "public"
+#      FLYWAY_USER: '{{ research_db_admin_user }}'
+#      FLYWAY_PASSWORD: '{{ research_db_admin_password }}'
+#      FLYWAY_DRIVER: 'org.postgresql.Driver'

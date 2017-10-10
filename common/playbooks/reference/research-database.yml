@@ -15,13 +15,13 @@
 
   - name: Setup standard research datasets
     include_vars: "{{ play_dir }}/vars/reference/standard-research-datasets.yml"
-    when: setup_standard_research_datasets | default(false)
+    when: setup_standard_research_datasets is defined and setup_standard_research_datasets == 'research-db'
     tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
 
   - name: Add standard research datasets to research database setup
     set_fact:
       research_db_docker_setup: "{{ standard_research_db_docker_setup | union(research_db_docker_setup | default([])) }}"
-    when: setup_standard_research_datasets | default(false)
+    when: setup_standard_research_datasets is defined and setup_standard_research_datasets == 'research-db'
     tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
 
   roles:
