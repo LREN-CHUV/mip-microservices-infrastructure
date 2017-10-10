@@ -159,6 +159,11 @@ fi
 
 if [[ "${mip_building_blocks['df']}" == "true" ]]; then
 
+  echo "Please enter an id for the main dataset to process, e.g. 'demo' and a readable label for it, e.g. 'Demo data'"
+  read -p "Id for the main dataset > " main_dataset_id
+  read -p "Label for the main dataset > " main_dataset_label
+  ANSIBLE_OPTS="$ANSIBLE_OPTS -e main_dataset_id=${main_dataset_id:-demo} -e main_dataset_label=${main_dataset_label:-demo}"
+
   if [[ "$location" == "This machine" && ! -d /usr/local/MATLAB/2016b ]]; then
       echo "Is Matlab 2016b installed on this machine?"
       PS3="> "
@@ -187,7 +192,31 @@ if [[ "${mip_building_blocks['df']}" == "true" ]]; then
       done
   fi
 
-  # TODO: Slack token and channel
+  echo "Do you want to send progress and alerts on data processing to a Slack channel?"
+  PS3="> "
+  options=("yes" "no")
+  select use_slack in "${options[@]}";
+  do
+    case "$use_slack" in
+        "yes")
+            echo "To enable Slack, please enter the name of the channel and the Slack token"
+            read -p "Slack channel, e.g. #data > " slack_channel
+            read -p "Slack API token > " slack_token
+            if [[ -n "$slack_channel" && -n "$slack_token" ]]; then
+              ANSIBLE_OPTS="$ANSIBLE_OPTS -e slack_channel=$slack_channel -e slack_token=$slack_token"
+            else
+              echo "You did not filled all required information. Slack notifications are disabled"
+            fi
+            ;;
+        "no")
+            ;;
+          *)
+            echo invalid option
+            exit 1
+            ;;
+    esac
+    break
+  done
 
 fi
 

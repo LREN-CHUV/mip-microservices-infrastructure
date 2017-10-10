@@ -39,6 +39,10 @@ gitlab_com_login: "{{ gitlab_com_login }}"
 gitlab_com_password: "{{ gitlab_com_password }}"
 
 {% endif %}
+{% if slack_token %}
+slack_token: '{{ slack_token }}'
+
+{% endif %}
 {% if portal_frontend_google_tracker_id %}
 portal_frontend_google_tracker_id: '{{ portal_frontend_google_tracker_id }}'
 
