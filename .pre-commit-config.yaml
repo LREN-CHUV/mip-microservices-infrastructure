@@ -2,10 +2,13 @@ repos:
 -   repo: git://github.com/pre-commit/pre-commit-hooks
     sha: v0.9.5
     hooks:
-    -   id: trailing-whitespace
-    -   id: check-merge-conflict
-    -   id: check-yaml
+    - id: trailing-whitespace
+    - id: check-merge-conflict
+    - id: check-yaml
+    - id: pretty-format-json
+      args: ["--autofix"]
+      exclude: slack.json
 -   repo: git://github.com/detailyang/pre-commit-shell
     sha: 1.0.2
     hooks:
-    -   id: shell-lint
+    - id: shell-lint

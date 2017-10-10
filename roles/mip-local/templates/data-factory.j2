@@ -3,7 +3,16 @@
 airflow_user_id: 1011
 airflow_group_id: 1011
 
+{% if 'ref' in mip_building_blocks %}
+{# save memory by starting one Postgres server 'research-db' and creating all databases on it #}
 airflow_db_companion_bases: []
+{% else %}
+airflow_db_companion_bases:
+  - data-catalog-db
+  - i2b2-capture-db
+  - i2b2-mip-db
+  - mipmap-db
+{% endif %}
 
 airflow_scheduler_cpus: {{ (target_cpus|float / 4.0) | round(1, 'floor') }}
 airflow_scheduler_mem: {{ (target_mem_mb|float / 4.0) | round(0, 'floor') }}

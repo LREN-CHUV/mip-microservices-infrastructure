@@ -1,29 +1,54 @@
 ---
 
+{% if 'wa' in mip_building_blocks or 'af' in mip_building_blocks %}
+# Use mip_cde_features to see only research data, otherwise use mip_local_features
+features_table: 'mip_local_features'
+
+{% endif %}
+{% if 'af' in mip_building_blocks %}
 woken_features_from: '{% if mip_building_blocks == 'all' %}ldsm-db{% else %}research-db{% endif %}'
+
+{% endif %}
+{% if 'wa' in mip_building_blocks %}
 portal_backend_features_from: '{% if mip_building_blocks == 'all' %}ldsm-db{% else %}research-db{% endif %}'
 portal_backend_security_enabled: no
 
+portal_frontend_base_url: "{{ portal_frontend_base_url }}"
+portal_frontend_virtual_host: "{{ portal_frontend_base_url | regex_replace('^.*://(.*)([:/].*)?$', '\\1') }}"
+
+{% endif %}
+{% if 'ref' in mip_building_blocks %}
+{# save memory by starting one Postgres server 'research-db' and creating all databases on it #}
 research_db_companion_bases:
   - meta-db
+{% if 'af' in mip_building_blocks %}
   - woken-db
+{% endif %}
+{% if 'wa' in mip_building_blocks %}
   - portal-db
+{% endif %}
+{% if 'df' in mip_building_blocks %}
   - airflow-db
   - data-catalog-db
   - i2b2-capture-db
   - i2b2-mip-db
   - mipmap-db
+{% endif %}
 
 {% if gitlab_com_login and gitlab_com_password %}
 # Setup the standard research datasets
 setup_standard_research_datasets: yes
 {% endif %}
 # Setup the standard metadata
-setup_standard_metadata: yes
+setup_standard_metadata: {{ 'wa' in mip_building_blocks or 'af' in mip_building_blocks }}
 
-portal_frontend_base_url: "{{ portal_frontend_base_url }}"
-portal_frontend_virtual_host: "{{ portal_frontend_base_url | regex_replace('^.*://(.*)([:/].*)?$', '\\1') }}"
+{% elif 'df' in mip_building_blocks %}
+research_db_companion_bases: []
+{# databases for Data Factory are defined in data-factory group vars  #}
+{% endif %}
+{% if 'df' in mip_building_blocks %}
 {% raw -%}
 airflow_web_port: 4080
 airflow_web_base_url: "http://{{ fqdn | default(ansible_fqdn) }}:{{ airflow_web_port }}"
 {%- endraw %}
+{% endif %}

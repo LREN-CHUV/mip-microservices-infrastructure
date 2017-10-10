@@ -29,18 +29,46 @@
   with_items:
     - all
     - infrastructure
-    - hospital-database
-    - reference
-    - algorithm-factory
-    - web-analytics
 
-- name: Generate group_vars files for data-factory
+- name: Generate group_vars files for Hospital Database
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ play_dir }}/envs/mip-local/etc/ansible/group_vars/{{ item }}"
+  with_items:
+    - hospital-database
+  when: "'hdb' in mip_building_blocks"
+
+- name: Generate group_vars files for Reference databases
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ play_dir }}/envs/mip-local/etc/ansible/group_vars/{{ item }}"
+  with_items:
+    - reference
+  when: "'ref' in mip_building_blocks"
+
+- name: Generate group_vars files for Algorithm Factory
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ play_dir }}/envs/mip-local/etc/ansible/group_vars/{{ item }}"
+  with_items:
+    - algorithm-factory
+  when: "'af' in mip_building_blocks"
+
+- name: Generate group_vars files for Web Analytics
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ play_dir }}/envs/mip-local/etc/ansible/group_vars/{{ item }}"
+  with_items:
+    - web-analytics
+  when: "'wa' in mip_building_blocks"
+
+- name: Generate group_vars files for Data Factory
   template:
     src: "{{ item }}.j2"
     dest: "{{ play_dir }}/envs/mip-local/etc/ansible/group_vars/{{ item }}"
   with_items:
     - data-factory
-  when: mip_building_blocks == 'all'
+  when: "'df' in mip_building_blocks"
 
 - name: Generate host_vars file
   template:

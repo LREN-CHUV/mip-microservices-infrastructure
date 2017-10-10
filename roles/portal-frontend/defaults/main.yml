@@ -29,7 +29,7 @@ portal_backend_context_path: ''
 
 # Enable Google Analytics
 portal_frontend_google_analytics: false
-portal_frontend_tracker_id: 'UA-FILL-ME'
+portal_frontend_google_tracker_id: 'UA-FILL-ME'
 
 portal_frontend_env:
   WORKER_PROCESSES: "{{ [ 1, (portal_frontend_cpus | round | int)] | max }}"
@@ -40,4 +40,4 @@ portal_frontend_env:
   PORTAL_BACKEND_SERVER: '{{ internal_portal_backend_server }}'
   PORTAL_BACKEND_CONTEXT: '{{ portal_backend_context_path }}'
   ANALYTICS: '{{ portal_frontend_google_analytics }}'
-  TRACKER_ID: '{{ portal_frontend_tracker_id }}'
+  TRACKER_ID: '{{ portal_frontend_google_tracker_id }}'

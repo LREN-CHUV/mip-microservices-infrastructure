@@ -94,7 +94,6 @@ airflow_slot_pools:
     slots: '{{ airflow_pool_remote_file_copy }}'
     description: 'Number of concurrent file copy operations over the network'
 
-# airflow_scripts_verify_commit
 airflow_scripts:
   - url: https://github.com/HBPMedical/mri-preprocessing-pipeline.git
     version: '{{ mri_preprocessing_pipeline_version }}'
@@ -106,10 +105,11 @@ airflow_scripts:
     verify_commit: false
     dest: '{{ airflow_scripts_root }}/data-factory-airflow-dags'
 
+airflow_scripts_root: '/opt/airflow-scripts'
+airflow_scripts_verify_commit: true
+
 airflow_load_examples: false
 
-airflow_scripts_root: '/opt/airflow-scripts'
-airflow_scripts_verify_commit: false
 airflow_dags_folder: "{{ airflow_scripts_root }}/data-factory-airflow-dags"
 airflow_plugins_folder: '{{ airflow_scripts_root }}/airflow-imaging-plugins'
 

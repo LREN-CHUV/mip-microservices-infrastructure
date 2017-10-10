@@ -1,7 +1,7 @@
 # All machines known to Ansible
 {% if mip_install=='local' %}
 [all]
-{{ target_server }} ansible_connection=local
+{{ target_server }} ip_address={{ server_ip_address }} hostname={{ server_hostname }} fqdn={{ server_fqdn }} ansible_connection=local
 
 # Managed hosts should contain all servers in the datacenter.
 # Common software, configuration and security settings will be applied on them.
@@ -10,13 +10,12 @@
 
 {% else %}
 [all]
-{{ target_server }} ansible_connection=ssh ansible_ssh_user={{ server_user }} ansible_ssh_host={{ server_fqdn }} ansible_ssh_port=22
+{{ target_server }} ip_address={{ server_ip_address }} hostname={{ server_hostname }} fqdn={{ server_fqdn }} ansible_connection=ssh ansible_ssh_user={{ server_user }} ansible_ssh_host={{ server_fqdn }} ansible_ssh_port=22
 
 # Managed hosts should contain all servers in the datacenter.
 # Common software, configuration and security settings will be applied on them.
 [managed]
 {{ target_server }}
-
 {% endif %}
 
 # Control node: one control node should be selected, not necessarily in the datacenter - it can be the local desktop -
@@ -50,6 +49,7 @@ mesos-follower
 [mesos-follower]
 # none
 
+{% if 'hdb' in mip_building_blocks %}
 # Hospital database building block: define a 'hospital-database' group encompassing the configuration of the groups defined below
 [hospital-database:children]
 ldsm-db
@@ -63,6 +63,8 @@ postgresraw-ui
 [postgresraw-ui]
 {{ target_server }}
 
+{% endif %}
+{% if 'ref' in mip_building_blocks %}
 # Reference building block: define a 'reference' group encompassing the configuration of the groups defined below
 [reference:children]
 research-db
@@ -70,13 +72,18 @@ meta-db
 
 # Install research-database
 [research-db]
+{% if 'hdb' in mip_building_blocks %}
+# not installed, research data goes into ldsm-db
+{% else %}
 {{ target_server }}
+{% endif %}
 
 # Install meta-database
 [meta-db]
 {{ target_server }}
 
-{% if mip_building_blocks == 'all' %}
+{% endif %}
+{% if 'df' in mip_building_blocks %}
 # Data Factory building block: define an 'data-factory' group encompassing the configuration of the groups defined below
 [data-factory:children]
 airflow-master
@@ -96,7 +103,7 @@ df-bases
 {{ target_server }}
 
 {% endif %}
-
+{% if 'af' in mip_building_blocks %}
 # Algorithm Factory building block: define an 'algorithm-factory' group encompassing the configuration of the groups defined below
 [algorithm-factory:children]
 woken-db
@@ -115,6 +122,8 @@ woken-validation
 [woken-validation]
 {{ target_server }}
 
+{% endif %}
+{% if 'wa' in mip_building_blocks %}
 # Web Analytics building block: define an 'web-analytics' group encompassing the configuration of the groups defined below
 [web-analytics:children]
 portal-db
@@ -132,3 +141,4 @@ portal-frontend
 # Install portal-frontend
 [portal-frontend]
 {{ target_server }}
+{% endif %}
