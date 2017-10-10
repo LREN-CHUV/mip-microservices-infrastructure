@@ -12,3 +12,7 @@ repos:
     sha: 1.0.2
     hooks:
     - id: shell-lint
+#-   repo: git://github.com/willthames/ansible-lint
+#    sha: v3.4.16
+#    hooks:
+#    - id: ansible-lint

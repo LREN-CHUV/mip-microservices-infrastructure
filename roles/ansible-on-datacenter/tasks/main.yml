@@ -15,12 +15,12 @@
     - auto_install
 
 - name: Install pip
-  command: easy_install pip
+  easy_install: "name=pip"
   tags:
     - auto_install
 
 - name: Install ansible
-  command: pip install ansible
+  pip: "name=ansible"
   tags:
     - auto_install
 
