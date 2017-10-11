@@ -4,7 +4,7 @@
 
 Virtual machines built with Vagrant are actually easy to access: run
 
-```
+```sh
   vagrant ssh
 ```
 
@@ -26,6 +26,12 @@ instructions on how to fix this error.
 
 To fix it, you need to rebuild a module for Virtualbox using this command:
 
-```
+```sh
   sudo apt-get install --reinstall virtualbox-dkms linux-headers-generic
+```
+
+or
+
+```sh
+  ./common/scripts/fix-vagrant.sh
 ```

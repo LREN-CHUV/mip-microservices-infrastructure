@@ -1,9 +1,11 @@
 #!/bin/bash
 #
-# Attempts to fix the Mesos cluster by cleaning up logs and restarting all services
+# Attempts to fix the Mesos cluster by cleaning up logs and restarting all services.
+#
 # There is an option (--reset) that can destroy all state in the cluster (= the list of running application
 # and their current status) in an attempt to recover the clsuter after some catastrophic failure
 # or loss of coherence (phantom tasks...)
+#
 
 get_script_dir () {
      SOURCE="${BASH_SOURCE[0]}"

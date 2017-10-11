@@ -1,6 +1,5 @@
 #!/bin/sh
 
-sudo service chronos stop
 sudo service marathon stop
 sudo service mesos-slave stop
 sudo service docker stop
@@ -12,4 +11,3 @@ sudo service mesos-master start
 sudo service docker start
 sudo service mesos-slave start
 sudo service marathon start
-sudo service chronos start

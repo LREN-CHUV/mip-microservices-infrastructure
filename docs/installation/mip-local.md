@@ -43,7 +43,7 @@ Store the configuration in Git, encrypt the passwords and confidential informati
 Perform the installation of MIP Local
 
 ```
-  DATACENTER=mip-local ./setup.sh
+  ./setup.sh | tee ../install.log
 ```
 
 # Upgrade of MIP Local
@@ -70,5 +70,5 @@ where VERSION can be master or a specific version tag.
 Finally, run again the setup scripts. The infrastructure will be upgraded automatically in most cases.
 
 ```
-  ./setup.sh
+  ./setup.sh | tee ../upgrade-$(date -Iminutes).log
 ```

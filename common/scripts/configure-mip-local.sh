@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+#
+# Configure an installation of MIP Local on this machine or on a remote machine accessible by SSH.
+#
+
 set -e
 
 debug=false

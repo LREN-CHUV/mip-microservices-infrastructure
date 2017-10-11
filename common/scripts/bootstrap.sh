@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+#
+# Prepares the current machine to drive the installation of MIP.
+# It will install:
+# - Ansible
+# - Git
+# - git-crypt
+#
+
 get_script_dir () {
      SOURCE="${BASH_SOURCE[0]}"
 
