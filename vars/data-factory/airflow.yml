@@ -106,7 +106,8 @@ airflow_scripts:
     dest: '{{ airflow_scripts_root }}/data-factory-airflow-dags'
 
 airflow_scripts_root: '/opt/airflow-scripts'
-airflow_scripts_verify_commit: true
+# TODO set to true, this may require an additional step before installation to trust our scripts
+airflow_scripts_verify_commit: false
 
 airflow_load_examples: false
 
