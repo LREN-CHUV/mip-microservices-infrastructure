@@ -14,10 +14,14 @@
 
   pre_tasks:
 
+  - name: Need to add standard research datasets?
+    set_fact:
+      research_add_tandard_research_datasets: '{{ research_db_standard_research_datasets }}'
+
   - name: Add standard research datasets to research database setup
     set_fact:
       research_db_docker_setup: "{{ standard_research_db_docker_setup | union(research_db_docker_setup | default([])) }}"
-    when: research_db_standard_research_datasets
+    when: research_add_tandard_research_datasets
     tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
 
   roles:
