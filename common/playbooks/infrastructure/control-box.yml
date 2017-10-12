@@ -64,4 +64,4 @@
 
     - fail:
         message: "A library required by this installer was installed on the system. Please restart ./setup.sh to complete the installation"
-      when: repo_install|changed or jmespath_install|changed
+      when: (repo_install|changed) or (jmespath_install|changed)
