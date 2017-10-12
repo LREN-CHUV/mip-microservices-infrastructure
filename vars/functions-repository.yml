@@ -1,9 +1,0 @@
----
-
-# TODO: merge function_images with workflow_functions
-
-function_images:
-  - name: hbpmip/r-linear-regression
-    tag: e8d25c1
-  - name: hbpmip/r-summary-stats
-    tag: 50bcd11

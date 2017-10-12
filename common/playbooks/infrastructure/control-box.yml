@@ -1,11 +1,11 @@
 ---
 # Setup mandatory software on the control box
 
-- hosts: control
+- hosts: localhost
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/vars/versions.yml"
+  #  - "{{ play_dir }}/vars/versions.yml"
     - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
 
   roles:
@@ -37,12 +37,6 @@
       tags: ['os-tools', 'control', 'infra', 'infrastructure']
       register: repo_install
 
-    # See https://github.com/anarcher/ansible-docker-registry/issues/1
-    - name: Make sure pip upgraded
-      command: easy_install -U pip
-      when: ansible_os_family == 'Debian'
-      tags: ['os-tools', 'control', 'infra', 'infrastructure']
-
     - name: Install Python module for Docker (required by docker_container task)
       pip: name=docker-py state=present
       tags: ['docker', 'os-tools', 'control', 'infra', 'infrastructure']
@@ -51,6 +45,14 @@
       pip: name='jmespath==0.9.3' state=present
       tags: ['data-factory', 'os-tools', 'control', 'infra', 'infrastructure']
       register: jmespath_install
+
+    - fail:
+        message: "A library required by this installer was installed on the system. Please restart ./setup.sh to complete the installation"
+      when: repo_install|changed
+
+    - fail:
+        message: "A library required by this installer was installed on the system. Please restart ./setup.sh to complete the installation"
+      when: jmespath_install|changed
 
     - name: (RedHat) Install Python psycopg2 module for Postgres (required by postgresql_db task) and cryptography (required by airflow role)
       pip:
@@ -61,7 +63,3 @@
         - cryptography
       when: ansible_os_family == 'RedHat'
       tags: ['os-tools', 'control', 'infra', 'infrastructure']
-
-    - fail:
-        message: "A library required by this installer was installed on the system. Please restart ./setup.sh to complete the installation"
-      when: (repo_install|changed) or (jmespath_install|changed)
