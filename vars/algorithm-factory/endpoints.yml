@@ -29,6 +29,11 @@ woken_db_jdbc_url: "jdbc:postgresql://{{ woken_db_host }}:{{ woken_db_port }}/{{
 woken_db_jdbc_driver: "org.postgresql.Driver"
 woken_db_jdbc_jar: "/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar"
 
+# Select where data features are coming from: ldms-db or research-db
+woken_features_from: '{{ features_from }}'
+# Use mip_cde_features to see only research data, otherwise use mip_local_features
+woken_features_table: '{{ features_table }}'
+
 chronos_marathon_id: /algorithm-factory/chronos
 
 # TODO: allow Chronos to be deployed on another machine

@@ -33,19 +33,15 @@ demo
 ```
 
 # Select where data features are coming from: ldms-db or research-db
-portal_backend_features_from: 'ldsm-db'
+features_from: 'ldsm-db'
+# Use mip_cde_features to see only research data, otherwise use mip_local_features
+features_table: 'mip_local_features'
+
+# Enable user login with HBP OpenID service
 portal_backend_security_enabled: true
 
+# The base URL used for redirection. Required to redirect the user to the correct location, when the site address is changed by a proxy for example.
 portal_frontend_base_url: "http://{{ portal_frontend_virtual_host }}"
-
-```
-
-### ENV/etc/ansible/group_vars/web-analytics
-
-```
-
-# Use mip_cde_features to see only research data, otherwise use mip_local_features
-portal_backend_features_table: mip_local_features
 
 ```
 

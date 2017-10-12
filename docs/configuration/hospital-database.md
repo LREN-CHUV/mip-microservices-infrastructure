@@ -34,8 +34,8 @@ demo
 
 ```
 
-# Setup the standard research datasets into ldsm-db. Other options: 'research-db' or 'none'
-setup_standard_research_datasets: 'ldsm-db'
+# Setup the standard research datasets into ldsm-db (when features_from = 'ldsm-db').
+setup_standard_research_datasets: yes
 
 ```
 

@@ -5,3 +5,5 @@ research_db_databases: "
   {%- set names = [research_db_name] + research_db_companion_bases -%}
   {{ names | join(',') | replace('-db','') }}
 "
+
+research_db_standard_research_datasets: "{{ setup_standard_research_datasets and features_from == 'research-db' }}"

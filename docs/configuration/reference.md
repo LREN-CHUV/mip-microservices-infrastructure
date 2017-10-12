@@ -28,12 +28,13 @@ demo
 
 ```
 
+# List of databases to collocate and install on the Research db server
 research_db_companion_bases:
   - 'meta-db'
   - 'woken-db'
 
-# Setup the standard research datasets into research-db. Other options: 'ldsm-db' or 'none'
-setup_standard_research_datasets: 'research-db'
+# Setup the standard research datasets into research-db (when features_from = 'research-db').
+setup_standard_research_datasets: yes
 # Setup the standard metadata
 setup_standard_metadata: yes
 

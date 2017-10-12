@@ -34,20 +34,13 @@ demo
 
 ```
 
+# Select where data features are coming from: ldms-db or research-db
+features_from: 'ldsm-db'
+# Use mip_cde_features to see only research data, otherwise use mip_local_features
+features_table: 'mip_local_features'
+
 # TODO: not working yet
 #woken_docker_network: BRIDGE
-
-# Select where data features are coming from: ldms-db or research-db
-woken_features_from: 'ldsm-db'
-
-```
-
-### ENV/etc/ansible/group_vars/algorithm-factory
-
-```
-
-# Use mip_cde_features to see only research data, otherwise use mip_local_features
-woken_features_table: mip_local_features
 
 ```
 
