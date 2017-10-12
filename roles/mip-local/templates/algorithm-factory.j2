@@ -8,11 +8,6 @@ woken_cpus: {{ (target_cpus|float / 8.0) | round(1, 'floor') }}
 # Amount of memory in mb reserved for woken
 woken_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
 
-{% raw %}
-# Use mip_cde_features to see only research data, otherwise use mip_local_features
-woken_features_table: '{{ features_table }}'
-{% endraw %}
-
 # Amount of CPU reserved for woken validation
 woken_validation_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 # Amount of memory in mb reserved for woken validation

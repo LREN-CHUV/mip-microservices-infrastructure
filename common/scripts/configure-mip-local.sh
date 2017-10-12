@@ -322,7 +322,16 @@ which gpg > /dev/null || (
 
 git add .
 
-echo "Run this command first after checking the configuration"
-echo "git commit -m 'Configuration for MIP Local'"
-
-echo "Run ./setup.sh ${SETUP_ANSIBLE_OPTS[*]} to start the installation"
+echo
+echo "Generation of the standard configuration for MIP Local complete!"
+echo
+echo "You can review the configuration located in $ROOT/envs/mip-local/etc/ansible/"
+echo "and customise it further for your environment and needs."
+echo "More information about the configuration settings can be found in"
+echo "  $ROOT/docs/configuration/"
+echo
+echo "Before starting the installation, please commit the configuration in Git:"
+echo "  git commit -m 'Configuration for MIP Local'"
+echo
+echo "Then run setup.sh to start the installation"
+echo "  ./setup.sh ${SETUP_ANSIBLE_OPTS[*]}"
