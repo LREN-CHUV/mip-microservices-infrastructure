@@ -12,6 +12,11 @@ if [ "$1" = "--force" ]; then
   shift
 fi
 
+[ -d roles/mesos/tasks ] || ./after-git-clone.sh
+./after-update.sh
+
+./common/scripts/bootstrap.sh
+
 count=$(git status --porcelain | wc -l)
 if test "$count" -gt 0; then
   git status
@@ -23,11 +28,6 @@ if test "$count" -gt 0; then
     exit 1
   fi
 fi
-
-[ -d roles/mesos/tasks ] || ./after-git-clone.sh
-./after-update.sh
-
-./common/scripts/bootstrap.sh
 
 ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
         -e play_dir="$(pwd)" \

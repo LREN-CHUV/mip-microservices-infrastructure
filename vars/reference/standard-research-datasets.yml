@@ -1,13 +1,18 @@
 ---
 
 # Setup the standard research databases
-# This  includes the following reseatch datasets:
+# This includes the following reseatch datasets:
 #
 # * ADNI-merge
 # * EDSD
 # * PPMI
 
 research_db_docker_registries:
+  - url: registry.gitlab.com
+    username: "{{ gitlab_com_login }}"
+    password: "{{ gitlab_com_password }}"
+
+ldsm_db_docker_registries:
   - url: registry.gitlab.com
     username: "{{ gitlab_com_login }}"
     password: "{{ gitlab_com_password }}"

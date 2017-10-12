@@ -23,6 +23,7 @@
         - curl
       when: ansible_os_family == 'Debian'
       tags: ['os-tools', 'control', 'infra', 'infrastructure']
+      register: repo_install
 
     - name: (RedHat) Install Python psycopg2 module for Postgres (required by postgresql_db task), pip and curl (required for marathon-app)
       yum: name={{ item }} state=present
@@ -34,6 +35,7 @@
         - curl
       when: ansible_os_family == 'RedHat'
       tags: ['os-tools', 'control', 'infra', 'infrastructure']
+      register: repo_install
 
     # See https://github.com/anarcher/ansible-docker-registry/issues/1
     - name: Make sure pip upgraded
@@ -48,6 +50,7 @@
     - name: Install Python module jmespath (required by Data factory tasks)
       pip: name='jmespath==0.9.3' state=present
       tags: ['data-factory', 'os-tools', 'control', 'infra', 'infrastructure']
+      register: jmespath_install
 
     - name: (RedHat) Install Python psycopg2 module for Postgres (required by postgresql_db task) and cryptography (required by airflow role)
       pip:
@@ -58,3 +61,7 @@
         - cryptography
       when: ansible_os_family == 'RedHat'
       tags: ['os-tools', 'control', 'infra', 'infrastructure']
+
+    - fail:
+        message: "A library required by this installer was installed on the system. Please restart ./setup.sh to complete the installation"
+      when: repo_install|changed or jmespath_install|changed

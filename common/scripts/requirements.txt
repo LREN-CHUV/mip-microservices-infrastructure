@@ -1,3 +1,4 @@
 ansible>=2.3.0
 pytest==2.7.1
 PyYAML==3.12
+jmespath==0.9.3

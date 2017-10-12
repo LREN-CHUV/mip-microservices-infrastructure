@@ -10,13 +10,9 @@
     - "{{ play_dir }}/vars/infrastructure/mesos.yml"
     - "{{ play_dir }}/vars/hospital-database/endpoints.yml"
     - "{{ play_dir }}/vars/hospital-database/ldsm-database.yml"
+    - "{{ play_dir }}/vars/reference/standard-research-datasets.yml"
 
   pre_tasks:
-
-    - name: Setup standard research datasets into LDSM
-      include_vars: "{{ play_dir }}/vars/reference/standard-research-datasets.yml"
-      when: ldsm_db_standard_research_datasets
-      tags: ['ldsm-database', 'research-db', 'database', 'reference', 'marathon-app']
 
     - name: Add standard research datasets to research database setup
       set_fact:

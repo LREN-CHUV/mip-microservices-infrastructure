@@ -1,9 +1,10 @@
 ---
 
 # Setup the meta database with standard datasets
-# This  includes the following:
+# This includes the following:
 #
 # * MIP CDE: collection of standard variables for MIP
+#
 
 standard_meta_db_docker_setup:
   - image: "hbpmip/mip-cde-meta-db-setup:{{ mip_cde_meta_db_setup_version }}"
