@@ -14,7 +14,7 @@ mip-microservices-infrastructure attempts to follow the Mantl.io project from Ci
 
 # Demos
 
-Demonstrations are available for the various building blocks managed by this infrastructure project. The demos require a Linux machine with at least 8Gb ram, Virtualbox and Vagrant to work.  
+Demonstrations are available for the various building blocks managed by this infrastructure project. The demos require a Linux machine with at least 8Gb ram, Virtualbox and Vagrant to work.
 
 ## Algorithm factory
 
@@ -46,7 +46,7 @@ Contributors to the platform are invited to join the following tools for collabo
 
 # License
 
-Copyright © 2016 LREN CHUV
+Copyright © 2016-2017 LREN CHUV
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
