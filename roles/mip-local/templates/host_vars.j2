@@ -32,20 +32,20 @@ i2b2_mip_db_password: "{{ lookup('password', '/dev/null length=15') }}"
 mipmap_db_password: "{{ lookup('password', '/dev/null length=15') }}"
 
 {% endif %}
-{% if gitlab_com_login and gitlab_com_password %}
+{% if gitlab_com_login is defined and gitlab_com_login and gitlab_com_password %}
 gitlab_com_login: "{{ gitlab_com_login }}"
 gitlab_com_password: "{{ gitlab_com_password }}"
 
 {% endif %}
-{% if slack_token %}
+{% if slack_token is defined and slack_token %}
 slack_token: '{{ slack_token }}'
 
 {% endif %}
-{% if portal_frontend_google_tracker_id %}
+{% if portal_frontend_google_tracker_id is defined and portal_frontend_google_tracker_id %}
 portal_frontend_google_tracker_id: '{{ portal_frontend_google_tracker_id }}'
 
 {% endif %}
-{% if portal_backend_hbp_client_id is defined %}
+{% if portal_backend_hbp_client_id is defined and portal_backend_hbp_client_id %}
 portal_backend_hbp_client_id: '{{ portal_backend_hbp_client_id }}'
 portal_backend_hbp_client_secret: '{{ portal_backend_hbp_client_secret }}'
 
