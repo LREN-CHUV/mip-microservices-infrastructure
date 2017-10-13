@@ -5,4 +5,6 @@ git submodule update --init
 if [ "$IN_SUBMODULE" = "true" ]; then
   git clean -f -d
 fi
-pre-commit install
+if [ -x /usr/local/bin/pre-commit ]; then
+  pre-commit install
+fi

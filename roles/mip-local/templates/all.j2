@@ -5,8 +5,9 @@
 features_from: '{{ features_from }}'
 # Use mip_cde_features to see only research data, otherwise use mip_local_features
 features_table: 'mip_local_features'
-# Setup the standard research datasets into research-db (when features_from = 'research-db').
+# Setup the standard research datasets into research-db (when features_from = 'research-db'). otherwise ldsm-db
 setup_standard_research_datasets: {% if gitlab_com_login and gitlab_com_password %}yes{% else %}no{% endif %}
+
 # Setup the standard metadata
 setup_standard_metadata: yes
 

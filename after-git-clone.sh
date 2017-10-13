@@ -1,5 +1,6 @@
 #!/bin/sh
 
 git submodule update --init --recursive
-pre-commit install
-
+if [ -x /usr/local/bin/pre-commit ]; then
+  pre-commit install
+fi
