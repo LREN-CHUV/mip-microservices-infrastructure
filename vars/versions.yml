@@ -28,8 +28,8 @@ ldsm_db_version: 'latest'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "2.2.6"
-portal_backend_version: "2.3.3"
+portal_frontend_version: "2.2.7"
+portal_backend_version: "2.3.8"
 woken_version: "2.0.1"
 woken_functions:
   - name: histograms
