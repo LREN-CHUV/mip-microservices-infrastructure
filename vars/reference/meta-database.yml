@@ -2,3 +2,16 @@
 
 meta_db_deploy: "{{ not ('meta-db' in research_db_companion_bases) }}"
 meta_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
+
+meta_db_gitlab_docker_registries:
+  - url: registry.gitlab.com
+    username: "{{ gitlab_com_login }}"
+    password: "{{ gitlab_com_password }}"
+
+meta_db_docker_registries: "
+  {%- set regs = [] -%}
+  {%- if gitlab_com_password is defined -%}
+    {%- set regs = meta_db_gitlab_docker_registries -%}
+  {%- endif -%}
+  {{ regs }}
+"
