@@ -1,6 +1,6 @@
 ---
 
-- hosts: meta-db,meta-database
+- hosts: meta-db
   become: yes
   gather_facts: yes
   vars_files:

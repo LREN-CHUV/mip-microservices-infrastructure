@@ -1,6 +1,6 @@
 ---
 
-- hosts: research-db,research-database
+- hosts: research-db
   become: yes
   gather_facts: yes
   vars_files:
