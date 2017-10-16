@@ -18,8 +18,8 @@ woken_db_host: "
   {%- if 'woken-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-  {% set host = groups['woken-db'][0] %}
-  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
+    {%- set host = groups['woken-db'][0] -%}
+    {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
   {%- endif -%}
 "
 woken_db_name: woken

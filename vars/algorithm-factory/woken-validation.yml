@@ -6,7 +6,7 @@ woken_validation_docker_network: "{{ woken_docker_network }}"
 
 # Attach woken validation application to a particular host. The hostname should be the name known by Marathon / Mesos
 woken_validation_marathon_host: "
-  {% set host = groups['woken-validation'][0] %}
+  {%- set host = groups['woken-validation'][0] -%}
   {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
 "
 

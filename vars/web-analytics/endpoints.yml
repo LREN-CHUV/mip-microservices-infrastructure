@@ -18,7 +18,7 @@ portal_db_host: "
   {%- if 'portal-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-    {% set host = groups['portal-db'][0] %}
+    {%- set host = groups['portal-db'][0] -%}
     {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
   {%- endif -%}
 "
@@ -35,7 +35,7 @@ portal_backend_akka_port: 4489
 portal_backend_context_path: ""
 
 portal_backend_host: "
-  {% set host = groups['portal-backend'][0] %}
+  {%- set host = groups['portal-backend'][0] -%}
   {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
 "
 internal_portal_backend_server: '{{ portal_backend_host }}:{{ portal_backend_port }}'

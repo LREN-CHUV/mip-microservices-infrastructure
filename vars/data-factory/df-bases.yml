@@ -2,7 +2,7 @@
 
 airflow_db_deploy: "{{ 'airflow-db' not in research_db_companion_bases }}"
 airflow_db_marathon_host: "
-  {% set host = groups['airflow-db'][0] %}
+  {%- set host = groups['airflow-db'][0] -%}
   {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
 "
 airflow_db_databases: "
@@ -10,8 +10,8 @@ airflow_db_databases: "
   {{ names | join(',') | replace('-db','') }}
 "
 
-data_catalog_db_deploy: no
-data_catalog_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
+data_catalog_db_deploy: "{{ 'data-catalog-db' not in research_db_companion_bases and 'data-catalog-db' not in airflow_db_companion_bases }}"
+data_catalog_db_marathon_host: "{{ data_catalog_db_host }}"
 
 data_catalog_db_port: "
   {%- if 'data-catalog-db' in airflow_db_companion_bases -%}
@@ -28,12 +28,13 @@ data_catalog_db_host: "
   {%- elif 'data-catalog-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-    {{ fqdn | default(ansible_fqdn) }}
+    {%- set host = groups['data-catalog-db'][0] -%}
+    {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
   {%- endif -%}
 "
 
-i2b2_capture_db_deploy: no
-i2b2_capture_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
+i2b2_capture_db_deploy: "{{ 'i2b2-capture-db' not in research_db_companion_bases and 'i2b2-capture-db' not in airflow_db_companion_bases }}"
+i2b2_capture_db_marathon_host: "{{ i2b2_capture_db_host }}"
 
 i2b2_capture_db_port: "
   {%- if 'i2b2-capture-db' in airflow_db_companion_bases -%}
@@ -50,12 +51,13 @@ i2b2_capture_db_host: "
   {%- elif 'i2b2-capture-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-    {{ fqdn | default(ansible_fqdn) }}
+  {%- set host = groups['i2b2-capture-db'][0] -%}
+  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
   {%- endif -%}
 "
 
-i2b2_mip_db_deploy: no
-i2b2_mip_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
+i2b2_mip_db_deploy: "{{ 'i2b2-mip-db' not in research_db_companion_bases and 'i2b2-mip-db' not in airflow_db_companion_bases }}"
+i2b2_mip_db_marathon_host: "{{ i2b2_mip_db_host }}"
 
 i2b2_mip_db_port: "
   {%- if 'i2b2-mip-db' in airflow_db_companion_bases -%}
@@ -72,12 +74,13 @@ i2b2_mip_db_host: "
   {%- elif 'i2b2-mip-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-    {{ fqdn | default(ansible_fqdn) }}
+    {%- set host = groups['i2b2-mip-db'][0] -%}
+    {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
   {%- endif -%}
 "
 
-mipmap_db_deploy: no
-mipmap_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
+mipmap_db_deploy: "{{ 'mipmap-db' not in research_db_companion_bases and 'mipmap-db' not in airflow_db_companion_bases }}"
+mipmap_db_marathon_host: "{{ mipmap_db_host }}"
 
 mipmap_db_port: "
   {%- if 'mipmap-db' in airflow_db_companion_bases -%}
@@ -94,6 +97,7 @@ mipmap_db_host: "
   {%- elif 'mipmap-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-    {{ fqdn | default(ansible_fqdn) }}
+    {%- set host = groups['mipmap-db'][0] -%}
+    {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
   {%- endif -%}
 "
