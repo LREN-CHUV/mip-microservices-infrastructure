@@ -1,7 +1,11 @@
+# All machines known to Ansible
+[all]
+demo ip_address=192.168.34.66 hostname=demo fqdn=demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
+
 # Managed hosts should contain all servers in the datacenter.
 # Common software, configuration and security settings will be applied on them.
 [managed]
-demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
+demo
 
 # Control node: one control node should be selected, not necessarily in the datacenter - it can be the local desktop -
 # but it should satisfy the following requirements:

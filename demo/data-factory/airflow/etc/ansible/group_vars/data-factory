@@ -2,7 +2,6 @@
 
 airflow_user_id: 1011
 airflow_group_id: 1011
-airflow_docker_user: "{{ airflow_user_id|string + ':' + airflow_group_id|string}}"
 
 airflow_db_companion_bases:
   - data-catalog-db
@@ -32,7 +31,7 @@ data_factory_slack_channel: '#data'
 data_factory_slack_channel_user: 'Airflow'
 
 main_dataset_id: 'demo'
-main_dataset_label: 'Demo'
+main_dataset_label: 'Demo data'
 main_data_reorganisation_input_folder: '/data/input/demo'
 main_data_reorganisation_pipelines: 'dicom_reorganise,trigger_preprocessing'
 main_data_reorganisation_input_config: 'boost'

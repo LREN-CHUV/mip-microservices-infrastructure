@@ -2,9 +2,7 @@
 
 This is a demonstration of the MIP Data Factory focusing on its workflow application, Airflow.
 
-The demonstration runs inside a Vagrant Virtual machine and .
-
-, ETL pipelines for medical data and
+The demonstration runs inside a Vagrant Virtual machine and demonstrates ETL pipelines for medical data.
 
 
 ## Installation

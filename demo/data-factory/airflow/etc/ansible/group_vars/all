@@ -1,3 +1,7 @@
 ---
 
+# List of databases to collocate and install on the Research db server
 research_db_companion_bases: []
+
+airflow_web_port: 4080
+airflow_web_base_url: "http://{{ fqdn | default(ansible_fqdn) }}:{{ airflow_web_port }}"
