@@ -3,6 +3,11 @@
 features_from: 'research-db'
 features_table: 'demo'
 
+# Setup sample research datasets into research-db (when features_from = 'research-db').
+setup_research_datasets: 'sample'
+# Setup sample metadata
+setup_meta_datasets: 'sample'
+
 research_db_companion_bases:
   - meta-db
   - woken-db

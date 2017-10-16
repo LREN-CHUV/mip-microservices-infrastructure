@@ -33,10 +33,12 @@ research_db_companion_bases:
   - 'meta-db'
   - 'woken-db'
 
-# Setup the standard research datasets into research-db (when features_from = 'research-db').
-setup_standard_research_datasets: yes
-# Setup the standard metadata
-setup_standard_metadata: yes
+# Setup some pre-defined research datasets into research-db (when features_from = 'research-db').
+# Valid values are 'mip-standard', 'sample' or ''
+setup_research_datasets: 'mip-standard'
+# Setup some pre-defined metadata
+# Valid values are 'mip-standard', 'sample' or ''
+setup_meta_datasets: 'mip-standard'
 
 ```
 

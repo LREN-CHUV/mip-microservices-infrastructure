@@ -10,18 +10,22 @@
     - "{{ play_dir }}/vars/infrastructure/mesos.yml"
     - "{{ play_dir }}/vars/reference/endpoints.yml"
     - "{{ play_dir }}/vars/reference/research-database.yml"
-    - "{{ play_dir }}/vars/reference/standard-research-datasets.yml"
 
   pre_tasks:
 
-  - name: Need to add standard research datasets?
+  - name: Need to add pre-defined research datasets?
     set_fact:
-      research_add_tandard_research_datasets: '{{ research_db_standard_research_datasets }}'
+      research_add_predefined_datasets: "{{ setup_research_datasets is defined and setup_research_datasets != '' }}"
 
-  - name: Add standard research datasets to research database setup
+  - name: Setup predefined research datasets
+    include_vars: "{{ play_dir }}/vars/reference/{{ setup_research_datasets }}-meta-datasets.yml"
+    when: research_add_predefined_datasets
+    tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
+
+  - name: Add predefined data to research setup
     set_fact:
-      research_db_docker_setup: "{{ standard_research_db_docker_setup | union(research_db_docker_setup | default([])) }}"
-    when: research_add_tandard_research_datasets
+      research_db_docker_setup: "{{ predefined_research_db_docker_setup | union(research_db_docker_setup | default([])) }}"
+    when: research_add_predefined_datasets
     tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
 
   roles:

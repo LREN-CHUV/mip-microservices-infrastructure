@@ -1,13 +1,13 @@
 ---
 
-# Setup the meta database with standard datasets
+# Setup the meta database with sample datasets.
 # This includes the following:
 #
-# * MIP CDE: collection of standard variables for MIP
+# * linreg sample
 #
 
-standard_meta_db_docker_setup:
-  - image: "hbpmip/mip-cde-meta-db-setup:{{ mip_cde_meta_db_setup_version }}"
+predefined_meta_db_docker_setup:
+  - image: "hbpmip/sample-meta-db-setup:{{ sample_meta_db_setup_version }}"
     command: migrate
     env:
       FLYWAY_DBMS: postgresql
