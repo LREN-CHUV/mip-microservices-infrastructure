@@ -1,6 +1,8 @@
 # Woken demo
 
-Demonstration of Woken and its environment running inside a Vagrant Virtual machine.
+This is a demonstration of the MIP Algorithm Factory focusing on its runtime for machine learning algorithms, Woken.
+
+The demonstration runs inside a Vagrant Virtual machine and demonstrates several machine learning and statistical analysis algorithms exposed as web services.
 
 ## Installation
 
@@ -12,7 +14,7 @@ Demonstration of Woken and its environment running inside a Vagrant Virtual mach
   ```
      vagrant plugin install vagrant-hostmanager
   ```
-* start the virtual machine with Vagrant
+* start the virtual machine with Vagrant. You will need at least 8Gb of RAM available for the VM.
 
   ```
     vagrant up

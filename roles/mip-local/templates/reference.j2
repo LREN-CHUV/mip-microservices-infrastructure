@@ -2,3 +2,5 @@
 
 research_db_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 research_db_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
+
+...

@@ -1,11 +1,17 @@
+# All machines known to Ansible
 [all]
-demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
+demo ip_address=192.168.21.66 hostname=demo fqdn=demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
+
+# Managed hosts should contain all servers in the datacenter.
+# Common software, configuration and security settings will be applied on them.
+[managed]
+demo
 
 # Control node: one control node should be selected, not necessarily in the datacenter - it can be the local desktop -
 # but it should satisfy the following requirements:
 # - direct network access to all services on the datacenter, in particular the databases and Marathon
 # - Docker available on the control node
-# - Possibility to install required packages (docker-py, curl...) for proper function of the Ansible tasks
+# - Install required packages (docker-py, curl...) for proper function of the Ansible tasks
 [control]
 demo
 
@@ -16,11 +22,6 @@ zookeeper
 mesos-leader
 mesos-mixed
 mesos-follower
-
-# Managed hosts should contain all servers in the datacenter.
-# Common software, configuration and security settings will be applied on them.
-[managed]
-demo
 
 # Install Zookeeper, required by Mesos
 [zookeeper]

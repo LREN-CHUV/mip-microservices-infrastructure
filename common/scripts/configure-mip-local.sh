@@ -67,7 +67,7 @@ EOF
           target="$server_dns"
           cat <<EOF > envs/mip-local/etc/ansible/hosts
 [all]
-$server_dns ansible_connection=ssh ansible_ssh_host=$server_dns ansible_ssh_user=$server_user ansible_ssh_port=$server_ssh_port
+$server_dns ansible_connection=ssh ansible_ssh_host=$server_dns ansible_ssh_user=$server_user ansible_ssh_port=${server_ssh_port:-22}
 
 [managed]
 $server_dns

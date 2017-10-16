@@ -11,12 +11,12 @@
     timeout: 3
   register: host_accessible
   failed_when: False
-  when: ansible_virtualization_role = "guest" and ansible_virtualization_type = "virtualbox"
+  when: ansible_virtualization_role == "guest" and ansible_virtualization_type == "virtualbox"
 
 - name: Check if we need to add host and IP of the target server to Docker containers
   set_fact:
     docker_force_add_host: host_accessible.state is not defined or host_accessible.state != "started"
-  when: ansible_virtualization_role = "guest" and ansible_virtualization_type = "virtualbox"
+  when: ansible_virtualization_role == "guest" and ansible_virtualization_type == "virtualbox"
 
 - name: Gather CPU and memory from target server
   set_fact:

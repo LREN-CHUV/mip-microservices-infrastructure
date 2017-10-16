@@ -12,3 +12,5 @@ woken_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
 woken_validation_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 # Amount of memory in mb reserved for woken validation
 woken_validation_mem: {{ (target_mem_mb|float / 8.0) | round(0, 'floor') }}
+
+...
