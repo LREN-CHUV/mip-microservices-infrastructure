@@ -37,9 +37,12 @@ woken_features_table: '{{ features_table }}'
 
 chronos_marathon_id: /algorithm-factory/chronos
 
-# TODO: allow Chronos to be deployed on another machine
+chronos_host: "
+  {%- set host = groups['chronos'][0] -%}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
+"
 chronos_port: 4400
-internal_chronos_url: "http://{{ woken_host }}:{{ chronos_port }}"
+internal_chronos_url: "http://{{ chronos_host }}:{{ chronos_port }}"
 
 woken_marathon_id: /algorithm-factory/woken
 
