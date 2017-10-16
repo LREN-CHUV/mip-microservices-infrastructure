@@ -2,6 +2,8 @@
 
 - include: woken-database.yml
 
+- include: chronos.yml
+
 - include: woken.yml
 
 - include: woken-validation.yml
