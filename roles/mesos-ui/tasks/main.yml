@@ -43,7 +43,7 @@
     mem: '{{ mesos_ui_mem }}'
     ports: []
     require_ports: false
-    constraints: [["hostname", "CLUSTER", "{{ mesos_ui_marathon_host }}"]]
+    constraints: [["hostname", "CLUSTER", "{{ mesos_ui_marathon_host | trim }}"]]
     dependencies: []
     executor: ""
     wait_timeout: 600

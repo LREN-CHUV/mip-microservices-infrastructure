@@ -51,7 +51,7 @@
     mem: '{{ dev_services_db_mem }}'
     ports: [] # defined in docker_port_mappings
     require_ports: true
-    constraints: [["hostname", "CLUSTER", "{{ dev_services_db_marathon_host }}"]]
+    constraints: [["hostname", "CLUSTER", "{{ dev_services_db_marathon_host | trim }}"]]
     dependencies: []
     executor: ""
     health_checks:

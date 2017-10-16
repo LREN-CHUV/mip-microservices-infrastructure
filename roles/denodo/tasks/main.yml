@@ -51,7 +51,7 @@
     mem: "{{ denodo_memory_heap + denodo_memory_perm + 1024 }}"
     ports: []
     require_ports: false
-    constraints: [["hostname", "CLUSTER", "{{ denodo_marathon_host }}"]]
+    constraints: [["hostname", "CLUSTER", "{{ denodo_marathon_host | trim }}"]]
     dependencies: []
     executor: ""
     user: "{{ denodo_user }}"

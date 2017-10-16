@@ -27,7 +27,7 @@ woken_validation_docker_image: "{{ woken_validation_docker_image_basename }}:{{ 
 # Attach woken validation application to a particular host. The hostname should be the name known by Marathon / Mesos
 woken_validation_marathon_host: "{{ ansible_fqdn }}"
 # Set of constraints to use to place woken on some particular host(s)
-woken_validation_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_validation_marathon_host }}"]]
+woken_validation_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_validation_marathon_host | trim }}"]]
 
 woken_marathon_id: /algorithm-factory/woken
 woken_validation_dependencies:

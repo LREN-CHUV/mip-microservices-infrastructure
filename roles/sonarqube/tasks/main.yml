@@ -71,7 +71,7 @@
     mem: 128.0
     ports: []
     require_ports: false
-    constraints: [["hostname", "CLUSTER", "{{ sonarqube_marathon_host }}"]]
+    constraints: [["hostname", "CLUSTER", "{{ sonarqube_marathon_host | trim }}"]]
     dependencies: []
     executor: ""
     wait_timeout: 600

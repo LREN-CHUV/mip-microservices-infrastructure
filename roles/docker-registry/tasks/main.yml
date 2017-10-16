@@ -48,7 +48,7 @@
     mem: 128.0
     ports: []
     require_ports: false
-    constraints: [["hostname", "CLUSTER", "{{ docker_registry_marathon_host }}"]]
+    constraints: [["hostname", "CLUSTER", "{{ docker_registry_marathon_host | trim }}"]]
     dependencies: []
     executor: ""
     wait_timeout: 600

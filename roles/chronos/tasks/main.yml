@@ -49,7 +49,7 @@
     mem: '{{ chronos_mem }}'
     ports: []
     require_ports: false
-    constraints: [["hostname", "CLUSTER", "{{ chronos_marathon_host }}"]]
+    constraints: [["hostname", "CLUSTER", "{{ chronos_marathon_host | trim }}"]]
     dependencies: []
     executor: ""
     wait_timeout: 600

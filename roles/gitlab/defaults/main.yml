@@ -15,7 +15,7 @@ gitlab_marathon_id: /dev-services/gitlab
 # Attach Gitlab to a particular host. The hostname should be the name known by Marathon / Mesos
 gitlab_marathon_host: '{{ inventory_hostname }}'
 # Set of constraints to use to place Gitlab on some particular host(s)
-gitlab_marathon_constraints: [["hostname", "CLUSTER", "{{ gitlab_marathon_host }}"]]
+gitlab_marathon_constraints: [["hostname", "CLUSTER", "{{ gitlab_marathon_host | trim }}"]]
 # Number of instances of Gitlab to launch
 gitlab_instances: 1
 

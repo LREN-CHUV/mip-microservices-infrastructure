@@ -30,7 +30,7 @@ woken_docker_image: "{{ woken_docker_image_basename }}:{{ woken_version }}"
 # Attach the woken application to a particular host. The hostname should be the name known by Marathon / Mesos
 woken_marathon_host: "{{ ansible_fqdn }}"
 # Set of constraints to use to place woken on some particular host(s)
-woken_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host }}"]]
+woken_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host | trim }}"]]
 
 # How woken connects to the woken database storing its results
 woken_db_port: 31432
