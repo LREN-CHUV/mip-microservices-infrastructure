@@ -1,7 +1,7 @@
 ---
 # Setup mandatory software on the control box
 
-- hosts: localhost
+- hosts: control
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
