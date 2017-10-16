@@ -1,7 +1,10 @@
 ---
 
 meta_db_deploy: "{{ not ('meta-db' in research_db_companion_bases) }}"
-meta_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
+meta_db_marathon_host: "
+  {% set host = groups['meta-db'][0] %}
+  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
+"
 
 meta_db_gitlab_docker_registries:
   - url: registry.gitlab.com

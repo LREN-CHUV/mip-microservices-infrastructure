@@ -1,6 +1,6 @@
 ---
 
-- hosts: ldsm-db,ldsm-database
+- hosts: ldsm-db
   become: yes
   gather_facts: yes
   vars_files:

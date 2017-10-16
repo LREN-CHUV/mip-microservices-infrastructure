@@ -1,6 +1,9 @@
 ---
 
-research_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
+research_db_marathon_host: "
+  {% set host = groups['research-db'][0] %}
+  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
+"
 research_db_databases: "
   {%- set names = [research_db_name] + research_db_companion_bases -%}
   {{ names | join(',') | replace('-db','') }}

@@ -18,7 +18,8 @@ portal_db_host: "
   {%- if 'portal-db' in research_db_companion_bases -%}
     {{ research_db_host }}
   {%- else -%}
-    {{ fqdn | default(ansible_fqdn) }}
+    {% set host = groups['portal-db'][0] %}
+    {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
   {%- endif -%}
 "
 portal_db_name: portal
@@ -33,7 +34,11 @@ portal_backend_akka_port: 4489
 # Prefix path for all services provided by Portal backend
 portal_backend_context_path: ""
 
-internal_portal_backend_server: '{{ fqdn | default(ansible_fqdn) }}:{{ portal_backend_port }}'
+portal_backend_host: "
+  {% set host = groups['portal-backend'][0] %}
+  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
+"
+internal_portal_backend_server: '{{ portal_backend_host }}:{{ portal_backend_port }}'
 
 # required by portal-frontend
 portal_backend_marathon_id: /web-analytics/portal-backend
