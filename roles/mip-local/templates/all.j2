@@ -45,7 +45,7 @@ airflow_web_base_url: "http://{{ fqdn | default(ansible_fqdn) }}:{{ airflow_web_
 {% endif %}
 {% if 'wa' in mip_building_blocks %}
 # Enable user login with HBP OpenID service
-portal_backend_security_enabled: {% if portal_backend_hbp_client_id %}yes{% else %}no{% endif %}
+portal_backend_security_enabled: {% if portal_backend_hbp_client_id is defined and portal_backend_hbp_client_id %}yes{% else %}no{% endif %}
 
 # The base URL used for redirection. Required to redirect the user to the correct location, when the site address is changed by a proxy for example.
 portal_frontend_base_url: "{{ portal_frontend_base_url }}"
