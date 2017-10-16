@@ -1,6 +1,7 @@
 ---
 
-woken_features_from: 'research-db'
+features_from: 'research-db'
+features_table: 'demo'
 
 research_db_companion_bases:
   - meta-db

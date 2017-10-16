@@ -13,4 +13,17 @@ portal_frontend_google_analytics: true
 
 portal_backend_security_enabled: {{ portal_backend_hbp_client_id is defined | lower }}
 
+{% if docker_force_add_host %}
+portal_backend_docker_parameters:
+  - key: 'add-host'
+    value: "{{ server_fqdn }}:{{ server_ip_address }}"
+  - key: 'add-host'
+    value: "{{ server_hostname }}:{{ server_ip_address }}"
+
+portal_frontend_docker_parameters:
+  - key: 'add-host'
+    value: "{{ server_fqdn }}:{{ server_ip_address }}"
+  - key: 'add-host'
+    value: "{{ server_hostname }}:{{ server_ip_address }}"
+{% endif %}
 ...
