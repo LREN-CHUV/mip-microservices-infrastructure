@@ -3,7 +3,7 @@
 meta_db_deploy: "{{ not ('meta-db' in research_db_companion_bases) }}"
 meta_db_marathon_host: "
   {%- set host = groups['meta-db'][0] -%}
-  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
 "
 
 meta_db_gitlab_docker_registries:
@@ -16,5 +16,5 @@ meta_db_docker_registries: "
   {%- if gitlab_com_password is defined -%}
     {%- set regs = meta_db_gitlab_docker_registries -%}
   {%- endif -%}
-  {{ regs }}
+  {{- regs -}}
 "

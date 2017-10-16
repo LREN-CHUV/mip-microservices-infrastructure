@@ -1,6 +1,9 @@
 ---
 
-postgresraw_ui_marathon_host: '{{ fqdn | default(ansible_fqdn) }}'
+postgresraw_ui_marathon_host: "
+  {%- set host = groups['postgresraw-ui'][0] -%}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
+"
 
 postgresraw_ui_postgres_host: '{{ ldsm_db_host }}'
 postgresraw_ui_postgres_port: '{{ ldsm_db_port }}'

@@ -1,6 +1,9 @@
 ---
 
-ldsm_db_marathon_host: "{{ fqdn | default(ansible_fqdn) }}"
+ldsm_db_marathon_host: "
+  {%- set host = groups['ldsm-db'][0] -%}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
+"
 
 ldsm_db_image: 'hbpmip/postgresraw'
 ldsm_db_is_ready: "/bin/true"

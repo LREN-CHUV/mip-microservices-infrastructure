@@ -43,7 +43,10 @@ internal_chronos_url: "http://{{ woken_host }}:{{ chronos_port }}"
 
 woken_marathon_id: /algorithm-factory/woken
 
-woken_host: "{{ fqdn | default(ansible_fqdn) }}"
+woken_host: "
+  {%- set host = groups['woken'][0] -%}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
+"
 woken_ip_address: "{{ private_ipv4 }}"
 
 woken_docker_network: HOST

@@ -9,7 +9,7 @@ zookeeper_hosts: "
   {%- for host in groups[zookeeper_server_group]|sort -%}
     {%- set zk_hosts = zk_hosts + [{ 'host': hostvars[host].ip_address, 'id': loop.index}] -%}
   {%- endfor -%}
-  {{ zk_hosts }}
+  {{- zk_hosts -}}
 "
 
 # TODO: move to zookeeper role?

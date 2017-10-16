@@ -2,11 +2,11 @@
 
 research_db_marathon_host: "
   {%- set host = groups['research-db'][0] -%}
-  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
 "
 research_db_databases: "
   {%- set names = [research_db_name] + research_db_companion_bases -%}
-  {{ names | join(',') | replace('-db','') }}
+  {{- names | join(',') | replace('-db','') -}}
 "
 
 research_db_standard_research_datasets: "{{ setup_standard_research_datasets and features_from == 'research-db' }}"

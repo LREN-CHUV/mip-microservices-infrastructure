@@ -36,7 +36,7 @@ portal_backend_context_path: ""
 
 portal_backend_host: "
   {%- set host = groups['portal-backend'][0] -%}
-  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
 "
 internal_portal_backend_server: '{{ portal_backend_host }}:{{ portal_backend_port }}'
 

@@ -3,7 +3,7 @@
 # Attach the woken application to a particular host. The hostname should be the name known by Marathon / Mesos
 woken_marathon_host: "
   {%- set host = groups['woken'][0] -%}
-  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
 "
 
 woken_dependencies: "
@@ -11,7 +11,7 @@ woken_dependencies: "
   {%- if 'woken-db' not in research_db_companion_bases -%}
     {%- set woken_deps = woken_deps + [woken_db_marathon_id] -%}
   {%- endif -%}
-  {{ woken_deps }}
+  {{- woken_deps -}}
 "
 
 # Roles are mip_node or mip_federation

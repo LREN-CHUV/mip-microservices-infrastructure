@@ -4,5 +4,5 @@ chronos_zk_mesos_master: "{{ mesos_zk }}"
 chronos_zk_hosts: '{{ mesos_zk_hosts }}'
 chronos_marathon_host: "
   {%- set host = groups['chronos'][0] -%}
-  {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
 "
