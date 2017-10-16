@@ -10,19 +10,24 @@
     - "{{ play_dir }}/vars/infrastructure/mesos.yml"
     - "{{ play_dir }}/vars/hospital-database/endpoints.yml"
     - "{{ play_dir }}/vars/hospital-database/ldsm-database.yml"
-    - "{{ play_dir }}/vars/reference/standard-research-datasets.yml"
 
   pre_tasks:
 
-    - name: Need to add standard research datasets?
+    - name: Need to add pre-defined datasets to LDSM?
       set_fact:
-        ldsm_add_tandard_research_datasets: '{{ ldsm_db_standard_research_datasets }}'
+        ldsm_predefined_datasets: "{{ setup_research_datasets is defined and setup_research_datasets != '' and features_from == 'ldsm-db' }}"
+      tags: ['database', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
 
-    - name: Add standard research datasets to research database setup
+    - name: Setup predefined datasets into LDSM
+      include_vars: "{{ play_dir }}/vars/hospital-databas/{{ setup_research_datasets }}-ldsm-datasets.yml"
+      when: ldsm_add_predefined_datasets
+      tags: ['database', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
+
+    - name: Add predefined data to ldsm setup
       set_fact:
-        ldsm_db_docker_setup: "{{ standard_research_db_docker_setup | union(ldsm_db_docker_setup | default([])) }}"
-      when: ldsm_add_tandard_research_datasets
-      tags: ['ldsm-database', 'research-db', 'database', 'reference', 'marathon-app']
+        ldsm_db_docker_setup: "{{ predefined_ldsm_db_docker_setup | union(ldsm_db_docker_setup | default([])) }}"
+      when: ldsm_add_predefined_datasets
+      tags: ['database', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
 
   roles:
 

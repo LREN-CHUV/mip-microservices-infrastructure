@@ -15,10 +15,11 @@
 
   - name: Need to add pre-defined research datasets?
     set_fact:
-      research_add_predefined_datasets: "{{ setup_research_datasets is defined and setup_research_datasets != '' }}"
+      research_add_predefined_datasets: "{{ setup_research_datasets is defined and setup_research_datasets != '' and features_from == 'research-db' }}"
+    tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
 
   - name: Setup predefined research datasets
-    include_vars: "{{ play_dir }}/vars/reference/{{ setup_research_datasets }}-meta-datasets.yml"
+    include_vars: "{{ play_dir }}/vars/reference/{{ setup_research_datasets }}-research-datasets.yml"
     when: research_add_predefined_datasets
     tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
 

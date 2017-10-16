@@ -8,8 +8,6 @@
 
 research_db_docker_registries: []
 
-ldsm_db_docker_registries: []
-
 predefined_research_db_docker_setup:
   - image: "hbpmip/sample-data-db-setup:{{ sample_data_db_setup_version }}"
     command: migrate

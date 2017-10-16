@@ -1,0 +1,22 @@
+---
+
+# Setup the ldsm database with sample data.
+# This includes the following sample research datasets:
+#
+# * linreg sample
+#
+
+ldsm_db_docker_registries: []
+
+predefined_ldsm_db_docker_setup:
+  - image: "hbpmip/sample-data-db-setup:{{ sample_data_db_setup_version }}"
+    command: migrate
+    env:
+      FLYWAY_DBMS: postgresql
+      FLYWAY_HOST: '{{ ldsm_db_host }}'
+      FLYWAY_PORT: '{{ ldsm_db_port }}'
+      FLYWAY_DATABASE_NAME: '{{ ldsm_db_name }}'
+      FLYWAY_SCHEMAS: "public"
+      FLYWAY_USER: '{{ ldsm_db_admin_user }}'
+      FLYWAY_PASSWORD: '{{ ldsm_db_admin_password }}'
+      FLYWAY_DRIVER: 'org.postgresql.Driver'
