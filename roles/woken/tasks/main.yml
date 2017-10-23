@@ -76,7 +76,7 @@
         protocol: 'tcp'
         name: 'http'
       - hostPort: "{{ woken_akka_port }}"
-        containerPort: 8088
+        containerPort: "{{ woken_akka_port }}"
         protocol: 'tcp'
         name: 'akka'
     docker_parameters: '{{ woken_docker_parameters }}'

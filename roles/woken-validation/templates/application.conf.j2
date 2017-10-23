@@ -21,8 +21,8 @@ akka {
 
 {% if woken_validation_docker_network == 'BRIDGE' %}
       # With bridge networking, bind to localhost, then let Docker do the NAT translation
-      bind-hostname = localhost     # internal (bind) hostname
-      bind-port = 4082              # internal (bind) port
+      bind-hostname = localhost         # internal (bind) hostname
+      bind-port = {{ woken_akka_port }} # internal (bind) port
 {% else %}
       bind-hostname = "0.0.0.0"
       # Network interface will be bound to the woken_akka_port port,
@@ -41,7 +41,7 @@ akka {
     seed-nodes = [
 {% if woken_docker_network == 'BRIDGE' %}
       # With bridge networking, bind to localhost, then let Docker do the NAT translation
-      "akka.tcp://woken@localhost:4082"
+      "akka.tcp://woken@localhost:{{ woken_akka_port }}"
 {% else %}
       "akka.tcp://woken@{{ woken_host }}:{{ woken_akka_port }}"
 {% endif %}
