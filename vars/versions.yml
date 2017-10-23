@@ -33,13 +33,13 @@ portal_backend_version: "2.3.8"
 woken_version: "2.0.1"
 woken_functions:
   - name: histograms
-    docker_image: "hbpmip/python-histograms:4cb93ea"
+    docker_image: "hbpmip/python-histograms:c024418"
     predictive: false
   - name: statisticsSummary
-    docker_image: "hbpmip/r-summary-stats:v1.0-Florence"
+    docker_image: "hbpmip/r-summary-stats:2afe249"
     predictive: false
   - name: linearRegression
-    docker_image: "hbpmip/r-linear-regression:v1.0-Florence"
+    docker_image: "hbpmip/r-linear-regression:2afe249"
     predictive: false
   - name: anova
     docker_image: "hbpmip/python-anova:0.3.0"
@@ -52,7 +52,7 @@ woken_functions:
     predictive: true
 
 woken_validation_version: "9750bdc"
-woken_db_setup_version: '1.0.1'
+woken_db_setup_version: '1.0.2'
 
 # Reference data
 
