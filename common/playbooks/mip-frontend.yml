@@ -67,9 +67,9 @@
     - role: nginx
       tags: ['mip-frontend']
 
-    - role: services-index
-      when: sites_index is defined or services_index is defined
-      tags: ['mip-frontend']
+    #- role: services-index
+    #  when: sites_index is defined or services_index is defined
+    #  tags: ['mip-frontend']
 
 # TODO - add a role to oversee deployment of our software
 #    - role: portal-frontend

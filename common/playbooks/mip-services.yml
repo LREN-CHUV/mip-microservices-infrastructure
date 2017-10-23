@@ -12,8 +12,8 @@
     - role: nginx
       tags: ['mip-services']
 
-    - role: services-index
-      tags: ['mip-services']
+    #- role: services-index
+    #  tags: ['mip-services']
 
     - role: audit-deployment
       installed_component: mip-services
