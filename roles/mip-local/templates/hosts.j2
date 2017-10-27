@@ -73,10 +73,9 @@ meta-db
 # Install research-database
 [research-db]
 {% if 'hdb' in mip_building_blocks %}
-# not installed, research data goes into ldsm-db
-{% else %}
-{{ target_server }}
+# installed, but research data goes into ldsm-db
 {% endif %}
+{{ target_server }}
 
 # Install meta-database
 [meta-db]
