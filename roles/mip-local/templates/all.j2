@@ -4,7 +4,12 @@
 # Select where data features are coming from: ldms-db or research-db
 features_from: '{{ features_from }}'
 # Use mip_cde_features to see only research data, otherwise use mip_local_features
+{% if features_from == 'ldsm-db' %}
+# PostgresRAW used in LDSM database does not yet support merging research data with clinical data
+features_table: 'mip_cde_features'
+{% else %}
 features_table: 'mip_local_features'
+{% endif %}
 # Setup the standard research datasets into research-db (when features_from = 'research-db'). otherwise ldsm-db
 # Valid values are 'mip-standard', 'sample' or ''
 setup_research_datasets: {% if gitlab_com_login and gitlab_com_password %}'mip-standard'{% else %}''{% endif %}

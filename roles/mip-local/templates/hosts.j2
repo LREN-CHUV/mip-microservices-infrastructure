@@ -72,7 +72,7 @@ meta-db
 
 # Install research-database
 [research-db]
-{% if 'hdb' in mip_building_blocks %}
+{% if features_from == 'ldsm-db' %}
 # installed, but research data goes into ldsm-db
 {% endif %}
 {{ target_server }}
