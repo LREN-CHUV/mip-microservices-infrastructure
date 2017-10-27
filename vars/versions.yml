@@ -12,7 +12,7 @@ mesos_package_version: "2.0.1"
 mesos_ui_version: "standalone-0.1.4"
 marathon_version: "1.4.8"
 marathon_package_version: "1.0.660"
-chronos_version: "2.4.0-centos-7"
+chronos_version: "chronos-2.5.0-0.1.20170628182950.ubuntu1404-mesos-1.3.0"
 
 airflow_version: '1.8.2'
 airflow_db_image: "postgres"
@@ -29,8 +29,8 @@ nginx_official_repo: True
 
 # Versions of our Docker containers
 portal_frontend_version: "2.2.7"
-portal_backend_version: "2.3.8"
-woken_version: "2.0.1"
+portal_backend_version: "2.3.12"
+woken_version: "2.0.3"
 woken_functions:
   - name: histograms
     docker_image: "hbpmip/python-histograms:c024418"

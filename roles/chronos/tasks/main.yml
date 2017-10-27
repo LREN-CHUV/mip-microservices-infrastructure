@@ -1,5 +1,9 @@
 ---
 
+- fail:
+    msg: "Bad configuration for chronos_zk_hosts, found localhost"
+  when: "'localhost' in chronos_zk_hosts"
+
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
@@ -20,6 +24,7 @@
     uri: "{{ internal_marathon_url }}"
     id: "{{ chronos_marathon_id }}"
     state: "present"
+    cmd: "{{ chronos_command }}"
     docker_image: "{{ chronos_docker_image }}"
     docker_force_pull_image: true
     docker_network: BRIDGE
@@ -36,14 +41,6 @@
     env:
       PORT0: 4400
       PORT1: 8081
-      CHRONOS_HTTP_PORT: 4400
-      CHRONOS_MASTER: "{{ chronos_zk_mesos_master }}"
-      CHRONOS_ZK_HOSTS: "{{ chronos_zk_hosts }}"
-      CHRONOS_WEBUI_URL: "{{ chronos_web_url }}"
-      CHRONOS_HOSTNAME: "{{ chronos_marathon_host }}"
-      CHRONOS_FAILURE_RETRY: "{{ chronos_failure_retry }}"
-      CHRONOS_DISABLE_AFTER_FAILURES: "{{ chronos_disable_after_failures }}"
-      CHRONOS_CLUSTER_NAME: "{{ chronos_cluster_name }}"
     instances: 1
     cpus: '{{ chronos_cpus }}'
     mem: '{{ chronos_mem }}'
