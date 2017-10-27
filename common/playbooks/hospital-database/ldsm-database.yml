@@ -15,7 +15,7 @@
 
     - name: Need to add pre-defined datasets to LDSM?
       set_fact:
-        ldsm_predefined_datasets: "{{ setup_research_datasets is defined and setup_research_datasets != '' and features_from == 'ldsm-db' }}"
+        ldsm_add_predefined_datasets: "{{ setup_research_datasets is defined and setup_research_datasets != '' and features_from == 'ldsm-db' }}"
       tags: ['database', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
 
     - name: Setup predefined datasets into LDSM
