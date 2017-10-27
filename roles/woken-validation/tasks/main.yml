@@ -68,6 +68,7 @@
   poll: 1
   when: woken_validation_docker_network == 'HOST'
   delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
 
 - name: Launch woken validation using Marathon (bridge networking)
   marathon_app:
@@ -91,7 +92,7 @@
     cpus: '{{ woken_validation_cpus }}'
     mem: '{{ woken_validation_mem }}'
     ports: []
-    require_ports: false
+    require_ports: true
     constraints: '{{ woken_validation_marathon_constraints }}'
     dependencies: '{{ woken_validation_dependencies }}'
     executor: ""
@@ -110,3 +111,4 @@
   poll: 1
   when: woken_validation_docker_network == 'BRIDGE'
   delegate_to: "{{ groups['control'][0] }}"
+  run_once: true

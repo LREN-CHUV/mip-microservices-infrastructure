@@ -13,6 +13,7 @@ akka {
     }
   }
   remote {
+    log-remote-lifecycle-events = off
     maximum-payload-bytes = 10000000 bytes
     enabled-transports = ["akka.remote.netty.tcp"]
     netty.tcp {

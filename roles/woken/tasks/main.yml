@@ -61,6 +61,7 @@
   poll: 1
   when: woken_docker_network == 'HOST'
   delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
 
 - name: Launch woken using Marathon (bridge networking)
   marathon_app:
@@ -88,7 +89,7 @@
     cpus: '{{ woken_cpus }}'
     mem: '{{ woken_mem }}'
     ports: []
-    require_ports: false
+    require_ports: true
     constraints: '{{ woken_marathon_constraints }}'
     dependencies: '{{ woken_dependencies }}'
     executor: ""
@@ -107,3 +108,4 @@
   poll: 1
   when: woken_docker_network == 'BRIDGE'
   delegate_to: "{{ groups['control'][0] }}"
+  run_once: true
