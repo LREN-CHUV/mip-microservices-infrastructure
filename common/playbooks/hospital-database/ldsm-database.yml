@@ -19,7 +19,7 @@
       tags: ['database', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
 
     - name: Setup predefined datasets into LDSM
-      include_vars: "{{ play_dir }}/vars/hospital-databas/{{ setup_research_datasets }}-ldsm-datasets.yml"
+      include_vars: "{{ play_dir }}/vars/hospital-database/{{ setup_research_datasets }}-ldsm-datasets.yml"
       when: ldsm_add_predefined_datasets
       tags: ['database', 'ldsm-database', 'ldsm-db', 'hospital-database', 'marathon-app']
 
