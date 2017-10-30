@@ -4,7 +4,7 @@ docker_opts: "--dns=192.168.41.66"
 
 internal_mesos_url: "http://demo.local:{{ mesos_leader_port }}"
 internal_marathon_url: "http://demo.local:{{ marathon_port }}"
-internal_chronos_url: "http://demo.local:{{ chronos_port }}"
+internal_chronos_url: "http://demo.local:{{ chronos_http_port }}"
 internal_portal_backend_server: "demo.local:{{ portal_backend_port }}"
 
 java_oracle_distribution: 'jdk'
