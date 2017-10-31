@@ -4,7 +4,7 @@ portal_backend_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 portal_backend_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
 
 portal_frontend_cpus: {{ (target_cpus|float / 32.0) | round(1, 'ceil') }}
-portal_frontend_mem: {% set portal_frontend_mem = (target_mem_mb|float / 32.0) | round(0, 'floor') %}{% if portal_frontend_mem | <0.1 %}0.1{% else %}{{ portal_frontend_mem }}{% endif %}
+portal_frontend_mem: {% set portal_frontend_mem = (target_mem_mb|float / 32.0) | round(0, 'floor') %}{% if portal_frontend_mem | portal_frontend_mem<0.1 %}0.1{% else %}{{ portal_frontend_mem }}{% endif %}
 
 {% if portal_frontend_google_tracker_id %}
 # Tracker id is defined in the host_vars as this is private information
