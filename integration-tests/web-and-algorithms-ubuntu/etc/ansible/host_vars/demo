@@ -1,0 +1,16 @@
+---
+
+# This file supplies the variables for a particular host.
+# For real environments, this file should be encrypted using git-crypt, so it
+# is safe to store secrets such as passwords in it and then commit the file in a
+# Git repository
+
+vagrant_box_ip_address: "192.168.83.73"
+ip_address: "{{ vagrant_box_ip_address }}"
+
+research_db_password: "research-db"
+research_db_admin_password: "researchroot"
+
+meta_db_password: "meta-db"
+woken_db_password: "woken-db"
+portal_db_password: "portal-db"
