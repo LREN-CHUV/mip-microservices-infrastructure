@@ -1,7 +1,7 @@
 ---
 
 portal_backend_cpus: 0.2
-portal_backend_mem: 768.0
+portal_backend_mem: 1024.0
 
 # Additional parameters for Docker
 portal_backend_docker_parameters:

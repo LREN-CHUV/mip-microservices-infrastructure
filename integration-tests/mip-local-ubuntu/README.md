@@ -1,6 +1,8 @@
-# MIP Local on Centos
+# MIP Local on Ubuntu
 
 Integration test and demonstration of MIP Local running inside a Vagrant Virtual machine.
+
+Not all processes will work, in particular Web analytics and Algorithm Factory as not enough memory is allocated.
 
 ## Installation
 
