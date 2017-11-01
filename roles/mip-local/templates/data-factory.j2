@@ -33,6 +33,9 @@ airflow_extra_settings: "
 
 {% if matlab_root is defined %}
 matlab_root: '{{ matlab_root }}'
+{% else %}
+# Please uncomment this line and define the root of your MATlab installation
+# matlab_root: '/path/to/MATLAB'
 {% endif %}
 
 # Configuration for MRI preprocessing pipeline running in Airflow
