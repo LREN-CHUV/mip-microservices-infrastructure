@@ -14,7 +14,7 @@ features_table: 'mip_cde_features'
 {% endif %}
 # Setup the standard research datasets into research-db (when features_from = 'research-db'). otherwise ldsm-db
 # Valid values are 'mip-standard', 'sample' or ''
-setup_research_datasets: {% if gitlab_com_login and gitlab_com_password %}'mip-standard'{% else %}''{% endif %}
+setup_research_datasets: '{% if gitlab_com_login and gitlab_com_password %}mip-standard{% endif %}'
 # Setup some pre-defined metadata
 # Valid values are 'mip-standard', 'sample' or ''
 setup_meta_datasets: 'mip-standard'

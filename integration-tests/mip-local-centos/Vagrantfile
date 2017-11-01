@@ -51,7 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     demo.vm.network :private_network, ip: '192.168.23.33'
 
     # Shared folders
-    demo.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
+    demo.vm.synced_folder "../../roles", "/etc/ansible/roles", create: true
     demo.vm.synced_folder "data/out", "/data/SHARE", create: true
 
     # LSC: FIXME: Should be the output of the DF

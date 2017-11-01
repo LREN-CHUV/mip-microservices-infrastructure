@@ -1,6 +1,6 @@
 ---
 
-chronos_cpus: 0.2
+chronos_cpus: 0.1
 chronos_mem: 512.0
 
 chronos_docker_parameters:
@@ -13,8 +13,6 @@ chronos_docker_parameters:
 woken_cpus: 0.2
 # Amount of memory in mb reserved for woken
 woken_mem: 256.0
-
-woken_features_table: demo
 
 woken_docker_parameters:
   - key: 'add-host'
@@ -32,3 +30,5 @@ woken_validation_docker_parameters:
     value: "demo:{{ vagrant_box_ip_address }}"
   - key: 'add-host'
     value: "demo.local:{{ vagrant_box_ip_address }}"
+
+...

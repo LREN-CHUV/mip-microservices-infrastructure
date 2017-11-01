@@ -30,7 +30,12 @@
     - name: Check minimum memory requirements
       fail:
         msg: "You need at least 8 Gb of memory available, found {{ ansible_memtotal_mb / 1024 }} Gb"
-      when: ansible_memtotal_mb < 7500
+      when: ansible_memtotal_mb < 7500 and 'df' in mip_building_blocks
+
+    - name: Check minimum memory requirements - without Data Factory
+      fail:
+        msg: "You need at least 4 Gb of memory available, found {{ ansible_memtotal_mb / 1024 }} Gb"
+      when: ansible_memtotal_mb < 4000 and not 'df' in mip_building_blocks
 
     - name: Suggested target server hostname
       debug: var=ansible_hostname

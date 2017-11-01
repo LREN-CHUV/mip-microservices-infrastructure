@@ -1,3 +1,4 @@
+# All machines known to Ansible
 [all]
 demo ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='.vagrant/machines/default/virtualbox/private_key'
 
@@ -50,7 +51,7 @@ demo
 [postgresraw-ui]
 demo
 
-# Data Factory building block: define an 'data-factory' group encompassing the configuration of the groups defined below
+# Data Factory building block: define a 'data-factory' group encompassing the configuration of the groups defined below
 [data-factory:children]
 airflow-master
 airflow-agent
@@ -75,6 +76,7 @@ meta-db
 
 # Install research-database
 [research-db]
+# installed, but research data goes into ldsm-db
 demo
 
 # Install meta-database
@@ -86,6 +88,7 @@ demo
 woken-db
 woken
 woken-validation
+chronos
 
 # Install woken-database
 [woken-db]
@@ -97,6 +100,10 @@ demo
 
 # Install woken-validation
 [woken-validation]
+demo
+
+# Install chronos
+[chronos]
 demo
 
 # Web Analytics building block: define an 'web-analytics' group encompassing the configuration of the groups defined below

@@ -51,7 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     demo.vm.network :private_network, ip: '192.168.73.73'
 
     # Shared folders
-    demo.vm.synced_folder "../../../roles", "/etc/ansible/roles", create: true
+    demo.vm.synced_folder "../../roles", "/etc/ansible/roles", create: true
     demo.vm.synced_folder "data/out", "/data/SHARE", create: true
 
   end
@@ -78,7 +78,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Mapping ansible roles with their git repositories messes with etckeeper
   config.vm.provision "shell", inline: "mkdir -p /etc/ansible && [ -f /etc/ansible/.gitignore ] || echo 'roles/' > /etc/ansible/.gitignore"
   # Xenial ships only with Python 3
-  config.vm.provision "shell", inline: "sudo apt-get update && sudo apt-get install -y python2.7 python-simplejson"
+  config.vm.provision "shell", inline: "apt-get update && apt-get install -y curl python2.7 python-simplejson python-setuptools python-psycopg2 python-pip && pip2 install jmespath==0.9.3"
 
   # Run provisioning with ansible
   config.vm.provision "ansible" do |ansible|

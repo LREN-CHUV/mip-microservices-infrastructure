@@ -10,8 +10,6 @@ portal_backend_docker_parameters:
   - key: 'add-host'
     value: "demo.local:{{ vagrant_box_ip_address }}"
 
-portal_backend_features_table: demo
-
 portal_frontend_cpus: 0.2
 portal_frontend_mem: 20.0
 
