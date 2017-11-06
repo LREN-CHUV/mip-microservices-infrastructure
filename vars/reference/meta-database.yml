@@ -9,7 +9,7 @@ meta_db_marathon_host: "
 meta_db_docker_registries: "
   {%- set regs = [] -%}
   {%- if gitlab_com_password is defined -%}
-    {%- set regs = [{url: 'registry.gitlab.com', username: gitlab_com_login, password: gitlab_com_password}] -%}
+    {%- set regs = [{'url': 'registry.gitlab.com', 'username': gitlab_com_login, 'password': gitlab_com_password}] -%}
   {%- endif -%}
   {{- regs -}}
 "
