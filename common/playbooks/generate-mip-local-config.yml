@@ -69,7 +69,7 @@
       prompt: "Password on Gitlab to download private Docker images. Leave blank if you do not have access to this information"
       private: yes
     - name: "only_research_data"
-      prompt: "Use reaserch data only ? (Y/n)"
+      prompt: "Use research data only? (Y/n)"
       private: no
 
   roles:
