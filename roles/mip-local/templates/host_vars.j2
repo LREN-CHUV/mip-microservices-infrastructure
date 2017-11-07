@@ -37,6 +37,10 @@ gitlab_com_login: "{{ gitlab_com_login }}"
 gitlab_com_password: "{{ gitlab_com_password }}"
 
 {% endif %}
+{% if only_research_data is defined and only_research_data|lower in ["y", "yes"] %}
+only_research_data: true
+
+{% endif %}
 {% if slack_token is defined and slack_token %}
 slack_token: '{{ slack_token }}'
 
