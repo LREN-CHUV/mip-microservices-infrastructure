@@ -7,8 +7,12 @@ features_from: '{{ features_from }}'
 {% if features_from == 'ldsm-db' %}
 # PostgresRAW used in LDSM database does not yet support merging research data with clinical data
 features_table: 'mip_cde_features'
-{% elif not only_research_data and gitlab_com_login is defined and gitlab_com_login and gitlab_com_password %}
+{% elif gitlab_com_login is defined and gitlab_com_login and gitlab_com_password %}
+{%   if only_research_data is defined and only_research_data|lower in ["y", "yes"] %}
+features_table: 'mip_cde_features'
+{%   else %}
 features_table: 'mip_local_features'
+{%   endif %}
 {% else %}
 features_table: 'mip_cde_features'
 {% endif %}
