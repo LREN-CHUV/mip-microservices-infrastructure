@@ -12,5 +12,6 @@ postgresraw_ui_docker_parameters:
     value: "{{ server_fqdn }}:{{ server_ip_address }}"
   - key: 'add-host'
     value: "{{ server_hostname }}:{{ server_ip_address }}"
+{% endif %}
 
 ...
