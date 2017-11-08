@@ -16,15 +16,16 @@ mip-microservices-infrastructure attempts to follow the Mantl.io project from Ci
 
 Demonstrations are available for the various building blocks managed by this infrastructure project. The demos require a Linux machine with at least 8Gb ram, Virtualbox and Vagrant to work.
 
-## Algorithm factory
+## Algorithm Factory
 
+* [Algorithm Factory + Web Analytics](demo/algorithm-factory/algorithm-factory/web-and-algorithms/README.md)
 * [Woken](demo/algorithm-factory/woken/README.md)
 
 ## Data factory
 
 * [Airflow](demo/data-factory/airflow/README.md)
 
-## Frontend
+## Frontend only
 
 * [Web portal](demo/frontend/portal/README.md)
 
