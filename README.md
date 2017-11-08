@@ -2,6 +2,8 @@
 
 # Microservice infrastructure
 
+__Current version: [![2.0.0](https://img.shields.io/badge/download-2.0.0-blue.svg)](https://github.com/HBPMedical/mip-microservices-infrastructure/archive/2.0.0.zip)__
+
 This project contains the generic version of Ansible roles and playbooks to install, upgrade, and manage the [HBP Medical Informatics Platform](https://www.humanbrainproject.eu/en/medicine/).
 
 The platform runs over a [Mesos](http://mesos.apache.org/) cluster and most services are managed by [Marathon](https://mesosphere.github.io/marathon/).

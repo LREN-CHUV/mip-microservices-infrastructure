@@ -41,3 +41,4 @@ portal_frontend_env:
   PORTAL_BACKEND_CONTEXT: '{{ portal_backend_context_path }}'
   ANALYTICS: '{{ portal_frontend_google_analytics }}'
   TRACKER_ID: '{{ portal_frontend_google_tracker_id }}'
+  MIP_VERSION: '{{ mip_version }}'
