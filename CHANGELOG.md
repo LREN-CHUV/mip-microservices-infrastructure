@@ -1,7 +1,7 @@
 
 # Changelog for the generic MIP platform
 
-## 2.5.0 - soon - Glasgow release
+## 2.5.0 - 2017-11-08 - Glasgow release
 
 Release highlights:
 
