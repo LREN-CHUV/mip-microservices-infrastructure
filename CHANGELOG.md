@@ -11,14 +11,21 @@ Deploys:
 
 * [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) [Microservices infrastructure 1.5](https://github.com/HBPMedical/mip-microservices-infrastructure)
 * [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) Web Analytics 2.0
-  * Portal Backend 2.3.13
-  * Portal Frontend 2.3.2
+  * [Portal Backend 2.3.13](https://github.com/HBPMedical/portal-backend)
+  * [Portal Frontend 2.3.2](https://github.com/HBPMedical/portal-frontend)
   * Portal database
 * [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) Algorithm Factory 2.0
-  * Woken 2.0.3
+  * [Woken 2.0.3](https://github.com/HBPMedical/woken)
   * Woken cross-validation
   * Woken database
   * Chronos 2.5
+* [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) Algorithm Library 1.0
+  * [Histograms 0.3.1](https://hub.docker.com/r/hbpmip/python-histograms/)
+  * [Statistics Summary](https://hub.docker.com/r/hbpmip/r-summary-stats/)
+  * [Linear Regression 0.0.2](https://hub.docker.com/r/hbpmip/python-linear-regression/) (reimplementation in Python)
+  * [Anova 0.3.1](https://hub.docker.com/r/hbpmip/python-anova/)
+  * [KNN 0.2.1](https://hub.docker.com/r/hbpmip/java-rapidminer-knn/)
+  * [Naive Bayes 0.2.0](https://hub.docker.com/r/hbpmip/java-rapidminer-naivebayes/)
 * [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) Data Factory 1.0
   * Airflow 1.8.2
   * [Airflow Imaging plugins 2.4.1](https://github.com/HBPMedical/airflow-imaging-plugins)
@@ -68,7 +75,12 @@ Deploys:
   * [Woken database 1.0.0](https://github.com/HBPMedical/woken-db-setup)
   * Chronos
 * [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) Algorithm Library 1.0
-
+  * Histograms
+  * Statistics Summary
+  * Linear Regression
+  * Anova
+  * KNN
+  * Naive Bayes
 * [![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) Data Factory 1.0
   * Airflow 1.7.1
   * [Airflow Imaging plugins 2.2.4](https://github.com/HBPMedical/airflow-imaging-plugins)
