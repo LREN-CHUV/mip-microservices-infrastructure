@@ -23,6 +23,7 @@
     - name: Need to add pre-defined meta datasets?
       set_fact:
         meta_add_predefined_datasets: "{{ setup_meta_datasets is defined and setup_meta_datasets != '' }}"
+      tags: ['meta-database', 'meta-db', 'database', 'reference', 'marathon-app']
 
     - name: Setup predefined metadata
       include_vars: "{{ play_dir }}/vars/reference/{{ setup_meta_datasets }}-meta-datasets.yml"
