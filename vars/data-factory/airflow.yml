@@ -162,7 +162,7 @@ airflow_extra_common_settings:
       i2b2_sql_alchemy_conn: '{{ i2b2_capture_db_sql_alchemy_conn }}'
       datasets: '{{ data_factory_datasets }}'
       email_errors_to: '{{ data_factory_email_errors_to }}'
-      slack_token: '{{ data_factory_slack_token | default(slack_token) }}'
+      slack_token: '{{ data_factory_slack_token | default(slack_token) | default("") }}'
       slack_channel: "{{ data_factory_slack_channel | default('#general') }}"
       slack_channel_user: "{{ data_factory_slack_channel_user | default('Airflow') }}"
 
