@@ -129,3 +129,47 @@ git commit -m "Configuration for MIP Local"
 
 DATACENTER=mip-local ./setup.sh
 ```
+
+After setup is complete, you should encrypt your local files to protect sensitive information such as passwords from spying.
+
+```sh
+  > git-crypt lock
+  > cat envs/mip-local/etc/ansible/host_vars/localhost
+  GITCRYPT�ۚ7��Q ... binary blob
+```
+
+Do not forget to unencrypt the local repository before running setup.sh after some configuration change or software
+
+```sh
+  > git-crypt unlock
+  > ./setup.sh
+```
+
+## Backup of the installation scripts
+
+The installation scripts at this point contain all the information required to install and configure your installation of MIP Local.
+
+Sensitive information is encrypted using git-crypt - but please double check that this is is the case. For example,
+file envs/mip-local/etc/ansible/host_vars/localhost should contain the passwords.
+
+```sh
+  # Use this command to check that a file containing sensitive information will be encrypted using git-crypt
+  > git check-attr -a envs/mip-local/etc/ansible/host_vars/localhost
+  envs/mip-local/etc/ansible/host_vars/localhost: diff: git-crypt
+  envs/mip-local/etc/ansible/host_vars/localhost: text: auto
+  envs/mip-local/etc/ansible/host_vars/localhost: filter: git-crypt
+
+```
+
+You can create a backup of the installation and configuration to an external server.
+
+The MIP team uses a private storage space on Bitbucket.org:
+
+```sh
+  git remote add origin git@bitbucket.org:hbpmip_private/[my]-infrastructure.git
+  git push -a master origin
+```
+
+Using this private repository, it is possible to safely and securely backup your work, share it with other members of MIP for code review and receive upgrades of the platform.
+
+You private information is sent to the cloud in a secure and encrypted form that only you or people that you granted access to using strong PGP encryption can see.
