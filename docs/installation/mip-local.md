@@ -167,7 +167,7 @@ The MIP team uses a private storage space on Bitbucket.org:
 
 ```sh
   git remote add origin git@bitbucket.org:hbpmip_private/[my]-infrastructure.git
-  git push -a master origin
+  git push -u master origin
 ```
 
 Using this private repository, it is possible to safely and securely backup your work, share it with other members of MIP for code review and receive upgrades of the platform.
