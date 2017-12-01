@@ -2,7 +2,7 @@
 
 airflow_db_deploy: "{{ 'airflow-db' not in research_db_companion_bases }}"
 airflow_db_marathon_host: "
-  {%- set host = groups['airflow-db'][0] -%}
+  {%- set host = groups['df-bases'][0] -%}
   {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
 "
 airflow_db_databases: "
