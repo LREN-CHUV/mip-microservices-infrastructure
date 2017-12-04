@@ -14,7 +14,7 @@
           install ansible-playbook with `pip install -r requirements.txt`.
       tags: ['checks', 'infra', 'infrastructure']
 
-- hosts: all
+- hosts: managed
   gather_facts: yes
   tasks:
     - name: check for accurate date
