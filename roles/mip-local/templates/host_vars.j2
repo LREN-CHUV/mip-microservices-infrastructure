@@ -24,7 +24,7 @@ woken_db_password: "{{ lookup('password', '/dev/null length=15') }}"
 portal_db_password: "{{ lookup('password', '/dev/null length=15') }}"
 
 {% endif %}
-{% if 'hdb' in mip_building_blocks %}
+{% if 'df' in mip_building_blocks %}
 airflow_db_password: "{{ lookup('password', '/dev/null length=15') }}"
 data_catalog_db_password: "{{ lookup('password', '/dev/null length=15') }}"
 i2b2_capture_db_password: "{{ lookup('password', '/dev/null length=15') }}"
