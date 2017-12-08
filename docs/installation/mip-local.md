@@ -4,6 +4,16 @@
 
 - Matlab (2016b) is required by the Data Factory. The configuration script will ask for the installation path.
 
+- The MIP requires using a machine with Ubuntu 16.04 or Redhat 7.2+/Centos.
+   The machine can be physical, a VM in a cloud or a VirtualBox on your desktop, although in some setups, particularly with VirtualBox, you can experience difficulties related to networking.
+
+- Network setup: it is important that the installation of MIP can be registered under a fixed IP address exposed to the local network and ideally you should provide a DNS alias for the web portal.
+  The DNS alias will be used by end-users of the application who will be able to access it under a URL such as http://mip.myhospital.eu
+
+- Security: it is the responsibility of the hosting party to secure access to MIP at the network level. TODO: link to network specs
+  If an SSL key is provided, we can configure the NGinx web server provided in the platform to use secure HTTPS connections.
+  In addition, we can generate an OpenID access key and configure MIP Local to use the OpenID authentication server provided by [Human Brain Project](services.humanbrainproject.eu/oidc/).
+
 ## Preparation of the infrastructure project
 
 - Prepare a clone of mip-microservices-infrastructure to store the configuration for your environment and apply custom tweaks without breaking the mainline MIP project.
@@ -23,7 +33,7 @@ See below for more information on the configuration parameters.
 
 - Store the configuration in Git, encrypt the passwords and confidential information associated to the host(s).
 
-```
+```sh
   git-crypt init
   git add .
   git commit -m "Configuration for MIP Local"
@@ -32,8 +42,8 @@ See below for more information on the configuration parameters.
 
 - Perform the installation of MIP Local
 
-```
-  DATACENTER=mip-local ./setup.sh
+```sh
+  ./setup.sh
 ```
 
 ## Configuration parameters
