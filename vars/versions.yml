@@ -31,21 +31,21 @@ postgresraw_ui_version: 'v1.0'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "2.3.2"
-portal_backend_version: "2.3.13"
-woken_version: "2.0.3"
+portal_frontend_version: "2.3.3"
+portal_backend_version: "2.4.7"
+woken_version: "2.0.4"
 woken_functions:
   - name: histograms
-    docker_image: "hbpmip/python-histograms:0.3.1"
+    docker_image: "hbpmip/python-histograms:0.3.6"
     predictive: false
   - name: statisticsSummary
     docker_image: "hbpmip/r-summary-stats:2afe249"
     predictive: false
   - name: linearRegression
-    docker_image: "hbpmip/python-linear-regression:0.0.2"
+    docker_image: "hbpmip/python-linear-regression:0.0.6"
     predictive: false
   - name: anova
-    docker_image: "hbpmip/python-anova:0.3.1"
+    docker_image: "hbpmip/python-anova:0.3.5"
     predictive: false
   - name: knn
     docker_image: "hbpmip/java-rapidminer-knn:0.2.1"
@@ -54,7 +54,7 @@ woken_functions:
     docker_image: "hbpmip/java-rapidminer-naivebayes:0.2.0"
     predictive: true
 
-woken_validation_version: "9750bdc"
+woken_validation_version: "2.0.4"
 woken_db_setup_version: '1.0.2'
 
 # Reference data
