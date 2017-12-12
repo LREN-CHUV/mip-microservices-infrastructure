@@ -16,12 +16,6 @@
 
 - hosts: managed
   become: yes
-  gather_facts: False
-  roles:
-    - bootstrap
-
-- hosts: managed
-  become: yes
 
   tasks:
 
