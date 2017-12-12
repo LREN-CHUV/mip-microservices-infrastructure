@@ -171,6 +171,9 @@ file envs/mip-local/etc/ansible/host_vars/localhost should contain the passwords
   envs/mip-local/etc/ansible/host_vars/localhost: text: auto
   envs/mip-local/etc/ansible/host_vars/localhost: filter: git-crypt
 
+  # or use this command which should show the following file as encrypted
+  > git-crypt status | grep -v ^not
+      encrypted: envs/mip-local/etc/ansible/host_vars/localhost
 ```
 
 You can create a backup of the installation and configuration to an external server.
