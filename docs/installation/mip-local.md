@@ -7,6 +7,8 @@
 - The MIP requires using a machine with Ubuntu 16.04 or Redhat 7.2+/Centos.
    The machine can be physical, a VM in a cloud or a VirtualBox on your desktop, although in some setups, particularly with VirtualBox, you can experience difficulties related to networking.
 
+- As Ansible requires Python 2, please install it on the target machines if needed and ensure that `/usr/bin/python` points to it. You might want to run the following command: `apt install python2.7 && ln -s /usr/bin/python2.7 /usr/bin/python`.
+
 - Network setup: it is important that the installation of MIP can be registered under a fixed IP address exposed to the local network and ideally you should provide a DNS alias for the web portal.
   The DNS alias will be used by end-users of the application who will be able to access it under a URL such as http://mip.myhospital.eu
 
