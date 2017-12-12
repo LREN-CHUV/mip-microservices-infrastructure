@@ -80,6 +80,3 @@
 [submodule "roles/ubuntu-locales"]
 	path = roles/ubuntu-locales
 	url = https://github.com/Oefenweb/ansible-locales.git
-[submodule "roles/bootstrap"]
-	path = roles/bootstrap
-	url = https://github.com/azmodude/ansible-role-bootstrap-requirements.git

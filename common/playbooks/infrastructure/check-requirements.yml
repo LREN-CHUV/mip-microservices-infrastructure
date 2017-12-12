@@ -15,12 +15,6 @@
       tags: ['checks', 'infra', 'infrastructure']
 
 - hosts: managed
-  become: yes
-  gather_facts: False
-  roles:
-    - bootstrap
-
-- hosts: managed
   gather_facts: yes
   tasks:
     - name: check for accurate date
