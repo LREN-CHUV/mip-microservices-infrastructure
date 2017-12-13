@@ -52,6 +52,9 @@ woken_functions:
   - name: naiveBayes
     docker_image: "hbpmip/java-rapidminer-naivebayes:0.2.0"
     predictive: true
+  - name: tSNE
+    docker_image: "hbpmip/python-tsne:0.3.3"
+    predictive: true
 
 woken_validation_version: "2.0.4"
 woken_db_setup_version: '1.0.2'
