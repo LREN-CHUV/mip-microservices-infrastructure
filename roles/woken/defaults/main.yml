@@ -32,6 +32,12 @@ woken_marathon_host: "{{ ansible_fqdn }}"
 # Set of constraints to use to place woken on some particular host(s)
 woken_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host | trim }}"]]
 
+woken_mining_limit: 5
+woken_experiment_limit: 5
+
+woken_basicauth_username: admin
+woken_basicauth_password: "WoKeN"
+
 # How woken connects to the woken database storing its results
 woken_db_port: 31432
 woken_db_host: localhost
@@ -52,13 +58,13 @@ woken_result_db_jdbc_driver: '{{ woken_db_jdbc_driver }}'
 woken_result_db_jdbc_jar: '{{ woken_db_jdbc_jar }}'
 
 # How woken connects to the LDSM database containing the data to process
-woken_data_db_port: '{{ ldsm_db_port }}'
-woken_data_db_host: '{{ ldsm_db_host }}'
-woken_data_db_user: '{{ ldsm_db_user }}'
-woken_data_db_password: '{{ ldsm_db_password }}'
-woken_data_db_jdbc_url: '{{ ldsm_db_jdbc_url }}'
-woken_data_db_jdbc_driver: '{{ ldsm_db_jdbc_driver }}'
-woken_data_db_jdbc_jar: '{{ ldsm_db_jdbc_jar }}'
+woken_features_db_port: '{{ ldsm_db_port }}'
+woken_features_db_host: '{{ ldsm_db_host }}'
+woken_features_db_user: '{{ ldsm_db_user }}'
+woken_features_db_password: '{{ ldsm_db_password }}'
+woken_features_db_jdbc_url: '{{ ldsm_db_jdbc_url }}'
+woken_features_db_jdbc_driver: '{{ ldsm_db_jdbc_driver }}'
+woken_features_db_jdbc_jar: '{{ ldsm_db_jdbc_jar }}'
 
 woken_metadata_db_port: '{{ meta_db_port }}'
 woken_metadata_db_host: '{{ meta_db_host }}'
@@ -86,7 +92,7 @@ woken_role: mip_node
 woken_nodes: []
 
 woken_features_table: mip_cde_features
-woken_functions:
+woken_algorithms:
   - name: histograms
     docker_image: "hbpmip/python-histograms:latest"
     predictive: false

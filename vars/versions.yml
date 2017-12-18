@@ -30,10 +30,11 @@ postgresraw_ui_version: 'v1.2'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "2.3.3"
-portal_backend_version: "2.4.7"
-woken_version: "2.0.4"
-woken_functions:
+# TODO: frontend will need more updates
+portal_frontend_version: "2.4.0"
+portal_backend_version: "2.5.4"
+woken_version: "2.1.4"
+woken_algorithms:
   - name: histograms
     docker_image: "hbpmip/python-histograms:0.3.6"
     predictive: false
@@ -41,10 +42,10 @@ woken_functions:
     docker_image: "hbpmip/r-summary-stats:2afe249"
     predictive: false
   - name: linearRegression
-    docker_image: "hbpmip/python-linear-regression:0.0.6"
+    docker_image: "hbpmip/python-linear-regression:0.0.7"
     predictive: false
   - name: anova
-    docker_image: "hbpmip/python-anova:0.3.5"
+    docker_image: "hbpmip/python-anova:0.3.6"
     predictive: false
   - name: knn
     docker_image: "hbpmip/java-rapidminer-knn:0.2.1"
@@ -56,16 +57,16 @@ woken_functions:
     docker_image: "hbpmip/python-tsne:0.3.3"
     predictive: true
 
-woken_validation_version: "2.0.4"
+woken_validation_version: "2.1.0"
 woken_db_setup_version: '1.0.2'
 
 # Reference data
 
-mip_cde_meta_db_setup_version: '1.1.1'
+mip_cde_meta_db_setup_version: '1.2.0'
 
-adni_merge_db_setup_version: '1.4.2'
-edsd_data_db_setup_version: '1.3.2'
-ppmi_data_db_setup_version: '1.0.2'
+adni_merge_db_setup_version: '1.5.1'
+edsd_data_db_setup_version: '1.4.0'
+ppmi_data_db_setup_version: '1.1.1'
 
 sample_meta_db_setup_version: '0.3.1'
 sample_data_db_setup_version: '0.3.2'

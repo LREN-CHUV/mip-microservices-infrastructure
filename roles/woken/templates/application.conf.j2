@@ -6,14 +6,19 @@ akka {
   actor {
     provider = "akka.cluster.ClusterActorRefProvider"
     debug {
-      receive = on
-      autoreceive = on
-      lifecycle = on
+      receive = off
+      autoreceive = off
+      lifecycle = off
       fsm = on
+      unhandled = on
+      event-stream = off
     }
   }
   remote {
+    log-sent-messages = off
+    log-received-messages = off
     log-remote-lifecycle-events = off
+
     maximum-payload-bytes = 10000000 bytes
     enabled-transports = ["akka.remote.netty.tcp"]
     netty.tcp {
@@ -55,13 +60,40 @@ akka {
 spray.can.server {
   idle-timeout = 300s
   request-timeout = 180s
+  ssl-encryption = off
+  ssl-tracing = on
+}
+
+spray.can.client {
+  request-timeout = 20 s
+  chunkless-streaming = off
+  connecting-timeout = 10s
+}
+
+spray.can.host-connector {
+  max-connections = 5
+  host-connector.max-retries = 2
+  pipelining = on
 }
 
 app {
-  systemName = "woken"
+  clusterSystemName = "woken"
   jobServiceName = "job-service"
-  interface = "0.0.0.0"
-  port = {{ woken_http_port }}
+  dockerBridgeNetwork = "0.0.0.0"
+  networkInterface = "0.0.0.0"
+  webServicesPort = {{ woken_http_port }}
+
+  master.router {
+    actors {
+      mining.limit = {{ woken_mining_limit }}
+      experiment.limit = {{ woken_experiment_limit }}
+    }
+  }
+
+  basicAuth {
+    username = "{{ woken_basicauth_username }}"
+    password = "{{ woken_basicauth_password }}"
+  }
 }
 
 jobs {
@@ -69,7 +101,6 @@ jobs {
   owner = "admin@mip.chuv.ch"
   chronosServerUrl = "{{ internal_chronos_url }}"
 {% if woken_role == 'mip_federation' %}
-  federationDb = "federation"
   nodes = {
 {% for node in woken_nodes %}
     {{ node.name }} {
@@ -78,8 +109,9 @@ jobs {
 {% endfor %}
   }
 {% else %}
-  ldsmDb = "ldsm"
 {% endif %}
+  featuresDb = "features"
+  featuresTable = "mip_cde_features"
   resultDb = "woken"
   metaDb = "metadata"
 }
@@ -87,58 +119,38 @@ jobs {
 db {
   woken {
     jdbc_driver="{{ woken_result_db_jdbc_driver }}"
-    jdbc_jar_path="{{ woken_result_db_jdbc_jar }}"
     jdbc_url="{{ woken_result_db_jdbc_url }}"
-    jdbc_user="{{ woken_result_db_user }}"
-    jdbc_password="{{ woken_result_db_password }}"
+    host="{{ woken_result_db_host }}"
+    port={{ woken_result_db_port }}
+    user="{{ woken_result_db_user }}"
+    password="{{ woken_result_db_password }}"
   }
+
+  features {
+    jdbc_driver="{{ woken_features_db_jdbc_driver }}"
+    jdbc_url="{{ woken_features_db_jdbc_url }}"
+    host="{{ woken_features_db_host }}"
+    port="{{ woken_features_db_port }}"
+    user="{{ woken_features_db_user }}"
+    password="{{ woken_features_db_password }}"
+  }
+
   metadata {
     jdbc_driver="{{ woken_metadata_db_jdbc_driver }}"
-    jdbc_jar_path="{{ woken_metadata_db_jdbc_jar }}"
     jdbc_url="{{ woken_metadata_db_jdbc_url }}"
-    jdbc_user="{{ woken_metadata_db_user }}"
-    jdbc_password="{{ woken_metadata_db_password }}"
+    host="{{ woken_metadata_db_host }}"
+    port={{ woken_metadata_db_port }}
+    user="{{ woken_metadata_db_user }}"
+    password="{{ woken_metadata_db_password }}"
   }
 
-{% if woken_role == 'mip_federation' %}
-  federation {
-    jdbc_driver="{{ federation_db_jdbc_driver }}"
-    jdbc_jar_path="{{ federation_db_jdbc_jar }}"
-    jdbc_url="{{ federation_db_jdbc_url }}"
-    jdbc_user="{{ federation_db_user }}"
-    jdbc_password="{{ federation_db_password }}"
-  }
-{% else %}
-  ldsm {
-    jdbc_driver="{{ woken_data_db_jdbc_driver }}"
-    jdbc_jar_path="{{ woken_data_db_jdbc_jar }}"
-    jdbc_url="{{ woken_data_db_jdbc_url }}"
-    jdbc_user="{{ woken_data_db_user }}"
-    jdbc_password="{{ woken_data_db_password }}"
-  }
-{% endif %}
 }
 
-defaultSettings {
-  # Default settings for the request service
-  request {
-    nodes = {}
-{% if woken_role == 'mip_federation' %}
-    inDb = "federationDb"
-{% else %}
-    inDb = "ldsm"
-{% endif %}
-    outDb = "woken"
-    metaDb = "metadata"
-    mainTable = "{{ woken_features_table }}"
-
-    functions {
-{% for fn in woken_functions %}
-      {{ fn.name }} = {
-        image = "{{ fn.docker_image }}"
-        predictive = {{ fn.predictive | lower }}
-      }
-{% endfor %}
-    }
+algorithms {
+{% for fn in woken_algorithms %}
+  {{ fn.name }} = {
+    dockerImage = "{{ fn.docker_image }}"
+    predictive = {{ fn.predictive | lower }}
   }
+{% endfor %}
 }

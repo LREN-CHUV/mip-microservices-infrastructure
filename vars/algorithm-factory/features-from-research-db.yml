@@ -2,10 +2,10 @@
 
 # Use the features data from Research database
 
-woken_data_db_port: '{{ research_db_port }}'
-woken_data_db_host: '{{ research_db_host }}'
-woken_data_db_user: '{{ research_db_user }}'
-woken_data_db_password: '{{ research_db_password }}'
-woken_data_db_jdbc_url: '{{ research_db_jdbc_url }}'
-woken_data_db_jdbc_driver: '{{ research_db_jdbc_driver }}'
-woken_data_db_jdbc_jar: '/usr/lib/R/libraries/{{ research_db_jdbc_jar }}'
+woken_features_db_port: '{{ research_db_port }}'
+woken_features_db_host: '{{ research_db_host }}'
+woken_features_db_user: '{{ research_db_user }}'
+woken_features_db_password: '{{ research_db_password }}'
+woken_features_db_jdbc_url: '{{ research_db_jdbc_url }}'
+woken_features_db_jdbc_driver: '{{ research_db_jdbc_driver }}'
+woken_features_db_jdbc_jar: '/usr/lib/R/libraries/{{ research_db_jdbc_jar }}'
