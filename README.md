@@ -44,7 +44,7 @@ Details about the installation of **MIP Local** can be found in the [installatio
 # Documentation
 
 More documentation (configuration, installation, troubleshooting) can be found in the
-[full documentation](https://github.com/HBPMedical/mip-microservices-infrastructure/blob/master/docs/installation/mip-local.md)
+[full documentation](https://github.com/HBPMedical/mip-microservices-infrastructure/blob/master/docs/)
 
 # Development
 
