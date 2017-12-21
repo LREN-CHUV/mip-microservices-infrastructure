@@ -11,7 +11,8 @@ chronos_web_url: "http://{{ chronos_marathon_host }}:{{ chronos_http_port }}/"
 chronos_docker_image_basename: mesosphere/chronos
 chronos_docker_image: "{{ chronos_docker_image_basename }}:{{ chronos_version }}"
 chronos_command: >-
-  --http_port 4400 --zk_hosts {{ chronos_zk_hosts }}
+  /chronos/bin/start.sh
+  --zk_hosts {{ chronos_zk_hosts }}
   --master {{ chronos_zk_mesos_master }}
   --webui_url {{ chronos_web_url }}
   --hostname {{ chronos_marathon_host }}
