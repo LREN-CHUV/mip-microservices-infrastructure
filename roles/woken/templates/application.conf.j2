@@ -77,11 +77,13 @@ spray.can.host-connector {
 }
 
 app {
-  clusterSystemName = "woken"
+  clusterSystemName = "{{ woken_akka_cluster }}"
   jobServiceName = "job-service"
-  dockerBridgeNetwork = "0.0.0.0"
-  networkInterface = "0.0.0.0"
+{% if woken_docker_network == 'BRIDGE' %}
+  dockerBridgeNetwork = "{{ woken_docker_bridge_network }}"
+{% endif %}
   webServicesPort = {{ woken_http_port }}
+  networkInterface = "{{ woken_http_network_interface }}"
 
   master.router {
     actors {
