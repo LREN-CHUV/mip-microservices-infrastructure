@@ -23,6 +23,13 @@ you've installed the `jmespath` library on your machine (see common/scripts/requ
 
 ```sh
   git clone https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
+  
+  # Advanced use, to keep track of MIP versions and uptream changes
+  git clone --origin mmsi --branch 2.5.3 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
+  cd my-infrastructure
+  git checkout -b master
+  # Backup the infrastructure projet on a private Git repository on Gitlab.com for example
+  git remote add origin git@gitlab.com:hbpmip_deployment/my-infrastructure.git
 ```
 
 - Prepare the configuration for installation.
