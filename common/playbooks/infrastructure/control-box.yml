@@ -5,7 +5,7 @@
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
-  #  - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/versions.yml"
     - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
 
   handlers:
