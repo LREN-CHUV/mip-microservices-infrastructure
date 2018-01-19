@@ -12,7 +12,7 @@ zookeeper_version: 3.4.10
 mesos_version: "1.4.1"
 mesos_package_version: "2.0.1"
 mesos_ui_version: "standalone-0.1.4"
-marathon_version: "1.5.2"
+marathon_version: "1.5.4"
 chronos_version: "v3.0.2"
 
 airflow_version: '1.8.2'
