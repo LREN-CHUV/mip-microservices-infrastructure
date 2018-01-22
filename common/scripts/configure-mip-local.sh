@@ -173,6 +173,19 @@ if [[ "${mip_building_blocks['df']}" == "true" ]]; then
   ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
   ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
 
+  echo "Please enter the directory for incoming data."
+  echo "It will be used to host incoming files and work files. Default is '/var/mip'"
+  read -p "Directory for incoming data > " df_incoming_dir
+  ANSIBLE_OPTS+=("-e df_incoming_dir='${df_incoming_dir:-/var/mip}'")
+  echo
+  echo "New data for the main dataset should be put under ${df_incoming_dir:-/var/mip}/${main_dataset_id:-demo}"
+  echo
+
+  echo "Please enter the work directory for the Data Factory."
+  echo "It will be used to host incoming files and work files. Default is '/var/tmp/mip'"
+  read -p "Work directory for Data Factory > " df_work_dir
+  ANSIBLE_OPTS+=("-e df_work_dir='${df_work_dir:-/var/tmp/mip}'")
+
   if [[ "$location" == "This machine" && ! -d /usr/local/MATLAB/2016b ]]; then
       echo "Is Matlab 2016b installed on this machine?"
       PS3="> "
@@ -264,6 +277,12 @@ if [[ "${mip_building_blocks['wa']}" == "true" ]]; then
 fi
 
 ANSIBLE_OPTS+=("-e mip_building_blocks=$(echo "${!mip_building_blocks[@]}" | tr ' ' ',')")
+
+# Move uptream files aside, to avoid Git conflicts with locally generated files during Git merges
+mkdir -p .not-used
+[ -f MIP-README.md ] || git mv README.md MIP-README.md
+[ -f .not-used/setup.sh ] || git mv .not-used/setup.sh
+[ -f .not-used/slack.json ] || git mv .not-used/slack.json
 
 echo
 echo "Generating the configuration for MIP Local..."

@@ -94,6 +94,12 @@
     src: gitattributes.j2
     dest: "{{ play_dir }}/envs/mip-local/etc/ansible/.gitattributes"
 
+- name: Generate setup.sh
+  template:
+    src: setup.sh.j2
+    dest: "{{ play_dir }}/setup.sh"
+    attributes: "u+x"
+
 - name: Generate Slack notification
   template:
     src: slack.json.j2
