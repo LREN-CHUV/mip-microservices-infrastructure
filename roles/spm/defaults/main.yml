@@ -3,6 +3,7 @@
 matlab_version: R2016b
 matlab_architecture: glnxa64
 matlab_root: '/usr/local/MATLAB/{{ matlab_version }}'
+matlab_user: '{{ ansible_user_id }}'
 
 matlab_install_file: "/tmp/matlab_{{ matlab_version}}_{{ matlab_architecture}}.zip"
 

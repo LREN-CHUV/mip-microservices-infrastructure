@@ -114,9 +114,12 @@ airflow_load_examples: false
 airflow_dags_folder: "{{ airflow_scripts_root }}/data-factory-airflow-dags"
 airflow_plugins_folder: '{{ airflow_scripts_root }}/airflow-imaging-plugins'
 
-airflow_user: 'airflow'
-airflow_group: 'airflow'
-airflow_home: '/usr/local/airflow'
+airflow_user: "{{ data_factory_user | default('airflow') }}"
+airflow_user_id: "{{ data_factory_user_id | default('1011') }}"
+airflow_group: "{{ data_factory_group | default('airflow') }}"
+airflow_group_id: "{{ data_factory_group_id | default('1011') }}"
+airflow_home: "{{ data_factory_user_home | default('/usr/local/airflow') }}"
+
 airflow_startup: 'marathon'
 airflow_mesos_master: '{{ mesos_leader_hostname }}:{{ mesos_leader_port }}'
 airflow_docker_user: "{{ airflow_user_id|string + ':' + airflow_group_id|string}}"
