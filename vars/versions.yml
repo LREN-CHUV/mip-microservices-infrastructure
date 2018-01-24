@@ -24,7 +24,7 @@ mri_db_version: "{{ postgres_version }}"
 postgres_version: "9.6.5-alpine"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar
 ldsm_db_version: 'v1.0'
-postgresraw_ui_version: 'v1.2'
+postgresraw_ui_version: 'v1.4'
 
 # Use latest NGinx from official repo
 nginx_official_repo: True
