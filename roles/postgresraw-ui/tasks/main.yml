@@ -50,7 +50,7 @@
     health_checks:
       - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_HTTP{% else %}HTTP{% endif %}"
         portIndex: 0
-        path: '/'
+        path: '/healthy.txt'
         gracePeriodSeconds: 300
         intervalSeconds: 60
         timeoutSeconds: 20
