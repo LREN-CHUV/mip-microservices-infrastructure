@@ -23,7 +23,7 @@ you've installed the `jmespath` library on your machine (see common/scripts/requ
 
 ```sh
   git clone https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
-  
+
   # Advanced use, to keep track of MIP versions and uptream changes
   git clone --origin mmsi --branch 2.5.3 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
   cd my-infrastructure
@@ -186,10 +186,10 @@ file envs/mip-local/etc/ansible/host_vars/localhost should contain the passwords
 
 You can create a backup of the installation and configuration to an external server.
 
-The MIP team uses a private storage space on Bitbucket.org:
+The MIP team uses a private storage space on Gitlab.com (also some legacy BitBucket.org private repositories):
 
 ```sh
-  git remote add origin git@bitbucket.org:hbpmip_private/[my]-infrastructure.git
+  git remote add origin git@gitlab.com:hbpmip_private/[my]-infrastructure.git
   git push -u master origin
 ```
 

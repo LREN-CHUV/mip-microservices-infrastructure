@@ -6,7 +6,7 @@ ldsm_db_marathon_host: "
 "
 
 ldsm_db_image: 'hbpmip/postgresraw'
-ldsm_db_is_ready: "/bin/true"
+ldsm_db_is_ready: "/opt/PostgresRAW/bin/pg_isready"
 
 ldsm_db_volumes:
   - containerPath: '/data'
