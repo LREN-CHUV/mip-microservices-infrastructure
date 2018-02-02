@@ -200,6 +200,7 @@ airflow_extra_main_dataset_preprocessing_all_settings:
     parameters:
       input_folder: "{{ main_data_preprocessing_input_folder | default(airflow_extra_main_data_folder + '/preprocessing/input') }}"
       input_config: "{{ main_data_preprocessing_input_config | default('') }}"
+      matlab_user: "{{ main_data_preprocessing_matlab_user | default('airflow') }}"
       max_active_runs: "{{ main_data_preprocessing_max_active_runs | default(30) }}"
       min_free_space: "{{ main_data_preprocessing_min_free_space | default(0.3) }}"
       pipelines_path: "{{ main_data_preprocessing_pipelines_path | default(airflow_scripts_root + '/mri-preprocessing-pipeline/Pipelines') }}"
