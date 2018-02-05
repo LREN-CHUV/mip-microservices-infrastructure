@@ -1,3 +1,7 @@
 ---
 
 mesos_cluster: "my_cluster"
+
+docker_options:
+  - "--dns 192.168.21.66"
+  - "--log-driver=journald"
