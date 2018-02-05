@@ -1,5 +1,7 @@
 ---
 
+matlab_user: '{{ data_factory_user }}'
+
 # We assume that data catalog database is deployed under the same Postgres instance as airflow database
 # Identifier must be under /data-factory namespace to be able to use dependencies on scheduler and webserver
 airflow_db_marathon_id: '/data-factory/airflow-db'
