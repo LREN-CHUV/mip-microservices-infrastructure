@@ -1,0 +1,23 @@
+---
+
+#
+# Setup the authenticated reverse proxy for mesos-ui, marathon and other services.
+#
+
+
+- hosts: control
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+    - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
+    - "{{ play_dir }}/vars/algorithm-factory/endpoints.yml"
+    - "{{ play_dir }}/vars/web-analytics/endpoints.yml"
+    - "{{ play_dir }}/vars/web-analytics/portal-frontend.yml"
+    - "{{ play_dir }}/vars/web-analytics/portal-backend.yml"
+
+  roles:
+
+    - role: reverse_proxy
+      when: "'reverse_proxy' not in skipped_roles"
+      tags: ['mesos', 'reverse-proxy', 'infra', 'infrastructure']

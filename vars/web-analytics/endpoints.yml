@@ -22,6 +22,8 @@ portal_db_host: "
     {{ hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) }}
   {%- endif -%}
 "
+
+portal_frontend_port: 31888
 portal_db_name: portal
 portal_db_admin_user: postgres
 portal_db_user: portal
