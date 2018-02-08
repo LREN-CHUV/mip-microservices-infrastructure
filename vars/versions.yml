@@ -8,7 +8,8 @@ docker_debian_package_version: "ce-0"
 docker_redhat_package_version: "ce"
 docker_registry_version: "2.3.1"
 
-zookeeper_version: 3.4.10
+zookeeper_version: "{% if ansible_os_family == 'RedHat' %}3.4.10{% else %}3.4.8{% endif %}"
+zookeeper_debian_package_version: "1"
 mesos_version: "1.4.1"
 mesos_package_version: "2.0.1"
 mesos_ui_version: "standalone-0.1.4"
