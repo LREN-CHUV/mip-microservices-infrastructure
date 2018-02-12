@@ -16,7 +16,7 @@ mesos_ui_version: "standalone-0.1.4"
 marathon_version: "1.5.4"
 chronos_version: "v3.0.2"
 
-airflow_version: '1.8.2'
+airflow_version: '1.9.0'
 airflow_db_image: "postgres"
 airflow_db_version: "{{ postgres_version }}"
 mri_db_image: "postgres"
@@ -32,9 +32,9 @@ nginx_official_repo: True
 
 # Versions of our Docker containers
 # TODO: frontend will need more updates
-portal_frontend_version: "2.5.2"
+portal_frontend_version: "2.6.5"
 portal_backend_version: "2.5.4"
-woken_version: "2.1.4"
+woken_version: "2.2.5"
 woken_algorithms:
   - name: histograms
     docker_image: "hbpmip/python-histograms:0.3.6"
@@ -58,19 +58,19 @@ woken_algorithms:
     docker_image: "hbpmip/python-tsne:0.3.3"
     predictive: true
 
-woken_validation_version: "2.1.0"
+woken_validation_version: "2.1.8"
 woken_db_setup_version: '1.0.2'
 
 # Reference data
 
 mip_cde_meta_db_setup_version: '1.2.0'
 
-adni_merge_db_setup_version: '1.5.1'
+adni_merge_db_setup_version: '1.5.2'
 edsd_data_db_setup_version: '1.4.0'
 ppmi_data_db_setup_version: '1.1.1'
 
-sample_meta_db_setup_version: '0.3.1'
-sample_data_db_setup_version: '0.3.2'
+sample_meta_db_setup_version: '0.4.1'
+sample_data_db_setup_version: '0.5.0'
 
 # Data factory
 
@@ -83,7 +83,7 @@ data_tracking_version: '1.7.2'
 data_catalog_db_setup_version: '1.6.0'
 mri_preprocessing_pipeline_version: '1.3.0'
 i2b2_import_version: '1.6.3'
-i2b2_capture_db_setup_version: '1.5.1'
+i2b2_capture_db_setup_version: '1.5.2'
 i2b2_mip_db_setup_version: '{{ i2b2_capture_db_setup_version }}'
 slackclient_py_version: '1.0.5'
 docker_py_version: '1.10.6'
