@@ -5,7 +5,7 @@ mesos_cluster: "{{ mesos_cluster_override | default('MIP')}}"
 mesos_containerizers: "docker,mesos"
 mesos_isolation: cgroups/cpu,cgroups/mem
 mesos_resources:
-  - "ports(*):[4000-5000, 31000-32000]"
+  - "ports(*):[80-80, 443-443, 4000-5000, 31000-32000]"
 mesos_hostname: "{{ fqdn | default(ansible_fqdn) }}"
 
 mesos_zk_auth: "{% if zk_mesos_user_secret is defined %}{{ zk_mesos_user }}:{{ zk_mesos_user_secret }}@{% endif %}"
