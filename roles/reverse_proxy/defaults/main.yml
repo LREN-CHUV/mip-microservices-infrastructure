@@ -1,7 +1,8 @@
 ---
 reverse_proxy_marathon_id: /management/reverse-proxy
 reverse_proxy_docker_image: docker.io/dabelenda/caddy:test
-reverse_proxy_port: 443
+reverse_proxy_https_port: 443
+reverse_proxy_http_port: 80
 reverse_proxy_docker_parameters: []
 
 reverse_proxy_ssl_mode: self_signed
