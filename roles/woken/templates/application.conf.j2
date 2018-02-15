@@ -1,26 +1,16 @@
 akka {
-  log-dead-letters = 1
-  log-dead-letters-during-shutdown = off
   loglevel = INFO
+  stdout-loglevel = WARNING
 
-  actor {
-    provider = "akka.cluster.ClusterActorRefProvider"
-    debug {
-      receive = off
-      autoreceive = off
-      lifecycle = off
-      fsm = on
-      unhandled = on
-      event-stream = off
-    }
-  }
+  log-config-on-start = on
+
   remote {
     log-sent-messages = off
     log-received-messages = off
     log-remote-lifecycle-events = off
 
     maximum-payload-bytes = 10000000 bytes
-    enabled-transports = ["akka.remote.netty.tcp"]
+
     netty.tcp {
       hostname = {{ woken_host }} # external (logical) hostname
       port = {{ woken_akka_port }} # external (logical) port
@@ -54,26 +44,23 @@ akka {
     ]
 
     roles = ["woken"]
+
+    role {
+      woken.min-nr-of-members = {{ woken_min_nr_of_members }}
+      validation.min-nr-of-members = {{ woken_validation_min_nr_of_members }}
+      scoring.min-nr-of-members = {{ woken_scoring_min_nr_of_members }}
+    }
+
+    client {
+{% if woken_docker_network == 'BRIDGE' %}
+      # With bridge networking, bind to localhost, then let Docker do the NAT translation
+      initial-contacts = ["akka.tcp://woken@localhost:{{ woken_akka_port }}/system/receptionist"]
+{% else %}
+      initial-contacts = ["akka.tcp://woken@{{ woken_host }}:{{ woken_akka_port }}/system/receptionist"]
+{% endif %}
+    }
+
   }
-}
-
-spray.can.server {
-  idle-timeout = 300s
-  request-timeout = 180s
-  ssl-encryption = off
-  ssl-tracing = on
-}
-
-spray.can.client {
-  request-timeout = 20 s
-  chunkless-streaming = off
-  connecting-timeout = 10s
-}
-
-spray.can.host-connector {
-  max-connections = 5
-  host-connector.max-retries = 2
-  pipelining = on
 }
 
 app {
@@ -93,7 +80,7 @@ app {
   }
 
   basicAuth {
-    username = "{{ woken_basicauth_username }}"
+    user = "{{ woken_basicauth_username }}"
     password = "{{ woken_basicauth_password }}"
   }
 }
@@ -146,6 +133,17 @@ db {
     password="{{ woken_metadata_db_password }}"
   }
 
+}
+
+datasets {
+{% for fn in woken_datasets %}
+  {{ fn.name }} {
+    label = "{{ fn.label }}"
+    description = "{{ fn.description }}"
+    tables = ["{{ fn.tables }}"]
+    anonymisationLevel = "{{ fn.anonymisationLevel }}"
+  }
+{% endfor %}
 }
 
 algorithms {
