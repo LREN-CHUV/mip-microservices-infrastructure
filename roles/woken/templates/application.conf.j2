@@ -119,7 +119,7 @@ jobs {
 }
 
 db {
-  {{ resultDb }} {
+  {{ woken_result_db_name }} {
     jdbc_driver="{{ woken_result_db_jdbc_driver }}"
     jdbc_url="{{ woken_result_db_jdbc_url }}"
     host="{{ woken_result_db_host }}"
@@ -128,7 +128,7 @@ db {
     password="{{ woken_result_db_password }}"
   }
 
-  {{ featuresDb }} {
+  {{ woken_features_db_name }} {
     jdbc_driver="{{ woken_features_db_jdbc_driver }}"
     jdbc_url="{{ woken_features_db_jdbc_url }}"
     host="{{ woken_features_db_host }}"
@@ -137,7 +137,7 @@ db {
     password="{{ woken_features_db_password }}"
   }
 
-  {{ metaDb }} {
+  {{ woken_metadata_db_name }} {
     jdbc_driver="{{ woken_metadata_db_jdbc_driver }}"
     jdbc_url="{{ woken_metadata_db_jdbc_url }}"
     host="{{ woken_metadata_db_host }}"
