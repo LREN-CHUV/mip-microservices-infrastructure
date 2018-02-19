@@ -112,10 +112,10 @@ jobs {
   }
 {% else %}
 {% endif %}
-  featuresDb = "features"
-  featuresTable = "mip_cde_features"
-  resultDb = "woken"
-  metaDb = "metadata"
+  featuresDb = "{{ woken_features_db_name }}"
+  featuresTable = "{{ woken_features_table }}"
+  resultDb = "{{ woken_result_db_name }}"
+  metaDb = "{{ woken_metadata_db_name }}"
 }
 
 db {

@@ -58,6 +58,7 @@ woken_db_marathon_id: /algorithm-factory/wokendb
 woken_result_db_port: '{{ woken_db_port }}'
 woken_result_db_host: '{{ woken_db_host }}'
 woken_result_db_user: '{{ woken_db_user }}'
+woken_result_db_name: '{{ woken_db_name }}'
 woken_result_db_password: '{{ woken_db_password }}'
 woken_result_db_jdbc_url: '{{ woken_db_jdbc_url }}'
 woken_result_db_jdbc_driver: '{{ woken_db_jdbc_driver }}'
@@ -67,6 +68,7 @@ woken_result_db_jdbc_jar: '{{ woken_db_jdbc_jar }}'
 woken_features_db_port: '{{ ldsm_db_port }}'
 woken_features_db_host: '{{ ldsm_db_host }}'
 woken_features_db_user: '{{ ldsm_db_user }}'
+woken_features_db_name: '{{ ldsm_db_name }}'
 woken_features_db_password: '{{ ldsm_db_password }}'
 woken_features_db_jdbc_url: '{{ ldsm_db_jdbc_url }}'
 woken_features_db_jdbc_driver: '{{ ldsm_db_jdbc_driver }}'
@@ -75,6 +77,7 @@ woken_features_db_jdbc_jar: '{{ ldsm_db_jdbc_jar }}'
 woken_metadata_db_port: '{{ meta_db_port }}'
 woken_metadata_db_host: '{{ meta_db_host }}'
 woken_metadata_db_user: '{{ meta_db_user }}'
+woken_metadata_db_name: '{{ meta_db_name }}'
 woken_metadata_db_password: '{{ meta_db_password }}'
 woken_metadata_db_jdbc_url: '{{ meta_db_jdbc_url }}'
 woken_metadata_db_jdbc_driver: '{{ meta_db_jdbc_driver }}'
@@ -97,7 +100,7 @@ woken_role: mip_node
 # list of name, url values. Used to connect to woken workers when woken_role == mip_federation
 woken_nodes: []
 
-woken_features_table: mip_cde_features
+woken_features_table: '{{ features_table }}'
 woken_algorithms:
   - name: histograms
     docker_image: "hbpmip/python-histograms:latest"

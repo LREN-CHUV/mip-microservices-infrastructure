@@ -5,6 +5,7 @@
 woken_features_db_port: '{{ ldsm_db_port }}'
 woken_features_db_host: '{{ ldsm_db_host }}'
 woken_features_db_user: '{{ ldsm_db_user }}'
+woken_features_db_name: '{{ ldsm_db_name }}'
 woken_features_db_password: '{{ ldsm_db_password }}'
 woken_features_db_jdbc_url: '{{ ldsm_db_jdbc_url }}'
 woken_features_db_jdbc_driver: '{{ ldsm_db_jdbc_driver }}'
