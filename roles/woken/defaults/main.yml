@@ -100,6 +100,27 @@ woken_role: mip_node
 # list of name, url values. Used to connect to woken workers when woken_role == mip_federation
 woken_nodes: []
 
+woken_min_nr_of_members: 1
+woken_validation_min_nr_of_members: 1
+woken_scoring_min_nr_of_members: 1
+
+woken_datasets:
+  - name: sample
+    description: Sample data
+    label: Sample data
+    tables: sample_data
+    anonymisationLevel: Anonymised
+  - name: churn
+    description: Customer churn
+    label: Customer churn
+    tables: churn
+    anonymisationLevel: Anonymised
+  - name: desd-synthdata
+    label: Synthetic data A
+    description: Synthetic data A
+    tables: cde_features_a
+    anonymisationLevel: Anonymised
+
 woken_features_table: '{{ features_table }}'
 woken_algorithms:
   - name: histograms
