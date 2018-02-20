@@ -1,0 +1,36 @@
+---
+reverse_proxy_marathon_id: /management/reverse-proxy
+reverse_proxy_docker_image: docker.io/dabelenda/caddy:test
+reverse_proxy_https_port: 443
+reverse_proxy_http_port: 80
+reverse_proxy_docker_parameters: []
+
+reverse_proxy_ssl_mode: self_signed
+
+reverse_proxy_default_auth_login: admin
+#reverse_proxy_public_hostname: demo
+#reverse_proxy_default_auth_password: test
+
+# mesosui is authenticated
+reverse_proxy_mesosui_backend: "http://{{ mesos_leader_hostname }}:{{ mesos_leader_port }}"
+reverse_proxy_mesosui_auth_login: "{{ reverse_proxy_default_auth_login }}"
+reverse_proxy_mesosui_auth_password: "{{ reverse_proxy_default_auth_password }}"
+
+# airflow is authenticated
+reverse_proxy_airflow_backend: "{{ airflow_web_base_url }}"
+reverse_proxy_airflow_auth_login: "{{ reverse_proxy_default_auth_login }}"
+reverse_proxy_airflow_auth_password: "{{ reverse_proxy_default_auth_password }}"
+
+# marathon is authenticated
+reverse_proxy_marathon_backend: "http://{{ marathon_hostname }}:{{ marathon_port }}"
+reverse_proxy_marathon_auth_login: "{{ reverse_proxy_default_auth_login }}"
+reverse_proxy_marathon_auth_password: "{{ reverse_proxy_default_auth_password }}"
+
+# woken has an authentication integrated
+reverse_proxy_woken_backend: "http://{{ woken_host }}:{{ woken_http_port }}"
+
+# portal_frontend has an authentication integrated
+reverse_proxy_portal_frontend_backend: "http://{{ portal_frontend_marathon_host }}:{{ portal_frontend_port }}"
+#
+# portal_backend has an authentication integrated
+reverse_proxy_portal_backend_backend: "http://{{ portal_backend_marathon_host }}:{{ portal_backend_port }}"

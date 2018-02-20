@@ -23,7 +23,12 @@
     state: "present"
     docker_image: "hbpmip/portal-frontend:{{ portal_frontend_version }}"
     docker_force_pull_image: true
-    docker_network: HOST
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: '{{ portal_frontend_port }}'
+        containerPort: 8080
+        name: 'http'
+        protocol: 'tcp'
     docker_parameters: '{{ portal_frontend_docker_parameters }}'
     env: '{{ portal_frontend_env }}'
     instances: '{{ portal_frontend_instances }}'
@@ -37,7 +42,7 @@
     wait_timeout: 600
     health_checks:
       - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_HTTP{% else %}HTTP{% endif %}"
-        port: '{{ portal_frontend_port }}'
+        port: '8080'
         path: '/'
         gracePeriodSeconds: 300
         intervalSeconds: 60
