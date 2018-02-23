@@ -101,8 +101,8 @@ woken_role: mip_node
 woken_nodes: []
 
 woken_min_nr_of_members: 1
-woken_validation_min_nr_of_members: 1
-woken_scoring_min_nr_of_members: 1
+woken_validation_min_nr_of_members: 0
+woken_scoring_min_nr_of_members: 0
 
 woken_datasets:
   - name: sample
