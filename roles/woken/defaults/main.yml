@@ -9,6 +9,9 @@ woken_marathon_id: /algorithm-factory/woken
 # Location of the configuration directory
 woken_config_dir: /srv/docker/woken/config
 
+# Logging level: DEBUG, INFO, WARNING, ERROR
+woken_log_level: INFO
+
 # Port to use to expose woken to other services in the cluster.
 # Ignored if woken_docker_network == HOST, in this case woken can be reached under port 8087
 # Default to 8087 when using host networking, 31087 otherwise
@@ -97,9 +100,6 @@ woken_dependencies:
 # Roles are mip_node or mip_federation
 woken_role: mip_node
 
-# list of name, url values. Used to connect to woken workers when woken_role == mip_federation
-woken_nodes: []
-
 woken_min_nr_of_members: 1
 woken_validation_min_nr_of_members: 0
 woken_scoring_min_nr_of_members: 0
@@ -108,17 +108,17 @@ woken_datasets:
   - name: sample
     description: Sample data
     label: Sample data
-    tables: sample_data
+    tables: ["sample_data"]
     anonymisationLevel: Anonymised
   - name: churn
     description: Customer churn
     label: Customer churn
-    tables: churn
+    tables: ["churn"]
     anonymisationLevel: Anonymised
   - name: desd-synthdata
     label: Synthetic data A
     description: Synthetic data A
-    tables: cde_features_a
+    tables: ["cde_features_a"]
     anonymisationLevel: Anonymised
 
 woken_features_table: '{{ features_table }}'

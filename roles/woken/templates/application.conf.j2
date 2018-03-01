@@ -1,8 +1,11 @@
 akka {
-  loglevel = INFO
-  stdout-loglevel = WARNING
+  loglevel = {{ woken_log_level }}
+  # Log level during startup and shutdown
+  stdout-loglevel = {{ woken_log_level }}
 
   log-config-on-start = on
+  log-dead-letters = 10
+  log-dead-letters-during-shutdown = off
 
   remote {
     log-sent-messages = off
@@ -12,15 +15,15 @@ akka {
     maximum-payload-bytes = 10000000 bytes
 
     netty.tcp {
-      hostname = {{ woken_host }} # external (logical) hostname
-      port = {{ woken_akka_port }} # external (logical) port
+      hostname = ${clustering.ip} # external (logical) hostname
+      port = ${clustering.port}   # external (logical) port
 
 {% if woken_docker_network == 'BRIDGE' %}
       # With bridge networking, bind to localhost, then let Docker do the NAT translation
-      bind-hostname = localhost         # internal (bind) hostname
-      bind-port = {{ woken_akka_port }} # internal (bind) port
+      bind-hostname = 0.0.0.0        # internal (bind) hostname
+      bind-port = ${clustering.port} # internal (bind) port
 {% else %}
-      bind-hostname = "0.0.0.0"
+      bind-hostname = 0.0.0.0
       # Network interface will be bound to the woken_akka_port port,
       # and remoting protocol will expect messages sent to the bound port
       bind-port = ""
@@ -32,15 +35,11 @@ akka {
       maximum-frame-size = 10000000b
     }
   }
+
   cluster {
 
     seed-nodes = [
-{% if woken_docker_network == 'BRIDGE' %}
-      # With bridge networking, bind to localhost, then let Docker do the NAT translation
-      "akka.tcp://woken@localhost:{{ woken_akka_port }}"
-{% else %}
-      "akka.tcp://woken@{{ woken_host }}:{{ woken_akka_port }}"
-{% endif %}
+      "akka.tcp://"${clustering.cluster.name}"@"${clustering.seed-ip}":"${clustering.seed-port}
     ]
 
     roles = ["woken"]
@@ -52,25 +51,22 @@ akka {
     }
 
     client {
-{% if woken_docker_network == 'BRIDGE' %}
-      # With bridge networking, bind to localhost, then let Docker do the NAT translation
-      initial-contacts = ["akka.tcp://woken@localhost:{{ woken_akka_port }}/system/receptionist"]
-{% else %}
-      initial-contacts = ["akka.tcp://woken@{{ woken_host }}:{{ woken_akka_port }}/system/receptionist"]
-{% endif %}
+      initial-contacts = ["akka.tcp://"${clustering.cluster.name}"@"${clustering.seed-ip}":"${clustering.seed-port}"/system/receptionist"]
     }
 
   }
 }
 
 app {
-  clusterSystemName = "{{ woken_akka_cluster }}"
+  clusterSystemName = ${clustering.cluster.name}
   jobServiceName = "job-service"
 {% if woken_docker_network == 'BRIDGE' %}
   dockerBridgeNetwork = "{{ woken_docker_bridge_network }}"
 {% endif %}
-  webServicesPort = {{ woken_http_port }}
   networkInterface = "{{ woken_http_network_interface }}"
+  webServicesPort = {{ woken_http_port }}
+  webServicesHttps = off
+  disableWorkers = {{ woken_validation_min_nr_of_members == 0 or woken_scoring_min_nr_of_members == 0 }}
 
   master.router {
     actors {
@@ -90,14 +86,8 @@ jobs {
   owner = "admin@mip.chuv.ch"
   chronosServerUrl = "{{ internal_chronos_url }}"
 {% if woken_role == 'mip_federation' %}
-  nodes = {
-{% for node in woken_nodes %}
-    {{ node.name }} {
-      jobsUrl = "{{ node.url}}"
-    }
-{% endfor %}
-  }
 {% else %}
+  # TODO: connection to feature table should only be used for worker nodes
 {% endif %}
   featuresDb = "{{ woken_features_db_name }}"
   featuresTable = "{{ woken_features_table }}"
@@ -107,30 +97,30 @@ jobs {
 
 db {
   {{ woken_result_db_name }} {
-    jdbc_driver="{{ woken_result_db_jdbc_driver }}"
-    jdbc_url="{{ woken_result_db_jdbc_url }}"
-    host="{{ woken_result_db_host }}"
-    port={{ woken_result_db_port }}
-    user="{{ woken_result_db_user }}"
-    password="{{ woken_result_db_password }}"
+    jdbc_driver = "{{ woken_result_db_jdbc_driver }}"
+    jdbc_url = "{{ woken_result_db_jdbc_url }}"
+    host = "{{ woken_result_db_host }}"
+    port = {{ woken_result_db_port }}
+    user = "{{ woken_result_db_user }}"
+    password = "{{ woken_result_db_password }}"
   }
 
   {{ woken_features_db_name }} {
-    jdbc_driver="{{ woken_features_db_jdbc_driver }}"
-    jdbc_url="{{ woken_features_db_jdbc_url }}"
-    host="{{ woken_features_db_host }}"
-    port="{{ woken_features_db_port }}"
-    user="{{ woken_features_db_user }}"
-    password="{{ woken_features_db_password }}"
+    jdbc_driver = "{{ woken_features_db_jdbc_driver }}"
+    jdbc_url = "{{ woken_features_db_jdbc_url }}"
+    host = "{{ woken_features_db_host }}"
+    port = "{{ woken_features_db_port }}"
+    user = "{{ woken_features_db_user }}"
+    password = "{{ woken_features_db_password }}"
   }
 
   {{ woken_metadata_db_name }} {
-    jdbc_driver="{{ woken_metadata_db_jdbc_driver }}"
-    jdbc_url="{{ woken_metadata_db_jdbc_url }}"
-    host="{{ woken_metadata_db_host }}"
-    port={{ woken_metadata_db_port }}
-    user="{{ woken_metadata_db_user }}"
-    password="{{ woken_metadata_db_password }}"
+    jdbc_driver = "{{ woken_metadata_db_jdbc_driver }}"
+    jdbc_url = "{{ woken_metadata_db_jdbc_url }}"
+    host = "{{ woken_metadata_db_host }}"
+    port = {{ woken_metadata_db_port }}
+    user = "{{ woken_metadata_db_user }}"
+    password = "{{ woken_metadata_db_password }}"
   }
 
 }
@@ -140,8 +130,18 @@ datasets {
   {{ fn.name }} {
     label = "{{ fn.label }}"
     description = "{{ fn.description }}"
-    tables = ["{{ fn.tables }}"]
+{% if fn.tables is defined %}
+    tables = {{ fn.tables | to_json }}
+{% endif %}
     anonymisationLevel = "{{ fn.anonymisationLevel }}"
+{% if fn.location is defined %}
+    location {
+      url = "{fn.location.url}"
+      basicAuth {
+        user = "{fn.location.basicAuth.user}"
+        password = "{fn.location.basicAuth.password}"
+      }
+{% endif %}
   }
 {% endfor %}
 }
@@ -153,4 +153,12 @@ algorithms {
     predictive = {{ fn.predictive | lower }}
   }
 {% endfor %}
+}
+
+kamon {
+  system-metrics {
+    host {
+      enabled = no
+    }
+  }
 }
