@@ -13,7 +13,7 @@ zookeeper_debian_package_version: "1"
 mesos_version: "1.5.0"
 mesos_package_version: "2.0.1"
 mesos_ui_version: "standalone-0.1.4"
-marathon_version: "1.5.4"
+marathon_version: "1.5.6"
 chronos_version: "v3.0.2"
 
 airflow_version: '1.9.0'
@@ -34,7 +34,7 @@ nginx_official_repo: True
 # TODO: frontend will need more updates
 portal_frontend_version: "2.7.0"
 portal_backend_version: "2.6.1"
-woken_version: "2.3.4"
+woken_version: "2.3.6"
 woken_algorithms:
   - name: histograms
     docker_image: "hbpmip/python-histograms:0.3.6"
@@ -58,7 +58,7 @@ woken_algorithms:
     docker_image: "hbpmip/python-tsne:0.3.3"
     predictive: true
 
-woken_validation_version: "2.2.7"
+woken_validation_version: "2.2.8"
 woken_db_setup_version: '1.0.2'
 
 # Reference data
