@@ -54,9 +54,14 @@ demo
 
 # Algorithm Factory building block: define an 'algorithm-factory' group encompassing the configuration of the groups defined below
 [algorithm-factory:children]
+chronos
 woken-db
 woken
 woken-validation
+
+# Install Chronos
+[chronos]
+demo
 
 # Install woken-database
 [woken-db]

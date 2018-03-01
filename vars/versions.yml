@@ -33,8 +33,8 @@ nginx_official_repo: True
 # Versions of our Docker containers
 # TODO: frontend will need more updates
 portal_frontend_version: "2.7.0"
-portal_backend_version: "2.6.0"
-woken_version: "2.3.0"
+portal_backend_version: "2.6.1"
+woken_version: "2.3.2"
 woken_algorithms:
   - name: histograms
     docker_image: "hbpmip/python-histograms:0.3.6"
@@ -49,16 +49,16 @@ woken_algorithms:
     docker_image: "hbpmip/python-anova:0.3.6"
     predictive: false
   - name: knn
-    docker_image: "hbpmip/java-rapidminer-knn:0.2.1"
+    docker_image: "hbpmip/java-rapidminer-knn:0.2.2"
     predictive: true
   - name: naiveBayes
-    docker_image: "hbpmip/java-rapidminer-naivebayes:0.2.0"
+    docker_image: "hbpmip/java-rapidminer-naivebayes:0.2.1"
     predictive: true
   - name: tSNE
     docker_image: "hbpmip/python-tsne:0.3.3"
     predictive: true
 
-woken_validation_version: "2.2.6"
+woken_validation_version: "2.2.7"
 woken_db_setup_version: '1.0.2'
 
 # Reference data
@@ -69,7 +69,7 @@ adni_merge_db_setup_version: '1.5.1'
 edsd_data_db_setup_version: '1.4.1'
 ppmi_data_db_setup_version: '1.1.1'
 
-sample_meta_db_setup_version: '0.4.2'
+sample_meta_db_setup_version: '0.4.3'
 sample_data_db_setup_version: '0.5.0'
 
 # Data factory
@@ -101,19 +101,19 @@ sonarqube_version: "6.0-alpine"
 
 ansible_cmdb_version: 1.17
 
-maven_version: "3.5.0"
+maven_version: "3.5.2"
 
 nodejs_version: "4.6"
 
-captain_version: "1.1.0"
-docker_compose_version: "1.14.0"
+captain_version: "1.1.2"
+docker_compose_version: "1.18.0"
 
-virtualbox_version: "5.1"
-vagrant_version: "1.9.3"
+virtualbox_version: "5.2"
+vagrant_version: "2.0.2"
 
 # IDEs
 sublimetext_build: "3114"
-intellij_version: "2017.2.5"
+intellij_version: "2017.3.3"
 yed_version: "3.16.2.1"
 soapui_version: "5.2.1"
 atom_ver: '1.17.2'
