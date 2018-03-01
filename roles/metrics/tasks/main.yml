@@ -1,0 +1,65 @@
+---
+
+- name: Create prometheus configuration directory
+  file:
+    state: directory
+    path: "{{ metrics_prometheus_config_dir }}"
+  become: True
+
+- name: Setup configuration for prometheus
+  template:
+    src: prometheus.conf.j2
+    dest: "{{ metrics_prometheus_config_dir }}/prometheus.yml"
+  become: True
+
+- name: Delete old prometheus using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ metrics_prometheus_marathon_id }}"
+    state: "absent"
+    wait_timeout: 600
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+
+- name: Launch prometheus using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ metrics_prometheus_marathon_id }}"
+    state: "present"
+    docker_image: "{{ metrics_prometheus_docker_image }}"
+    docker_force_pull_image: true
+    docker_network: BRIDGE
+    docker_port_mappings:
+      - hostPort: "{{ metrics_prometheus_http_port }}"
+        containerPort: 9090
+        protocol: 'tcp'
+        name: 'http'
+    docker_parameters: '{{ metrics_prometheus_docker_parameters }}'
+    container_volumes:
+      - containerPath: "/etc/prometheus"
+        hostPath: "{{ metrics_prometheus_config_dir }}"
+        mode: RW
+    instances: 1
+    cpus: '{{ metrics_prometheus_cpus }}'
+    mem: '{{ metrics_prometheus_mem }}'
+    ports: []
+    require_ports: true
+    constraints: '{{ metrics_prometheus_marathon_constraints }}'
+    dependencies: '{{ metrics_prometheus_dependencies }}'
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_HTTP{% else %}HTTP{% endif %}"
+        portIndex: 0
+        path: "/"
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
+    upgrade_strategy_minimum_health_capacity: 0.0
+    upgrade_strategy_maximum_over_capacity: 0.0
+  async: 600
+  poll: 1
+  delegate_to: "{{ groups['control'][0] }}"
+  run_once: true

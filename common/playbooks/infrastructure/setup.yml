@@ -18,4 +18,6 @@
 
 - include: mesos-follower.yml
 
+- include: metrics.yml
+
 # /Mesos stack

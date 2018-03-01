@@ -22,3 +22,5 @@ marathon_hostname: "{{ marathon_hostname_override | default(mesos_leader_hostnam
 
 internal_mesos_url: "http://{{ mesos_leader_hostname }}:{{ mesos_leader_port }}"
 internal_marathon_url: "http://{{ marathon_hostname }}:{{ marathon_port }}"
+
+metrics_prometheus_http_port: 31080
