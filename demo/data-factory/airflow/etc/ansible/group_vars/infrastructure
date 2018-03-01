@@ -5,5 +5,4 @@ mesos_cluster: "my_cluster"
 docker_options:
   - "--dns=192.168.34.66"
   - "--log-driver=journald"
-  - "--disable-legacy-registry"
   - "--storage-driver=overlay"
