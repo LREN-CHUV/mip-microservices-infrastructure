@@ -6,6 +6,12 @@
     path: "{{ metrics_prometheus_config_dir }}"
   become: True
 
+- name: Create prometheus data directory
+  file:
+    state: directory
+    path: "{{ metrics_prometheus_data_dir }}"
+  become: True
+
 - name: Setup configuration for prometheus
   template:
     src: prometheus.conf.j2
@@ -39,6 +45,9 @@
     container_volumes:
       - containerPath: "/etc/prometheus"
         hostPath: "{{ metrics_prometheus_config_dir }}"
+        mode: RW
+      - containerPath: "/prometheus"
+        hostPath: "{{ metrics_prometheus_data_dir }}"
         mode: RW
     instances: 1
     cpus: '{{ metrics_prometheus_cpus }}'
