@@ -24,11 +24,8 @@ woken_akka_cluster: "woken"
 woken_cpus: 0.5
 # Amount of memory in mb reserved for woken
 woken_mem: 1024.0
-# Networking mode for the Docker container running woken. Values are BRIDGE or HOST.
-# Use HOST to connect woken to Denodo on the Federation servers, otherwise prefer BRIDGE
-woken_docker_network: BRIDGE
 # Name of the bridge network to connect to. Used also for the communication of Docker algorithms launched via Chronos
-woken_docker_bridge_network: ''
+woken_docker_bridge_network: 'bridge'
 # Additional parameters for Docker
 woken_docker_parameters: []
 woken_docker_image_basename: hbpmip/woken

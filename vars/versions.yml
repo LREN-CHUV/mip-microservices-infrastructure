@@ -34,7 +34,7 @@ nginx_official_repo: True
 # TODO: frontend will need more updates
 portal_frontend_version: "2.7.0"
 portal_backend_version: "2.6.1"
-woken_version: "2.3.6"
+woken_version: "2.3.7"
 woken_algorithms:
   - name: histograms
     docker_image: "hbpmip/python-histograms:0.3.6"

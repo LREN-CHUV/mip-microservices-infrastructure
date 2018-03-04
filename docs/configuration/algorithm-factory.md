@@ -39,9 +39,6 @@ features_from: 'ldsm-db'
 # Use mip_cde_features to see only research data, otherwise use mip_local_features
 features_table: 'mip_local_features'
 
-# TODO: not working yet
-#woken_docker_network: BRIDGE
-
 ```
 
 ### ENV/etc/ansible/host_vars/[control node] (crypted)
@@ -95,5 +92,7 @@ woken_mem: 1024.0
 woken_validation_cpus: 0.5
 # Amount of memory in mb reserved for woken validation
 woken_validation_mem: 1024.0
+
+woken_docker_bridge_network: 'bridge'
 
 ```

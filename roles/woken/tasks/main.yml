@@ -24,11 +24,6 @@
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
 
-- name: Error out when woken_docker_network is "HOST" since this mode is no longer supported
-  fail:
-    message: "The mode HOST for docker_network is no longer supported, please deploy using the BRIDGE mode."
-  when: woken_docker_network == 'HOST'
-
 - name: Launch woken using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
