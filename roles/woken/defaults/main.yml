@@ -123,13 +123,14 @@ woken_env:
   CLUSTER_PORT: "{{ woken_akka_port }}"
   CLUSTER_IP: "{{ woken_host }}"
   WOKEN_PORT_8088_TCP_ADDR: "{{ woken_host }}"
+  WOKEN_PORT_8088_TCP_PORT: "{{ woken_akka_port }}"
   DOCKER_BRIDGE_NETWORK: "{{ woken_docker_bridge_network }}"
   LOG_LEVEL: DEBUG
   KAMON_ENABLED: "no"
   ZIPKIN_ENABLED: "no"
   PROMETHEUS_ENABLED: "no"
   SIGAR_SYSTEM_METRICS: "no"
-  JVM_SYSTEM_METRICS: "yes"
+  JVM_SYSTEM_METRICS: "no"
 
 woken_features_table: '{{ features_table }}'
 woken_algorithms:
