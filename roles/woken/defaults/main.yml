@@ -12,6 +12,7 @@ woken_config_dir: /srv/docker/woken/config
 # Logging level: DEBUG, INFO, WARNING, ERROR
 woken_log_level: INFO
 
+woken_host: "{{ ansible_fqdn }}"
 # Port to use to expose woken to other services in the cluster.
 woken_http_port: 31087
 # Listen address for the web services

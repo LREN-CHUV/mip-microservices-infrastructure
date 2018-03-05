@@ -1,14 +1,5 @@
 ---
 
-# Default user/group in Docker appears as user 999 outside, woken user has an id of 1000
-- name: Create woken validation directory
-  file: state=directory path={{ woken_validation_config_dir }} mode=0700 owner=1000 group=999
-  become: True
-
-- name: Setup configuration for the woken validation application
-  template: src=application.conf.j2 dest={{ woken_validation_config_dir }}/application.conf mode=0700 owner=1000 group=999
-  become: True
-
 - name: Wait for Marathon
   include: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
@@ -24,53 +15,7 @@
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
 
-# Host networking is required on Federation to be able to use Denodo JDBC over RMI driver
-- name: Launch woken validation app using Marathon (host networking)
-  marathon_app:
-    uri: "{{ internal_marathon_url }}"
-    id: "{{ woken_validation_marathon_id }}"
-    state: "present"
-    docker_image: "{{ woken_validation_docker_image }}"
-    docker_force_pull_image: true
-    docker_network: HOST
-    docker_parameters: '{{ woken_validation_docker_parameters }}'
-    container_volumes:
-      - containerPath: "/opt/woken-validation/config"
-        hostPath: "{{ woken_validation_config_dir }}"
-        mode: RW
-    instances: 1
-    cpus: '{{ woken_validation_cpus }}'
-    mem: '{{ woken_validation_mem }}'
-    ports: []
-    require_ports: false
-    constraints: '{{ woken_validation_marathon_constraints }}'
-    dependencies: '{{ woken_validation_dependencies }}'
-    executor: ""
-    wait_timeout: 600
-    health_checks:
-      - protocol: COMMAND
-        command:
-          value: "/bin/true"
-        gracePeriodSeconds: 300
-        intervalSeconds: 20
-        timeoutSeconds: 10
-        maxConsecutiveFailures: 5
-    # TODO: temporarly disabled
-    #  - protocol: TCP
-    #    port: "{{ woken_validation_akka_port }}"
-    #    gracePeriodSeconds: 300
-    #    intervalSeconds: 60
-    #    timeoutSeconds: 20
-    #    maxConsecutiveFailures: 2
-    upgrade_strategy_minimum_health_capacity: 0.0
-    upgrade_strategy_maximum_over_capacity: 0.0
-  async: 600
-  poll: 1
-  when: woken_validation_docker_network == 'HOST'
-  delegate_to: "{{ groups['control'][0] }}"
-  run_once: true
-
-- name: Launch woken validation using Marathon (bridge networking)
+- name: Launch woken validation using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ woken_validation_marathon_id }}"
@@ -79,15 +24,16 @@
     docker_force_pull_image: true
     docker_network: BRIDGE
     docker_port_mappings:
+      - hostPort: "{{ woken_validation_http_port }}"
+        containerPort: 8081
+        protocol: 'tcp'
+        name: 'http'
       - hostPort: "{{ woken_validation_akka_port }}"
         containerPort: "{{ woken_validation_akka_port }}"
         protocol: 'tcp'
         name: 'akka'
     docker_parameters: '{{ woken_validation_docker_parameters }}'
-    container_volumes:
-      - containerPath: "/opt/woken-validation/config"
-        hostPath: "{{ woken_validation_config_dir }}"
-        mode: RW
+    env: '{{ woken_validation_env }}'
     instances: 1
     cpus: '{{ woken_validation_cpus }}'
     mem: '{{ woken_validation_mem }}'
@@ -97,18 +43,23 @@
     dependencies: '{{ woken_validation_dependencies }}'
     executor: ""
     wait_timeout: 600
-    health_checks: []
-    # TODO: temporarly disabled
-    #  - protocol: TCP
-    #    port: "{{ woken_validation_akka_port }}"
-    #    gracePeriodSeconds: 300
-    #    intervalSeconds: 60
-    #    timeoutSeconds: 20
-    #    maxConsecutiveFailures: 2
+    health_checks:
+      - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_HTTP{% else %}HTTP{% endif %}"
+        portName: 'http'
+        path: "/health"
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 2
+    readinessChecks:
+      - protocol: "HTTP"
+        path: "/readiness"
+        intervalSeconds: 30
+        portName: "http"
+        timeoutSeconds: 20
     upgrade_strategy_minimum_health_capacity: 0.0
     upgrade_strategy_maximum_over_capacity: 0.0
   async: 600
   poll: 1
-  when: woken_validation_docker_network == 'BRIDGE'
   delegate_to: "{{ groups['control'][0] }}"
   run_once: true
