@@ -4,7 +4,7 @@
 # Setup the authenticated reverse proxy for mesos-ui, marathon and other services.
 #
 
-- hosts: control
+- hosts: reverse-proxy
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
@@ -17,6 +17,5 @@
 
   roles:
 
-    - role: reverse_proxy
-      when: "'reverse_proxy' not in skipped_roles and reverse_proxy_public_hostname is defined"
+    - role: reverse-proxy
       tags: ['mesos', 'reverse-proxy', 'infra', 'infrastructure']
