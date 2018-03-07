@@ -23,7 +23,7 @@ portal_db_host: "
   {%- endif -%}
 "
 
-portal_frontend_port: 31888
+# portal_frontend_port:
 portal_db_name: portal
 portal_db_admin_user: postgres
 portal_db_user: portal

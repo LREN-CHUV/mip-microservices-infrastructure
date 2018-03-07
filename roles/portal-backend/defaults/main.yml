@@ -72,6 +72,10 @@ internal_woken_url: 'http://localhost:8087'
 
 portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'
 
+# The list of datasets
+# TODO: this configuration is redundant and should come from Woken
+portal_backend_datasets: cde_features_a,cde_features_b,cde_features_c
+
 portal_backend_env:
   PORTAL_DB_URL: "{{ portal_db_jdbc_url }}"
   PORTAL_DB_SCHEMA: "public"
@@ -99,6 +103,7 @@ portal_backend_env:
   WOKEN_HOST: '{{ woken_host }}'
   WOKEN_AKKA_PORT: '{{ woken_akka_port }}'
   WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
+  DATASETS: '{{ portal_backend_datasets }}'
 
 # Production settings, with authentication and security turned on
 # portal_backend_env:
