@@ -30,7 +30,8 @@
         protocol: 'tcp'
         name: 'https'
     docker_parameters: '{{ reverse_proxy_docker_parameters }}'
-    container_volumes: []
+    container_volumes:
+      - "/srv/docker/reverse-proxy/caddy:/root/.caddy"
     env:
       CADDY_ENTRY0_HOSTNAME: 'https://{{ reverse_proxy_public_hostname }}'
       CADDY_ENTRY0_TLS_MODE: '{{ reverse_proxy_ssl_mode }}'
