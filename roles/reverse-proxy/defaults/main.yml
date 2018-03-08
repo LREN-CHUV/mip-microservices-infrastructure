@@ -1,11 +1,18 @@
 ---
-reverse_proxy_marathon_id: /management/reverse-proxy
-reverse_proxy_docker_image: docker.io/dabelenda/caddy:test
+reverse_proxy_marathon_id: /infrastructure/reverse-proxy
+# Attach the reverse proxy application to a particular host. The hostname should be the name known by Marathon / Mesos
+reverse_proxy_marathon_host: "{{ ansible_fqdn }}"
+reverse_proxy_marathon_constraints: [["hostname", "CLUSTER", "{{ reverse_proxy_marathon_host | trim }}"]]
+
+reverse_proxy_docker_image: 'hbpmip/caddy:{{ caddy_version | default(latest) }}'
 reverse_proxy_https_port: 443
 reverse_proxy_http_port: 80
 reverse_proxy_docker_parameters: []
 
-reverse_proxy_ssl_mode: self_signed
+# Provide an email address for the automatic creation of SSL certificates
+reverse_proxy_ssl_mode: ''
+#reverse_proxy_ssl_mode: self_signed
+reverse_proxy_persist_dir: /srv/docker/reverse-proxy/
 
 reverse_proxy_default_auth_login: admin
 #reverse_proxy_public_hostname: demo
@@ -17,7 +24,7 @@ reverse_proxy_mesosui_auth_login: "{{ reverse_proxy_default_auth_login }}"
 reverse_proxy_mesosui_auth_password: "{{ reverse_proxy_default_auth_password }}"
 
 # airflow is authenticated
-reverse_proxy_airflow_backend: "{{ airflow_web_base_url }}"
+reverse_proxy_airflow_backend: "{{ airflow_web_base_url | default('/dev/null') }}"
 reverse_proxy_airflow_auth_login: "{{ reverse_proxy_default_auth_login }}"
 reverse_proxy_airflow_auth_password: "{{ reverse_proxy_default_auth_password }}"
 

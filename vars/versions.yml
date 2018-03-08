@@ -15,6 +15,7 @@ mesos_package_version: "2.0.1"
 mesos_ui_version: "standalone-0.1.4"
 marathon_version: "1.5.6"
 chronos_version: "v3.0.2"
+caddy_version: "0.10.10-5"
 
 airflow_version: '1.9.0'
 airflow_db_image: "postgres"

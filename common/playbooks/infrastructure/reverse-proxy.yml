@@ -11,6 +11,7 @@
     - "{{ play_dir }}/vars/versions.yml"
     - "{{ play_dir }}/vars/infrastructure/endpoints.yml"
     - "{{ play_dir }}/vars/algorithm-factory/endpoints.yml"
+    - "{{ play_dir }}/vars/data-factory/endpoints.yml"
     - "{{ play_dir }}/vars/web-analytics/endpoints.yml"
     - "{{ play_dir }}/vars/web-analytics/portal-frontend.yml"
     - "{{ play_dir }}/vars/web-analytics/portal-backend.yml"
