@@ -59,10 +59,20 @@ airflow_web_base_url: "http://{{ fqdn | default(ansible_fqdn) }}:{{ airflow_web_
 # Enable user login with HBP OpenID service
 portal_backend_security_enabled: {% if portal_backend_hbp_client_id is defined and portal_backend_hbp_client_id %}yes{% else %}no{% endif %}
 
+# The list of datasets
+# TODO: this configuration is redundant and should come from Woken
+portal_backend_datasets: '{{ main_dataset_id }}'
+
 # The base URL used for redirection. Required to redirect the user to the correct location, when the site address is changed by a proxy for example.
 portal_frontend_base_url: "{{ portal_frontend_base_url }}"
 # The virtualhost domain to register in Nginx reverse proxy.
 portal_frontend_virtual_host: "{{ portal_frontend_base_url | regex_replace('^.*://(.*)([:/].*)?$', '\\1') }}"
+
+# Either "local" or "federation", default to "local"
+portal_frontend_mode: 'local'
+
+# Name of the instance deployed
+portal_frontend_instance_name: '{{ mip_instance_name }}'
 
 {% endif %}
 
