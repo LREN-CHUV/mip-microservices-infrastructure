@@ -31,6 +31,14 @@ portal_backend_context_path: ''
 portal_frontend_google_analytics: false
 portal_frontend_google_tracker_id: 'UA-FILL-ME'
 
+# Either "local" or "federation", default to "local"
+portal_frontend_mode: 'local'
+# Name of the instance deployed
+portal_frontend_instance_name: 'MIP unconfigured'
+
+# Version of MIP
+mip_version: 'dev'
+
 portal_frontend_env:
   WORKER_PROCESSES: "{{ [ 1, (portal_frontend_cpus | round | int)] | max }}"
   ERROR_LOG_LEVEL: '{{ portal_frontend_error_log_level }}'
@@ -41,4 +49,7 @@ portal_frontend_env:
   PORTAL_BACKEND_CONTEXT: '{{ portal_backend_context_path }}'
   ANALYTICS: '{{ portal_frontend_google_analytics }}'
   TRACKER_ID: '{{ portal_frontend_google_tracker_id }}'
-  MIP_VERSION: '{{ mip_version }}'
+  VERSION: '{{ mip_version }}'
+  INSTANCE_NAME: '{{ portal_frontend_instance_name }}'
+  MODE: '{{ portal_frontend_mode }}'
+

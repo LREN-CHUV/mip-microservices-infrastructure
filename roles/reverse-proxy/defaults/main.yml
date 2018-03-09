@@ -36,6 +36,8 @@ reverse_proxy_marathon_auth_password: "{{ reverse_proxy_default_auth_password }}
 # woken has an authentication integrated
 reverse_proxy_woken_backend: "http://{{ woken_host }}:{{ woken_http_port }}"
 
+portal_frontend_port: 80
+
 # portal_frontend has an authentication integrated
 reverse_proxy_portal_frontend_backend: "http://{{ portal_frontend_marathon_host }}:{{ portal_frontend_port | default(80) }}"
 #

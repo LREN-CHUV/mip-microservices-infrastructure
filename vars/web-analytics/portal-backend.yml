@@ -29,10 +29,10 @@ portal_backend_db_meta_env:
   META_DB_PASSWORD:  "{{ meta_db_password }}"
 
 portal_backend_woken_env:
-  WOKEN_URL: '{{ internal_woken_url }}'
-  WOKEN_HOST: '{{ woken_host }}'
-  WOKEN_AKKA_PORT: '{{ woken_akka_port }}'
+  WOKEN_PORT_8088_TCP_ADDR: '{{ woken_host }}'
+  WOKEN_PORT_8088_TCP_PORT: '{{ woken_akka_port }}'
   WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
+  DATASETS: '{{ portal_backend_datasets }}'
 
 portal_backend_other_env:
   LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
