@@ -53,10 +53,10 @@ datasets {
     anonymisationLevel = "{{ fn.anonymisationLevel }}"
 {% if fn.location is defined %}
     location {
-      url = "{fn.location.url}"
+      url = "{{ fn.location.url }}"
       basicAuth {
-        user = "{fn.location.basicAuth.user}"
-        password = "{fn.location.basicAuth.password}"
+        user = "{{ fn.location.basicAuth.user }}"
+        password = "{{ fn.location.basicAuth.password }}"
       }
 {% endif %}
   }
