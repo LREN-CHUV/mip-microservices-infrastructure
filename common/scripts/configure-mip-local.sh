@@ -361,6 +361,9 @@ which gpg > /dev/null || (
 )
 
 [ -d .git/git-crypt ] || git-crypt init
+gpg --list-secret-keys | grep '^uid' | sed s/'uid\s\+\(.*\)'/'\1'/ | while read keyid; do
+  git-crypt add-gpg-user "$keyid"
+done
 
 git add .
 
