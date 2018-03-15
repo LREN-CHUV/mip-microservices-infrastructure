@@ -98,7 +98,7 @@
   template:
     src: setup.sh.j2
     dest: "{{ play_dir }}/setup.sh"
-    attributes: "u+x"
+    mode: "0750"
 
 - name: Generate Slack notification
   template:
