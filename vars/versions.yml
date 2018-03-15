@@ -59,7 +59,7 @@ woken_algorithms:
     docker_image: "hbpmip/python-tsne:0.3.3"
     predictive: true
 
-woken_validation_version: "2.2.15"
+woken_validation_version: "2.2.16"
 woken_db_setup_version: '1.0.2'
 
 # Reference data
@@ -70,7 +70,7 @@ adni_merge_db_setup_version: '1.5.1'
 edsd_data_db_setup_version: '1.4.1'
 ppmi_data_db_setup_version: '1.1.1'
 
-sample_meta_db_setup_version: '0.4.3'
+sample_meta_db_setup_version: '0.4.4'
 sample_data_db_setup_version: '0.5.0'
 
 # Data factory
