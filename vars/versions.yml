@@ -33,12 +33,12 @@ nginx_official_repo: True
 
 # Versions of our Docker containers
 # TODO: frontend will need more updates
-portal_frontend_version: "2.8.4"
-portal_backend_version: "2.6.4"
-woken_version: "2.4.0"
+portal_frontend_version: "2.8.6"
+portal_backend_version: "2.6.6"
+woken_version: "2.4.1"
 woken_algorithms:
   - name: histograms
-    docker_image: "hbpmip/python-histograms:0.3.6"
+    docker_image: "hbpmip/python-histograms:0.3.7"
     predictive: false
   - name: statisticsSummary
     docker_image: "hbpmip/python-summary-statistics:0.1.2"
