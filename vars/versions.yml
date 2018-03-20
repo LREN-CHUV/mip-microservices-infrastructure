@@ -1,6 +1,6 @@
 ---
 
-mip_version: "2.5.3"
+mip_version: "2.6.0-rc1"
 
 java_version: 8
 docker_version: "{% if ansible_os_family == 'RedHat' %}17.03.2{% else %}17.09.1{% endif %}"
