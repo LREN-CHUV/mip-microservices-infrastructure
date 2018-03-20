@@ -20,6 +20,7 @@ db {
     port = {{ woken_result_db_port }}
     user = "{{ woken_result_db_user }}"
     password = "{{ woken_result_db_password }}"
+    database = "{{ woken_result_db_name }}"
   }
 
   {{ woken_features_db_name }} {
@@ -29,6 +30,7 @@ db {
     port = "{{ woken_features_db_port }}"
     user = "{{ woken_features_db_user }}"
     password = "{{ woken_features_db_password }}"
+    database = "{{ woken_features_db_name }}"
   }
 
   {{ woken_metadata_db_name }} {
@@ -38,6 +40,7 @@ db {
     port = {{ woken_metadata_db_port }}
     user = "{{ woken_metadata_db_user }}"
     password = "{{ woken_metadata_db_password }}"
+    database = "{{ woken_metadata_db_name }}"
   }
 
 }
@@ -64,6 +67,7 @@ datasets {
 {% endfor %}
 }
 
+{% if woken_algorithms|length > 0 %}
 algorithms {
 {% for fn in woken_algorithms %}
   {{ fn.name }} = {
@@ -72,4 +76,4 @@ algorithms {
   }
 {% endfor %}
 }
-
+{% endif %}
