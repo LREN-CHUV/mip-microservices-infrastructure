@@ -32,9 +32,9 @@ postgresraw_ui_version: 'v1.5'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "2.8.7"
-portal_backend_version: "2.6.6"
-woken_version: "2.4.3"
+portal_frontend_version: "2.8.9"
+portal_backend_version: "2.6.7"
+woken_version: "2.4.4"
 woken_algorithms: []
 # Do not override versions of algorithms, they are already defined in Woken
 #  - name: histograms
@@ -59,7 +59,7 @@ woken_algorithms: []
 #    docker_image: "hbpmip/python-tsne:0.3.3"
 #    predictive: true
 
-woken_validation_version: "2.3.1"
+woken_validation_version: "2.3.2"
 woken_db_setup_version: '1.0.2'
 
 # Reference data
