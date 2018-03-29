@@ -35,17 +35,12 @@ git-crypt unlock
 echo
 echo "Installing the MIP..."
 
-ANSIBLE_ARGS=
-if [ "$(hostname)" != "193*" ]; then
-  ANSIBLE_ARGS="-e ansible_connection=ssh"
-fi
-
 ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
         -e play_dir="$(pwd)" \
         -e lib_roles_path="$(pwd)/roles" \
         -e install_repo_version="$(git rev-parse HEAD)" \
         -e install_repo_status="$(git status --porcelain)" \
-        -e datacenter="$DATACENTER" "$ANSIBLE_ARGS" "$@" \
+        -e datacenter="$DATACENTER" "$@" \
         install.yml
 
 echo
