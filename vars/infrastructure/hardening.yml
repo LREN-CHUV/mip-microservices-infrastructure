@@ -1,0 +1,3 @@
+---
+sftp_enabled: true
+ssh_client_hardening: false
