@@ -361,7 +361,7 @@ which gpg > /dev/null || (
 )
 
 [ -d .git/git-crypt ] || git-crypt init
-if [ -z $(git config user.email) ]; then
+if [ -z "$(git config user.email)" ]; then
   git config user.email "deployment@script"
   git config user.name "deployment@script"
 fi
