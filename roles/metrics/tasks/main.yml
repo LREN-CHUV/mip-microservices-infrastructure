@@ -19,6 +19,11 @@
     dest: "{{ metrics_prometheus_config_dir }}/prometheus.yml"
   become: True
 
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
 - name: Delete old prometheus using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
