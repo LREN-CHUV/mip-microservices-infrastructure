@@ -304,8 +304,8 @@ ANSIBLE_OPTS+=("-e mip_building_blocks=$(echo "${!mip_building_blocks[@]}" | tr 
 # Move uptream files aside, to avoid Git conflicts with locally generated files during Git merges
 mkdir -p .not-used
 [ -f MIP-README.md ] || git mv README.md MIP-README.md
-[ -f .not-used/setup.sh ] || git mv .not-used/setup.sh
-[ -f .not-used/slack.json ] || git mv .not-used/slack.json
+[ -f .not-used/setup.sh ] || git mv setup.sh .not-used/setup.sh
+[ -f .not-used/slack.json ] || git mv slack.json .not-used/slack.json
 
 echo
 echo "Generating the configuration for MIP Local..."
@@ -361,6 +361,13 @@ which gpg > /dev/null || (
 )
 
 [ -d .git/git-crypt ] || git-crypt init
+if [ -z $(git config user.email) ]; then
+  git config user.email "deployment@script"
+  git config user.name "deployment@script"
+fi
+gpg --list-secret-keys | grep '^uid' | sed s/'uid\s\+\(.*\)'/'\1'/ | while read keyid; do
+  git-crypt add-gpg-user "$keyid"
+done
 
 git add .
 

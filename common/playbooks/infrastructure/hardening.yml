@@ -1,0 +1,14 @@
+---
+# Harden the system
+
+- hosts: infrastructure
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/infrastructure/hardening.yml"
+
+  roles:
+
+    - role: ssh-hardening
+      when: "'hardening' not in skipped_roles"
+      tags: ['hardening', 'infra', 'infrastructure']
