@@ -10,6 +10,7 @@
   file:
     state: directory
     path: "{{ metrics_prometheus_data_dir }}"
+    mode: 0777
   become: True
 
 - name: Setup configuration for prometheus
