@@ -18,6 +18,8 @@
 
 - include: mesos-follower.yml
 
+- include: metrics.yml
+
 - include: reverse-proxy.yml
 
 # /Mesos stack

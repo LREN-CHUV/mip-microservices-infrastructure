@@ -1,0 +1,10 @@
+metrics_prometheus_config_dir: /srv/docker/prometheus/config
+metrics_prometheus_data_dir: /srv/docker/prometheus/data
+metrics_prometheus_marathon_id: /infra/prometheus
+metrics_prometheus_docker_image: prom/prometheus:latest
+metrics_prometheus_http_port: 31080
+metrics_prometheus_docker_parameters: []
+metrics_prometheus_cpus: 0.1
+metrics_prometheus_mem: 102.4
+metrics_prometheus_marathon_constraints: []
+metrics_prometheus_dependencies: []
