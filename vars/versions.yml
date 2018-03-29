@@ -32,16 +32,16 @@ postgresraw_ui_version: 'v1.5'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "2.8.10"
+portal_frontend_version: "2.9.0"
 portal_backend_version: "2.6.7"
-woken_version: "2.4.5"
+woken_version: "2.4.7"
 woken_algorithms: []
 # Do not override versions of algorithms, they are already defined in Woken
 #  - name: histograms
 #    docker_image: "hbpmip/python-histograms:0.4.0"
 #    predictive: false
 #  - name: statisticsSummary
-#    docker_image: "hbpmip/python-summary-statistics:0.2.0"
+#    docker_image: "hbpmip/python-summary-statistics:0.3.0"
 #    predictive: false
 #  - name: linearRegression
 #    docker_image: "hbpmip/python-linear-regression:0.0.7"
@@ -56,10 +56,10 @@ woken_algorithms: []
 #    docker_image: "hbpmip/java-rapidminer-naivebayes:0.2.1"
 #    predictive: true
 #  - name: tSNE
-#    docker_image: "hbpmip/python-tsne:0.3.3"
+#    docker_image: "hbpmip/python-tsne:0.4.0"
 #    predictive: true
 
-woken_validation_version: "2.3.2"
+woken_validation_version: "2.4.1"
 woken_db_setup_version: '1.0.2'
 
 # Reference data
@@ -70,8 +70,8 @@ adni_merge_db_setup_version: '1.5.1'
 edsd_data_db_setup_version: '1.4.1'
 ppmi_data_db_setup_version: '1.1.1'
 
-sample_meta_db_setup_version: '0.5.1'
-sample_data_db_setup_version: '0.5.1'
+sample_meta_db_setup_version: '0.6.0'
+sample_data_db_setup_version: '0.6.0'
 
 # Data factory
 
