@@ -1,25 +1,34 @@
-- name: Get current version of the repository
+---
+
+- name: Get current version of installation scripts repository
   local_action: command git rev-parse HEAD
   register: this_repo_version
   become: no
   changed_when: False
+  when: install_repo_version is not defined
   tags:
   - skip_ansible_lint
 
-- name: Get current version of the repository
+- name: Get current version of installation scripts repository
   local_action: command git status --porcelain
   register: this_repo_status
   become: no
   changed_when: False
+  when: install_repo_status is not defined
   tags:
   - skip_ansible_lint
 
+- name: Define version and status of current installation scripts
+  set_fact:
+    install_repo_version: '{{ this_repo_version.stdout}}'
+    install_repo_status: '{{ this_repo_status.stdout}}'
+  when: install_repo_version is not defined
 - name: Create a folder for MIP
   file: path=/etc/mip state=directory mode=0755 owner=root group=root
 
 - name: Keep track of the version used to deploy the applications on this server
   copy: >
-    content="{{ this_repo_version.stdout}}\n{{ this_repo_status.stdout }}"
+    content="{{ install_repo_version }}\n{{ install_repo_status }}"
     dest="/etc/mip/{{ installed_component }}-version"
   become: yes
 

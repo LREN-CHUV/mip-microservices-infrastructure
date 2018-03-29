@@ -1,7 +1,5 @@
 ---
 
-docker_opts: "--dns=192.168.51.66"
-
 internal_mesos_url: "http://management.local:5050"
 internal_marathon_url: "http://management.local:5080"
 internal_chronos_url: "http://management.local:4400"

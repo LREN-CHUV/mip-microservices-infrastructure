@@ -13,6 +13,13 @@ woken_validation_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 # Amount of memory in mb reserved for woken validation
 woken_validation_mem: {{ (target_mem_mb|float / 8.0) | round(0, 'floor') }}
 
+woken_datasets:
+  - name: {{ main_dataset_id }}
+    description: "{{ main_dataset_label }}"
+    label: "{{ main_dataset_label }}"
+    tables: ["mip_cde_features", "mip_local_features"]
+    anonymisationLevel: Depersonalised
+
 {% if docker_force_add_host %}
 chronos_docker_parameters:
   - key: 'add-host'

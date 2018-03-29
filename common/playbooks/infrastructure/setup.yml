@@ -20,4 +20,6 @@
 
 - include: metrics.yml
 
+- include: reverse-proxy.yml
+
 # /Mesos stack

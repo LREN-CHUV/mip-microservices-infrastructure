@@ -11,15 +11,17 @@ chronos_web_url: "http://{{ chronos_marathon_host }}:{{ chronos_http_port }}/"
 chronos_docker_image_basename: mesosphere/chronos
 chronos_docker_image: "{{ chronos_docker_image_basename }}:{{ chronos_version }}"
 chronos_command: >-
-  /usr/bin/chronos run_jar --http_port 4400 --zk_hosts {{ chronos_zk_hosts }}
+  /chronos/bin/start.sh
+  --zk_hosts {{ chronos_zk_hosts }}
   --master {{ chronos_zk_mesos_master }}
   --webui_url {{ chronos_web_url }}
   --hostname {{ chronos_marathon_host }}
   --failure_retry {{ chronos_failure_retry }}
   --disable_after_failures {{ chronos_disable_after_failures }}
   --cluster_name {{ chronos_cluster_name }}
+  --zk_timeout 30000
 
-chronos_version: "chronos-2.5.0-0.1.20170628182950.ubuntu1404-mesos-1.3.0"
+chronos_version: "v3.0.2"
 
 chronos_zk_port: 2181
 chronos_zk_hosts: "

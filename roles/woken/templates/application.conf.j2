@@ -1,144 +1,79 @@
-akka {
-  log-dead-letters = 1
-  log-dead-letters-during-shutdown = off
-  loglevel = INFO
-
-  actor {
-    provider = "akka.cluster.ClusterActorRefProvider"
-    debug {
-      receive = on
-      autoreceive = on
-      lifecycle = on
-      fsm = on
-    }
-  }
-  remote {
-    log-remote-lifecycle-events = off
-    maximum-payload-bytes = 10000000 bytes
-    enabled-transports = ["akka.remote.netty.tcp"]
-    netty.tcp {
-      hostname = {{ woken_host }} # external (logical) hostname
-      port = {{ woken_akka_port }} # external (logical) port
-
-{% if woken_docker_network == 'BRIDGE' %}
-      # With bridge networking, bind to localhost, then let Docker do the NAT translation
-      bind-hostname = localhost         # internal (bind) hostname
-      bind-port = {{ woken_akka_port }} # internal (bind) port
-{% else %}
-      bind-hostname = "0.0.0.0"
-      # Network interface will be bound to the woken_akka_port port,
-      # and remoting protocol will expect messages sent to the bound port
-      bind-port = ""
-{% endif %}
-
-      message-frame-size =  10000000b
-      send-buffer-size =  10000000b
-      receive-buffer-size =  10000000b
-      maximum-frame-size = 10000000b
-    }
-  }
-  cluster {
-
-    seed-nodes = [
-{% if woken_docker_network == 'BRIDGE' %}
-      # With bridge networking, bind to localhost, then let Docker do the NAT translation
-      "akka.tcp://woken@localhost:{{ woken_akka_port }}"
-{% else %}
-      "akka.tcp://woken@{{ woken_host }}:{{ woken_akka_port }}"
-{% endif %}
-    ]
-
-    roles = ["woken"]
-  }
-}
-
-spray.can.server {
-  idle-timeout = 300s
-  request-timeout = 180s
-}
-
-app {
-  systemName = "woken"
-  jobServiceName = "job-service"
-  interface = "0.0.0.0"
-  port = {{ woken_http_port }}
-}
-
 jobs {
   node = "{{ inventory_hostname }}"
   owner = "admin@mip.chuv.ch"
   chronosServerUrl = "{{ internal_chronos_url }}"
 {% if woken_role == 'mip_federation' %}
-  federationDb = "federation"
-  nodes = {
-{% for node in woken_nodes %}
-    {{ node.name }} {
-      jobsUrl = "{{ node.url}}"
-    }
-{% endfor %}
-  }
 {% else %}
-  ldsmDb = "ldsm"
+  # TODO: connection to feature table should only be used for worker nodes
 {% endif %}
-  resultDb = "woken"
-  metaDb = "metadata"
+  featuresDb = "{{ woken_features_db_name }}"
+  featuresTable = "{{ woken_features_table }}"
+  resultDb = "{{ woken_result_db_name }}"
+  metaDb = "{{ woken_metadata_db_name }}"
 }
 
 db {
-  woken {
-    jdbc_driver="{{ woken_result_db_jdbc_driver }}"
-    jdbc_jar_path="{{ woken_result_db_jdbc_jar }}"
-    jdbc_url="{{ woken_result_db_jdbc_url }}"
-    jdbc_user="{{ woken_result_db_user }}"
-    jdbc_password="{{ woken_result_db_password }}"
-  }
-  metadata {
-    jdbc_driver="{{ woken_metadata_db_jdbc_driver }}"
-    jdbc_jar_path="{{ woken_metadata_db_jdbc_jar }}"
-    jdbc_url="{{ woken_metadata_db_jdbc_url }}"
-    jdbc_user="{{ woken_metadata_db_user }}"
-    jdbc_password="{{ woken_metadata_db_password }}"
+  {{ woken_result_db_name }} {
+    jdbc_driver = "{{ woken_result_db_jdbc_driver }}"
+    jdbc_url = "{{ woken_result_db_jdbc_url }}"
+    host = "{{ woken_result_db_host }}"
+    port = {{ woken_result_db_port }}
+    user = "{{ woken_result_db_user }}"
+    password = "{{ woken_result_db_password }}"
+    database = "{{ woken_result_db_name }}"
   }
 
-{% if woken_role == 'mip_federation' %}
-  federation {
-    jdbc_driver="{{ federation_db_jdbc_driver }}"
-    jdbc_jar_path="{{ federation_db_jdbc_jar }}"
-    jdbc_url="{{ federation_db_jdbc_url }}"
-    jdbc_user="{{ federation_db_user }}"
-    jdbc_password="{{ federation_db_password }}"
+  {{ woken_features_db_name }} {
+    jdbc_driver = "{{ woken_features_db_jdbc_driver }}"
+    jdbc_url = "{{ woken_features_db_jdbc_url }}"
+    host = "{{ woken_features_db_host }}"
+    port = "{{ woken_features_db_port }}"
+    user = "{{ woken_features_db_user }}"
+    password = "{{ woken_features_db_password }}"
+    database = "{{ woken_features_db_name }}"
   }
-{% else %}
-  ldsm {
-    jdbc_driver="{{ woken_data_db_jdbc_driver }}"
-    jdbc_jar_path="{{ woken_data_db_jdbc_jar }}"
-    jdbc_url="{{ woken_data_db_jdbc_url }}"
-    jdbc_user="{{ woken_data_db_user }}"
-    jdbc_password="{{ woken_data_db_password }}"
+
+  {{ woken_metadata_db_name }} {
+    jdbc_driver = "{{ woken_metadata_db_jdbc_driver }}"
+    jdbc_url = "{{ woken_metadata_db_jdbc_url }}"
+    host = "{{ woken_metadata_db_host }}"
+    port = {{ woken_metadata_db_port }}
+    user = "{{ woken_metadata_db_user }}"
+    password = "{{ woken_metadata_db_password }}"
+    database = "{{ woken_metadata_db_name }}"
   }
-{% endif %}
+
 }
 
-defaultSettings {
-  # Default settings for the request service
-  request {
-    nodes = {}
-{% if woken_role == 'mip_federation' %}
-    inDb = "federationDb"
-{% else %}
-    inDb = "ldsm"
+datasets {
+{% for fn in woken_datasets %}
+  {{ fn.name }} {
+    label = "{{ fn.label }}"
+    description = "{{ fn.description }}"
+{% if fn.tables is defined %}
+    tables = {{ fn.tables | to_json }}
 {% endif %}
-    outDb = "woken"
-    metaDb = "metadata"
-    mainTable = "{{ woken_features_table }}"
-
-    functions {
-{% for fn in woken_functions %}
-      {{ fn.name }} = {
-        image = "{{ fn.docker_image }}"
-        predictive = {{ fn.predictive | lower }}
+    anonymisationLevel = "{{ fn.anonymisationLevel }}"
+{% if fn.location is defined %}
+    location {
+      url = "{{ fn.location.url }}"
+      basicAuth {
+        user = "{{ fn.location.basicAuth.user }}"
+        password = "{{ fn.location.basicAuth.password }}"
       }
-{% endfor %}
     }
+{% endif %}
   }
+{% endfor %}
 }
+
+{% if woken_algorithms|length > 0 %}
+algorithms {
+{% for fn in woken_algorithms %}
+  {{ fn.name }} = {
+    dockerImage = "{{ fn.docker_image }}"
+    predictive = {{ fn.predictive | lower }}
+  }
+{% endfor %}
+}
+{% endif %}

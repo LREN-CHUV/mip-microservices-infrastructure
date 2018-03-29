@@ -54,8 +54,10 @@ airflow_db_companion_bases:
 
 ```
 
-airflow_user_id: 1011
-airflow_group_id: 1011
+data_factory_user: 'airflow'
+data_factory_user_id: 1011
+data_factory_group: 'airflow'
+data_factory_group_id: 1011
 
 airflow_pool_io_intensive: 12
 airflow_pool_remote_file_copy: 2

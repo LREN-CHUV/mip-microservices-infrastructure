@@ -1,3 +1,11 @@
 ---
 
-#docker_options: "--dns=192.168.33.66"
+docker_options:
+  - "--dns 192.168.23.33"
+  - "--log-driver=journald"
+
+reverse_proxy_docker_parameters:
+  - key: 'add-host'
+    value: "demo:{{ vagrant_box_ip_address }}"
+  - key: 'add-host'
+    value: "demo.local:{{ vagrant_box_ip_address }}"

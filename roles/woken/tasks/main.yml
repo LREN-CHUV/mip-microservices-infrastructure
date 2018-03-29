@@ -24,46 +24,7 @@
   poll: 1
   delegate_to: "{{ groups['control'][0] }}"
 
-# Host networking is required on Federation to be able to use Denodo JDBC over RMI driver
-- name: Launch woken app using Marathon (host networking)
-  marathon_app:
-    uri: "{{ internal_marathon_url }}"
-    id: "{{ woken_marathon_id }}"
-    state: "present"
-    docker_image: "{{ woken_docker_image }}"
-    docker_force_pull_image: true
-    docker_network: HOST
-    docker_parameters: '{{ woken_docker_parameters }}'
-    container_volumes:
-      - containerPath: "/opt/woken/config"
-        hostPath: "{{ woken_config_dir }}"
-        mode: RW
-    instances: 1
-    cpus: '{{ woken_cpus }}'
-    mem: '{{ woken_mem }}'
-    ports: []
-    require_ports: false
-    constraints: '{{ woken_marathon_constraints }}'
-    dependencies: '{{ woken_dependencies }}'
-    executor: ""
-    wait_timeout: 600
-    health_checks:
-      - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_HTTP{% else %}HTTP{% endif %}"
-        port: "{{ woken_http_port }}"
-        path: "/"
-        gracePeriodSeconds: 300
-        intervalSeconds: 60
-        timeoutSeconds: 20
-        maxConsecutiveFailures: 2
-    upgrade_strategy_minimum_health_capacity: 0.0
-    upgrade_strategy_maximum_over_capacity: 0.0
-  async: 600
-  poll: 1
-  when: woken_docker_network == 'HOST'
-  delegate_to: "{{ groups['control'][0] }}"
-  run_once: true
-
-- name: Launch woken using Marathon (bridge networking)
+- name: Launch woken using Marathon
   marathon_app:
     uri: "{{ internal_marathon_url }}"
     id: "{{ woken_marathon_id }}"
@@ -80,11 +41,16 @@
         containerPort: "{{ woken_akka_port }}"
         protocol: 'tcp'
         name: 'akka'
+      - hostPort: "{{ woken_prometheus_exporter_port }}"
+        containerPort: 9090
+        protocol: 'tcp'
+        name: 'prometheus-exporter'
     docker_parameters: '{{ woken_docker_parameters }}'
     container_volumes:
       - containerPath: "/opt/woken/config"
         hostPath: "{{ woken_config_dir }}"
         mode: RW
+    env: '{{ woken_env }}'
     instances: 1
     cpus: '{{ woken_cpus }}'
     mem: '{{ woken_mem }}'
@@ -96,16 +62,19 @@
     wait_timeout: 600
     health_checks:
       - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_HTTP{% else %}HTTP{% endif %}"
-        portIndex: 0
-        path: "/"
+        portName: 'http'
+        path: "/health"
         gracePeriodSeconds: 300
         intervalSeconds: 60
         timeoutSeconds: 20
         maxConsecutiveFailures: 2
+    readinessChecks:
+      - protocol: "HTTP"
+        path: "/readiness"
+        intervalSeconds: 30
+        portName: "http"
+        timeoutSeconds: 20
     upgrade_strategy_minimum_health_capacity: 0.0
     upgrade_strategy_maximum_over_capacity: 0.0
   async: 600
   poll: 1
-  when: woken_docker_network == 'BRIDGE'
-  delegate_to: "{{ groups['control'][0] }}"
-  run_once: true

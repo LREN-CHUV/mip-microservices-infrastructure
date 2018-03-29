@@ -6,23 +6,30 @@ woken_validation_version: latest
 # Id of woken in Marathon
 woken_validation_marathon_id: /algorithm-factory/woken-validation
 
-# Location of the configuration directory
-woken_validation_config_dir: /srv/docker/woken-validation/config
-
-# Port to use to expose woken validation to other services in the cluster.
-# Default to 4082 when using host networking, 31082 otherwise
-woken_validation_akka_port: "{% if woken_validation_docker_network == 'BRIDGE' %}31082{% else %}4082{% endif %}"
+woken_validation_host: "{{ ansible_fqdn }}"
+# Port for the HTTP api.
+woken_validation_http_port: "31081"
+# Port used by Akka cluster.
+woken_validation_akka_port: "31082"
 # Amount of CPU reserved for woken validation
 woken_validation_cpus: 0.5
 # Amount of memory in mb reserved for woken validation
 woken_validation_mem: 1024.0
-# Networking mode for the Docker container running woken validation. Values are BRIDGE or HOST.
-# Use HOST to connect woken to Denodo on the Federation servers, otherwise prefer BRIDGE
-woken_validation_docker_network: BRIDGE
 # Additional parameters for Docker
 woken_validation_docker_parameters: []
 woken_validation_docker_image_basename: hbpmip/woken-validation
 woken_validation_docker_image: "{{ woken_validation_docker_image_basename }}:{{ woken_validation_version }}"
+
+# Name of the bridge network to connect to. Used also for the communication of Docker algorithms launched via Chronos
+woken_docker_bridge_network: 'bridge'
+
+woken_validation_env:
+  CLUSTER_PORT: "{{ woken_validation_akka_port }}"
+  CLUSTER_IP: "{{ woken_validation_host }}"
+  WOKEN_PORT_8088_TCP_ADDR: "{{ woken_host }}"
+  WOKEN_PORT_8088_TCP_PORT: "{{ woken_akka_port }}"
+  DOCKER_BRIDGE_NETWORK: "{{ woken_docker_bridge_network }}"
+  LOG_LEVEL: DEBUG
 
 # Attach woken validation application to a particular host. The hostname should be the name known by Marathon / Mesos
 woken_validation_marathon_host: "{{ ansible_fqdn }}"

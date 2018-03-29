@@ -9,19 +9,24 @@ woken_marathon_id: /algorithm-factory/woken
 # Location of the configuration directory
 woken_config_dir: /srv/docker/woken/config
 
+# Logging level: DEBUG, INFO, WARNING, ERROR
+woken_log_level: INFO
+
+woken_host: "{{ ansible_fqdn }}"
 # Port to use to expose woken to other services in the cluster.
-# Ignored if woken_docker_network == HOST, in this case woken can be reached under port 8087
-# Default to 8087 when using host networking, 31087 otherwise
-woken_http_port: "{% if woken_docker_network == 'BRIDGE' %}31087{% else %}8087{% endif %}"
+woken_http_port: 31087
+# Listen address for the web services
+woken_http_network_interface: '0.0.0.0'
 # Port used by Akka cluster
-woken_akka_port: "{% if woken_docker_network == 'BRIDGE' %}31088{% else %}8088{% endif %}"
+woken_akka_port: 31088
+# Name of the Akka cluster setup by Woken
+woken_akka_cluster: "woken"
 # Amount of CPU reserved for woken
 woken_cpus: 0.5
 # Amount of memory in mb reserved for woken
 woken_mem: 1024.0
-# Networking mode for the Docker container running woken. Values are BRIDGE or HOST.
-# Use HOST to connect woken to Denodo on the Federation servers, otherwise prefer BRIDGE
-woken_docker_network: BRIDGE
+# Name of the bridge network to connect to. Used also for the communication of Docker algorithms launched via Chronos
+woken_docker_bridge_network: 'bridge'
 # Additional parameters for Docker
 woken_docker_parameters: []
 woken_docker_image_basename: hbpmip/woken
@@ -31,6 +36,12 @@ woken_docker_image: "{{ woken_docker_image_basename }}:{{ woken_version }}"
 woken_marathon_host: "{{ ansible_fqdn }}"
 # Set of constraints to use to place woken on some particular host(s)
 woken_marathon_constraints: [["hostname", "CLUSTER", "{{ woken_marathon_host | trim }}"]]
+
+woken_mining_limit: 5
+woken_experiment_limit: 5
+
+woken_basicauth_username: admin
+woken_basicauth_password: "WoKeN"
 
 # How woken connects to the woken database storing its results
 woken_db_port: 31432
@@ -46,23 +57,26 @@ woken_db_marathon_id: /algorithm-factory/wokendb
 woken_result_db_port: '{{ woken_db_port }}'
 woken_result_db_host: '{{ woken_db_host }}'
 woken_result_db_user: '{{ woken_db_user }}'
+woken_result_db_name: '{{ woken_db_name }}'
 woken_result_db_password: '{{ woken_db_password }}'
 woken_result_db_jdbc_url: '{{ woken_db_jdbc_url }}'
 woken_result_db_jdbc_driver: '{{ woken_db_jdbc_driver }}'
 woken_result_db_jdbc_jar: '{{ woken_db_jdbc_jar }}'
 
 # How woken connects to the LDSM database containing the data to process
-woken_data_db_port: '{{ ldsm_db_port }}'
-woken_data_db_host: '{{ ldsm_db_host }}'
-woken_data_db_user: '{{ ldsm_db_user }}'
-woken_data_db_password: '{{ ldsm_db_password }}'
-woken_data_db_jdbc_url: '{{ ldsm_db_jdbc_url }}'
-woken_data_db_jdbc_driver: '{{ ldsm_db_jdbc_driver }}'
-woken_data_db_jdbc_jar: '{{ ldsm_db_jdbc_jar }}'
+woken_features_db_port: '{{ ldsm_db_port }}'
+woken_features_db_host: '{{ ldsm_db_host }}'
+woken_features_db_user: '{{ ldsm_db_user }}'
+woken_features_db_name: '{{ ldsm_db_name }}'
+woken_features_db_password: '{{ ldsm_db_password }}'
+woken_features_db_jdbc_url: '{{ ldsm_db_jdbc_url }}'
+woken_features_db_jdbc_driver: '{{ ldsm_db_jdbc_driver }}'
+woken_features_db_jdbc_jar: '{{ ldsm_db_jdbc_jar }}'
 
 woken_metadata_db_port: '{{ meta_db_port }}'
 woken_metadata_db_host: '{{ meta_db_host }}'
 woken_metadata_db_user: '{{ meta_db_user }}'
+woken_metadata_db_name: '{{ meta_db_name }}'
 woken_metadata_db_password: '{{ meta_db_password }}'
 woken_metadata_db_jdbc_url: '{{ meta_db_jdbc_url }}'
 woken_metadata_db_jdbc_driver: '{{ meta_db_jdbc_driver }}'
@@ -82,11 +96,42 @@ woken_dependencies:
 # Roles are mip_node or mip_federation
 woken_role: mip_node
 
-# list of name, url values. Used to connect to woken workers when woken_role == mip_federation
-woken_nodes: []
+woken_min_nr_of_members: 1
+woken_validation_min_nr_of_members: 0
+woken_scoring_min_nr_of_members: 0
 
-woken_features_table: mip_cde_features
-woken_functions:
+woken_datasets:
+  - name: sample
+    description: Sample data
+    label: Sample data
+    tables: ["sample_data"]
+    anonymisationLevel: Anonymised
+  - name: churn
+    description: Customer churn
+    label: Customer churn
+    tables: ["churn"]
+    anonymisationLevel: Anonymised
+  - name: desd-synthdata
+    label: Synthetic data A
+    description: Synthetic data A
+    tables: ["cde_features_a"]
+    anonymisationLevel: Anonymised
+
+woken_env:
+  CLUSTER_PORT: "{{ woken_akka_port }}"
+  CLUSTER_IP: "{{ woken_host }}"
+  WOKEN_PORT_8088_TCP_ADDR: "{{ woken_host }}"
+  WOKEN_PORT_8088_TCP_PORT: "{{ woken_akka_port }}"
+  DOCKER_BRIDGE_NETWORK: "{{ woken_docker_bridge_network }}"
+  LOG_LEVEL: DEBUG
+  KAMON_ENABLED: "no"
+  ZIPKIN_ENABLED: "no"
+  PROMETHEUS_ENABLED: "no"
+  SIGAR_SYSTEM_METRICS: "no"
+  JVM_SYSTEM_METRICS: "no"
+
+woken_features_table: '{{ features_table }}'
+woken_algorithms:
   - name: histograms
     docker_image: "hbpmip/python-histograms:latest"
     predictive: false

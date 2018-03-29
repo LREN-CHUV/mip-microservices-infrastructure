@@ -32,6 +32,7 @@ zookeeper
 mesos-leader
 mesos-mixed
 mesos-follower
+reverse-proxy
 
 # Install Zookeeper, required by Mesos
 [zookeeper]
@@ -47,6 +48,10 @@ mesos-follower
 
 # Install Mesos agent and Docker
 [mesos-follower]
+# none
+
+# Install a reverse proxy to expose MIP sites and services
+[reverse-proxy]
 # none
 
 {% if 'hdb' in mip_building_blocks %}

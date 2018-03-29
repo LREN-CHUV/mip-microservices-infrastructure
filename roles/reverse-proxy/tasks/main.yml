@@ -1,0 +1,110 @@
+- name: Wait for Marathon
+  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  vars:
+    uri: "{{ internal_marathon_url }}"
+
+- name: Remove old Reverse-Proxy using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ reverse_proxy_marathon_id }}"
+    state: "absent"
+    waitTimeout: 600
+  async: 600
+  poll: 1
+
+- name: Launch authenticated Reverse-Proxy using Marathon
+  marathon_app:
+    uri: "{{ internal_marathon_url }}"
+    id: "{{ reverse_proxy_marathon_id }}"
+    state: "present"
+    docker_image: "{{ reverse_proxy_docker_image }}"
+    docker_force_pull_image: true
+    docker_network: HOST
+    docker_port_mappings: []
+    docker_parameters: '{{ reverse_proxy_docker_parameters }}'
+    container_volumes:
+      - containerPath: "/root/.caddy"
+        hostPath: "{{ reverse_proxy_persist_dir }}"
+        mode: RW
+    env:
+      CADDY_GENERATE_CONFIG: 'yes'
+      CADDY_ENTRY0_HOSTNAME: 'https://{{ reverse_proxy_public_hostname }}'
+      CADDY_ENTRY0_TLS_MODE: '{{ reverse_proxy_ssl_mode }}'
+
+      # Mesos
+      CADDY_ENTRY0_FILTER0_PATH: /mesos
+      CADDY_ENTRY0_FILTER0_CONTENT_TYPE: 'text/html.*'
+      CADDY_ENTRY0_FILTER0_SEARCH_PATTERN: '=/'
+      CADDY_ENTRY0_FILTER0_REPLACEMENT: '=/mesos/'
+      CADDY_ENTRY0_AUTH0_PATH: /mesos
+      CADDY_ENTRY0_AUTH0_USERNAME: '{{ reverse_proxy_mesosui_auth_login }}'
+      CADDY_ENTRY0_AUTH0_PASSWORD: '{{ reverse_proxy_mesosui_auth_password }}'
+      CADDY_ENTRY0_PROXY0_PATH: /mesos
+      CADDY_ENTRY0_PROXY0_DEST: '{{ reverse_proxy_mesosui_backend }}'
+      CADDY_ENTRY0_PROXY0_WITHOUT: '/mesos'
+      CADDY_ENTRY0_PROXY0_TRANSPARENT: 'yes'
+      CADDY_ENTRY0_PROXY0_CUSTOM: 'header_upstream X-Forwarded-Host {host}'
+
+      # Marathon
+      CADDY_ENTRY0_FILTER1_PATH: /marathon
+      CADDY_ENTRY0_FILTER1_CONTENT_TYPE: 'text/html.*'
+      CADDY_ENTRY0_FILTER1_SEARCH_PATTERN: '=/'
+      CADDY_ENTRY0_FILTER1_REPLACEMENT: '=/marathon/'
+      CADDY_ENTRY0_AUTH1_PATH: /marathon
+      CADDY_ENTRY0_AUTH1_USERNAME: '{{ reverse_proxy_marathon_auth_login }}'
+      CADDY_ENTRY0_AUTH1_PASSWORD: '{{ reverse_proxy_marathon_auth_password }}'
+      CADDY_ENTRY0_PROXY1_PATH: /marathon
+      CADDY_ENTRY0_PROXY1_DEST: '{{ reverse_proxy_marathon_backend }}'
+      CADDY_ENTRY0_PROXY1_WEBSOCKET: yes
+      CADDY_ENTRY0_PROXY1_WITHOUT: '/marathon'
+
+      # Woken
+      CADDY_ENTRY0_PROXY2_PATH: /woken
+      CADDY_ENTRY0_PROXY2_DEST: '{{ reverse_proxy_woken_backend }}'
+      CADDY_ENTRY0_PROXY2_WEBSOCKET: yes
+      CADDY_ENTRY0_PROXY2_WITHOUT: '/woken'
+      CADDY_ENTRY0_PROXY2_TRANSPARENT: 'yes'
+
+      # Airflow
+      CADDY_ENTRY0_AUTH2_PATH: /airflow
+      CADDY_ENTRY0_AUTH2_USERNAME: '{{ reverse_proxy_airflow_auth_login }}'
+      CADDY_ENTRY0_AUTH2_PASSWORD: '{{ reverse_proxy_airflow_auth_password }}'
+      CADDY_ENTRY0_PROXY3_PATH: /airflow
+      CADDY_ENTRY0_PROXY3_DEST: '{{ reverse_proxy_airflow_backend }}'
+      CADDY_ENTRY0_PROXY3_WEBSOCKET: yes
+      CADDY_ENTRY0_PROXY3_WITHOUT: '/airflow'
+      CADDY_ENTRY0_PROXY3_TRANSPARENT: 'yes'
+
+      # Portal services
+      CADDY_ENTRY0_PROXY4_PATH: /services
+      CADDY_ENTRY0_PROXY4_DEST: '{{ reverse_proxy_portal_backend_backend }}'
+      CADDY_ENTRY0_PROXY4_WITHOUT: /services
+      CADDY_ENTRY0_PROXY4_WEBSOCKET: yes
+      CADDY_ENTRY0_PROXY4_TRANSPARENT: 'yes'
+
+      # Web portal
+      CADDY_ENTRY0_PROXY5_PATH: /
+      CADDY_ENTRY0_PROXY5_DEST: '{{ reverse_proxy_portal_frontend_backend }}'
+      CADDY_ENTRY0_PROXY5_TRANSPARENT: 'yes'
+
+      # Redirect http to https
+      CADDY_ENTRY1_HOSTNAME: 'http://{{ reverse_proxy_public_hostname }}'
+      CADDY_ENTRY1_TLS_MODE: 'off'
+      CADDY_ENTRY1_CUSTOM0: 'redir https://{host}{path}'
+
+    dependencies: []
+    constraints: '{{ reverse_proxy_marathon_constraints }}'
+    instances: 1
+    require_ports: false
+    cpus: 0.2
+    executor: ""
+    wait_timeout: 600
+    health_checks:
+      - protocol: "MESOS_TCP"
+        port: 80
+        gracePeriodSeconds: 300
+        intervalSeconds: 60
+        timeoutSeconds: 20
+        maxConsecutiveFailures: 3
+  delegate_to: "{{ groups['control'][0] }}"
+

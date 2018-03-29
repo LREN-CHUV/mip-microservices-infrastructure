@@ -39,7 +39,12 @@ Demonstrations are available for the various building blocks managed by this inf
 
 **MIP Local** is a version of MIP designed to work independently from the Federation at a hospital. **MIP Local** is used to demonstrate the MIP platform and generate interest from hospitals to join the Federation. It can also be used for special research purposes, for example to work using identifying patient information.
 
-Details about the installation of **MIP Local** can be found in the [documentation](https://github.com/HBPMedical/mip-microservices-infrastructure/blob/master/docs/installation/mip-local.md)
+Details about the installation of **MIP Local** can be found in the [installation documentation](https://github.com/HBPMedical/mip-microservices-infrastructure/blob/master/docs/installation/mip-local.md)
+
+# Documentation
+
+More documentation (configuration, installation, troubleshooting) can be found in the
+[full documentation](https://github.com/HBPMedical/mip-microservices-infrastructure/blob/master/docs/)
 
 # Development
 

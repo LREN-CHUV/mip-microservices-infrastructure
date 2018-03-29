@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2162
 
 #
 # Configure an installation of MIP Local on this machine or on a remote machine accessible by SSH.
@@ -35,6 +36,9 @@ target=""
 
 mkdir -p envs/mip-local/etc/ansible/
 
+echo
+echo "** Generic configuration **"
+echo
 echo "Where will you install MIP Local?"
 PS3='> '
 options=("This machine" "A remote server")
@@ -141,7 +145,26 @@ do
   break
 done
 
+if [[ "${mip_building_blocks['wa']}" == "true" ]]; then
+  echo
+  echo "What is the name of this instance of MIP? It will be displayed on the web front-end."
+  read -p " > " mip_instance_name
+  ANSIBLE_OPTS+=("-e mip_instance_name='${mip_instance_name:-MIP Local}'")
+fi
+
+echo
+echo "** Configuration of datasets **"
+echo
+
+echo "Please enter an id for the main dataset to process, e.g. 'demo' and a readable label for it, e.g. 'Demo data'"
+read -p "Id for the main dataset > " main_dataset_id
+read -p "Label for the main dataset > " main_dataset_label
+ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
+ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
+
 if [[ "${mip_building_blocks['hdb']}" == "true" ]]; then
+  echo
+  echo "** Configuration of databases **"
   echo
   echo "Do you want to store research-grade data in CSV files or in a relational database?"
   PS3='> '
@@ -165,13 +188,23 @@ if [[ "${mip_building_blocks['hdb']}" == "true" ]]; then
   done
 fi
 
-if [[ "${mip_building_blocks['df']}" == "true" ]]; then
 
-  echo "Please enter an id for the main dataset to process, e.g. 'demo' and a readable label for it, e.g. 'Demo data'"
-  read -p "Id for the main dataset > " main_dataset_id
-  read -p "Label for the main dataset > " main_dataset_label
-  ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
-  ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
+if [[ "${mip_building_blocks['df']}" == "true" ]]; then
+  echo
+  echo "** Configuration of Data Factory for MRI preprocessing and data integration **"
+  echo
+  echo "Please enter the directory for incoming data."
+  echo "It will be used to host incoming files and work files. Default is '/var/mip'"
+  read -p "Directory for incoming data > " df_incoming_dir
+  ANSIBLE_OPTS+=("-e df_incoming_dir='${df_incoming_dir:-/var/mip}'")
+  echo
+  echo "New data for the main dataset should be put under ${df_incoming_dir:-/var/mip}/${main_dataset_id:-demo}"
+  echo
+
+  echo "Please enter the work directory for the Data Factory."
+  echo "It will be used to host incoming files and work files. Default is '/var/tmp/mip'"
+  read -p "Work directory for Data Factory > " df_work_dir
+  ANSIBLE_OPTS+=("-e df_work_dir='${df_work_dir:-/var/tmp/mip}'")
 
   if [[ "$location" == "This machine" && ! -d /usr/local/MATLAB/2016b ]]; then
       echo "Is Matlab 2016b installed on this machine?"
@@ -231,6 +264,9 @@ if [[ "${mip_building_blocks['df']}" == "true" ]]; then
 fi
 
 if [[ "${mip_building_blocks['wa']}" == "true" ]]; then
+  echo
+  echo "** Configuration of Web portal **"
+  echo
   echo "Do you want to secure access to the local MIP Web portal?"
   PS3="> "
   options=("yes" "no")
@@ -264,6 +300,12 @@ if [[ "${mip_building_blocks['wa']}" == "true" ]]; then
 fi
 
 ANSIBLE_OPTS+=("-e mip_building_blocks=$(echo "${!mip_building_blocks[@]}" | tr ' ' ',')")
+
+# Move uptream files aside, to avoid Git conflicts with locally generated files during Git merges
+mkdir -p .not-used
+[ -f MIP-README.md ] || git mv README.md MIP-README.md
+[ -f .not-used/setup.sh ] || git mv setup.sh .not-used/setup.sh
+[ -f .not-used/slack.json ] || git mv slack.json .not-used/slack.json
 
 echo
 echo "Generating the configuration for MIP Local..."
@@ -319,6 +361,13 @@ which gpg > /dev/null || (
 )
 
 [ -d .git/git-crypt ] || git-crypt init
+if [ -z $(git config user.email) ]; then
+  git config user.email "deployment@script"
+  git config user.name "deployment@script"
+fi
+gpg --list-secret-keys | grep '^uid' | sed s/'uid\s\+\(.*\)'/'\1'/ | while read keyid; do
+  git-crypt add-gpg-user "$keyid"
+done
 
 git add .
 

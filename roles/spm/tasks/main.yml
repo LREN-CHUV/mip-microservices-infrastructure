@@ -38,6 +38,8 @@
     eng.exit()'
   env:
     PYTHONPATH: '{{ matlab_python_library_path }}'
+  become: yes
+  become_user: '{{ matlab_user }}'
   changed_when: False
   when: matlab_python_api
   tags: matlab
@@ -125,6 +127,8 @@
     eng.exit()'
   env:
     PYTHONPATH: '{{ matlab_python_library_path }}'
+  become: yes
+  become_user: '{{ matlab_user }}'
   changed_when: False
   when: matlab_python_api
   tags:

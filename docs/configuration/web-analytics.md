@@ -40,8 +40,22 @@ features_table: 'mip_local_features'
 # Enable user login with HBP OpenID service
 portal_backend_security_enabled: true
 
+# The port for Portal frontend. You can use port 80, or use a port in the range 4000-5000 or 31000-32000
+# if the Portal frontend is located behind a web proxy
+portal_frontend_port: 80
+
 # The base URL used for redirection. Required to redirect the user to the correct location, when the site address is changed by a proxy for example.
-portal_frontend_base_url: "http://{{ portal_frontend_virtual_host }}"
+portal_frontend_base_url: "http://{{ portal_frontend_virtual_host }}:{{ portal_frontend_port }}"
+
+# Either "local" or "federation", default to "local"
+portal_frontend_mode: 'local'
+
+# Name of the instance deployed
+portal_frontend_instance_name: 'MIP for my hospital'
+
+# The list of datasets
+# TODO: this configuration is redundant and should come from Woken
+portal_backend_datasets: chuv,brescia,lille
 
 ```
 

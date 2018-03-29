@@ -52,19 +52,25 @@ woken_host: "
   {%- set host = groups['woken'][0] -%}
   {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
 "
-woken_ip_address: "{{ private_ipv4 }}"
 
-woken_docker_network: HOST
+woken_docker_network: BRIDGE
 # Port to use to expose woken to other services in the cluster.
-# Ignored if woken_docker_network == HOST, in this case woken can be reached under port 8087
-# Default to 8087 when using host networking, 31087 otherwise
-woken_http_port: "{% if woken_docker_network == 'BRIDGE' %}31087{% else %}8087{% endif %}"
+woken_http_port: 31087
 # Port used by Akka cluster
-woken_akka_port: "{% if woken_docker_network == 'BRIDGE' %}31088{% else %}4090{% endif %}"
+woken_akka_port: 31088
 woken_akka_path: '/user/entrypoint'
 
 internal_woken_url: "http://{{ woken_host }}:{{ woken_http_port }}"
 
+woken_validation_host: "
+  {%- set host = groups['woken-validation'][0] -%}
+  {{- hostvars[host]['fqdn'] | default(hostvars[host]['ansible_fqdn']) -}}
+"
+
+# Port for the HTTP api of Woken validation.
+woken_validation_http_port: "31081"
 # Port to use to expose woken validation to other services in the cluster.
-# Default to 4082 when using host networking, 31082 otherwise
-woken_validation_akka_port: "{% if woken_docker_network == 'BRIDGE' %}31082{% else %}4082{% endif %}"
+woken_validation_akka_port: 31082
+
+# Port used to expose statistics to prometheus
+woken_prometheus_exporter_port: 31909
