@@ -1,6 +1,6 @@
 ---
 
-chronos_cpus: 0.1
+chronos_cpus: 0.2
 chronos_mem: 512.0
 
 chronos_docker_parameters:
@@ -12,7 +12,7 @@ chronos_docker_parameters:
 # Amount of CPU reserved for woken
 woken_cpus: 0.2
 # Amount of memory in mb reserved for woken
-woken_mem: 256.0
+woken_mem: 736.0
 
 woken_docker_parameters:
   - key: 'add-host'
@@ -23,7 +23,7 @@ woken_docker_parameters:
 # Amount of CPU reserved for woken validation
 woken_validation_cpus: 0.2
 # Amount of memory in mb reserved for woken validation
-woken_validation_mem: 256.0
+woken_validation_mem: 512.0
 
 woken_validation_docker_parameters:
   - key: 'add-host'
