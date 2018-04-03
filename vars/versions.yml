@@ -1,6 +1,6 @@
 ---
 
-mip_version: "2.6.0-rc1"
+mip_version: "2.5.3"
 
 java_version: 8
 docker_version: "{% if ansible_os_family == 'RedHat' %}17.03.2{% else %}17.09.1{% endif %}"
@@ -32,13 +32,13 @@ postgresraw_ui_version: 'v1.5'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "2.9.1"
-portal_backend_version: "2.6.7"
-woken_version: "2.4.7"
+portal_frontend_version: "2.9.2"
+portal_backend_version: "2.6.8"
+woken_version: "2.4.9"
 # Do not override versions of algorithms, they are already defined in Woken
 woken_algorithms: []
 
-woken_validation_version: "2.4.1"
+woken_validation_version: "2.4.3"
 woken_db_setup_version: '1.0.2'
 
 # Reference data
