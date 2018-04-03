@@ -33,6 +33,7 @@ mesos-leader
 mesos-mixed
 mesos-follower
 reverse-proxy
+metrics
 
 # Install Zookeeper, required by Mesos
 [zookeeper]
@@ -52,6 +53,10 @@ reverse-proxy
 
 # Install a reverse proxy to expose MIP sites and services
 [reverse-proxy]
+# none
+
+# Install metrics server
+[metrics]
 # none
 
 {% if 'hdb' in mip_building_blocks %}

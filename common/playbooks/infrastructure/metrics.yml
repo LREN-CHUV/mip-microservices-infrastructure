@@ -3,7 +3,7 @@
 #
 # Setup prometheus inside marathon to collect metrics of applications
 
-- hosts: control
+- hosts: metrics
   become: yes
   vars_files:
     - "{{ play_dir }}/vars/common.yml"
@@ -13,5 +13,4 @@
 
   roles:
     - role: metrics
-      when: "'metrics' not in skipped_roles"
       tags: ['docker', 'metrics', 'container-platforms', 'infra', 'infrastructure']
