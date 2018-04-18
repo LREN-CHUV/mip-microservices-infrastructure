@@ -32,8 +32,8 @@ postgresraw_ui_version: 'v1.5'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "2.9.7"
-portal_backend_version: "2.6.9"
+portal_frontend_version: "2.9.8"
+portal_backend_version: "2.6.10"
 woken_version: "2.4.11"
 # Do not override versions of algorithms, they are already defined in Woken
 woken_algorithms: []
