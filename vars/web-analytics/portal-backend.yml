@@ -14,8 +14,6 @@ portal_backend_dependencies: "
   {{- portal_deps -}}
 "
 
-portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'
-
 portal_backend_db_env:
   PORTAL_DB_URL: "{{ portal_db_jdbc_url }}"
   PORTAL_DB_SCHEMA: "public"
