@@ -30,7 +30,7 @@
         protocol: 'tcp'
         name: 'http'
       - hostPort: "{{ portal_backend_akka_port }}"
-        containerPort: 4089
+        containerPort: "{{ portal_backend_akka_port }}"
         protocol: 'tcp'
         name: 'akka'
     docker_parameters: '{{ portal_backend_docker_parameters }}'
