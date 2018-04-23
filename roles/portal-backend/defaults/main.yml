@@ -18,6 +18,7 @@ portal_backend_cpus: 1.0
 # Amount of memory in mb reserved for Portal backend
 portal_backend_mem: 2048.0
 
+portal_backend_host: "{{ ansible_fqdn }}"
 # Port to use to expose Portal backend to other services in the cluster.
 portal_backend_port: 4080
 portal_backend_akka_port: 4089
@@ -98,6 +99,8 @@ portal_backend_env:
   FRONTEND_LOGIN_URL: '{{ portal_backend_frontend_login_url }}'
   FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
   FRONTEND_AFTER_LOGOUT_URL: '{{ portal_backend_frontend_after_logout_url }}'
+  CLUSTER_PORT: "{{ portal_backend_akka_port }}"
+  CLUSTER_IP: "{{ portal_backend_host }}"
   WOKEN_PORT_8088_TCP_ADDR: '{{ woken_host }}'
   WOKEN_PORT_8088_TCP_PORT: '{{ woken_akka_port }}'
   WOKEN_AKKA_PATH: '{{ woken_akka_path }}'

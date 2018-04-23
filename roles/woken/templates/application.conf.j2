@@ -21,6 +21,7 @@ db {
     user = "{{ woken_result_db_user }}"
     password = "{{ woken_result_db_password }}"
     database = "{{ woken_result_db_name }}"
+    pool_size = 5
   }
 
   {{ woken_features_db_name }} {
@@ -31,6 +32,7 @@ db {
     user = "{{ woken_features_db_user }}"
     password = "{{ woken_features_db_password }}"
     database = "{{ woken_features_db_name }}"
+    pool_size = 5
   }
 
   {{ woken_metadata_db_name }} {
@@ -41,6 +43,7 @@ db {
     user = "{{ woken_metadata_db_user }}"
     password = "{{ woken_metadata_db_password }}"
     database = "{{ woken_metadata_db_name }}"
+    pool_size = 3
   }
 
 }

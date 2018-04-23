@@ -27,6 +27,8 @@ portal_backend_db_meta_env:
   META_DB_PASSWORD:  "{{ meta_db_password }}"
 
 portal_backend_woken_env:
+  CLUSTER_PORT: "{{ portal_backend_akka_port }}"
+  CLUSTER_IP: "{{ portal_backend_host }}"
   WOKEN_PORT_8088_TCP_ADDR: '{{ woken_host }}'
   WOKEN_PORT_8088_TCP_PORT: '{{ woken_akka_port }}'
   WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
