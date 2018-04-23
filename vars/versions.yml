@@ -69,7 +69,7 @@ slackclient_py_version: '1.0.5'
 docker_py_version: '1.10.6'
 hierarchizer_version: '1.3.6'
 airflow_imaging_plugins_version: '2.4.3'
-data_factory_airflow_dags_version: '0.9.7'
+data_factory_airflow_dags_version: '0.9.11'
 map_ehr_to_i2b2_version: '0.2.0'
 
 # QA environment
