@@ -8,7 +8,7 @@ chronos_libprocess_port: 4401
 chronos_ip_address: "{{ private_ipv4 }}"
 chronos_web_url: "http://{{ chronos_marathon_host }}:{{ chronos_http_port }}/"
 
-chronos_docker_image_basename: mesosphere/chronos
+chronos_docker_image_basename: hbpmip/chronos
 chronos_docker_image: "{{ chronos_docker_image_basename }}:{{ chronos_version }}"
 chronos_command: >-
   /chronos/bin/start.sh

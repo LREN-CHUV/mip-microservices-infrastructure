@@ -3,7 +3,7 @@
 mip_version: "2.6.0"
 
 java_version: 8
-docker_version: "{% if ansible_os_family == 'RedHat' %}17.03.2{% else %}17.09.1{% endif %}"
+docker_version: "{% if ansible_os_family == 'RedHat' %}17.03.2{% else %}18.03.0{% endif %}"
 docker_debian_package_version: "ce-0"
 docker_redhat_package_version: "ce"
 docker_registry_version: "2.3.1"
@@ -13,8 +13,8 @@ zookeeper_debian_package_version: "1"
 mesos_version: "1.5.0"
 mesos_package_version: "2.0.1"
 mesos_ui_version: "standalone-0.1.4"
-marathon_version: "1.5.6"
-chronos_version: "v3.0.2"
+marathon_version: "1.6.352"
+chronos_version: "3.0.2-3"
 caddy_version: "0.10.10-5"
 
 airflow_version: '1.9.0'
