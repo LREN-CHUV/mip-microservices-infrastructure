@@ -72,10 +72,6 @@ woken_akka_path: '/user/entrypoint'
 
 portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'
 
-# The list of datasets
-# TODO: this configuration is redundant and should come from Woken
-portal_backend_datasets: cde_features_a,cde_features_b,cde_features_c
-
 portal_backend_env:
   PORTAL_DB_URL: "{{ portal_db_jdbc_url }}"
   PORTAL_DB_SCHEMA: "public"
@@ -104,7 +100,6 @@ portal_backend_env:
   WOKEN_PORT_8088_TCP_ADDR: '{{ woken_host }}'
   WOKEN_PORT_8088_TCP_PORT: '{{ woken_akka_port }}'
   WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
-  DATASETS: '{{ portal_backend_datasets }}'
 
 # Production settings, with authentication and security turned on
 # portal_backend_env:
@@ -135,7 +130,7 @@ portal_backend_env:
 #   FRONTEND_LOGIN_URL: '{{ portal_backend_frontend_login_url }}'
 #   FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
 #   FRONTEND_AFTER_LOGOUT_URL: '{{ portal_backend_frontend_after_logout_url }}'
-#  WOKEN_PORT_8088_TCP_ADDR: '{{ woken_host }}'
-#  WOKEN_PORT_8088_TCP_ADDR: '{{ woken_akka_port }}'
 #  WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
-#  DATASETS: '{{ portal_backend_datasets }}'
+#   WOKEN_PORT_8088_TCP_ADDR: '{{ woken_host }}'
+#   WOKEN_PORT_8088_TCP_ADDR: '{{ woken_akka_port }}'
+#   WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
