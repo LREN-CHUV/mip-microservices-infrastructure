@@ -82,6 +82,9 @@ woken_metadata_db_jdbc_url: '{{ meta_db_jdbc_url }}'
 woken_metadata_db_jdbc_driver: '{{ meta_db_jdbc_driver }}'
 woken_metadata_db_jdbc_jar: '{{ meta_db_jdbc_jar }}'
 
+woken_default_job_cpus: 0.5
+woken_default_job_mem: 512
+
 # URL to Chronos internal to the current cluster. You need to ensure that the woken application can reach that URL.
 internal_chronos_url: http://default:4400
 chronos_marathon_id: /algorithm-factory/chronos
