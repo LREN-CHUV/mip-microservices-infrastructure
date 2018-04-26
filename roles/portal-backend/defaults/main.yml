@@ -27,6 +27,8 @@ portal_backend_context_path: ""
 portal_backend_session_timeout: 2592000
 portal_backend_logging_level_web: "DEBUG"
 portal_backend_logging_level_hibernate: "DEBUG"
+portal_backend_logging_level_akka: "DEBUG"
+portal_backend_logging_level_akka_cluster: "DEBUG"
 portal_backend_frontend_after_login_url: 'http://{{ portal_backend_marathon_host }}:{{ portal_backend_port }}/home'
 # Additional parameters for Docker
 portal_backend_docker_parameters: []
@@ -89,6 +91,8 @@ portal_backend_env:
   AUTHENTICATION: 0
   LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
   LOGGING_LEVEL_HIBERNATE: '{{ portal_backend_logging_level_hibernate }}'
+  LOG_LEVEL: '{{ portal_backend_logging_level_akka }}'
+  AKKA_CLUSTER_LOG_LEVEL: '{{ portal_backend_logging_level_akka_cluster }}'
   CONTEXT_PATH: '{{ portal_backend_context_path }}'
   SESSION_TIMEOUT: '{{ portal_backend_session_timeout }}'
   EXAREME_URL: '{{ portal_backend_exareme_url }}'
@@ -124,13 +128,15 @@ portal_backend_env:
 #   USER_INFO_URI: '{{ portal_backend_hbp_user_info_uri }}'
 #   LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
 #   LOGGING_LEVEL_HIBERNATE: '{{ portal_backend_logging_level_hibernate }}'
+#   LOG_LEVEL: '{{ portal_backend_logging_level_akka }}'
+#   AKKA_CLUSTER_LOG_LEVEL: '{{ portal_backend_logging_level_akka_cluster }}'
 #   CONTEXT_PATH: '{{ portal_backend_context_path }}'
 #   SESSION_TIMEOUT: '{{ portal_backend_session_timeout }}'
 #   EXAREME_URL: '{{ portal_backend_exareme_url }}'
 #   FRONTEND_LOGIN_URL: '{{ portal_backend_frontend_login_url }}'
 #   FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
 #   FRONTEND_AFTER_LOGOUT_URL: '{{ portal_backend_frontend_after_logout_url }}'
-#  WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
+#   WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
 #   WOKEN_PORT_8088_TCP_ADDR: '{{ woken_host }}'
 #   WOKEN_PORT_8088_TCP_ADDR: '{{ woken_akka_port }}'
 #   WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
