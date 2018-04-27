@@ -10,8 +10,11 @@ jobs {
   featuresTable = "{{ woken_features_table }}"
   resultDb = "{{ woken_result_db_name }}"
   metaDb = "{{ woken_metadata_db_name }}"
+  defaultJobCpus = {{ woken_default_job_cpus }}
+  defaultJobMemory = {{ woken_default_job_mem }}
+  # TODO: remove
   default_job_cpus = {{ woken_default_job_cpus }}
-  default_job_mem = {{ woken_default_job_mem }}
+  default_job_memory = {{ woken_default_job_mem }}
 }
 
 db {
