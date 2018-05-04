@@ -6,6 +6,8 @@
 
     # TODO: Stop and destroy all applications
 
+# Stop the services on all machines
+
 - hosts: mesos-follower
   serial: "{{ serial | default(1) }}"
   become: yes
@@ -41,7 +43,9 @@
         path: '{{ item }}'
         state: absent
       with_items:
-        - /var/lib/mesos/
+        - /var/lib/mesos/meta/
+        - /var/lib/mesos/provisioner
+        - /var/lib/mesos/slaves
       when: reset_mesos is defined and reset_mesos
 
 - hosts: mesos-mixed
@@ -77,15 +81,27 @@
         - /var/lib/mesos/meta/slaves/latest
         - /var/log/mesos/
         - /var/log/zookeeper/zookeeper.log
+        - /tmp/hsperfdata_zookeeper
+
+# TODO: use http://docs.ansible.com/ansible/latest/modules/znode_module.html to delete the following paths in Zookeeper:
+# /mesos
+# /chronos
+# /marathon
 
     - name: Destroy Zookeeper redo log and Mesos work dir
       file:
         path: '{{ item }}'
         state: absent
       with_items:
-        - /var/lib/mesos/
-        - /var/lib/zookeeper/
+        - /var/lib/mesos/meta/
+        - /var/lib/mesos/provisioner
+        - /var/lib/mesos/slaves
+        - /var/lib/mesos/replicated_log
+        - /var/lib/zookeeper/zookeeper.log
+        - /var/lib/zookeeper/version-2/
         - /var/log/zookeeper/
+        - /tmp/hsperfdata_zookeeper/
+        - /tmp/hsperfdata_marathon/
       when: reset_mesos is defined and reset_mesos
 
 - hosts: mesos-leader
@@ -120,15 +136,153 @@
         - /var/log/mesos/
         - /var/log/zookeeper/zookeeper.log
 
+# TODO: use http://docs.ansible.com/ansible/latest/modules/znode_module.html to delete the following paths in Zookeeper:
+# /mesos
+# /chronos
+# /marathon
+
     - name: Destroy Zookeeper redo log and Mesos work dir
       file:
         path: '{{ item }}'
         state: absent
       with_items:
-        - /var/lib/mesos/
-        - /var/lib/zookeeper/
+        - /var/lib/mesos/meta/
+        - /var/lib/mesos/provisioner
+        - /var/lib/mesos/slaves
+        - /var/lib/mesos/replicated_log
+        - /var/lib/zookeeper/zookeeper.log
+        - /var/lib/zookeeper/version-2/
         - /var/log/zookeeper/
+        - /tmp/hsperfdata_zookeeper/
       when: reset_mesos is defined and reset_mesos
+
+# Restart the services in order
+
+- hosts: mesos-leader
+  serial: "{{ serial | default(1) }}"
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  tasks:
+
+    - name: Set default value for skipped_roles
+      set_fact:
+        skipped_roles: []
+      when: skipped_roles is not defined
+
+    - name: Restore Mesos directories
+      file:
+        path: '{{ item }}'
+        state: directory
+      with_items:
+        - /var/log/mesos/
+        - /var/lib/mesos/
+
+    - name: Restore Zookeeper directories
+      file:
+        path: '{{ item }}'
+        state: directory
+        owner: zookeeper
+        group: zookeeper
+        recurse: true
+      with_items:
+        - /var/log/zookeeper/
+        - /var/log/zookeeper/version-2/
+        - /var/lib/zookeeper/
+        - /var/lib/zookeeper/version-2/
+
+    - name: Restart Zookeeper and Mesos Master
+      service:
+        name: '{{ item }}'
+        state: started
+      with_items:
+        - "{% if 'docker' not in skipped_roles %}docker{% endif %}"
+        - zookeeper
+        - mesos-master
+
+    - name: Wait for Zookeeper service to be registered
+      wait_for:
+        host: "{{ ansible_fqdn }}"
+        port: 2181
+        delay: 10
+        timeout: 300
+        state: present
+
+    - name: Restart Mesos Slave and Marathon
+      service:
+        name: '{{ item }}'
+        state: started
+      with_items:
+        - "{% if 'docker' not in skipped_roles %}docker{% endif %}"
+        - zookeeper
+        - mesos-master
+        - mesos-slave
+        - marathon
+
+- hosts: mesos-mixed
+  serial: "{{ serial | default(1) }}"
+  become: yes
+  vars_files:
+    - "{{ play_dir }}/vars/common.yml"
+    - "{{ play_dir }}/vars/versions.yml"
+
+  tasks:
+
+    - name: Set default value for skipped_roles
+      set_fact:
+        skipped_roles: []
+      when: skipped_roles is not defined
+
+    - name: Restore Mesos directories
+      file:
+        path: '{{ item }}'
+        state: directory
+      with_items:
+        - /var/log/mesos/
+        - /var/lib/mesos/
+
+    - name: Restore Zookeeper directories
+      file:
+        path: '{{ item }}'
+        state: directory
+        owner: zookeeper
+        group: zookeeper
+        recurse: true
+      with_items:
+        - /var/log/zookeeper/
+        - /var/log/zookeeper/version-2/
+        - /var/lib/zookeeper/
+        - /var/lib/zookeeper/version-2/
+
+    - name: Restart Zookeeper and Mesos Master
+      service:
+        name: '{{ item }}'
+        state: started
+      with_items:
+        - "{% if 'docker' not in skipped_roles %}docker{% endif %}"
+        - zookeeper
+        - mesos-master
+
+    - name: Wait for Zookeeper service to be registered
+      wait_for:
+        host: "{{ ansible_fqdn }}"
+        port: 2181
+        delay: 10
+        timeout: 300
+        state: present
+
+    - name: Restart Mesos Slave and Marathon
+      service:
+        name: '{{ item }}'
+        state: started
+      with_items:
+        - "{% if 'docker' not in skipped_roles %}docker{% endif %}"
+        - zookeeper
+        - mesos-master
+        - mesos-slave
+        - marathon
 
 - hosts: mesos-follower
   serial: "{{ serial | default(1) }}"
@@ -159,87 +313,3 @@
       with_items:
         - "{% if 'docker' not in skipped_roles %}docker{% endif %}"
         - mesos-slave
-
-- hosts: mesos-mixed
-  serial: "{{ serial | default(1) }}"
-  become: yes
-  vars_files:
-    - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/vars/versions.yml"
-
-  tasks:
-
-    - name: Set default value for skipped_roles
-      set_fact:
-        skipped_roles: []
-      when: skipped_roles is not defined
-
-    - name: Restore Mesos directories
-      file:
-        path: '{{ item }}'
-        state: directory
-      with_items:
-        - /var/log/mesos/
-        - /var/lib/mesos/
-
-    - name: Restore Zookeeper directories
-      file:
-        path: '{{ item }}'
-        state: directory
-        owner: zookeeper
-        group: zookeeper
-      with_items:
-        - /var/log/zookeeper/
-        - /var/lib/zookeeper/
-
-    - name: Restart all services
-      service:
-        name: '{{ item }}'
-        state: started
-      with_items:
-        - "{% if 'docker' not in skipped_roles %}docker{% endif %}"
-        - zookeeper
-        - mesos-master
-        - mesos-slave
-        - marathon
-
-- hosts: mesos-leader
-  serial: "{{ serial | default(1) }}"
-  become: yes
-  vars_files:
-    - "{{ play_dir }}/vars/common.yml"
-    - "{{ play_dir }}/vars/versions.yml"
-
-  tasks:
-
-    - name: Set default value for skipped_roles
-      set_fact:
-        skipped_roles: []
-      when: skipped_roles is not defined
-
-    - name: Restore Mesos directories
-      file:
-        path: '{{ item }}'
-        state: directory
-      with_items:
-        - /var/log/mesos/
-        - /var/lib/mesos/
-
-    - name: Restore Zookeeper directories
-      file:
-        path: '{{ item }}'
-        state: directory
-        owner: zookeeper
-        group: zookeeper
-      with_items:
-        - /var/log/zookeeper/
-        - /var/lib/zookeeper/
-
-    - name: Restart all services
-      service:
-        name: '{{ item }}'
-        state: started
-      with_items:
-        - zookeeper
-        - mesos-master
-        - marathon
