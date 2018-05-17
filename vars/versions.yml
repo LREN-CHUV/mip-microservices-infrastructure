@@ -14,7 +14,7 @@ mesos_version: "1.5.0"
 mesos_package_version: "2.0.1"
 mesos_ui_version: "standalone-0.1.4"
 marathon_version: "1.6.352"
-chronos_version: "3.0.2-3"
+chronos_version: "3.0.2-4"
 caddy_version: "0.10.10-5"
 
 airflow_version: '1.9.0'
