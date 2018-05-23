@@ -34,7 +34,7 @@ nginx_official_repo: True
 # Versions of our Docker containers
 portal_frontend_version: "2.11.4"
 portal_backend_version: "2.8.5"
-woken_version: "2.8.0"
+woken_version: "2.8.1"
 # Do not override versions of algorithms, they are already defined in Woken
 woken_algorithms: []
 
