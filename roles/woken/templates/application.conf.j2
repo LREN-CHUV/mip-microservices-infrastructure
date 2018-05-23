@@ -1,5 +1,5 @@
 jobs {
-  node = "{{ inventory_hostname }}"
+  node = "{{ woken_node_name | default(inventory_hostname) }}"
   owner = "admin@mip.chuv.ch"
   chronosServerUrl = "{{ internal_chronos_url }}"
 {% if woken_role == 'mip_federation' %}
