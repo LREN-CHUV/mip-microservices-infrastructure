@@ -14,6 +14,23 @@
     # Allow Airflow to run Docker containers
     airflow_user_groups: 'docker'
 
+  pre_tasks:
+
+    - name: Create group for Data factory user
+      group:
+        name: '{{ data_factory_group }}'
+        gid: '{{ data_factory_group_id | default(omit)}}'
+        state: present
+
+    - name: Create user for Data Factory
+      user:
+        name: '{{ data_factory_user }}'
+        uid: '{{ data_factory_user_id | default(omit)}}'
+        group: '{{ data_factory_group }}'
+        groups: '{{ data_factory_user_groups | default(omit)}}'
+        home: "{{ data_factory_home | default('/usr/local/airflow') }}"
+      when: airflow_user != 'vagrant'
+
   roles:
 
     - role: spm
