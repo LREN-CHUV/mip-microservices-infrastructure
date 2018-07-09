@@ -5,24 +5,24 @@
 # Installs _the_ world
 #
 
-- include: ../../common/playbooks/infrastructure/base-system.yml
+- import_playbook: ../../common/playbooks/infrastructure/base-system.yml
 
-- include: ../../common/playbooks/infrastructure/zookeeper.yml
+- import_playbook: ../../common/playbooks/infrastructure/zookeeper.yml
 
-- include: ../../common/playbooks/infrastructure/mesos-leader.yml
+- import_playbook: ../../common/playbooks/infrastructure/mesos-leader.yml
 
-- include: ../../common/playbooks/infrastructure/mesos-mixed.yml
+- import_playbook: ../../common/playbooks/infrastructure/mesos-mixed.yml
 
-- include: ../../common/playbooks/infrastructure/mesos-follower.yml
+- import_playbook: ../../common/playbooks/infrastructure/mesos-follower.yml
 
-- include: ../../common/playbooks/mip-services.yml
+- import_playbook: ../../common/playbooks/mip-services.yml
 
-- include: ../../common/playbooks/portal-database.yml
+- import_playbook: ../../common/playbooks/portal-database.yml
 
-- include: ../../common/playbooks/meta-database.yml
+- import_playbook: ../../common/playbooks/meta-database.yml
 
-- include: ../../common/playbooks/research-database.yml
+- import_playbook: ../../common/playbooks/research-database.yml
 
-- include: ../../common/playbooks/portal/portal-backend.yml
+- import_playbook: ../../common/playbooks/portal/portal-backend.yml
 
-- include: ../../common/playbooks/portal/portal-frontend.yml
+- import_playbook: ../../common/playbooks/portal/portal-frontend.yml

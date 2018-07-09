@@ -5,8 +5,8 @@
 # Installs _the_ world
 #
 
-- include: ../../common/playbooks/infrastructure/setup.yml
+- import_playbook: ../../common/playbooks/infrastructure/setup.yml
 
-- include: ../../common/playbooks/reference/setup.yml
+- import_playbook: ../../common/playbooks/reference/setup.yml
 
-- include: ../../common/playbooks/algorithm-factory/setup.yml
+- import_playbook: ../../common/playbooks/algorithm-factory/setup.yml

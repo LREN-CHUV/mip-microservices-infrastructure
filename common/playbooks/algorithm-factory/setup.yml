@@ -1,9 +1,9 @@
 ---
 
-- include: woken-database.yml
+- import_playbook: woken-database.yml
 
-- include: chronos.yml
+- import_playbook: chronos.yml
 
-- include: woken.yml
+- import_playbook: woken.yml
 
-- include: woken-validation.yml
+- import_playbook: woken-validation.yml

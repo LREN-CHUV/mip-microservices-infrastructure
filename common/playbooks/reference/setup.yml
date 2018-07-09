@@ -1,5 +1,5 @@
 ---
 
-- include: research-database.yml
+- import_playbook: research-database.yml
 
-- include: meta-database.yml
+- import_playbook: meta-database.yml

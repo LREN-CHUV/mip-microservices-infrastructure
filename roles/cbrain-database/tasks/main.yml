@@ -5,7 +5,7 @@
   file: state=directory path={{ cbrain_db_data_dir }} mode=0700 owner={{ cbrain_db_docker_user }} group={{ cbrain_db_docker_user }}
 
 - name: Wait for Marathon
-  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  import_tasks: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
     uri: "{{ internal_marathon_url }}"
   tags:

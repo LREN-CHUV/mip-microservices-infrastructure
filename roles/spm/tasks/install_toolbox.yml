@@ -22,7 +22,7 @@
   with_items: '{{ spm_toolbox }}'
 
 - name: Write local facts for SPM
-  include: "{{ spm_path_to_lib_role }}/silpion.lib/tasks/localfacts.yml"
+  include_tasks: "{{ spm_path_to_lib_role }}/silpion.lib/tasks/localfacts.yml"
   vars:
     namespace: spm
     spm_template: []

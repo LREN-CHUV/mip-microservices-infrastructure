@@ -19,7 +19,7 @@
   when: java_home is not defined
 
 - name: Wait for Marathon
-  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  import_tasks: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
     uri: "{{ internal_marathon_url }}"
 

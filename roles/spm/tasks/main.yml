@@ -59,7 +59,7 @@
   set_fact:
     spm_fact_upgrade_installation: '{{ (ansible_local.spm is defined) and (ansible_local.spm.general.spm_version is defined) and (ansible_local.spm.general.spm_version != spm_version) and (ansible_local.spm.general.spm_revision != spm_revision) }}'
 
-- include: install.yml
+- include_tasks: install.yml
   when: spm_fact_first_installation or spm_fact_upgrade_installation
   tags: spm
 
@@ -86,7 +86,7 @@
     spm_toolbox_fact_upgrade_installation: "{{ spm_toolbox_fact_upgrade_installation or ( (ansible_local.spm is defined) and ((item.name + '_version') in ansible_local.spm.general.toolbox) and (ansible_local.spm.general.toolbox[item.name + '_version'] != item.version) ) }}"
   with_items: "{{ spm_toolbox }}"
 
-- include: install_toolbox.yml
+- include_tasks: install_toolbox.yml
   when: spm_toolbox_fact_first_installation or spm_toolbox_fact_upgrade_installation
   tags: spm
 
@@ -113,7 +113,7 @@
     spm_template_fact_upgrade_installation: "{{ spm_template_fact_upgrade_installation or ( (ansible_local.spm is defined) and ((item.name + '_version') in ansible_local.spm.general.template) and (ansible_local.spm.general.template[item.name + '_version'] != item.version) ) }}"
   with_items: "{{ spm_template }}"
 
-- include: install_template.yml
+- include_tasks: install_template.yml
   when: spm_template_fact_first_installation or spm_template_fact_upgrade_installation
   tags: spm
 

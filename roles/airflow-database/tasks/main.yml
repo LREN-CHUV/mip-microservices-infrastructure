@@ -4,7 +4,7 @@
   set_fact:
     do_airflow_db_deploy: "{{ airflow_db_deploy | bool }}"
 
-- include: marathon.yml
+- include_tasks: marathon.yml
   when: do_airflow_db_deploy
 
 # run this task on the database host

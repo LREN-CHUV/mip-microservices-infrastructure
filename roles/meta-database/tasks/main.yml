@@ -4,7 +4,7 @@
   set_fact:
     do_meta_db_deploy: "{{ meta_db_deploy | bool }}"
 
-- include: marathon.yml
+- include_tasks: marathon.yml
   when: do_meta_db_deploy
 
 # run this task on the database host

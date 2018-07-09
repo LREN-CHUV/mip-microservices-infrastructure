@@ -1,7 +1,7 @@
 ---
 
-- include: portal-database.yml
+- import_playbook: portal-database.yml
 
-- include: portal-backend.yml
+- import_playbook: portal-backend.yml
 
-- include: portal-frontend.yml
+- import_playbook: portal-frontend.yml

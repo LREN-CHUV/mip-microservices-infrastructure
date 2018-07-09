@@ -5,4 +5,4 @@
 # Installs _the_ world
 #
 
-- include: "{{ play_dir }}/common/playbooks/all.yml"
+- import_playbook: "{{ play_dir }}/common/playbooks/all.yml"

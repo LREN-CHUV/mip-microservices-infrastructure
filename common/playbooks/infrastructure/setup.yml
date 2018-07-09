@@ -1,25 +1,25 @@
 ---
 
-- include: check-requirements.yml
+- import_playbook: check-requirements.yml
 
-- include: cleanup.yml
+- import_playbook: cleanup.yml
 
-- include: base-system.yml
+- import_playbook: base-system.yml
 
-- include: control-box.yml
+- import_playbook: control-box.yml
 
 # Mesos stack
 
-- include: zookeeper.yml
+- import_playbook: zookeeper.yml
 
-- include: mesos-leader.yml
+- import_playbook: mesos-leader.yml
 
-- include: mesos-mixed.yml
+- import_playbook: mesos-mixed.yml
 
-- include: mesos-follower.yml
+- import_playbook: mesos-follower.yml
 
-- include: metrics.yml
+- import_playbook: metrics.yml
 
-- include: reverse-proxy.yml
+- import_playbook: reverse-proxy.yml
 
 # /Mesos stack

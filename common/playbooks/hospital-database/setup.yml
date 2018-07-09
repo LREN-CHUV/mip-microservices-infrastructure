@@ -1,5 +1,5 @@
 ---
 
-- include: ldsm-database.yml
+- import_playbook: ldsm-database.yml
 
-- include: postgresraw-ui.yml
+- import_playbook: postgresraw-ui.yml

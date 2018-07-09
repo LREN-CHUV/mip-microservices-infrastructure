@@ -5,19 +5,19 @@
 # Installs _the_ world
 #
 
-- include: ../../common/playbooks/infrastructure/base-system.yml
+- import_playbook: ../../common/playbooks/infrastructure/base-system.yml
 
-- include: ../../common/playbooks/infrastructure/zookeeper.yml
+- import_playbook: ../../common/playbooks/infrastructure/zookeeper.yml
 
-- include: ../../common/playbooks/infrastructure/mesos-leader.yml
+- import_playbook: ../../common/playbooks/infrastructure/mesos-leader.yml
 
-- include: ../../common/playbooks/infrastructure/mesos-mixed.yml
+- import_playbook: ../../common/playbooks/infrastructure/mesos-mixed.yml
 
-- include: ../../common/playbooks/infrastructure/mesos-follower.yml
+- import_playbook: ../../common/playbooks/infrastructure/mesos-follower.yml
 
-- include: ../../common/playbooks/data-factory/airflow.yml
+- import_playbook: ../../common/playbooks/data-factory/airflow.yml
 
-- include: ../../common/playbooks/ldsm-database.yml
+- import_playbook: ../../common/playbooks/ldsm-database.yml
 
 - hosts: data-factory
   become: yes

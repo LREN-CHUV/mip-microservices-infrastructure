@@ -1,7 +1,7 @@
 ---
 
-- include: df-bases.yml
+- import_playbook: df-bases.yml
 
-- include: airflow-agent.yml
+- import_playbook: airflow-agent.yml
 
-- include: airflow-master.yml
+- import_playbook: airflow-master.yml

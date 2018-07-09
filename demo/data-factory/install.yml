@@ -5,9 +5,9 @@
 # Installs _the_ world
 #
 
-- include: ../../common/playbooks/infrastructure/setup.yml
+- import_playbook: ../../common/playbooks/infrastructure/setup.yml
 
-- include: ../../common/playbooks/data-factory/setup.yml
+- import_playbook: ../../common/playbooks/data-factory/setup.yml
 
 - hosts: airflow-agent
   become: yes

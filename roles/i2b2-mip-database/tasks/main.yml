@@ -4,7 +4,7 @@
   set_fact:
     do_i2b2_mip_db_deploy: "{{ i2b2_mip_db_deploy | bool }}"
 
-- include: marathon.yml
+- include_tasks: marathon.yml
   when: do_i2b2_mip_db_deploy
 
 # run this task on the database host

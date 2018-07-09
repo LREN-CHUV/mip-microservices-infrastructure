@@ -1,13 +1,13 @@
 ---
 
-- include: infrastructure/setup.yml
+- import_playbook: infrastructure/setup.yml
 
-- include: hospital-database/setup.yml
+- import_playbook: hospital-database/setup.yml
 
-- include: reference/setup.yml
+- import_playbook: reference/setup.yml
 
-- include: data-factory/setup.yml
+- import_playbook: data-factory/setup.yml
 
-- include: algorithm-factory/setup.yml
+- import_playbook: algorithm-factory/setup.yml
 
-- include: web-analytics/setup.yml
+- import_playbook: web-analytics/setup.yml

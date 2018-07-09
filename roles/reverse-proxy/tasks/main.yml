@@ -1,5 +1,5 @@
 - name: Wait for Marathon
-  include: ../../marathon-app/tasks/wait-for-marathon.yml
+  import_tasks: ../../marathon-app/tasks/wait-for-marathon.yml
   vars:
     uri: "{{ internal_marathon_url }}"
 
@@ -107,4 +107,3 @@
         timeoutSeconds: 20
         maxConsecutiveFailures: 3
   delegate_to: "{{ groups['control'][0] }}"
-

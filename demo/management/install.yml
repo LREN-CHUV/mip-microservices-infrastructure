@@ -5,14 +5,14 @@
 # Installs _the_ world
 #
 
-- include: ../../common/playbooks/base-system.yml
+- import_playbook: ../../common/playbooks/base-system.yml
 
-- include: ../../common/playbooks/zookeeper.yml
+- import_playbook: ../../common/playbooks/zookeeper.yml
 
-- include: ../../common/playbooks/mesos-leader.yml
+- import_playbook: ../../common/playbooks/mesos-leader.yml
 
-- include: ../../common/playbooks/mesos-mixed.yml
+- import_playbook: ../../common/playbooks/mesos-mixed.yml
 
-- include: ../../common/playbooks/mesos-follower.yml
+- import_playbook: ../../common/playbooks/mesos-follower.yml
 
-- include: ../../common/playbooks/mip-services.yml
+- import_playbook: ../../common/playbooks/mip-services.yml

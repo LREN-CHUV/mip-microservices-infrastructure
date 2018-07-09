@@ -2,7 +2,7 @@
 
 - name: Include data persistency
   tags: captain
-  include: "{{ captain_path_to_lib_role }}/silpion.lib/tasks/datapersistency.yml"
+  include_tasks: "{{ captain_path_to_lib_role }}/silpion.lib/tasks/datapersistency.yml"
 
 - name: Download Captain
   tags: captain

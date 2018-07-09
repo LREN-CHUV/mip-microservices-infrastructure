@@ -4,7 +4,7 @@
   set_fact:
     do_data_catalog_db_deploy: "{{ data_catalog_db_deploy | bool }}"
 
-- include: marathon.yml
+- include_tasks: marathon.yml
   when: do_data_catalog_db_deploy
 
 # run this task on the database host
