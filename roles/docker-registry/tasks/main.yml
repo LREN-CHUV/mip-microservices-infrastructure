@@ -53,7 +53,7 @@
     executor: ""
     wait_timeout: 600
     health_checks:
-      - protocol: "{% if marathon_version | version_compare('1.4', '>=') %}MESOS_TCP{% else %}TCP{% endif %}"
+      - protocol: "{% if marathon_version is version('1.4', '>=') %}MESOS_TCP{% else %}TCP{% endif %}"
         portIndex: 0
         gracePeriodSeconds: 300
         intervalSeconds: 60
