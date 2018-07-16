@@ -22,6 +22,7 @@
     docker_network: HOST
     docker_port_mappings: []
     docker_parameters: '{{ reverse_proxy_docker_parameters }}'
+    args: '{{ reverse_proxy_args }}'
     container_volumes:
       - containerPath: "/root/.caddy"
         hostPath: "{{ reverse_proxy_persist_dir }}"

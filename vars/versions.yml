@@ -39,7 +39,7 @@ woken_version: "2.8.1"
 woken_algorithms: []
 
 woken_validation_version: "2.5.3"
-woken_db_setup_version: '1.2.1'
+woken_db_setup_version: '1.2.2'
 
 # Reference data
 

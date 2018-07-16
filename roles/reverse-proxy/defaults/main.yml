@@ -7,6 +7,7 @@ reverse_proxy_marathon_constraints: [["hostname", "CLUSTER", "{{ reverse_proxy_m
 reverse_proxy_docker_image: 'hbpmip/caddy:{{ caddy_version | default(latest) }}'
 reverse_proxy_https_port: 443
 reverse_proxy_http_port: 80
+reverse_proxy_args: []
 reverse_proxy_docker_parameters: []
 
 # Provide an email address for the automatic creation of SSL certificates
