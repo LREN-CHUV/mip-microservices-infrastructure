@@ -1,8 +1,6 @@
 ---
 
 matlab_user: '{{ data_factory_user }}'
-
-data_factory_home: '/usr/local/airflow'
 airflow_home: '{{ data_factory_home }}'
 
 # We assume that data catalog database is deployed under the same Postgres instance as airflow database
