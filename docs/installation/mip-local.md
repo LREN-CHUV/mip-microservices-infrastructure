@@ -2,10 +2,13 @@
 
 ## Requirements
 
-- Matlab (2016b) is required by the Data Factory. The configuration script will ask for the installation path.
+- Matlab (2016b), together with the [MATLAB Engine API for Python](https://mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html), is required by the Data Factory. The configuration script will ask for the installation path.
 
 - The MIP requires using a machine with Ubuntu 16.04 or Redhat 7.2+/Centos.
    The machine can be physical, a VM in a cloud or a VirtualBox on your desktop, although in some setups, particularly with VirtualBox, you can experience difficulties related to networking.
+
+- Make sure the following commands are installed:
+  - `git-crypt`
 
 - As Ansible requires Python 2, please install it on the target machines if needed and ensure that `/usr/bin/python` points to it. You might want to run the following command: `apt install python2.7 && ln -s /usr/bin/python2.7 /usr/bin/python`. Also, if you deploy on a remote machine, ensure that
 you've installed the `jmespath` library on your machine (see common/scripts/requirements.txt).
