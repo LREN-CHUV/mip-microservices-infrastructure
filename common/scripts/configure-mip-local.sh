@@ -21,12 +21,12 @@ get_script_dir () {
           SOURCE="$( readlink "$SOURCE" )"
           [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
      done
-     cd -P "$( dirname "$SOURCE" )"
+     cd -P "$( dirname "$SOURCE" )/../.."
      pwd
 }
 
 ROOT=$(get_script_dir)
-cd "$ROOT/../.."
+cd "$ROOT"
 
 which ansible > /dev/null || ./common/scripts/bootstrap.sh
 
