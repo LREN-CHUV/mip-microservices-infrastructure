@@ -1,4 +1,4 @@
-ansible>=2.3.0
-pytest==2.7.1
-PyYAML==3.12
+ansible>=2.7.5
+pytest==4.1.0
+PyYAML==3.13
 jmespath==0.9.3
