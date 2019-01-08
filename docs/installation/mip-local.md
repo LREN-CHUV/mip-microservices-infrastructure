@@ -44,8 +44,6 @@ See below for more information on the configuration parameters.
 - Store the configuration in Git, encrypt the passwords and confidential information associated to the host(s).
 
 ```sh
-  git-crypt init
-  git add .
   git commit -m "Configuration for MIP Local"
 
 ```
