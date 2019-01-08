@@ -21,14 +21,14 @@ get_script_dir () {
           SOURCE="$( readlink "$SOURCE" )"
           [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
      done
-     cd -P "$( dirname "$SOURCE" )/../.."
+     cd -P "$( dirname "$SOURCE" )"
      pwd
 }
 
-ROOT=$(get_script_dir)
+ROOT="$(get_script_dir)/../.."
 cd "$ROOT"
 
-which ansible > /dev/null || ./common/scripts/bootstrap.sh
+command -v ansible > /dev/null || ./common/scripts/bootstrap.sh
 
 ANSIBLE_OPTS=()
 SETUP_ANSIBLE_OPTS=()
@@ -334,7 +334,7 @@ mkdir -p .not-used
 
 [ -f circle.yml ] && git mv circle.yml .not-used/
 
-which gpg > /dev/null || (
+command -v gpg > /dev/null || (
   echo "Installing gnupg..."
   if [ -x /usr/bin/apt-get ]; then
     sudo apt-get -y install gnupg
