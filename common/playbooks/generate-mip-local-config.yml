@@ -60,7 +60,7 @@
       prompt: "Target server IP address"
       private: no
     - name: "portal_frontend_base_url"
-      prompt: "Base URL for the frontend, for example http://myserver.myorg.com:7000"
+      prompt: "Base URL for the frontend, for example https://myserver.myorg.com"
       private: no
     - name: "gitlab_com_login"
       prompt: "Username on Gitlab to download private Docker images. Leave blank if you do not have access to this information"

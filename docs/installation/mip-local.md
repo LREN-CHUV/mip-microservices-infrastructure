@@ -23,8 +23,13 @@ you've installed the `jmespath` library on your machine (see common/scripts/requ
 
 ```sh
   git clone --branch 2.8.5 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
+  cd my-infrastructure
   git checkout -b master
-  
+```
+
+To prepare a production deployment of MIP, you will need to keep track of changes made to the platform and follow this procedure instead.
+
+```sh
   # Advanced use, to keep track of MIP versions and uptream changes
   git clone --origin mmsi --branch 2.8.5 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
   cd my-infrastructure
@@ -36,7 +41,6 @@ you've installed the `jmespath` library on your machine (see common/scripts/requ
 - Prepare the configuration for installation.
 
 ```sh
-  cd my-infrastructure
   ./common/scripts/configure-mip-local.sh
 ```
 
@@ -119,7 +123,7 @@ Target server FQDN, e.g. myserver.myorg.com . If the full server name cannot be 
 Target server IP address:
 -> 10.0.2.15
 
-Base URL for the frontend, for example http://myserver.myorg.com:7000
+Base URL for the frontend, for example https://myserver.myorg.com
 -> http://test-mip-local.epfl.ch
 == Address accessible on the network. For a VM, host address with port mapped to the VM port 80.
 
