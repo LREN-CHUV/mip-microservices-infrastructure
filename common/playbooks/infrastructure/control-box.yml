@@ -16,7 +16,7 @@
 
     - name: Installer needs restart
       fail:
-        message: "A library required by this installer was installed on the system. Please restart ./setup.sh to complete the installation"
+        msg: "A library required by this installer was installed on the system. Please restart ./setup.sh to complete the installation"
       listen: "restart installer"
 
   roles:
