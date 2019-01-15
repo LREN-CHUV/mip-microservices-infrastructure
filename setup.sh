@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-[ -f .environment ] && source .environment
+[ -f .environment ] && source ./.environment
 
 # shellcheck disable=SC2086
 : ${DATACENTER:=federation}
