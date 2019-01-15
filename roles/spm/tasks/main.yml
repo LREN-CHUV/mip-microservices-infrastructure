@@ -36,7 +36,7 @@
     ret = eng.sqrt(4.0)
     print(ret)
     eng.exit()'
-  env:
+  environment:
     PYTHONPATH: '{{ matlab_python_library_path }}'
   become: yes
   become_user: '{{ matlab_user }}'
@@ -125,7 +125,7 @@
     eng.addpath("/opt/spm12")
     eng.spm("Dir")
     eng.exit()'
-  env:
+  environment:
     PYTHONPATH: '{{ matlab_python_library_path }}'
   become: yes
   become_user: '{{ matlab_user }}'
