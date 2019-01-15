@@ -39,7 +39,6 @@ you've installed the `jmespath` library on your machine (see common/scripts/requ
 - Prepare the configuration for installation.
 
 ```sh
-  cd my-infrastructure
   ./common/scripts/configure-mip-local.sh
 ```
 
