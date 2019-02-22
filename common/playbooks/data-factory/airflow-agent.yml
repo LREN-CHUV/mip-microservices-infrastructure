@@ -21,6 +21,7 @@
         name: '{{ data_factory_group }}'
         gid: '{{ data_factory_group_id | default(omit)}}'
         state: present
+      tags: ['spm', 'airflow-agent', 'airflow', 'data-factory']
 
     - name: Create user for Data Factory
       user:
@@ -29,6 +30,7 @@
         group: '{{ data_factory_group }}'
         groups: '{{ data_factory_user_groups | default(omit)}}'
         home: "{{ data_factory_home | default('/usr/local/airflow') }}"
+      tags: ['spm', 'airflow-agent', 'airflow', 'data-factory']
       when: airflow_user != 'vagrant'
 
   roles:

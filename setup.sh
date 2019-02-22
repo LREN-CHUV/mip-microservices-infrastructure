@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-[ -f .environment ] && source .environment
+DATACENTER="federation"
 
-# shellcheck disable=SC2086
-: ${DATACENTER:=federation}
+# shellcheck disable=SC1091
+[ -f .environment ] && source ./.environment
 
 force=false
 if [ "$1" = "--force" ]; then
@@ -39,7 +39,9 @@ ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
   # shellcheck disable=SC2086
   : ${SLACK_USER_NAME:=$USER}
 
+  # shellcheck disable=SC1091
   source ./common/lib/slack-helper.sh
+  # shellcheck disable=SC1091
   source ./common/lib/ansible-to-human.sh "$@"
   sed "s/USER/$SLACK_USER_NAME/" slack.json | sed "s/COMPONENTS/$PLAYBOOK_COMPONENTS/" \
        | sed "s/HOSTS/$PLAYBOOK_HOSTS/" | post-to-slack

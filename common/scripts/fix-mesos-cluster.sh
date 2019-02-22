@@ -16,18 +16,17 @@ get_script_dir () {
           SOURCE="$( readlink "$SOURCE" )"
           [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
      done
-     cd -P "$( dirname "$SOURCE" )"
+     cd -P "$( dirname "$SOURCE" )" || exit
      pwd
 }
 
 ROOT="$(get_script_dir)/../.."
-cd "$ROOT"
+cd "$ROOT" || exit
 
-[ -f .environment ] && source .environment
+DATACENTER=federation
 
-# shellcheck disable=SC2086
-: ${DATACENTER:=federation}
-
+# shellcheck disable=SC1091
+[ -f .environment ] && source ./.environment
 
 OPTS=""
 if [ "$1" = "--reset" ]; then
@@ -38,11 +37,17 @@ if [ "$1" = "--reset" ]; then
   echo
   echo "Please manually stop all applications using the Marathon interface before continuing"
   echo "Press enter to continue."
+  # shellcheck disable=SC2162
   read -p "> "
+fi
+
+ANSIBLE_ARGS=
+if [ "$(hostname)" != "$LOCAL_HOSTNAME" ]; then
+  ANSIBLE_ARGS="-e ansible_connection=ssh"
 fi
 
 # shellcheck disable=SC2086
 ansible-playbook --ask-become-pass -i "$(pwd)/envs/$DATACENTER/etc/ansible/" \
         -e play_dir="$(pwd)" \
-        -e datacenter="$DATACENTER" $OPTS \
+        -e datacenter="$DATACENTER" "$ANSIBLE_ARGS" $OPTS \
         "common/playbooks/infrastructure/fix-mesos-cluster.yml"
