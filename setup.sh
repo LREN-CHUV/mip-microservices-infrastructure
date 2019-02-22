@@ -2,7 +2,6 @@
 set -e
 
 DATACENTER="federation"
-
 # shellcheck disable=SC1091
 [ -f .environment ] && source ./.environment
 

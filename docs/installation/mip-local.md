@@ -22,6 +22,7 @@ you've installed the `jmespath` library on your machine (see common/scripts/requ
 - Prepare a clone of mip-microservices-infrastructure to store the configuration for your environment and apply custom tweaks without breaking the mainline MIP project.
 
 ```sh
+  # Basic use
   git clone --branch 2.8.5 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
   cd my-infrastructure
   git checkout -b master
@@ -30,10 +31,12 @@ you've installed the `jmespath` library on your machine (see common/scripts/requ
 To prepare a production deployment of MIP, you will need to keep track of changes made to the platform and follow this procedure instead.
 
 ```sh
+
   # Advanced use, to keep track of MIP versions and uptream changes
   git clone --origin mmsi --branch 2.8.5 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
   cd my-infrastructure
   git checkout -b master
+
   # Backup the infrastructure projet on a private Git repository on Gitlab.com for example
   git remote add origin git@gitlab.com:hbpmip_deployment/my-infrastructure.git
 ```
