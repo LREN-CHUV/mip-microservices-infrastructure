@@ -37,10 +37,17 @@ target=""
 mkdir -p envs/mip-local/etc/ansible/
 
 echo
+echo "#"
+echo "# Preparation for the installation of MIP Local"
+echo "#"
+echo
+echo "Please answer the following questions to generate and tune the installation scripts for your MIP Local server"
+echo
 echo "** Generic configuration **"
 echo
 echo "Enter an alias to identify this installation. Use lowercase characters and no spaces, for example myhospital"
 read -p "Server alias > " server_alias
+echo
 echo "Where will you install MIP Local?"
 PS3='> '
 options=("This machine" "A remote server")
@@ -78,6 +85,7 @@ $server_dns ansible_connection=ssh ansible_ssh_host=$server_dns ansible_ssh_user
 [managed]
 $server_dns
 EOF
+          # TODO: ping the remote server using ansible ping
           ;;
         *)
           echo invalid option
@@ -87,6 +95,7 @@ EOF
   break
 done
 
+echo
 echo "Does sudo on $target requires a password?"
 PS3="> "
 options=("yes" "no")
@@ -160,23 +169,55 @@ echo
 
 echo "Do you want to use MIP research datasets? MIP team should have granted you access to those datasets and provided you with a password for special access to our private Gitlab Docker repository"
 PS3="> "
-options=("yes" "no")
-select mip_research_datasets in "${options[@]}";
+options=("Research and clinical" "Research only" "Sample" "Custom")
+select mip_datasets in "${options[@]}";
 do
-  case "$mip_research_datasets" in
-      "yes")
+  case "$mip_datasets" in
+       "Research and clinical")
           echo "To use MIP research datasets, please enter the login for hbpmip_private repository on Gitlab"
           read -p "Gitlab login, e.g. mip_hbp > " gitlab_com_login
           read -p "Gitlab password > " gitlab_com_password
           if [[ -n "$gitlab_com_password" ]]; then
             ANSIBLE_OPTS+=("-e mip_research_datasets=true")
+            ANSIBLE_OPTS+=("-e only_research_data=false")
+            ANSIBLE_OPTS+=("-e gitlab_com_login='${gitlab_com_login:-mip_hbp}'")
+            ANSIBLE_OPTS+=("-e gitlab_com_password='$gitlab_com_password'")
+          else
+            echo "You did not fill all required information. Access to research data disabled"
+          fi
+          echo
+          echo "Please enter an id for the main dataset to process, e.g. 'demo' and a readable label for it, e.g. 'Demo data'"
+          read -p "Id for the main dataset > " main_dataset_id
+          read -p "Label for the main dataset > " main_dataset_label
+          ANSIBLE_OPTS+=("-e only_research_data=false")
+          ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
+          ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
+         ;;
+      "Research only")
+          echo "To use MIP research datasets, please enter the login for hbpmip_private repository on Gitlab"
+          read -p "Gitlab login, e.g. mip_hbp > " gitlab_com_login
+          read -p "Gitlab password > " gitlab_com_password
+          if [[ -n "$gitlab_com_password" ]]; then
+            ANSIBLE_OPTS+=("-e mip_research_datasets=true")
+            ANSIBLE_OPTS+=("-e only_research_data=false")
             ANSIBLE_OPTS+=("-e gitlab_com_login='${gitlab_com_login:-mip_hbp}'")
             ANSIBLE_OPTS+=("-e gitlab_com_password='$gitlab_com_password'")
           else
             echo "You did not fill all required information. Access to research data disabled"
           fi
           ;;
-      "no")
+       "Sample")
+          ANSIBLE_OPTS+=("-e mip_research_datasets=false")
+          ;;
+        "Custom")
+          echo
+          echo "Please enter an id for the main dataset to process, e.g. 'demo' and a readable label for it, e.g. 'Demo data'"
+          read -p "Id for the main dataset > " main_dataset_id
+          read -p "Label for the main dataset > " main_dataset_label
+          ANSIBLE_OPTS+=("-e mip_research_datasets=false")
+          ANSIBLE_OPTS+=("-e only_research_data=false")
+          ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
+          ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
           ;;
         *)
           echo invalid option
@@ -185,13 +226,6 @@ do
   esac
   break
 done
-
-echo
-echo "Please enter an id for the main dataset to process, e.g. 'demo' and a readable label for it, e.g. 'Demo data'"
-read -p "Id for the main dataset > " main_dataset_id
-read -p "Label for the main dataset > " main_dataset_label
-ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
-ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
 
 if [[ "${mip_building_blocks['hdb']}" == "true" ]]; then
   echo

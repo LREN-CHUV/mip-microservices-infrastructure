@@ -76,9 +76,6 @@
     - name: "portal_frontend_base_url"
       prompt: "Base URL for the frontend, for example https://myserver.myorg.com"
       private: no
-    - name: "only_research_data"
-      prompt: "Use research data only? (Y/n)"
-      private: no
 
   roles:
 
