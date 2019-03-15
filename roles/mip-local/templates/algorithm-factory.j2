@@ -44,28 +44,45 @@ woken_validation_docker_parameters:
 woken_node_name: "{{ mip_instance_name }}"
 
 woken_datasets:
-{% if gitlab_com_login is defined and gitlab_com_login and gitlab_com_password %}
+{% if setup_datasets = 'mip-standard' %}
   - name: adni
     description: ADNI dataset
     label: ADNI
-    tables: ["mip_cde_features", "mip_local_features"]
+    tables: {% if  only_research_data%}["mip_cde_features"]{% else %}[ "mip_cde_features", "mip_local_features"]{% endif %}
     anonymisationLevel: Anonymised
   - name: ppmi
     description: PPMI dataset
     label: PPMI
-    tables: ["mip_cde_features", "mip_local_features"]
+    tables: {% if  only_research_data%}["mip_cde_features"]{% else %}[ "mip_cde_features", "mip_local_features"]{% endif %}
     anonymisationLevel: Anonymised
   - name: edsd
     description: EDSD dataset
     label: EDSD
-    tables: ["mip_cde_features", "mip_local_features"]
+    tables: ["mip_cde_features"{% if  not only_research_data%}, "mip_local_features"{% endif %}]
     anonymisationLevel: Anonymised
 {% endif %}
-{% if gitlab_com_login is not defined or only_research_data|lower not in ["y", "yes"] %}
+{% if setup_datasets = 'sample' %}
+  -name: desd-synthdata {
+   label: "DESD"
+   description: "Demo dataset DESD"
+   tables: ["cde_features_a", "cde_features_mixed"]
+   anonymisationLevel: "Anonymised"
+  - name: nida-synthdata
+    label: "NIDA"
+    description: "Demo dataset NIDA"
+    tables: ["cde_features_b", "cde_features_mixed"]
+    anonymisationLevel: "Depersonalised"
+  - name: qqni-synthdata
+    label: "QQNI"
+    description: "Demo dataset QQNI"
+    tables: ["cde_features_c", "cde_features_mixed"]
+    anonymisationLevel: "Depersonalised"
+{% endif %}
+{% if main_dataset_id is defined and main_dataset_id %}
   - name: {{ main_dataset_id }}
     description: "{{ main_dataset_label }}"
     label: "{{ main_dataset_label }}"
-    tables: ["mip_cde_features", "mip_local_features"]
+    tables: {% if setup_datasets = 'mip-standard' %}["mip_cde_features","mip_local_features"]{% else %}["mip_local_features"]{% endif %}
     anonymisationLevel: Depersonalised
 {% endif %}
 ...

@@ -178,18 +178,17 @@ do
           read -p "Gitlab login, e.g. mip_hbp > " gitlab_com_login
           read -p "Gitlab password > " gitlab_com_password
           if [[ -n "$gitlab_com_password" ]]; then
-            ANSIBLE_OPTS+=("-e mip_research_datasets=true")
-            ANSIBLE_OPTS+=("-e only_research_data=false")
             ANSIBLE_OPTS+=("-e gitlab_com_login='${gitlab_com_login:-mip_hbp}'")
             ANSIBLE_OPTS+=("-e gitlab_com_password='$gitlab_com_password'")
           else
-            echo "You did not fill all required information. Access to research data disabled"
+            echo "WARNING: You did not fill all required information. Access to research data disabled"
           fi
           echo
           echo "Please enter an id for the main dataset to process, e.g. 'demo' and a readable label for it, e.g. 'Demo data'"
           read -p "Id for the main dataset > " main_dataset_id
           read -p "Label for the main dataset > " main_dataset_label
-          ANSIBLE_OPTS+=("-e only_research_data=false")
+          ANSIBLE_OPTS+=("-e setup_datasets=mip-standard")
+          ANSIBLE_OPTS+=("-e only_research_data=no")
           ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
           ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
          ;;
@@ -198,24 +197,25 @@ do
           read -p "Gitlab login, e.g. mip_hbp > " gitlab_com_login
           read -p "Gitlab password > " gitlab_com_password
           if [[ -n "$gitlab_com_password" ]]; then
-            ANSIBLE_OPTS+=("-e mip_research_datasets=true")
-            ANSIBLE_OPTS+=("-e only_research_data=false")
             ANSIBLE_OPTS+=("-e gitlab_com_login='${gitlab_com_login:-mip_hbp}'")
             ANSIBLE_OPTS+=("-e gitlab_com_password='$gitlab_com_password'")
           else
-            echo "You did not fill all required information. Access to research data disabled"
+            echo "WARNING: You did not fill all required information. Access to research data disabled"
           fi
+          ANSIBLE_OPTS+=("-e setup_datasets=mip-standard")
+          ANSIBLE_OPTS+=("-e only_research_data=yes")
           ;;
        "Sample")
-          ANSIBLE_OPTS+=("-e mip_research_datasets=false")
+          ANSIBLE_OPTS+=("-e setup_datasets=sample")
+          ANSIBLE_OPTS+=("-e only_research_data=yes")
           ;;
         "Custom")
           echo
           echo "Please enter an id for the main dataset to process, e.g. 'demo' and a readable label for it, e.g. 'Demo data'"
           read -p "Id for the main dataset > " main_dataset_id
           read -p "Label for the main dataset > " main_dataset_label
-          ANSIBLE_OPTS+=("-e mip_research_datasets=false")
-          ANSIBLE_OPTS+=("-e only_research_data=false")
+          ANSIBLE_OPTS+=("-e setup_datasets=")
+          ANSIBLE_OPTS+=("-e only_research_data=no")
           ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
           ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
           ;;
@@ -359,6 +359,7 @@ if [[ "${mip_building_blocks['wa']}" == "true" ]]; then
     break
   done
 
+  echo
   echo "To enable Google analytics, please enter the Google tracker ID or leave this blank to disable it"
   read -p "Google tracker ID > " google_tracker_id
   ANSIBLE_OPTS+=("-e portal_frontend_google_tracker_id=$google_tracker_id")
