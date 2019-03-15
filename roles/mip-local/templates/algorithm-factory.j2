@@ -1,26 +1,27 @@
 ---
 
-chronos_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
-chronos_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
+# Memory and CPU settings
 
-# Amount of CPU reserved for woken
-woken_cpus: {{ (target_cpus|float / 8.0) | round(1, 'floor') }}
-# Amount of memory in mb reserved for woken
-woken_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
+# Amount of CPU reserved for chronos
+chronos_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
+# Amount of memory in mb reserved for chronos
+chronos_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
 
 # Amount of CPU reserved for woken validation
 woken_validation_cpus: {{ (target_cpus|float / 16.0) | round(1, 'floor') }}
 # Amount of memory in mb reserved for woken validation
 woken_validation_mem: {{ (target_mem_mb|float / 8.0) | round(0, 'floor') }}
 
-woken_datasets:
-  - name: {{ main_dataset_id }}
-    description: "{{ main_dataset_label }}"
-    label: "{{ main_dataset_label }}"
-    tables: ["mip_cde_features", "mip_local_features"]
-    anonymisationLevel: Depersonalised
+# Amount of CPU reserved for woken
+woken_cpus: {{ (target_cpus|float / 8.0) | round(1, 'floor') }}
+# Amount of memory in mb reserved for woken
+woken_mem: {{ (target_mem_mb|float / 16.0) | round(0, 'floor') }}
+
+woken_default_job_mem: {% if target_mem_mb|float > 10240 %}2048{% else %}1024{% endif %}
 
 {% if docker_force_add_host %}
+# Fix for communication between containers in environments without well-configured DNS server
+
 chronos_docker_parameters:
   - key: 'add-host'
     value: "{{ server_fqdn }}:{{ server_ip_address }}"
@@ -38,5 +39,33 @@ woken_validation_docker_parameters:
     value: "{{ server_fqdn }}:{{ server_ip_address }}"
   - key: 'add-host'
     value: "{{ server_hostname }}:{{ server_ip_address }}"
+{% endif %}
+
+woken_node_name: "{{ mip_instance_name }}"
+
+woken_datasets:
+{% if gitlab_com_login is defined and gitlab_com_login and gitlab_com_password %}
+  - name: adni
+    description: ADNI dataset
+    label: ADNI
+    tables: ["mip_cde_features", "mip_local_features"]
+    anonymisationLevel: Anonymised
+  - name: ppmi
+    description: PPMI dataset
+    label: PPMI
+    tables: ["mip_cde_features", "mip_local_features"]
+    anonymisationLevel: Anonymised
+  - name: edsd
+    description: EDSD dataset
+    label: EDSD
+    tables: ["mip_cde_features", "mip_local_features"]
+    anonymisationLevel: Anonymised
+{% endif %}
+{% if gitlab_com_login is not defined or only_research_data|lower not in ["y", "yes"] %}
+  - name: {{ main_dataset_id }}
+    description: "{{ main_dataset_label }}"
+    label: "{{ main_dataset_label }}"
+    tables: ["mip_cde_features", "mip_local_features"]
+    anonymisationLevel: Depersonalised
 {% endif %}
 ...

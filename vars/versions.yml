@@ -17,12 +17,6 @@ marathon_version: "{% if ansible_os_family == 'RedHat' %}1.4.12{% else %}1.6.352
 chronos_version: "3.0.2-5"
 caddy_version: "0.10.10-5"
 
-airflow_version: '1.9.0'
-airflow_db_image: "postgres"
-airflow_db_version: "{{ postgres_version }}"
-mri_db_image: "postgres"
-mri_db_version: "{{ postgres_version }}"
-
 postgres_version: "9.6.5-alpine"
 postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar
 ldsm_db_version: 'v1.3'
@@ -32,27 +26,32 @@ postgresraw_ui_version: 'v1.5'
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "2.12.0"
-portal_backend_version: "2.8.5"
-woken_version: "2.8.1"
+portal_frontend_version: "2.15.7"
+portal_backend_version: "2.9.3"
+woken_version: "2.9.5"
 # Do not override versions of algorithms, they are already defined in Woken
 woken_algorithms: []
 
-woken_validation_version: "2.5.3"
-woken_db_setup_version: '1.2.2'
+woken_validation_version: "2.7.3"
+woken_db_setup_version: '1.3.3'
 
 # Reference data
 
-mip_cde_meta_db_setup_version: '1.3.1'
+mip_cde_meta_db_setup_version: '1.3.4'
 
 adni_merge_db_setup_version: '1.5.5'
 edsd_data_db_setup_version: '1.4.4'
 ppmi_data_db_setup_version: '1.1.4'
 
-sample_meta_db_setup_version: '0.6.0'
-sample_data_db_setup_version: '0.6.1'
+sample_meta_db_setup_version: '0.6.1'
+sample_data_db_setup_version: '0.6.2'
 
 # Data factory
+airflow_version: '1.10.2'
+airflow_db_image: "postgres"
+airflow_db_version: "{{ postgres_version }}"
+mri_db_image: "postgres"
+mri_db_version: "{{ postgres_version }}"
 
 matlab_version: "R2016b"
 spm_version: 12

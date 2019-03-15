@@ -54,7 +54,7 @@ Contributors to the platform are invited to join the following tools for collabo
 
 # License
 
-Copyright © 2016-2017 LREN CHUV
+Copyright © 2016-2019 LREN CHUV
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

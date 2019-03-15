@@ -17,16 +17,17 @@ get_script_dir () {
           SOURCE="$( readlink "$SOURCE" )"
           [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
      done
-     cd -P "$( dirname "$SOURCE" )"
+     cd -P "$( dirname "$SOURCE" )" || exit 1
      pwd
 }
 
 ROOT=$(get_script_dir)
-cd "$ROOT"
+cd "$ROOT" || exit 1
 
 [ -x /usr/local/bin/ansible ] || [ -x /usr/bin/ansible ] || (
 
-  echo "Install Ansible"
+  echo
+  echo "-> Installing Ansible..."
   if [ -x /usr/bin/add-apt-repository ]; then
     sudo add-apt-repository -y ppa:ansible/ansible
     sudo apt-get update
@@ -43,7 +44,8 @@ cd "$ROOT"
 
 if [ "$1" != "--skip-git-crypt" ]; then
   [ -x /usr/bin/git ] || (
-    echo "Install Git"
+    echo
+    echo "-> Installing Git..."
     if [ -x /usr/bin/apt-get ]; then
       sudo apt-get install -y git
     else
@@ -52,6 +54,8 @@ if [ "$1" != "--skip-git-crypt" ]; then
   )
 
   [ -x /usr/bin/git-crypt ] || [ -x /usr/local/bin/git-crypt ] || (
+    echo
+    echo "-> Installing git-crypt..."
     echo "Please enter the sudo password for this local computer to install git-crypt"
     ansible-playbook --ask-become-pass -i ../../envs/install/etc/ansible ../playbooks/infrastructure/ansible-install.yml
   )

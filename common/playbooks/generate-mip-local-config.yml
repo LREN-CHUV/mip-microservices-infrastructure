@@ -38,36 +38,44 @@
       when: ansible_memtotal_mb < 4000 and not 'df' in mip_building_blocks
 
     - name: Suggested target server hostname
-      debug: var=ansible_hostname
+      debug:
+        msg: "Use {{ ansible_hostname }}"
+
+    - name: Test reachability to suggested target server FQDN
+      command: >
+        ping -c 5 {{ ansible_fqdn }}
+      ignore_errors: yes
+      register: ansible_fqdn_check
 
     - name: Suggested target server FQDN
-      debug: var=ansible_fqdn
+      debug:
+        msg: "Use {{ ansible_fqdn }}"
+      when: ansible_fqdn_check is success
+
+    - name: Suggested target server FQDN
+      debug:
+        msg: "Use {{ ansible_default_ipv4.address }}"
+      when: ansible_fqdn_check is failed
 
     - name: Suggested target server IP address
       debug:
-        msg: "{{ ansible_default_ipv4.address }}"
+        msg: "Use {{ ansible_default_ipv4.address }}"
 
 - hosts: localhost
   become: no
   vars_prompt:
     - name: "server_hostname"
-      prompt: "Target server hostname, e.g. myserver . Use ansible_hostname value if you agree with it."
+      prompt: "Target server hostname, e.g. myserver. Insert here the suggested target server hostname value displayed above"
       private: no
     - name: "server_fqdn"
-      prompt: "Target server FQDN, e.g. myserver.myorg.com . If the full server name cannot be reached by DNS (ping myserver.myorg.com fails), you can use the IP address instead"
+      prompt: "Target server FQDN, e.g. myserver.myorg.com. Insert here the suggested target server FQDN value displayed above. It can be a DNS name or an IP address, it must be reachable from the installation computer and from the target servers"
       private: no
     - name: "server_ip_address"
-      prompt: "Target server IP address"
+      prompt: "Target server IP address. Insert here the suggested target server IP address"
       private: no
     - name: "portal_frontend_base_url"
       prompt: "Base URL for the frontend, for example https://myserver.myorg.com"
       private: no
-    - name: "gitlab_com_login"
-      prompt: "Username on Gitlab to download private Docker images. Leave blank if you do not have access to this information"
-      private: no
-    - name: "gitlab_com_password"
-      prompt: "Password on Gitlab to download private Docker images. Leave blank if you do not have access to this information"
-      private: yes
     - name: "only_research_data"
       prompt: "Use research data only? (Y/n)"
       private: no
