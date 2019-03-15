@@ -17,10 +17,10 @@ features_table: 'mip_local_features'
 features_table: 'mip_cde_features'
 {% endif %}
 # Setup the standard research datasets into research-db (when features_from = 'research-db'), otherwise ldsm-db
-# Valid values are 'mip-standard', 'sample' or ''
+# Valid values are 'mip-standard', 'sample' or 'none'
 setup_research_datasets: '{{ setup_datasets }}'
 # Setup some pre-defined metadata
-# Valid values are 'mip-standard', 'sample' or ''
+# Valid values are 'mip-standard', 'sample' or 'none'
 setup_meta_datasets: '{{ setup_datasets }}'
 
 {% endif %}
