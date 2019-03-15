@@ -44,7 +44,7 @@ woken_validation_docker_parameters:
 woken_node_name: "{{ mip_instance_name }}"
 
 woken_datasets:
-{% if setup_datasets = 'mip-standard' %}
+{% if setup_datasets == 'mip-standard' %}
   - name: adni
     description: ADNI dataset
     label: ADNI
@@ -58,10 +58,10 @@ woken_datasets:
   - name: edsd
     description: EDSD dataset
     label: EDSD
-    tables: ["mip_cde_features"{% if  not only_research_data%}, "mip_local_features"{% endif %}]
+    tables: {% if  only_research_data%}["mip_cde_features"]{% else %}[ "mip_cde_features", "mip_local_features"]{% endif %}
     anonymisationLevel: Anonymised
 {% endif %}
-{% if setup_datasets = 'sample' %}
+{% if setup_datasets == 'sample' %}
   -name: desd-synthdata {
    label: "DESD"
    description: "Demo dataset DESD"
@@ -82,7 +82,7 @@ woken_datasets:
   - name: {{ main_dataset_id }}
     description: "{{ main_dataset_label }}"
     label: "{{ main_dataset_label }}"
-    tables: {% if setup_datasets = 'mip-standard' %}["mip_cde_features","mip_local_features"]{% else %}["mip_local_features"]{% endif %}
+    tables: {% if setup_datasets == 'mip-standard' %}["mip_cde_features","mip_local_features"]{% else %}["mip_local_features"]{% endif %}
     anonymisationLevel: Depersonalised
 {% endif %}
 ...
