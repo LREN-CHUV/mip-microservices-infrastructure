@@ -454,19 +454,25 @@ else
   echo
   echo "WARNING: This is not a production-grade installation. Your passwords and other secrets are not protected by PGP and git-crypt"
   echo "Once you are satisfied that MIP Local can run on your environment, please run again this script, ideally using a fresh clone of mip-microservice-infrastructure"
+  echo "Alternatively, install git-crypt, then delete the file $(realpath "$ROOT/envs/mip-local/etc/ansible/.gitignore")"
   echo
+
+  echo "# Do not check in Git plain text passwords." > "$ROOT/envs/mip-local/etc/ansible/.gitignore"
+  echo "# If you install git-crypt, you can remove this file and your passwords will be stored encrypted" >> "$ROOT/envs/mip-local/etc/ansible/.gitignore"
+  echo "host_vars/" >> "$ROOT/envs/mip-local/etc/ansible/.gitignore"
 fi
 
 echo
 echo "Generation of the standard configuration for MIP Local complete!"
 echo
-echo "You can review the configuration located in $ROOT/envs/mip-local/etc/ansible/"
+echo "You can review the configuration located in $(realpath "$ROOT/envs/mip-local/etc/ansible/")"
 echo "and customise it further for your environment and needs."
 echo "More information about the configuration settings can be found in"
-echo "  $ROOT/docs/configuration/"
+echo "  $(realpath "$ROOT/docs/configuration/")"
 echo
 echo "Before starting the installation, please commit the configuration in Git:"
 echo "  git commit -m 'Configuration for MIP Local'"
 echo
 echo "Then run setup.sh to start the installation"
 echo "  ./setup.sh ${SETUP_ANSIBLE_OPTS[*]}"
+echo
