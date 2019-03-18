@@ -55,6 +55,7 @@ options=('Production' 'Testing')
 select installation_level in "${options[@]}";
 do
   ANSIBLE_OPTS+=("-e installation_level=${installation_level,,}")
+  break
 done
 
 echo
