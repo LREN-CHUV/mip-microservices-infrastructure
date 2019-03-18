@@ -48,6 +48,16 @@ echo
 echo "Enter an alias to identify this installation. Use lowercase characters and no spaces, for example myhospital"
 read -p "Server alias > " server_alias
 echo
+echo
+echo "Do you want to configure MIP Local for production or are you simply testing?"
+PS3='>'
+options=('Production','Testing')
+select installation_level in "${options[@]}";
+do
+  ANSIBLE_OPTS+=("-e installation_level=${installation_level,,}")
+done
+
+echo
 echo "Where will you install MIP Local?"
 PS3='> '
 options=("This machine" "A remote server")
@@ -359,10 +369,12 @@ if [[ "${mip_building_blocks['wa']}" == "true" ]]; then
     break
   done
 
-  echo
-  echo "To enable Google analytics, please enter the Google tracker ID or leave this blank to disable it"
-  read -p "Google tracker ID > " google_tracker_id
-  ANSIBLE_OPTS+=("-e portal_frontend_google_tracker_id=$google_tracker_id")
+  if [ "$installation_level" == "Production" ]; then
+    echo
+    echo "To enable Google analytics, please enter the Google tracker ID or leave this blank to disable it"
+    read -p "Google tracker ID > " google_tracker_id
+    ANSIBLE_OPTS+=("-e portal_frontend_google_tracker_id=$google_tracker_id")
+  fi
 fi
 
 ANSIBLE_OPTS+=("-e mip_building_blocks=$(echo "${!mip_building_blocks[@]}" | tr ' ' ',')")
@@ -400,42 +412,49 @@ mkdir -p .not-used
 
 [ -f circle.yml ] && git mv circle.yml .not-used/
 
-command -v gpg > /dev/null || (
-  echo "Installing gnupg..."
-  if [ -x /usr/bin/apt-get ]; then
-    sudo apt-get -y install gnupg
-  else
-    sudo yum -y install gnupg
-  fi
-)
+if [ "$installation_level" == "Production" ]; then
+  command -v gpg > /dev/null || (
+    echo "Installing gnupg..."
+    if [ -x /usr/bin/apt-get ]; then
+      sudo apt-get -y install gnupg
+    else
+      sudo yum -y install gnupg
+    fi
+  )
 
-[ -f ~/.gnupg/pubring.gpg ] || (
-  echo "Installing haveged..."
-  if [ -x /usr/bin/apt-get ]; then
-    sudo apt-get -y install haveged
-  else
-    sudo yum -y install haveged
-  fi
-  echo "Generate the PGP key for this user..."
-  gpg --gen-key
-  echo "Uninstall haveged..."
-  if [ -x /usr/bin/apt-get ]; then
-    sudo apt-get -y remove haveged
-  else
-    sudo yum -y uninstall haveged
-  fi
-)
+  [ -f ~/.gnupg/pubring.gpg ] || (
+    echo "Installing haveged..."
+    if [ -x /usr/bin/apt-get ]; then
+      sudo apt-get -y install haveged
+    else
+      sudo yum -y install haveged
+    fi
+    echo "Generate the PGP key for this user..."
+    gpg --gen-key
+    echo "Uninstall haveged..."
+    if [ -x /usr/bin/apt-get ]; then
+      sudo apt-get -y remove haveged
+    else
+      sudo yum -y uninstall haveged
+    fi
+  )
 
-[ -d .git/git-crypt ] || git-crypt init
-if [ -z "$(git config user.email)" ]; then
-  git config user.email "deployment@script"
-  git config user.name "deployment@script"
+  [ -d .git/git-crypt ] || git-crypt init
+  if [ -z "$(git config user.email)" ]; then
+    git config user.email "deployment@script"
+    git config user.name "deployment@script"
+  fi
+  gpg --list-secret-keys | grep '^uid' | sed s/'uid\s\+\(.*\)'/'\1'/ | while read keyid; do
+    git-crypt add-gpg-user "$keyid"
+  done
+
+  git add .
+else
+  echo
+  echo "WARNING: This is not a production-grade installation. Your passwords and other secrets are not protected by PGP and git-crypt"
+  echo "Once you are satisfied that MIP Local can run on your environment, please run again this script, ideally using a fresh clone of mip-microservice-infrastructure"
+  echo
 fi
-gpg --list-secret-keys | grep '^uid' | sed s/'uid\s\+\(.*\)'/'\1'/ | while read keyid; do
-  git-crypt add-gpg-user "$keyid"
-done
-
-git add .
 
 echo
 echo "Generation of the standard configuration for MIP Local complete!"
