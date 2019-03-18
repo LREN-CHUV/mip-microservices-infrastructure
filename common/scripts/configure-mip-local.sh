@@ -50,8 +50,8 @@ read -p "Server alias > " server_alias
 echo
 echo
 echo "Do you want to configure MIP Local for production or are you simply testing?"
-PS3='>'
-options=('Production','Testing')
+PS3='> '
+options=('Production' 'Testing')
 select installation_level in "${options[@]}";
 do
   ANSIBLE_OPTS+=("-e installation_level=${installation_level,,}")
