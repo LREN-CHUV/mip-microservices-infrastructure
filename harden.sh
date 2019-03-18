@@ -15,10 +15,9 @@ echo "Harden the managed servers"
     echo "The file should have diff: git-crypt and filter: git-crypt present"
 )
 
-[ -f .environment ] && source .environment
-
-# shellcheck disable=SC2086
-: ${DATACENTER:=federation}
+DATACENTER="federation"
+# shellcheck disable=SC1091
+[ -f .environment ] && source ./.environment
 
 ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
         -e play_dir="$(pwd)" \

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -e
+set -o pipefail  # trace ERR through pipes
+set -o errtrace  # trace ERR through 'time command' and other functions
+set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
 
 count=$(git status --porcelain | wc -l)
 
@@ -24,7 +26,7 @@ select_part() {
           bumpversion major
           ;;
       *)
-          read -p "Version > " version
+          read -r -p "Version > " version
           bumpversion --new-version="$version" all
           ;;
   esac
@@ -33,7 +35,7 @@ select_part() {
 git pull --tags
 # Look for a version tag in Git. If not found, ask the user to provide one
 # shellcheck disable=SC2046
-[ $(git tag --points-at HEAD | wc -l) == 1 ] || (
+[[ $(git tag --points-at HEAD | wc -l) == 1 ]] || (
   latest_version=$(bumpversion --dry-run --list patch | grep current_version | sed -r s,"^.*=",, || echo '0.0.1')
   echo
   echo "Current commit has not been tagged with a version. Latest known version is $latest_version."
@@ -47,8 +49,8 @@ git pull --tags
     break
   done
   updated_version=$(bumpversion --dry-run --list patch | grep current_version | sed -r s,"^.*=",,)
-  read -p "Release version $updated_version? [y/N] > " ok
-  if [ "$ok" != "y" ]; then
+  read -r -p "Release version $updated_version? [y/N] > " ok
+  if [[ "$ok" != "y" ]]; then
     echo "Release aborted"
     exit 1
   fi
@@ -60,5 +62,6 @@ git push
 git push --tags
 
 # Notify on slack
+# shellcheck disable=SC1091
 source ./common/lib/slack-helper.sh
 sed "s/USER/${USER^}/" slack.json | sed "s/VERSION/$updated_version/" | post-to-slack

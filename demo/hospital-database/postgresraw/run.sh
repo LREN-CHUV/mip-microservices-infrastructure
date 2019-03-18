@@ -4,7 +4,7 @@ set -e
 
 mkdir dataset
 
-if [ -z "$@" ]; then
+if [ -z "$*" ]; then
   vagrant up
 else
   vagrant "$@"

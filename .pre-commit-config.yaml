@@ -1,6 +1,6 @@
 repos:
 -   repo: git://github.com/pre-commit/pre-commit-hooks
-    sha: v1.1.0
+    rev: v2.1.0
     hooks:
     - id: trailing-whitespace
     - id: check-merge-conflict
@@ -9,7 +9,7 @@ repos:
       args: ["--autofix"]
       exclude: slack.json
 -   repo: git://github.com/detailyang/pre-commit-shell
-    sha: 1.0.2
+    rev: 1.0.4
     hooks:
     - id: shell-lint
 #-   repo: git://github.com/willthames/ansible-lint

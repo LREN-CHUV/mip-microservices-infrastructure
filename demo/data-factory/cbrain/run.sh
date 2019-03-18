@@ -2,7 +2,7 @@
 
 set -e
 
-if [ -z "$@" ]; then
+if [ -z "$*" ]; then
   vagrant up
 else
   vagrant "$@"
