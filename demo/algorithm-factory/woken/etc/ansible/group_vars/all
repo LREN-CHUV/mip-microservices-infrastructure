@@ -17,4 +17,7 @@ research_db_companion_bases:
   - woken-db
   - portal-db
 
+mip_instance_name: 'Vagrant demo'
+release_stage: 'testing'
+
 ...

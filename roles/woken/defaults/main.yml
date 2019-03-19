@@ -132,6 +132,8 @@ woken_env:
   PROMETHEUS_ENABLED: "no"
   SIGAR_SYSTEM_METRICS: "no"
   JVM_SYSTEM_METRICS: "no"
+  RELEASE_STAGE: "{{ release_stage | default('testing') }}"
+  DATACENTER_LOCATION: "{{ woken_marathon_host }}{% if mip_instance_name is defined and mip_instance_name %} at {{ mip_instance_name }}{% endif %}"
 
 woken_features_table: '{{ features_table }}'
 woken_algorithms:

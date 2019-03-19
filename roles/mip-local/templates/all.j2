@@ -48,7 +48,7 @@ research_db_companion_bases:
 {% elif 'df' in mip_building_blocks %}
 # List of databases to collocate and install on the Research db server
 research_db_companion_bases: []
-{# databases for Data Factory are defined in data-factory group vars  #}
+{# databases for Data Factory are defined in data-factory group vars #}
 
 {% endif %}
 {% if 'df' in mip_building_blocks %}
@@ -70,5 +70,8 @@ portal_frontend_mode: 'local'
 # Name of the instance deployed
 portal_frontend_instance_name: '{{ mip_instance_name }}'
 {% endif %}
+
+mip_instance_name: '{{ mip_instance_name }}'
+release_stage: '{{ installation_level }}'
 
 ...

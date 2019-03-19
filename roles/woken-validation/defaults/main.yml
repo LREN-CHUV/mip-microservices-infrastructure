@@ -30,6 +30,8 @@ woken_validation_env:
   WOKEN_PORT_8088_TCP_PORT: "{{ woken_akka_port }}"
   DOCKER_BRIDGE_NETWORK: "{{ woken_docker_bridge_network }}"
   LOG_LEVEL: DEBUG
+  RELEASE_STAGE: "{{ release_stage | default('testing') }}"
+  DATACENTER_LOCATION: "{{ woken_validation_marathon_host }}{% if mip_instance_name is defined and mip_instance_name %} at {{ mip_instance_name }}{% endif %}"
 
 # Attach woken validation application to a particular host. The hostname should be the name known by Marathon / Mesos
 woken_validation_marathon_host: "{{ ansible_fqdn }}"
