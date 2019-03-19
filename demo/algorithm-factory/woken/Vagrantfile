@@ -12,6 +12,8 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+logger = Vagrant::UI::Colored.new
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
@@ -25,7 +27,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.manage_host = true
     config.hostmanager.aliases = []
   else
-    fail_with_message "vagrant-hostmanager missing, please install the plugin with this command:\nvagrant plugin install vagrant-hostmanager"
+    logger.warn("vagrant-hostmanager missing, please install the plugin with this command:\nvagrant plugin install vagrant-hostmanager")
+    exit
   end
 
   # Disable automatic box update checking. If you disable this, then

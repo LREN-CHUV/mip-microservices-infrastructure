@@ -46,34 +46,27 @@ db {
     database = "{{ woken_features_db_name }}"
     schema = "public"
     pool_size = 5
-    # TODO: hard coded list of tables
+
     tables {
-      "mip_cde_features" {
+    {% for t in woken_tables %}
+      "{{ t.name }}" {
         primaryKey = [
-          {
-            name = "subjectcode"
-            sqlType = "varchar"
-          }
+          {% for pk in t.primaryKey %}
+            {
+              name = "{{ pk.name }}"
+              sqlType = "{{ pk.sqlType }}"
+            }
+          {% endfor %}
         ]
-        datasetColumn = {
-          name = "dataset"
-          sqlType = "varchar"
-        }
-      }
-      "mip_local_features" {
-        primaryKey = [
-          {
-            name = "subjectcode"
-            sqlType = "varchar"
+        {% if t.datasetColumn is defined %}
+          datasetColumn = {
+            name = "{{ datasetColumn.name }}"
+            sqlType = "{{ datasetColumn.sqlType }}"
           }
-        ]
-        datasetColumn = {
-          name = "dataset"
-          sqlType = "varchar"
-        }
+        {% endif %}
       }
+    {% endfor %}
     }
-  }
 
   {{ woken_metadata_db_name }} {
     jdbc_driver = "{{ woken_metadata_db_jdbc_driver }}"

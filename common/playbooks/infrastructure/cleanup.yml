@@ -11,9 +11,9 @@
 
   tasks:
     - name: Remove old packages
-      apt: pkg="{{ item }}" state=absent
-      with_items:
-        - chronos # migrated to Docker
+      apt:
+        pkg: ["chronos"] # migrated to Docker
+        state: absent
       when: ansible_distribution == "Ubuntu"
       tags: ['cleanup', 'infra', 'infrastructure']
 

@@ -12,7 +12,7 @@ predefined_meta_db_docker_setup:
     env:
       FLYWAY_DBMS: postgresql
       FLYWAY_HOST: '{{ meta_db_host }}'
-      FLYWAY_PORT: '{{ meta_db_port }}'
+      FLYWAY_PORT: '{{ meta_db_port | string }}'
       FLYWAY_DATABASE_NAME: '{{ meta_db_name }}'
       FLYWAY_SCHEMAS: "public"
       FLYWAY_USER: '{{ meta_db_admin_user }}'

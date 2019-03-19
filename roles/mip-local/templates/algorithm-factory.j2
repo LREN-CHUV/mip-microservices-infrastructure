@@ -60,13 +60,12 @@ woken_datasets:
     label: EDSD
     tables: {% if  only_research_data%}["mip_cde_features"]{% else %}[ "mip_cde_features", "mip_local_features"]{% endif %}
     anonymisationLevel: Anonymised
-{% endif %}
-{% if setup_datasets == 'sample' %}
-  -name: desd-synthdata {
-   label: "DESD"
-   description: "Demo dataset DESD"
-   tables: ["cde_features_a", "cde_features_mixed"]
-   anonymisationLevel: "Anonymised"
+{% elif setup_datasets == 'sample' %}
+  - name: desd-synthdata
+    label: "DESD"
+    description: "Demo dataset DESD"
+    tables: ["cde_features_a", "cde_features_mixed"]
+    anonymisationLevel: "Anonymised"
   - name: nida-synthdata
     label: "NIDA"
     description: "Demo dataset NIDA"
@@ -84,5 +83,60 @@ woken_datasets:
     label: "{{ main_dataset_label }}"
     tables: {% if setup_datasets == 'mip-standard' %}["mip_cde_features","mip_local_features"]{% else %}["mip_local_features"]{% endif %}
     anonymisationLevel: Depersonalised
+{% endif %}
+
+tables:
+{% if setup_datasets == 'mip-standard' %}
+  - name: mip_cde_features
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar
+  - name: mip_local_features
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar"
+{% elif setup_datasets == 'sample' %}
+  - name: cde_features_mixed
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar
+  - name: cde_features_a
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar"
+  - name: cde_features_b
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar"
+  - name: cde_features_c
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar"
+{% else %}
+  - name: mip_local_features
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar"
 {% endif %}
 ...

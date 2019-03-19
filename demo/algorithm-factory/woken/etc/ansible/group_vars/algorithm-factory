@@ -1,9 +1,24 @@
 ---
 
+# Memory and CPU settings
+
+# Amount of CPU reserved for chronos
 chronos_cpus: 0.2
+# Amount of memory in mb reserved for chronos
 chronos_mem: 512.0
 
 chronos_docker_parameters:
+  - key: 'add-host'
+    value: "demo:{{ vagrant_box_ip_address }}"
+  - key: 'add-host'
+    value: "demo.local:{{ vagrant_box_ip_address }}"
+
+# Amount of CPU reserved for woken validation
+woken_validation_cpus: 0.2
+# Amount of memory in mb reserved for woken validation
+woken_validation_mem: 512.0
+
+woken_validation_docker_parameters:
   - key: 'add-host'
     value: "demo:{{ vagrant_box_ip_address }}"
   - key: 'add-host'
@@ -20,13 +35,25 @@ woken_docker_parameters:
   - key: 'add-host'
     value: "demo.local:{{ vagrant_box_ip_address }}"
 
-# Amount of CPU reserved for woken validation
-woken_validation_cpus: 0.2
-# Amount of memory in mb reserved for woken validation
-woken_validation_mem: 512.0
+woken_default_job_mem: 1024
 
-woken_validation_docker_parameters:
-  - key: 'add-host'
-    value: "demo:{{ vagrant_box_ip_address }}"
-  - key: 'add-host'
-    value: "demo.local:{{ vagrant_box_ip_address }}"
+woken_node_name: "Demo"
+
+woken_datasets:
+  - name: desd-synthdata
+    label: "DESD"
+    description: "Demo dataset DESD"
+    tables: ["cde_features_a", "cde_features_mixed"]
+    anonymisationLevel: "Anonymised"
+  - name: nida-synthdata
+    label: "NIDA"
+    description: "Demo dataset NIDA"
+    tables: ["cde_features_b", "cde_features_mixed"]
+    anonymisationLevel: "Depersonalised"
+  - name: qqni-synthdata
+    label: "QQNI"
+    description: "Demo dataset QQNI"
+    tables: ["cde_features_c", "cde_features_mixed"]
+    anonymisationLevel: "Depersonalised"
+...
+
