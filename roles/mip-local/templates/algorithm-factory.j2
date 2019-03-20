@@ -85,7 +85,7 @@ woken_datasets:
     anonymisationLevel: Depersonalised
 {% endif %}
 
-tables:
+woken_tables:
 {% if setup_datasets == 'mip-standard' %}
   - name: mip_cde_features
     primaryKey:
@@ -108,7 +108,7 @@ tables:
         sqlType: "varchar"
     datasetColumn:
       name: "dataset"
-      sqlType: "varchar
+      sqlType: "varchar"
   - name: cde_features_a
     primaryKey:
       - name: "subjectcode"

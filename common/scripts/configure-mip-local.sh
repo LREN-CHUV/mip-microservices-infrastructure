@@ -465,9 +465,11 @@ fi
 echo
 echo "Generation of the standard configuration for MIP Local complete!"
 echo
-echo "You can review the configuration located in $(realpath "$ROOT/envs/mip-local/etc/ansible/")"
+echo "You can review the configuration located in directory"
+echo "  $(realpath "$ROOT/envs/mip-local/etc/ansible/")"
 echo "and customise it further for your environment and needs."
-echo "More information about the configuration settings can be found in"
+echo
+echo "More information about the configuration settings can be found in directory"
 echo "  $(realpath "$ROOT/docs/configuration/")"
 echo
 echo "Before starting the installation, please commit the configuration in Git:"

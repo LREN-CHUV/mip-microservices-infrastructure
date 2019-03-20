@@ -55,5 +55,35 @@ woken_datasets:
     description: "Demo dataset QQNI"
     tables: ["cde_features_c", "cde_features_mixed"]
     anonymisationLevel: "Depersonalised"
+
+woken_tables:
+  - name: cde_features_mixed
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar"
+  - name: cde_features_a
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar"
+  - name: cde_features_b
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar"
+  - name: cde_features_c
+    primaryKey:
+      - name: "subjectcode"
+        sqlType: "varchar"
+    datasetColumn:
+      name: "dataset"
+      sqlType: "varchar"
 ...
 

@@ -9,9 +9,8 @@ demo
 
 # Control node: one control node should be selected, not necessarily in the datacenter - it can be the local desktop -
 # but it should satisfy the following requirements:
-# - direct network access to all services on the datacenter, in particular the databases and Marathon
-# - Docker available on the control node
-# - Install required packages (docker-py, curl...) for proper function of the Ansible tasks
+# - It has a direct network access to all services on the datacenter, in particular the databases and Marathon
+# - We can install the required packages (docker-engine, docker-py, curl...) for proper function of the Ansible tasks
 [control]
 demo
 
@@ -54,14 +53,10 @@ demo
 
 # Algorithm Factory building block: define an 'algorithm-factory' group encompassing the configuration of the groups defined below
 [algorithm-factory:children]
-chronos
 woken-db
 woken
 woken-validation
-
-# Install Chronos
-[chronos]
-demo
+chronos
 
 # Install woken-database
 [woken-db]
@@ -73,6 +68,10 @@ demo
 
 # Install woken-validation
 [woken-validation]
+demo
+
+# Install chronos
+[chronos]
 demo
 
 # Web Analytics building block: define an 'web-analytics' group encompassing the configuration of the groups defined below
