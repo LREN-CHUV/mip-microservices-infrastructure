@@ -34,6 +34,8 @@ portal_backend_woken_env:
   WOKEN_PORT_8088_TCP_ADDR: '{{ woken_host }}'
   WOKEN_PORT_8088_TCP_PORT: '{{ woken_akka_port }}'
   WOKEN_AKKA_PATH: '{{ woken_akka_path }}'
+  RELEASE_STAGE: "{{ release_stage | default('testing') }}"
+  DATACENTER_LOCATION: "{{ portal_backend_marathon_host }}{% if mip_instance_name is defined and mip_instance_name %} at {{ mip_instance_name }}{% endif %}"
 
 portal_backend_other_env:
   LOGGING_LEVEL_WEB: '{{ portal_backend_logging_level_web }}'
