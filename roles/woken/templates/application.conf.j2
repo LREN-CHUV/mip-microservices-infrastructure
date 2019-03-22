@@ -60,8 +60,8 @@ db {
         ]
         {% if t.datasetColumn is defined %}
           datasetColumn = {
-            name = "{{ datasetColumn.name }}"
-            sqlType = "{{ datasetColumn.sqlType }}"
+            name = "{{ t.datasetColumn.name }}"
+            sqlType = "{{ t.datasetColumn.sqlType }}"
           }
         {% endif %}
       }
