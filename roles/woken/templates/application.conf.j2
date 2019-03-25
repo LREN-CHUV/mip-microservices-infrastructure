@@ -40,7 +40,7 @@ db {
     jdbc_driver = "{{ woken_features_db_jdbc_driver }}"
     jdbc_url = "{{ woken_features_db_jdbc_url }}"
     host = "{{ woken_features_db_host }}"
-    port = "{{ woken_features_db_port }}"
+    port = {{ woken_features_db_port }}
     user = "{{ woken_features_db_user }}"
     password = "{{ woken_features_db_password }}"
     database = "{{ woken_features_db_name }}"
