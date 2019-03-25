@@ -33,7 +33,7 @@ db {
     password = "{{ woken_result_db_password }}"
     database = "{{ woken_result_db_name }}"
     schema = "public"
-    pool_size = 5
+    pool_size = {{ woken_result_db_pool_size }}
   }
 
   {{ woken_features_db_name }} {
@@ -45,7 +45,7 @@ db {
     password = "{{ woken_features_db_password }}"
     database = "{{ woken_features_db_name }}"
     schema = "public"
-    pool_size = 5
+    pool_size = {{ woken_features_db_pool_size }}
 
     tables {
     {% for t in woken_tables %}
@@ -78,7 +78,7 @@ db {
     password = "{{ woken_metadata_db_password }}"
     database = "{{ woken_metadata_db_name }}"
     schema = "public"
-    pool_size = 3
+    pool_size = {{ woken_metadata_db_pool_size }}
   }
 
 }

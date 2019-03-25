@@ -9,8 +9,9 @@ woken_marathon_id: /algorithm-factory/woken
 # Location of the configuration directory
 woken_config_dir: /srv/docker/woken/config
 
-# Logging level: DEBUG, INFO, WARNING, ERROR
+# Logging level: DEBUG, INFO, WARN, ERROR
 woken_log_level: INFO
+woken_db_log_level: WARN
 
 woken_host: "{{ ansible_fqdn }}"
 # Port to use to expose woken to other services in the cluster.
@@ -62,6 +63,7 @@ woken_result_db_password: '{{ woken_db_password }}'
 woken_result_db_jdbc_url: '{{ woken_db_jdbc_url }}'
 woken_result_db_jdbc_driver: '{{ woken_db_jdbc_driver }}'
 woken_result_db_jdbc_jar: '{{ woken_db_jdbc_jar }}'
+woken_result_db_pool_size: 10
 
 # How woken connects to the LDSM database containing the data to process
 woken_features_db_port: '{{ ldsm_db_port }}'
@@ -72,6 +74,7 @@ woken_features_db_password: '{{ ldsm_db_password }}'
 woken_features_db_jdbc_url: '{{ ldsm_db_jdbc_url }}'
 woken_features_db_jdbc_driver: '{{ ldsm_db_jdbc_driver }}'
 woken_features_db_jdbc_jar: '{{ ldsm_db_jdbc_jar }}'
+woken_features_db_pool_size: 10
 
 woken_metadata_db_port: '{{ meta_db_port }}'
 woken_metadata_db_host: '{{ meta_db_host }}'
@@ -81,6 +84,7 @@ woken_metadata_db_password: '{{ meta_db_password }}'
 woken_metadata_db_jdbc_url: '{{ meta_db_jdbc_url }}'
 woken_metadata_db_jdbc_driver: '{{ meta_db_jdbc_driver }}'
 woken_metadata_db_jdbc_jar: '{{ meta_db_jdbc_jar }}'
+woken_metadata_db_pool_size: 8
 
 woken_default_job_cpus: 0.5
 woken_default_job_mem: 512
@@ -126,7 +130,8 @@ woken_env:
   WOKEN_PORT_8088_TCP_ADDR: "{{ woken_host }}"
   WOKEN_PORT_8088_TCP_PORT: "{{ woken_akka_port }}"
   DOCKER_BRIDGE_NETWORK: "{{ woken_docker_bridge_network }}"
-  LOG_LEVEL: DEBUG
+  LOG_LEVEL: "{{ woken_log_level }}"
+  DB_LOG_LEVEL: "{{ woken_db_log_level }}"
   KAMON_ENABLED: "no"
   ZIPKIN_ENABLED: "no"
   PROMETHEUS_ENABLED: "no"
