@@ -436,7 +436,7 @@ if [ "$installation_level" == "Production" ]; then
     if [ -x /usr/bin/apt-get ]; then
       sudo apt-get -y remove haveged
     else
-      sudo yum -y uninstall haveged
+      sudo yum -y remove haveged
     fi
   )
 
