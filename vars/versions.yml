@@ -13,7 +13,7 @@ zookeeper_debian_package_version: "1"
 mesos_version: "1.5.0"
 mesos_package_version: "2.0.1"
 mesos_ui_version: "standalone-0.1.4"
-marathon_version: "{% if ansible_os_family == 'RedHat' %}1.4.12{% else %}1.6.352{% endif %}"
+marathon_version: "{% if ansible_os_family == 'RedHat' %}1.4.12{% else %}1.6.549{% endif %}"
 chronos_version: "3.0.2-5"
 caddy_version: "0.10.10-5"
 
@@ -37,11 +37,14 @@ woken_db_setup_version: '1.3.3'
 
 # Reference data
 
-mip_cde_meta_db_setup_version: '1.3.4'
+mip_cde_meta_db_setup_version: '1.3.5'
 
-adni_merge_db_setup_version: '1.5.5'
-edsd_data_db_setup_version: '1.4.4'
-ppmi_data_db_setup_version: '1.1.4'
+adni_merge_db_setup_version: '1.6.1'
+edsd_data_db_setup_version: '1.5.1'
+ppmi_data_db_setup_version: '1.2.1'
+
+fbf_data_db_setup_version: '0.3.0'
+fbf_meta_db_setup_version: '0.3.2'
 
 sample_meta_db_setup_version: '0.6.1'
 sample_data_db_setup_version: '0.6.2'
