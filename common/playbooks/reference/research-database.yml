@@ -25,7 +25,7 @@
 
   - name: Add predefined data to research setup
     set_fact:
-      research_db_docker_setup: "{{ predefined_research_db_docker_setup | union(research_db_docker_setup | default([])) }}"
+      research_db_docker_setup: "{{ research_db_docker_setup | default([]) | union(predefined_research_db_docker_setup) }}"
     when: research_add_predefined_datasets
     tags: ['research-database', 'research-db', 'database', 'reference', 'marathon-app']
 

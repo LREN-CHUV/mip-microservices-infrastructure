@@ -57,7 +57,7 @@
     env:
       FLYWAY_DBMS: postgresql
       FLYWAY_HOST: '{{ woken_db_host }}'
-      FLYWAY_PORT: '{{ woken_db_port }}'
+      FLYWAY_PORT: '{{ woken_db_port | string }}'
       FLYWAY_DATABASE_NAME: '{{ woken_db_name }}'
       FLYWAY_SCHEMAS: "public"
       FLYWAY_USER: '{{ woken_db_admin_user }}'

@@ -14,7 +14,7 @@ predefined_ldsm_db_docker_setup:
     env:
       FLYWAY_DBMS: postgresql
       FLYWAY_HOST: '{{ ldsm_db_host }}'
-      FLYWAY_PORT: '{{ ldsm_db_port }}'
+      FLYWAY_PORT: '{{ ldsm_db_port | string }}'
       FLYWAY_DATABASE_NAME: '{{ ldsm_db_name }}'
       FLYWAY_SCHEMAS: "public"
       FLYWAY_USER: '{{ ldsm_db_admin_user }}'
