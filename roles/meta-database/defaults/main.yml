@@ -62,7 +62,7 @@ meta_db_docker_registries: []
 #   password: mypassword
 
 meta_db_docker_setup: []
-#  - image: hbpmip/mip-cde-meta-db-setup:1.3.3
+#  - image: hbpmip/mip-cde-meta-db-setup:1.3.5
 #    command: migrate
 #    env:
 #      FLYWAY_DBMS: postgresql
