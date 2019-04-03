@@ -52,4 +52,3 @@ portal_frontend_env:
   VERSION: '{{ mip_version }}'
   INSTANCE_NAME: '{{ portal_frontend_instance_name }}'
   MODE: '{{ portal_frontend_mode }}'
-

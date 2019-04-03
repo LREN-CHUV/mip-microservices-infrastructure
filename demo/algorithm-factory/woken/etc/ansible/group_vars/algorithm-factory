@@ -87,4 +87,3 @@ woken_tables:
       name: "dataset"
       sqlType: "varchar"
 ...
-
