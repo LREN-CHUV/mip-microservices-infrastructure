@@ -1,8 +1,0 @@
----
-#
-# Master Install
-#
-# Installs _the_ world
-#
-
-- import_playbook: "{{ play_dir }}/common/playbooks/all.yml"

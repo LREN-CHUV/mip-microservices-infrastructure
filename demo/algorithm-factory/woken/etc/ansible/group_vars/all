@@ -3,7 +3,7 @@
 # Select where data features are coming from: ldms-db or research-db
 features_from: 'research-db'
 # Use mip_cde_features to see only research data, otherwise use mip_local_features
-features_table: 'cde_features_mixed'
+features_table: 'mip_cde_features'
 # Setup the standard research datasets into research-db (when features_from = 'research-db'), otherwise ldsm-db
 # Valid values are 'mip-standard', 'sample' or 'none'
 setup_research_datasets: 'sample'

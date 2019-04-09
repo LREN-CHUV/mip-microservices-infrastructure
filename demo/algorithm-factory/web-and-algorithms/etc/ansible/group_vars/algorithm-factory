@@ -44,21 +44,21 @@ woken_datasets:
   - name: desd-synthdata
     label: "DESD"
     description: "Demo dataset DESD"
-    tables: ["cde_features_a", "cde_features_mixed"]
+    tables: ["cde_features_a", "mip_cde_features"]
     anonymisationLevel: "Anonymised"
   - name: nida-synthdata
     label: "NIDA"
     description: "Demo dataset NIDA"
-    tables: ["cde_features_b", "cde_features_mixed"]
+    tables: ["cde_features_b", "mip_cde_features"]
     anonymisationLevel: "Depersonalised"
   - name: qqni-synthdata
     label: "QQNI"
     description: "Demo dataset QQNI"
-    tables: ["cde_features_c", "cde_features_mixed"]
+    tables: ["cde_features_c", "mip_cde_features"]
     anonymisationLevel: "Depersonalised"
 
 woken_tables:
-  - name: cde_features_mixed
+  - name: mip_cde_features
     primaryKey:
       - name: "subjectcode"
         sqlType: "varchar"

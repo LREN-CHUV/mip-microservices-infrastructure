@@ -48,8 +48,8 @@ clm_data_db_setup_version: '1.2.3'
 fbf_data_db_setup_version: '0.3.1'
 fbf_meta_db_setup_version: '0.3.2'
 
-sample_meta_db_setup_version: '0.6.1'
-sample_data_db_setup_version: '0.6.2'
+sample_meta_db_setup_version: '0.7.1'
+sample_data_db_setup_version: '0.7.0'
 
 # Data factory
 airflow_version: '1.10.2'

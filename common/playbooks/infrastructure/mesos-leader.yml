@@ -26,6 +26,12 @@
       when: skipped_roles is not defined
       tags: ['mesos', 'container-platforms', 'infra', 'infrastructure']
 
+    - name: Check mesos_zk_hosts
+      fail:
+        msg: "Configuration variable mesos_zk_hosts should not contain 'localhost', value was {{ mesos_zk_hosts }}"
+      when: mesos_zk_hosts is search('localhost')
+
+
   roles:
 
     - role: mesos

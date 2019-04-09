@@ -1,5 +1,10 @@
 ---
 
+mesos_cluster: "my_cluster"
+
 docker_options:
   - "--dns 192.168.83.73"
   - "--log-driver=journald"
+
+skipped_roles:
+  - reverse_proxy

@@ -3,13 +3,12 @@
 # Select where data features are coming from: ldms-db or research-db
 features_from: 'research-db'
 # Use mip_cde_features to see only research data, otherwise use mip_local_features
-# PostgresRAW used in LDSM database does not yet support merging research data with clinical data
-features_table: 'sample_data'
-# Setup the standard research datasets into research-db (when features_from = 'research-db'). otherwise ldsm-db
-# Valid values are 'mip-standard', 'sample' or ''
+features_table: 'mip_cde_features'
+# Setup the standard research datasets into research-db (when features_from = 'research-db'), otherwise ldsm-db
+# Valid values are 'mip-standard', 'sample' or 'none'
 setup_research_datasets: 'sample'
 # Setup some pre-defined metadata
-# Valid values are 'mip-standard', 'sample' or ''
+# Valid values are 'mip-standard', 'sample' or 'none'
 setup_meta_datasets: 'sample'
 
 # List of databases to collocate and install on the Research db server
@@ -17,6 +16,9 @@ research_db_companion_bases:
   - meta-db
   - woken-db
   - portal-db
+
+mip_instance_name: 'Vagrant demo'
+release_stage: 'testing'
 
 # Enable user login with HBP OpenID service
 portal_backend_security_enabled: no
@@ -27,3 +29,5 @@ portal_frontend_virtual_host: "localhost"
 
 python_location: '/usr/bin/python3'
 python_pip: '/usr/bin/pip3'
+
+...
