@@ -10,3 +10,5 @@
 - import_playbook: ../../common/playbooks/reference/setup.yml
 
 - import_playbook: ../../common/playbooks/algorithm-factory/setup.yml
+
+- import_playbook: ../../common/playbooks/web-analytics/setup.yml

@@ -3,6 +3,9 @@
 portal_backend_cpus: 0.2
 portal_backend_mem: 1024.0
 
+# Enable user login with HBP OpenID service
+portal_backend_security_enabled: no
+
 # Additional parameters for Docker
 portal_backend_docker_parameters:
   - key: 'add-host'

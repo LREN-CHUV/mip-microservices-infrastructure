@@ -27,6 +27,12 @@ portal_frontend_base_url: "http://localhost:10080"
 # The virtualhost domain to register in Nginx reverse proxy.
 portal_frontend_virtual_host: "localhost"
 
+# Either "local" or "federation", default to "local"
+portal_frontend_mode: 'local'
+
+# Name of the instance deployed
+portal_frontend_instance_name: 'Demo'
+
 python_location: '/usr/bin/python3'
 python_pip: '/usr/bin/pip3'
 

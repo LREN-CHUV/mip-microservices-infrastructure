@@ -82,12 +82,12 @@ portal-frontend
 
 # Install portal-database
 [portal-db]
-demo
+# none
 
 # Install portal-backend
 [portal-backend]
-demo
+# none
 
 # Install portal-frontend
 [portal-frontend]
-demo
+# none

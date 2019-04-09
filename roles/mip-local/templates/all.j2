@@ -1,5 +1,8 @@
 ---
 
+mip_instance_name: '{{ mip_instance_name }}'
+release_stage: '{{ installation_level }}'
+
 {% if 'wa' in mip_building_blocks or 'af' in mip_building_blocks or 'hdb' in mip_building_blocks or 'ref' in mip_building_blocks %}
 # Select where data features are coming from: ldms-db or research-db
 features_from: '{{ features_from }}'
@@ -70,8 +73,5 @@ portal_frontend_mode: 'local'
 # Name of the instance deployed
 portal_frontend_instance_name: '{{ mip_instance_name }}'
 {% endif %}
-
-mip_instance_name: '{{ mip_instance_name }}'
-release_stage: '{{ installation_level }}'
 
 ...
