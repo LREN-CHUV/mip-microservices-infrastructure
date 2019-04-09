@@ -76,6 +76,13 @@ $server_alias ansible_connection=local
 [managed]
 $server_alias
 EOF
+          sudo -k
+          if sudo -n /bin/ls > /dev/null 2>&1; then
+            ANSIBLE_OPTS+=("--become")
+          else
+            ANSIBLE_OPTS+=("--become")
+            ANSIBLE_OPTS+=("--ask-become-pass")
+          fi
           ;;
       "A remote server")
           echo
@@ -96,29 +103,28 @@ $server_dns ansible_connection=ssh ansible_ssh_host=$server_dns ansible_ssh_user
 [managed]
 $server_dns
 EOF
+          echo
+          echo "Does sudo on $target requires a password?"
+          PS3="> "
+          options=("yes" "no")
+          select sudo_pwd in "${options[@]}";
+          do
+            case "$sudo_pwd" in
+                "yes")
+                    ANSIBLE_OPTS+=("--become")
+                    ANSIBLE_OPTS+=("--ask-become-pass")
+                    ;;
+                "no")
+                    ANSIBLE_OPTS+=("--become")
+                    ;;
+                  *)
+                    echo invalid option
+                    exit 1
+                    ;;
+            esac
+            break
+          done
           # TODO: ping the remote server using ansible ping
-          ;;
-        *)
-          echo invalid option
-          exit 1
-          ;;
-  esac
-  break
-done
-
-echo
-echo "Does sudo on $target requires a password?"
-PS3="> "
-options=("yes" "no")
-select sudo_pwd in "${options[@]}";
-do
-  case "$sudo_pwd" in
-      "yes")
-          ANSIBLE_OPTS+=("--become")
-          ANSIBLE_OPTS+=("--ask-become-pass")
-          ;;
-      "no")
-          ANSIBLE_OPTS+=("--become")
           ;;
         *)
           echo invalid option
