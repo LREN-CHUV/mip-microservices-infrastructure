@@ -11,7 +11,14 @@ woken_config_dir: /srv/docker/woken/config
 
 # Logging level: DEBUG, INFO, WARN, ERROR
 woken_log_level: INFO
+woken_global_log_level: INFO
 woken_db_log_level: WARN
+woken_akka_cluster_log_level: INFO
+woken_akka_remote_log_level: INFO
+woken_akka_http_log_level: INFO
+woken_akka_io_log_level: INFO
+woken_akka_stream_log_level: INFO
+woken_netty_level: ERROR
 
 woken_host: "{{ ansible_fqdn }}"
 # Port to use to expose woken to other services in the cluster.
@@ -130,8 +137,15 @@ woken_env:
   WOKEN_PORT_8088_TCP_ADDR: "{{ woken_host }}"
   WOKEN_PORT_8088_TCP_PORT: "{{ woken_akka_port }}"
   DOCKER_BRIDGE_NETWORK: "{{ woken_docker_bridge_network }}"
-  LOG_LEVEL: "{{ woken_log_level }}"
+  LOG_LEVEL: "{{ woken_global_log_level }}"
+  WOKEN_LOG_LEVEL: "{{ woken_log_level }}"
   DB_LOG_LEVEL: "{{ woken_db_log_level }}"
+  AKKA_CLUSTER_LOG_LEVEL: '{ woken_akka_cluster_log_level }'
+  AKKA_REMOTE_LOG_LEVEL: '{ woken_akka_remote_log_level }'
+  AKKA_HTTP_LOG_LEVEL: '{ woken_akka_http_log_level }'
+  AKKA_IO_LOG_LEVEL: '{woken_akka_io_log_level  }'
+  AKKA_STREAM_LOG_LEVEL: '{ woken_akka_stream_log_level }'
+  NETTY_LOG_LEVEL: '{ woken_netty_level }'
   KAMON_ENABLED: "no"
   ZIPKIN_ENABLED: "no"
   PROMETHEUS_ENABLED: "no"
@@ -141,22 +155,6 @@ woken_env:
   DATACENTER_LOCATION: "{{ woken_marathon_host }}{% if mip_instance_name is defined and mip_instance_name %} at {{ mip_instance_name }}{% endif %}"
 
 woken_features_table: '{{ features_table }}'
-woken_algorithms:
-  - name: histograms
-    docker_image: "hbpmip/python-histograms:latest"
-    predictive: false
-  - name: statisticsSummary
-    docker_image: "hbpmip/r-summary-stats:latest"
-    predictive: false
-  - name: linearRegression
-    docker_image: "hbpmip/r-linear-regression:latest"
-    predictive: false
-  - name: anova
-    docker_image: "hbpmip/r-linear-regression:latest"
-    predictive: false
-  - name: knn
-    docker_image: "hbpmip/java-rapidminer-knn:latest"
-    predictive: true
-  - name: naiveBayes
-    docker_image: "hbpmip/java-rapidminer-naivebayes:latest"
-    predictive: true
+
+# Algorithms are now predefined in Woken internal config, override here if required
+woken_algorithms: []
