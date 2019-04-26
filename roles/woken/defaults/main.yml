@@ -140,12 +140,12 @@ woken_env:
   LOG_LEVEL: "{{ woken_global_log_level }}"
   WOKEN_LOG_LEVEL: "{{ woken_log_level }}"
   DB_LOG_LEVEL: "{{ woken_db_log_level }}"
-  AKKA_CLUSTER_LOG_LEVEL: '{ woken_akka_cluster_log_level }'
-  AKKA_REMOTE_LOG_LEVEL: '{ woken_akka_remote_log_level }'
-  AKKA_HTTP_LOG_LEVEL: '{ woken_akka_http_log_level }'
-  AKKA_IO_LOG_LEVEL: '{woken_akka_io_log_level  }'
-  AKKA_STREAM_LOG_LEVEL: '{ woken_akka_stream_log_level }'
-  NETTY_LOG_LEVEL: '{ woken_netty_level }'
+  AKKA_CLUSTER_LOG_LEVEL: '{{ woken_akka_cluster_log_level }}'
+  AKKA_REMOTE_LOG_LEVEL: '{{ woken_akka_remote_log_level }}'
+  AKKA_HTTP_LOG_LEVEL: '{{ woken_akka_http_log_level }}'
+  AKKA_IO_LOG_LEVEL: '{{ woken_akka_io_log_level }}'
+  AKKA_STREAM_LOG_LEVEL: '{{ woken_akka_stream_log_level }}'
+  NETTY_LOG_LEVEL: '{{ woken_netty_level }}'
   KAMON_ENABLED: "no"
   ZIPKIN_ENABLED: "no"
   PROMETHEUS_ENABLED: "no"
