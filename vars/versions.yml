@@ -28,7 +28,7 @@ nginx_official_repo: True
 # Versions of our Docker containers
 portal_frontend_version: "2.16.5"
 portal_backend_version: "3.0.0"
-woken_version: "3.0.0"
+woken_version: "3.0.2"
 # Do not override versions of algorithms, they are already defined in Woken
 woken_algorithms: []
 
@@ -47,6 +47,9 @@ clm_meta_db_setup_version: '1.5.4'
 clm_data_db_setup_version: '1.2.3'
 fbf_data_db_setup_version: '0.3.1'
 fbf_meta_db_setup_version: '0.3.2'
+
+hospitals_meta_db_setup_version: '0.2.0'
+hospitals_data_db_setup_version: '0.2.0'
 
 sample_meta_db_setup_version: '0.7.1'
 sample_data_db_setup_version: '0.7.0'
