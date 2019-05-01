@@ -36,7 +36,7 @@ ansible-playbook --ask-become-pass -i "envs/$DATACENTER/etc/ansible/" \
 
 [ -f slack.json ] && (
   # shellcheck disable=SC2086
-  : ${SLACK_USER_NAME:=$USER}
+  : "${SLACK_USER_NAME:=$USER}"
 
   # shellcheck disable=SC1091
   source ./common/lib/slack-helper.sh

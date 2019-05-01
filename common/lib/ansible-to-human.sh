@@ -7,12 +7,12 @@ PLAYBOOK_COMPONENTS="All"
 PLAYBOOK_HOSTS=""
 skip_tags=""
 
-while [ ! -z "$1" ]; do
+while [ -n "$1" ]; do
     case "$1" in
         --tags=*)
             tags="${1#*=}"
             PLAYBOOK_COMPONENTS="$tags"
-            if [ ! -z "$skip_tags" ]; then
+            if [ -n "$skip_tags" ]; then
               PLAYBOOK_COMPONENTS="$PLAYBOOK_COMPONENTS except $skip_tags"
             fi
             break
