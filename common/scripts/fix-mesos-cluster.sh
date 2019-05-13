@@ -41,8 +41,8 @@ if [ "$1" = "--reset" ]; then
   read -p "> "
 fi
 
-ANSIBLE_ARGS=
-if [ "$(hostname)" != "$LOCAL_HOSTNAME" ]; then
+ANSIBLE_ARGS="-e ansible_connection=local"
+if [ "$(hostname)" != "$HOSTNAME" ]; then
   ANSIBLE_ARGS="-e ansible_connection=ssh"
 fi
 

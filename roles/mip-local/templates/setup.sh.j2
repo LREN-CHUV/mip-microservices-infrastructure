@@ -34,8 +34,8 @@ git-crypt unlock
 echo
 echo "Installing the MIP..."
 
-ANSIBLE_ARGS=
-if [ "$(hostname)" != "$LOCAL_HOSTNAME" ]; then
+ANSIBLE_ARGS="-e ansible_connection=local"
+if [ "$(hostname)" != "$HOSTNAME" ]; then
   ANSIBLE_ARGS="-e ansible_connection=ssh"
 fi
 

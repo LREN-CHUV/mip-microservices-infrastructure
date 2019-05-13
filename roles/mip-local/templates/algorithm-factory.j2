@@ -48,17 +48,17 @@ woken_datasets:
   - name: adni
     description: ADNI dataset
     label: ADNI
-    tables: {% if  only_research_data%}["mip_cde_features"]{% else %}[ "mip_cde_features", "mip_local_features"]{% endif %}
+    tables: [{% if  only_research_data%}"mip_cde_features"{% else %}"mip_cde_features", "mip_local_features"{% endif %}]
     anonymisationLevel: Anonymised
   - name: ppmi
     description: PPMI dataset
     label: PPMI
-    tables: {% if  only_research_data%}["mip_cde_features"]{% else %}[ "mip_cde_features", "mip_local_features"]{% endif %}
+    tables: [{% if  only_research_data%}"mip_cde_features"{% else %}"mip_cde_features", "mip_local_features"{% endif %}]
     anonymisationLevel: Anonymised
   - name: edsd
     description: EDSD dataset
     label: EDSD
-    tables: {% if  only_research_data%}["mip_cde_features"]{% else %}[ "mip_cde_features", "mip_local_features"]{% endif %}
+    tables: [{% if  only_research_data%}"mip_cde_features"{% else %}"mip_cde_features", "mip_local_features"{% endif %}]
     anonymisationLevel: Anonymised
 {% elif setup_datasets == 'sample' %}
   - name: desd-synthdata
@@ -81,7 +81,7 @@ woken_datasets:
   - name: {{ main_dataset_id }}
     description: "{{ main_dataset_label }}"
     label: "{{ main_dataset_label }}"
-    tables: {% if setup_datasets == 'mip-standard' %}["mip_cde_features","mip_local_features"]{% else %}["mip_local_features"]{% endif %}
+    tables: [{% if setup_datasets == 'mip-standard' %}"mip_cde_features", "mip_local_features"{% else %}"mip_local_features"{% endif %}]
     anonymisationLevel: Depersonalised
 {% endif %}
 
@@ -94,6 +94,7 @@ woken_tables:
     datasetColumn:
       name: "dataset"
       sqlType: "varchar"
+{% if not only_research_data%}
   - name: mip_local_features
     primaryKey:
       - name: "subjectcode"
@@ -101,6 +102,7 @@ woken_tables:
     datasetColumn:
       name: "dataset"
       sqlType: "varchar"
+{% endif %}
 {% elif setup_datasets == 'sample' %}
   - name: mip_cde_features
     primaryKey:
