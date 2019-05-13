@@ -451,9 +451,7 @@ if [ "$installation_level" == "Production" ]; then
     git config user.email "deployment@script"
     git config user.name "deployment@script"
   fi
-  # TODO: if multiple private keys exist then ask which one should be used
-  # Note: currently adds all private keys
-  gpg --list-secret-keys | grep -o "\w\{40\}" | while read keyid; do
+  gpg --list-secret-keys | grep '^uid' | sed s/'.*<\(.*\)>'/'\1'/ | while read keyid; do
     git-crypt add-gpg-user "$keyid"
   done
 
