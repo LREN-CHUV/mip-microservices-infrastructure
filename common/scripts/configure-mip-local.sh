@@ -451,7 +451,7 @@ if [ "$installation_level" == "Production" ]; then
     git config user.email "deployment@script"
     git config user.name "deployment@script"
   fi
-  gpg --list-secret-keys | grep '^uid' | sed s/'uid\s\+\(.*\)'/'\1'/ | while read keyid; do
+  gpg --list-secret-keys | grep '^uid' | sed s/'.*<\(.*\)>'/'\1'/ | while read keyid; do
     git-crypt add-gpg-user "$keyid"
   done
 
