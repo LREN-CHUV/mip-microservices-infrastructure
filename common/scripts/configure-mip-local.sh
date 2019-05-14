@@ -446,6 +446,22 @@ if [ "$installation_level" == "Production" ]; then
     fi
   )
 
+  command -v git-crypt > /dev/null || (
+    echo "Installing git-crypt..."
+    if [ -x /usr/bin/apt-get ]; then
+      sudo apt-get -y install git-crypt
+    else
+      echo "NOTE: git-crypt not available via yum -> Building from sources..."
+      sudo yum -y install gcc-c++ openssl-devel openssl
+      git clone https://github.com/AGWA/git-crypt.git
+      cd git-crypt || exit
+      make
+      sudo make install
+      cd ..
+      rm -rf git-crypt
+    fi
+  )
+
   [ -d .git/git-crypt ] || git-crypt init
   if [ -z "$(git config user.email)" ]; then
     git config user.email "deployment@script"
