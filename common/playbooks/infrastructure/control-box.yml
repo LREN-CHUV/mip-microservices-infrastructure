@@ -46,6 +46,7 @@
         - gcc
         - openssl-devel
         - curl
+        - postgresql-devel
       when: ansible_os_family == 'RedHat'
       tags: ['os-tools', 'control', 'infra', 'infrastructure']
       notify:
