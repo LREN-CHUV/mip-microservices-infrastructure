@@ -23,6 +23,8 @@ Demonstrations are available for the various building blocks managed by this inf
 * [Algorithm Factory + Web Analytics](demo/algorithm-factory/algorithm-factory/web-and-algorithms/README.md)
 * [Woken](demo/algorithm-factory/woken/README.md)
 
+An other option is to use docker-compose and the [Web Analytics demo](https://github.com/HBPMedical/web-analytics-demo) project where you can test the MIP software on a Linux machine.
+
 ## Data factory
 
 * [Airflow](demo/data-factory/airflow/README.md)
