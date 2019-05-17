@@ -10,10 +10,6 @@
 	path = roles/marathon-app
 	url = https://github.com/ludovicc/ansible-marathon_app.git
 	branch = master
-[submodule "roles/maven"]
-	path = roles/maven
-	url = https://github.com/ludovicc/ansible-maven.git
-	branch = master
 [submodule "roles/silpion.util"]
 	path = roles/silpion.util
 	url = https://github.com/LREN-CHUV/ansible-util.git
@@ -50,12 +46,6 @@
 [submodule "roles/firewall"]
 	path = roles/firewall
 	url = https://github.com/HanXHX/ansible-firewall.git
-[submodule "roles/letsencrypt"]
-	path = roles/letsencrypt
-	url = https://github.com/andreaswolf/ansible-role-letsencrypt.git
-[submodule "roles/docker-compose"]
-	path = roles/docker-compose
-	url = https://github.com/tumf/ansible-role-docker-compose
 [submodule "roles/silpion.lib"]
 	path = roles/silpion.lib
 	url = https://github.com/silpion/ansible-lib.git
@@ -83,3 +73,6 @@
 [submodule "roles/ssh-hardening"]
 	path = roles/ssh-hardening
 	url = https://github.com/dev-sec/ansible-ssh-hardening.git
+[submodule "roles/docker-compose"]
+	path = roles/docker-compose
+	url = https://github.com/LREN-CHUV/ansible-role-docker-compose.git
