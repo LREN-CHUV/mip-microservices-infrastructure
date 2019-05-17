@@ -2,7 +2,7 @@
 
 # Microservice infrastructure
 
-__Current version: [![2.8.5](https://img.shields.io/badge/download-2.8.5-blue.svg)](https://github.com/HBPMedical/mip-microservices-infrastructure/archive/2.8.5.zip)__
+__Current version: [![3.0.0](https://img.shields.io/badge/download-3.0.0-blue.svg)](https://github.com/HBPMedical/mip-microservices-infrastructure/archive/3.0.0.zip)__
 
 This project contains the generic version of Ansible roles and playbooks to install, upgrade, and manage the [HBP Medical Informatics Platform](https://www.humanbrainproject.eu/en/medicine/).
 
