@@ -59,21 +59,6 @@ metrics
 [metrics]
 # none
 
-{% if 'hdb' in mip_building_blocks %}
-# Hospital database building block: define a 'hospital-database' group encompassing the configuration of the groups defined below
-[hospital-database:children]
-ldsm-db
-postgresraw-ui
-
-# Install PostgresRAW
-[ldsm-db]
-{{ target_server }}
-
-# Install PostgresRAW-UI
-[postgresraw-ui]
-{{ target_server }}
-
-{% endif %}
 {% if 'ref' in mip_building_blocks %}
 # Reference building block: define a 'reference' group encompassing the configuration of the groups defined below
 [reference:children]
