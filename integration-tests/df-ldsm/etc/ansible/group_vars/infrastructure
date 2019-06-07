@@ -1,7 +1,0 @@
----
-
-docker_options:
-  - "--dns 192.168.33.66"
-  - "--log-driver=journald"
-
-...

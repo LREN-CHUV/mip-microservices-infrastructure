@@ -44,14 +44,6 @@
     - all
     - infrastructure
 
-- name: Generate group_vars files for Hospital Database
-  template:
-    src: "{{ item }}.j2"
-    dest: "{{ play_dir }}/envs/mip-local/etc/ansible/group_vars/{{ item }}"
-  with_items:
-    - hospital-database
-  when: "'hdb' in mip_building_blocks"
-
 - name: Generate group_vars files for Reference databases
   template:
     src: "{{ item }}.j2"

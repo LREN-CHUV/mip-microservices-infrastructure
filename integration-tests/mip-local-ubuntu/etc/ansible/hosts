@@ -38,19 +38,6 @@ demo
 [mesos-follower]
 # none
 
-# Hospital database building block: define a 'hospital-database' group encompassing the configuration of the groups defined below
-[hospital-database:children]
-ldsm-db
-postgresraw-ui
-
-# Install PostgresRAW
-[ldsm-db]
-demo
-
-# Install PostgresRAW-UI
-[postgresraw-ui]
-demo
-
 # Data Factory building block: define a 'data-factory' group encompassing the configuration of the groups defined below
 [data-factory:children]
 airflow-master

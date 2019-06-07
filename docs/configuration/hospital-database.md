@@ -9,27 +9,6 @@ The Hospital Database building block contains the following software components:
 * Exareme: A distributed and virtual database with analytics capabilities.
 * WebMIPMap
 
-## ENV/etc/ansible/hosts
-
-```ini
-
-# Hospital database building block: define a 'hospital-database' group encompassing the configuration of the groups defined below
-[hospital-database:children]
-ldsm-db
-postgresraw-ui
-
-# Install PostgresRAW
-[ldsm-db]
-demo
-
-# Install PostgresRAW-UI
-[postgresraw-ui]
-demo
-
-```
-
-## Mandatory variables
-
 ### ENV/etc/ansible/group_vars/all
 
 ```
@@ -55,26 +34,5 @@ ldsm_db_admin_password:
 ldsm_db_password:
 # Required when ldsm-db is deployed as an independent database
 ldsm_db_admin_password:
-
-```
-
-## Optional variables
-
-### ENV/etc/ansible/group_vars/hospital-database
-
-```
-
-ldsm_db_raw_data_dir_override:
-
-ldsm_db_cpus: 0.2
-ldsm_db_mem: 128.0
-
-# Force cleanup of the LDSM database. Please never use that in production!
-ldsm_db_cleanup: false
-
-# Amount of CPU reserved for PostgresRAW UI
-postgresraw_ui_cpus: 0.2
-# Amount of memory in mb reserved for PostgresRAW UI
-postgresraw_ui_mem: 100.0
 
 ```
