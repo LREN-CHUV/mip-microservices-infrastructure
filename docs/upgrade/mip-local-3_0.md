@@ -11,7 +11,7 @@ Update the code in the local infrastructure project to MIP 3.0 by merging its co
   git fetch --tags mmsi master
   git merge 3.0.1
   # Deal with merge issues
-  rm -rf roles/letsencrypt/ roles/maven/
+  rm -rf roles/letsencrypt/ roles/maven/ roles/nodejs
   ./after-update.sh
   git commit
 ```
