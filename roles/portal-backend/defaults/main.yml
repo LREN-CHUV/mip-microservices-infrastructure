@@ -61,6 +61,7 @@ portal_backend_dependencies:
   - "{{ portal_db_marathon_id }}"
 
 portal_backend_security_enabled: false
+portal_backend_workflow_enabled: false
 
 #portal_backend_hbp_client_id:
 #portal_backend_hbp_client_secret:
@@ -73,7 +74,6 @@ woken_akka_port: '8088'
 woken_akka_path: '/user/entrypoint'
 
 portal_backend_exareme_url: 'http://hbps2.chuv.ch:9090'
-portal_backend_workflow_url: 'http://hbps2.chuv.ch:8080/Gateway_API-1.0.0-SNAPSHOT/api'
 
 portal_backend_env:
   PORTAL_DB_URL: "{{ portal_db_jdbc_url }}"

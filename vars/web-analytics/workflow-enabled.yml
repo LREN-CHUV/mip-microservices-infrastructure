@@ -1,0 +1,5 @@
+---
+
+portal_backend_workflow_env:
+  WORKFLOW_URL: '{{ portal_backend_workflow_url }}'
+  WORKFLOW_AUTHORIZATION: '{{ portal_backend_workflow_authorization }}'

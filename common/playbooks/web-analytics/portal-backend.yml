@@ -12,6 +12,7 @@
     - "{{ play_dir }}/vars/web-analytics/endpoints.yml"
     - "{{ play_dir }}/vars/web-analytics/features-from-{{ portal_backend_features_from }}.yml"
     - "{{ play_dir }}/vars/web-analytics/security-{{ 'en' if portal_backend_security_enabled else 'dis' }}abled.yml"
+    - "{{ play_dir }}/vars/web-analytics/workflow-{{ 'en' if portal_backend_workflow_enabled else 'dis' }}abled.yml"
     - "{{ play_dir }}/vars/web-analytics/portal-backend.yml"
 
   roles:

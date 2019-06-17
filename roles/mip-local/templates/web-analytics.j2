@@ -13,6 +13,7 @@ portal_frontend_google_analytics: true
 
 # Enable user login with HBP OpenID service
 portal_backend_security_enabled: {% if portal_backend_hbp_client_id is defined and portal_backend_hbp_client_id %}yes{% else %}no{% endif %}
+portal_backend_workflow_enabled: {% if portal_backend_workflow_url is defined and portal_backend_workflow_url %}yes{% else %}no{% endif %}
 
 {% if docker_force_add_host %}
 portal_backend_docker_parameters:
