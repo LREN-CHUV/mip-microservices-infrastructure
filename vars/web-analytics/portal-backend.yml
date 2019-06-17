@@ -46,5 +46,7 @@ portal_backend_other_env:
   FRONTEND_AFTER_LOGIN_URL: '{{ portal_backend_frontend_after_login_url }}'
   FRONTEND_AFTER_LOGOUT_URL: '{{ portal_backend_frontend_after_logout_url }}'
   EXAREME_URL: '{{ portal_backend_exareme_url }}'
+  WORKFLOW_URL: '{{ portal_backend_workflow_url }}'
+  WORKFLOW_AUTHORIZATION: '{{ portal_backend_workflow_authorization }}'
 
 portal_backend_env: "{{ portal_backend_db_env | combine(portal_backend_db_meta_env, portal_backend_features_env, portal_backend_woken_env, portal_backend_security_env, portal_backend_other_env) }}"

@@ -24,8 +24,8 @@ postgres_jdbc_driver: postgresql-9.3-1103.jdbc41.jar
 nginx_official_repo: True
 
 # Versions of our Docker containers
-portal_frontend_version: "4.0.0-alpha.5"
-portal_backend_version: "4.0.0-alpha.1"
+portal_frontend_version: "4.0.0-alpha.10"
+portal_backend_version: "4.0.0-alpha.2"
 woken_version: "3.0.2"
 # Do not override versions of algorithms, they are already defined in Woken
 woken_algorithms: []

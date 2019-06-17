@@ -50,5 +50,10 @@ portal_backend_hbp_client_id: '{{ portal_backend_hbp_client_id }}'
 portal_backend_hbp_client_secret: '{{ portal_backend_hbp_client_secret }}'
 
 {% endif %}
+{% if portal_backend_workflow_url is defined and portal_backend_workflow_url %}
+portal_backend_workflow_url: '{{ portal_backend_workflow_url }}'
+portal_backend_workflow_authorization: '{{ portal_backend_workflow_authorization }}'
+
+{% endif %}
 
 ...
