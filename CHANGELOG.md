@@ -1,7 +1,22 @@
 
 # Changelog for the generic MIP platform
 
+## 4.0.0 - 2019-06-18
+
+* Improved Frontend
+* Several new federated algorithms
+* Federated histograms on EE page
+* Connection to the Galaxy workflow engine
+* Multiple pathologies PoC
+
+Compatibility with Exareme: v20.1.0
+
 ## 3.0.0 - 2019-05-17
+
+Main upgrades:
+* portal_frontend_version: "3.0.2"
+* portal_backend_version: "3.0.0"
+* woken_version: "3.0.2"
 
 
 ## 2.5.0 - 2017-11-08 - Glasgow release
