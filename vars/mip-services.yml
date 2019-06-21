@@ -41,7 +41,7 @@ nginx_sites:
       index index.html;
       sub_filter_types text/html;
       location /mesos/ {
-          limit_except GET HEAD {
+          limit_except GET {
             deny all;
           }
           rewrite             ^/mesos(/.*) $1 break;
@@ -53,7 +53,7 @@ nginx_sites:
           sub_filter_once off;
       }
       location /marathon/ {
-          limit_except GET HEAD {
+          limit_except GET {
             deny all;
           }
           rewrite             ^/marathon(/.*) $1 break;
@@ -63,7 +63,7 @@ nginx_sites:
           proxy_buffering     on;
       }
       location /chronos/ {
-          limit_except GET HEAD {
+          limit_except GET {
             deny all;
           }
           rewrite             ^/chronos(/.*) $1 break;
