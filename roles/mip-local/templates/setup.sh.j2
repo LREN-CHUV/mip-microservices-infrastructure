@@ -29,7 +29,7 @@ if test "$count" -gt 0; then
 fi
 
 echo "Unlocking passwords protected by PGP..."
-git-crypt unlock
+git-crypt status | grep -v "not encrypted" | grep "encrypted" | sed -E 's/^.*:\s//' | xargs grep "\-\-\-" > /dev/null || git-crypt unlock
 
 echo
 echo "Installing the MIP..."
