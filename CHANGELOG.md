@@ -9,7 +9,11 @@
 * Connection to the Galaxy workflow engine
 * Multiple pathologies PoC
 
-Compatibility with Exareme: v20.1.0
+Main components upgrade:
+* portal_frontend_version: "4.0.0"
+* portal_backend_version: "4.0.0"
+
+Compatibility with Exareme: v20.1.1
 
 ## 3.0.0 - 2019-05-17
 
