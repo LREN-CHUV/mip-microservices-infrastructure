@@ -27,7 +27,7 @@
       tags: ['checks', 'infra', 'infrastructure']
 
     - name: check for compatible centos version
-      when: ansible_os_family == 'RedHat' and ansible_distribution_version is version_compare("7.2", "<")
+      when: ansible_os_family == 'RedHat' and ansible_distribution_version is version_compare("7", "<")
       fail:
         msg: >
           Your hosts don't appear to be running a compatible version of Centos.
