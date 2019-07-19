@@ -1,3 +1,8 @@
 ---
 
 docker_force_add_host: false
+
+docker_dns: "
+  {%- set dns = ansible_dns.nameservers + ['1.1.1.1', '8.8.8.8'] -%}
+  {{- dns -}}
+"
