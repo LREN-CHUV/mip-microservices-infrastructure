@@ -23,7 +23,7 @@ you've installed the `jmespath` library on your machine (see common/scripts/requ
 
 ```sh
   # Basic use
-  git clone --branch 3.0.1 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
+  git clone --branch 4.0.2 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
   cd my-infrastructure
   git checkout -b master
 ```
@@ -33,7 +33,7 @@ To prepare a production deployment of MIP, you will need to keep track of change
 ```sh
 
   # Advanced use, to keep track of MIP versions and uptream changes
-  git clone --origin mmsi --branch 3.0.1 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
+  git clone --origin mmsi --branch 4.0.2 https://github.com/HBPMedical/mip-microservices-infrastructure.git my-infrastructure
   cd my-infrastructure
   git checkout -b master
 

@@ -10,10 +10,10 @@
 * Multiple pathologies PoC
 
 Main components upgrade:
-* portal_frontend_version: "4.0.0"
-* portal_backend_version: "4.0.0"
+* portal_frontend_version: "4.0"
+* portal_backend_version: "4.0"
 
-Compatibility with Exareme: v20.1.1
+Compatibility with Exareme: v20.2
 
 ## 3.0.0 - 2019-05-17
 
