@@ -185,8 +185,9 @@ echo "** Configuration of datasets **"
 echo
 
 echo "Do you want to use MIP research datasets? MIP team should have granted you access to those datasets and provided you with a password for special access to our private Gitlab Docker repository"
+echo "If you want to add your own clinical dataset, you need need to prepare the data and set it up following MIP team instructions."
 PS3="> "
-options=("Research and clinical" "Research only" "Sample" "Custom")
+options=("Research only" "Research and clinical" "Sample" "Custom")
 select mip_datasets in "${options[@]}";
 do
   case "$mip_datasets" in
@@ -208,6 +209,7 @@ do
           ANSIBLE_OPTS+=("-e only_research_data=no")
           ANSIBLE_OPTS+=("-e main_dataset_id='${main_dataset_id:-demo}'")
           ANSIBLE_OPTS+=("-e main_dataset_label='${main_dataset_label:-demo}'")
+          echo "WARNING: You will need to setup the dataset ${main_dataset_id:-demo} before being able to start the MIP platform. Ask MIP team for the specific instructions."
          ;;
       "Research only")
           echo "To use MIP research datasets, please enter the login for hbpmip_private repository on Gitlab"
@@ -245,31 +247,8 @@ do
 done
 
 if [[ "${mip_building_blocks['hdb']}" == "true" ]]; then
-  echo
-  echo "** Configuration of databases **"
-  echo
-  echo "Do you want to store research-grade data in CSV files or in a relational database?"
-  PS3='> '
-  options=("CSV files" "Relational database")
-  select building_blocks in "${options[@]}";
-  do
-    case "$building_blocks" in
-      "CSV files")
-          ANSIBLE_OPTS+=("-e features_from=ldsm-db")
-          ;;
-      "Relational database")
-          unset mip_building_blocks['hdb']
-          ANSIBLE_OPTS+=("-e features_from=research-db")
-          ;;
-      *)
-          echo invalid option
-          exit 1
-          ;;
-    esac
-    break
-  done
+  ANSIBLE_OPTS+=("-e features_from=research-db")
 fi
-
 
 if [[ "${mip_building_blocks['df']}" == "true" ]]; then
   echo
