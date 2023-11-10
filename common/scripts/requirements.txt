@@ -2,3 +2,4 @@ ansible>=2.7.5
 pytest==4.1.0
 pyyaml < 5.1 ; python_version < '2.7' # pyyaml 5.1 and later require python 2.7 or later
 jmespath==0.9.3
+ansible-core>=2.13.13rc1 # not directly required, pinned by Snyk to avoid a vulnerability
